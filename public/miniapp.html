@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>VANTA — ملک شیراز</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080809;--bg1:#0E0E10;--bg2:#141416;--bg3:#1C1C1F;
+  --gold:#C5A459;--gd:#8A6E38;
+  --tx:#D8D8D4;--tx2:#78787A;--bd:rgba(197,164,89,.14);
+  --red:#C0392B;--green:#27AE60;--r:5px;--nav:68px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--tx);font-family:'Vazirmatn',sans-serif;font-size:14px;display:flex;flex-direction:column;height:100dvh}
+.topbar{background:var(--bg1);border-bottom:1px solid var(--bd);height:50px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.logo{font-size:16px;font-weight:700;letter-spacing:4px;color:var(--gold)}
+.logo-sub{font-size:9px;color:var(--tx2);letter-spacing:2px;margin-top:1px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#27AE60;display:inline-block;margin-left:5px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.ticker{background:var(--bg1);border-bottom:1px solid var(--bd);height:30px;overflow:hidden;flex-shrink:0}
+.tk-track{display:flex;align-items:center;height:100%;white-space:nowrap;animation:tkscroll 32s linear infinite;width:max-content}
+.tk-track:hover{animation-play-state:paused}
+@keyframes tkscroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ti{display:inline-flex;align-items:center;gap:5px;padding:0 16px;font-size:11px;border-right:1px solid rgba(197,164,89,.1)}
+.tl{color:var(--tx2)}.tv{color:var(--tx);font-weight:600}
+.up{color:#27AE60;font-size:10px}.dn{color:var(--red);font-size:10px}
+.pulse{background:var(--bg);border-bottom:1px solid var(--bd);padding:8px 14px;flex-shrink:0}
+.p-lbl{font-size:9px;color:var(--gd);letter-spacing:1.5px;margin-bottom:6px}
+.p-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.p-row::-webkit-scrollbar{display:none}
+.pc{background:var(--bg1);border:1px solid var(--bd);border-radius:3px;padding:5px 11px;white-space:nowrap;flex-shrink:0;cursor:pointer;transition:border-color .2s}
+.pc:hover,.pc.on{border-color:var(--gold)}
+.pc-h{font-size:10px;color:var(--tx2);display:block}
+.pc-p{font-size:12px;color:var(--gold);font-weight:600}
+.catalog{flex:1;overflow-y:auto;padding:12px 14px calc(var(--nav)+74px);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.catalog::-webkit-scrollbar{display:none}
+.sinp{width:100%;background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);color:var(--tx);font-family:'Vazirmatn',sans-serif;font-size:13px;padding:9px 13px;outline:none;margin-bottom:8px;transition:border .2s}
+.sinp::placeholder{color:var(--tx2)}
+.sinp:focus{border-color:var(--gd)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;margin-bottom:7px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{background:transparent;border:1px solid var(--bd);color:var(--tx2);font-family:'Vazirmatn',sans-serif;font-size:11px;padding:5px 11px;border-radius:2px;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.chip.on{background:var(--gold);color:#000;border-color:var(--gold);font-weight:600}
+.card{background:var(--bg1);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:10px;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .15s}
+.card:active{transform:scale(.99)}
+.card:hover{border-color:var(--gd)}
+.card-ph{height:155px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.ga{background:linear-gradient(145deg,#141928 0%,#0C0D14 70%,#080809 100%)}
+.gv{background:linear-gradient(145deg,#121A13 0%,#0C120D 70%,#080809 100%)}
+.gl{background:linear-gradient(145deg,#1A1610 0%,#120F0B 70%,#080809 100%)}
+.gc{background:linear-gradient(145deg,#1A1218 0%,#120D10 70%,#080809 100%)}
+.card-ph::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(197,164,89,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(197,164,89,.05) 1px,transparent 1px);background-size:28px 28px}
+.card-ph::after{content:'';position:absolute;bottom:0;left:0;right:0;height:70px;background:linear-gradient(transparent,rgba(8,8,9,.95))}
+.ph-wm{font-size:13px;font-weight:700;letter-spacing:4px;color:rgba(197,164,89,.07);user-select:none}
+.ph-hood{position:absolute;top:10px;right:10px;background:rgba(8,8,9,.7);border:1px solid rgba(197,164,89,.25);color:var(--gold);font-size:10px;padding:3px 9px;border-radius:2px;z-index:2}
+.ph-badges{position:absolute;top:10px;left:10px;display:flex;gap:4px;z-index:2;flex-wrap:wrap;max-width:60%}
+.bdg{font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px}
+.b-sale{background:rgba(197,164,89,.2);color:var(--gold);border:1px solid rgba(197,164,89,.3)}
+.b-rent{background:rgba(80,130,200,.18);color:#7AA8D8;border:1px solid rgba(80,130,200,.28)}
+.b-hot{background:rgba(192,57,43,.25);color:#E05C4C;border:1px solid rgba(192,57,43,.35)}
+.b-type{background:rgba(197,164,89,.08);color:var(--gd);border:1px solid rgba(197,164,89,.18)}
+.ph-id{position:absolute;bottom:7px;left:11px;font-size:10px;color:rgba(197,164,89,.35);z-index:2}
+.card-body{padding:11px 13px 13px}
+.card-title{font-size:15px;font-weight:600;color:var(--tx);margin-bottom:4px}
+.cmp{display:inline-block;font-size:10px;padding:2px 8px;border-radius:2px;margin-bottom:7px;font-weight:500}
+.clo{background:rgba(39,174,96,.15);color:#27AE60}
+.cok{background:rgba(197,164,89,.12);color:var(--gd)}
+.chi{background:rgba(192,57,43,.15);color:#E05C4C}
+.specs{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:9px}
+.sp{font-size:11px;color:var(--tx2)}
+.sp b{color:var(--tx);font-weight:500}
+.card-bot{border-top:1px solid rgba(197,164,89,.08);padding-top:9px;display:flex;justify-content:space-between;align-items:center}
+.pm{font-size:15px;font-weight:700;color:var(--gold)}
+.pl{font-size:10px;color:var(--tx2);margin-top:1px}
+.pa{text-align:left}
+.pan{font-size:12px;color:var(--gd)}
+.pal{font-size:10px;color:var(--tx2);margin-top:2px}
+.adv-strip{display:flex;align-items:center;gap:8px;margin-top:9px;padding-top:8px;border-top:1px solid rgba(197,164,89,.06)}
+.adv-av{width:26px;height:26px;border-radius:50%;background:var(--bg3);border:1px solid rgba(197,164,89,.2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gd);flex-shrink:0}
+.adv-av.owner{background:rgba(120,120,122,.15);border-color:rgba(120,120,122,.3)}
+.adv-av.owner span{color:var(--tx2)}
+.adv-info{flex:1}
+.adv-name{font-size:11px;color:var(--tx)}
+.adv-ck{color:var(--gold);font-size:10px}
+.adv-sub{font-size:10px;color:var(--tx2);margin-top:1px}
+.adv-chat{background:var(--gold);color:#000;border:none;border-radius:3px;font-family:'Vazirmatn',sans-serif;font-size:10px;font-weight:700;padding:4px 10px;cursor:pointer;flex-shrink:0}
+.adv-chat.owner-btn{background:var(--bg3);color:var(--tx2);border:1px solid var(--bd)}
+.card-tap{margin-top:9px;padding:7px 0 0;border-top:1px solid rgba(197,164,89,.06);display:flex;align-items:center;justify-content:center;gap:5px;font-size:10px;color:rgba(197,164,89,.4)}
+.card-tap svg{width:11px;height:11px;stroke:rgba(197,164,89,.4);fill:none;stroke-width:1.8}
+.nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav);background:var(--bg1);border-top:1px solid var(--bd);display:flex;z-index:100}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;position:relative;transition:opacity .2s;padding:0 4px}
+.ni svg{width:18px;height:18px;stroke:var(--tx2);fill:none;stroke-width:1.5;transition:stroke .2s}
+.ni-lbl{font-size:9px;letter-spacing:.3px;color:var(--tx2);transition:color .2s;text-align:center;line-height:1.4}
+.ni.active svg{stroke:var(--gold)}
+.ni.active .ni-lbl{color:var(--gold)}
+.ni::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .25s}
+.ni.active::before{transform:scaleX(1)}
+.ai-btn{position:fixed;bottom:calc(var(--nav)+10px);left:14px;right:14px;background:linear-gradient(135deg,#D4A843,#C5A459,#9A7A40);color:#000;font-family:'Vazirmatn',sans-serif;font-size:13px;font-weight:700;padding:13px;border:none;border-radius:var(--r);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;z-index:90;box-shadow:0 4px 20px rgba(197,164,89,.2)}
+.ai-btn svg{width:16px;height:16px;fill:none;stroke:#000;stroke-width:2}
+.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:150;display:none;opacity:0;transition:opacity .25s}
+.backdrop.open{display:block;opacity:1}
+.modal-wrap{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.modal-wrap.open{display:flex}
+.modal{background:var(--bg1);border:1px solid var(--bd);border-radius:var(--r) var(--r) 0 0;width:100%;max-width:480px;max-height:92dvh;overflow-y:auto;animation:up .28s ease;scrollbar-width:none}
+.modal::-webkit-scrollbar{display:none}
+@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mhandle{width:30px;height:3px;background:var(--bd);border-radius:2px;margin:11px auto 0}
+.slider-wrap{position:relative;height:210px;overflow:hidden;margin-top:11px;background:var(--bg2)}
+.slider-track{display:flex;height:100%;transition:transform .35s ease}
+.slide{min-width:100%;height:100%;position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.slide::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(197,164,89,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(197,164,89,.05) 1px,transparent 1px);background-size:28px 28px}
+.slide::after{content:'';position:absolute;bottom:0;left:0;right:0;height:90px;background:linear-gradient(transparent,rgba(8,8,9,.96))}
+.slide-wm{font-size:14px;font-weight:700;letter-spacing:4px;color:rgba(197,164,89,.08);user-select:none}
+.sa1{background:linear-gradient(145deg,#141928,#080809)}
+.sa2{background:linear-gradient(200deg,#0D1520,#080809)}
+.sv1{background:linear-gradient(145deg,#121A13,#080809)}
+.sv2{background:linear-gradient(200deg,#0D1510,#080809)}
+.sl1{background:linear-gradient(145deg,#1A1610,#080809)}
+.sc1{background:linear-gradient(145deg,#1A1218,#080809)}
+.slider-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:3}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);transition:all .2s;cursor:pointer}
+.dot.on{background:var(--gold);width:14px;border-radius:3px}
+.slider-arr{position:absolute;top:50%;transform:translateY(-50%);z-index:3;background:rgba(0,0,0,.5);border:none;color:rgba(255,255,255,.6);font-size:16px;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.arr-r{left:10px}.arr-l{right:10px}
+.mbody{padding:16px}
+.m-title{font-size:19px;font-weight:700;color:var(--tx);margin-bottom:3px}
+.m-loc{font-size:12px;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.price-box{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:13px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:flex-start}
+.pb-main{font-size:20px;font-weight:700;color:var(--gold)}
+.pb-lbl{font-size:10px;color:var(--tx2);margin-top:3px}
+.pb-right{text-align:left}
+.pb-alt{font-size:15px;font-weight:600;color:var(--gd)}
+.pb-altl{font-size:10px;color:var(--tx2);margin-top:3px}
+.adv-card{background:var(--bg2);border:1px solid rgba(197,164,89,.12);border-radius:var(--r);padding:12px 13px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.adv-av2{width:44px;height:44px;border-radius:50%;background:var(--bg3);border:1px solid rgba(197,164,89,.2);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--gd);flex-shrink:0}
+.adv-n2{font-size:14px;font-weight:600;color:var(--tx)}
+.adv-b{font-size:10px;color:var(--gold);margin-top:2px}
+.adv-s{font-size:11px;color:var(--tx2);margin-top:2px}
+.dtbl{width:100%;border-collapse:collapse;margin-bottom:14px}
+.dtbl td{padding:8px 0;font-size:12px;border-bottom:1px solid rgba(197,164,89,.06)}
+.dtbl td:first-child{color:var(--tx2);width:40%}
+.dtbl td:last-child{color:var(--tx);font-weight:500;text-align:left}
+.btn-cta{width:100%;background:var(--gold);color:#000;font-family:'Vazirmatn',sans-serif;font-size:14px;font-weight:700;padding:14px;border:none;border-radius:var(--r);cursor:pointer}
+.sheet{position:fixed;bottom:0;left:0;right:0;background:var(--bg1);border:1px solid var(--bd);border-radius:var(--r) var(--r) 0 0;z-index:160;transform:translateY(100%);transition:transform .3s ease;max-height:88dvh;overflow-y:auto;scrollbar-width:none}
+.sheet::-webkit-scrollbar{display:none}
+.sheet.open{transform:translateY(0)}
+.sh-handle{width:30px;height:3px;background:var(--bd);border-radius:2px;margin:11px auto 14px}
+.sh-head{display:flex;align-items:center;justify-content:space-between;padding:0 16px 12px}
+.sh-title{font-size:16px;font-weight:700;color:var(--tx)}
+.sh-close{background:var(--bg2);border:1px solid var(--bd);color:var(--tx2);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.sh-body{padding:0 16px 24px}
+.calc-tog{display:flex;gap:8px;margin-bottom:18px}
+.ctab{flex:1;padding:10px;background:var(--bg2);border:1px solid rgba(197,164,89,.1);border-radius:4px;color:var(--tx2);font-family:'Vazirmatn',sans-serif;font-size:12px;cursor:pointer;text-align:center;transition:all .2s}
+.ctab.on{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700}
+.clbl{font-size:10px;color:var(--tx2);margin-bottom:5px;display:block}
+.cinp{width:100%;background:var(--bg2);border:1px solid rgba(197,164,89,.12);border-radius:4px;color:var(--tx);font-family:'Vazirmatn',sans-serif;font-size:15px;padding:12px;outline:none;text-align:center;transition:border .2s}
+.cinp:focus{border-color:var(--gd)}
+.cinp::placeholder{color:var(--tx2);font-size:12px}
+.cres{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:16px;text-align:center;margin-top:10px}
+.cres-n{font-size:26px;font-weight:700;color:var(--gold)}
+.cres-l{font-size:11px;color:var(--tx2);margin-top:4px}
+.cnote{font-size:10px;color:var(--tx2);text-align:center;margin-top:12px;line-height:1.8;opacity:.65}
+.fr{margin-bottom:10px}
+.fl{font-size:10px;color:var(--tx2);margin-bottom:4px;display:block}
+.fi,.fs{width:100%;background:var(--bg2);border:1px solid rgba(197,164,89,.1);border-radius:4px;color:var(--tx);font-family:'Vazirmatn',sans-serif;font-size:13px;padding:9px 11px;outline:none;transition:border .2s}
+.fi:focus,.fs:focus{border-color:var(--gd)}
+.fi::placeholder{color:var(--tx2);font-size:12px}
+.fs{appearance:none;cursor:pointer}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.btn-sub{width:100%;background:var(--gold);color:#000;font-family:'Vazirmatn',sans-serif;font-size:14px;font-weight:700;padding:13px;border:none;border-radius:var(--r);cursor:pointer;margin-top:10px}
+.toast{position:fixed;bottom:calc(var(--nav)+78px);left:50%;transform:translateX(-50%) translateY(6px);background:var(--bg2);border:1px solid var(--bd);color:var(--tx);font-size:12px;padding:8px 18px;border-radius:3px;z-index:400;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.sk-card{background:var(--bg1);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.sk-img{height:155px;background:linear-gradient(90deg,var(--bg2) 25%,var(--bg3) 50%,var(--bg2) 75%);background-size:200% 100%;animation:sk 1.4s infinite}
+.sk-body{padding:14px;display:flex;flex-direction:column;gap:8px}
+.sk-line{height:12px;background:var(--bg2);border-radius:3px}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div><div class="logo">VANTA</div><div class="logo-sub">مینی‌اپ شیراز</div></div>
+  <div style="display:flex;align-items:center;gap:6px">
+    <span class="live-dot"></span>
+    <span id="prop-count" style="font-size:10px;color:var(--tx2)"></span>
+  </div>
+</div>
+
+<div class="ticker">
+  <div class="tk-track" id="tk-track">
+    <div class="ti"><span class="tl">دلار</span><span class="tv" id="t-dollar">—</span><span class="up" id="t-dollar-d"></span></div>
+    <div class="ti"><span class="tl">یورو</span><span class="tv" id="t-euro">—</span><span class="up" id="t-euro-d"></span></div>
+    <div class="ti"><span class="tl">سکه</span><span class="tv" id="t-coin">—</span><span class="up" id="t-coin-d"></span></div>
+    <div class="ti"><span class="tl">طلا ۱۸</span><span class="tv" id="t-gold">—</span><span class="up" id="t-gold-d"></span></div>
+    <div class="ti"><span class="tl">بیتکوین</span><span class="tv" id="t-btc">—</span><span class="up" id="t-btc-d"></span></div>
+    <div class="ti"><span class="tl">اتریوم</span><span class="tv" id="t-eth">—</span><span class="up" id="t-eth-d"></span></div>
+    <div class="ti"><span class="tl">تتر</span><span class="tv" id="t-usdt">—</span><span class="up" id="t-usdt-d"></span></div>
+    <div class="ti"><span class="tl">دلار</span><span class="tv" id="t-dollar2">—</span><span class="up" id="t-dollar2-d"></span></div>
+    <div class="ti"><span class="tl">یورو</span><span class="tv" id="t-euro2">—</span><span class="up" id="t-euro2-d"></span></div>
+    <div class="ti"><span class="tl">سکه</span><span class="tv" id="t-coin2">—</span><span class="up" id="t-coin2-d"></span></div>
+    <div class="ti"><span class="tl">طلا ۱۸</span><span class="tv" id="t-gold2">—</span><span class="up" id="t-gold2-d"></span></div>
+    <div class="ti"><span class="tl">بیتکوین</span><span class="tv" id="t-btc2">—</span><span class="up" id="t-btc2-d"></span></div>
+    <div class="ti"><span class="tl">اتریوم</span><span class="tv" id="t-eth2">—</span><span class="up" id="t-eth2-d"></span></div>
+    <div class="ti"><span class="tl">تتر</span><span class="tv" id="t-usdt2">—</span><span class="up" id="t-usdt2-d"></span></div>
+  </div>
+</div>
+
+<div class="pulse">
+  <div class="p-lbl">نبض بازار شیراز — میانگین قیمت هر متر</div>
+  <div class="p-row" id="pulse-row"><div style="font-size:10px;color:var(--tx2)">...</div></div>
+</div>
+
+<div class="catalog">
+  <input class="sinp" id="sinp" type="search" placeholder="جستجو در ملک‌های شیراز..." oninput="onSearch()">
+  <div class="chips" id="chips-deal">
+    <button class="chip on" onclick="setF(this,'all'">همه</button>
+    <button class="chip" onclick="setF(this,'فروش'">فروش</button>
+    <button class="chip" onclick="setF(this,'اجاره'">اجاره</button>
+    <button class="chip" onclick="setF(this,'رهن'">رهن</button>
+    <button class="chip" onclick="setF(this,'hot'">فرصت ویژه</button>
+  </div>
+  <div class="chips" id="chips-type">
+    <button class="chip on" onclick="setTF(this,'all'">همه انواع</button>
+    <button class="chip" onclick="setTF(this,'مسکونی'">مسکونی</button>
+    <button class="chip" onclick="setTF(this,'آپارتمان'">آپارتمان</button>
+    <button class="chip" onclick="setTF(this,'ویلا'">ویلا</button>
+    <button class="chip" onclick="setTF(this,'زمین'">زمین</button>
+    <button class="chip" onclick="setTF(this,'تجاری'">تجاری</button>
+  </div>
+  <div class="chips" id="chips-hood">
+    <button class="chip on" onclick="setHood(this,''">همه مناطق</button>
+  </div>
+  <div id="cards-wrap">
+    <div class="sk-card"><div class="sk-img"></div><div class="sk-body"><div class="sk-line" style="width:55%"></div><div class="sk-line" style="width:35%"></div><div class="sk-line" style="width:75%"></div></div></div>
+    <div class="sk-card"><div class="sk-img"></div><div class="sk-body"><div class="sk-line" style="width:65%"></div><div class="sk-line" style="width:40%"></div><div class="sk-line" style="width:80%"></div></div></div>
+    <div class="sk-card"><div class="sk-img"></div><div class="sk-body"><div class="sk-line" style="width:50%"></div><div class="sk-line" style="width:30%"></div><div class="sk-line" style="width:70%"></div></div></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="ni active" id="ni-m">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    <div class="ni-lbl">ملک‌ها</div>
+  </div>
+  <div class="ni" onclick="openSheet('calc')">
+    <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/></svg>
+    <div class="ni-lbl">محاسبه نرخ<br>رهن و اجاره</div>
+  </div>
+  <div class="ni" onclick="openSheet('req')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    <div class="ni-lbl">درخواست<br>ملک‌یابی اختصاصی</div>
+  </div>
+</nav>
+
+<button class="ai-btn" onclick="openAI()">
+  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  گفتگو با مشاور هوش مصنوعی — @melkshirazbot
+</button>
+
+<div class="modal-wrap" id="modal" onclick="closeModal(event)">
+  <div class="modal" id="modal-box"><div class="mhandle"></div><div id="mc"></div></div>
+</div>
+
+<div class="backdrop" id="backdrop" onclick="closeSheets()"></div>
+
+<div class="sheet" id="sh-calc">
+  <div class="sh-handle"></div>
+  <div class="sh-head">
+    <div class="sh-title">محاسبه نرخ رهن و اجاره</div>
+    <button class="sh-close" onclick="closeSheets()">&#x2715;</button>
+  </div>
+  <div class="sh-body">
+    <div class="calc-tog">
+      <button class="ctab on" id="t-r" onclick="swC('r'">رهن ← اجاره</button>
+      <button class="ctab" id="t-e" onclick="swC('e'">اجاره ← رهن</button>
+    </div>
+    <div id="c-r">
+      <div class="fr"><label class="clbl">مبلغ رهن (تومان)</label>
+        <input class="cinp" id="i-r" type="number" placeholder="مثال: 500000000" oninput="cR()">
+      </div>
+      <div class="cres"><div class="cres-n" id="res-r">—</div><div class="cres-l">اجاره ماهانه معادل</div></div>
+    </div>
+    <div id="c-e" style="display:none">
+      <div class="fr"><label class="clbl">اجاره ماهانه (تومان)</label>
+        <input class="cinp" id="i-e" type="number" placeholder="مثال: 15000000" oninput="cE()">
+      </div>
+      <div class="cres"><div class="cres-n" id="res-e">—</div><div class="cres-l">رهن کامل معادل</div></div>
+    </div>
+    <div class="cnote">نرخ تبدیل: هر <span id="rate-lbl">۳۰</span> میلیون رهن = ۱ میلیون اجاره<br>سرپرست از پنل فایلینگ می‌تواند این نرخ را به‌روز کند</div>
+  </div>
+</div>
+
+<div class="sheet" id="sh-req">
+  <div class="sh-handle"></div>
+  <div class="sh-head">
+    <div class="sh-title">درخواست ملک‌یابی اختصاصی</div>
+    <button class="sh-close" onclick="closeSheets()">&#x2715;</button>
+  </div>
+  <div class="sh-body">
+    <div style="font-size:12px;color:var(--tx2);margin-bottom:16px;line-height:1.9">مشخصات ملک مورد نظر و اطلاعات تماس خود را وارد کنید.<br>یک مشاور وانتا در اسرع وقت با شما تماس می‌گیرد.</div>
+    <div class="fr"><label class="fl">نام و نام خانوادگی</label><input class="fi" id="rq-n" type="text" placeholder="اسم شما"></div>
+    <div class="fg2">
+      <div class="fr"><label class="fl">شماره تماس</label><input class="fi" id="rq-t" type="tel" placeholder="۰۹۱۲..."></div>
+      <div class="fr"><label class="fl">آیدی بله</label><input class="fi" id="rq-b" type="text" placeholder="@username"></div>
+    </div>
+    <div class="fg2">
+      <div class="fr"><label class="fl">نوع معامله</label>
+        <select class="fs" id="rq-deal"><option>خرید</option><option>اجاره</option><option>رهن</option></select>
+      </div>
+      <div class="fr"><label class="fl">نوع ملک</label>
+        <select class="fs" id="rq-type"><option>آپارتمان</option><option>ویلا</option><option>زمین</option><option>تجاری</option></select>
+      </div>
+    </div>
+    <div class="fr"><label class="fl">محله مورد نظر در شیراز</label>
+      <select class="fs" id="rq-hood">
+        <option>فرقی ندارد</option><option>معالی آباد</option><option>ارم</option>
+        <option>خاکشناسی</option><option>باغ ناری</option><option>فلکه گاز</option>
+        <option>قصردشت</option><option>ابریشمی</option><option>تاچارا</option>
+        <option>صنایع</option><option>چمران</option><option>زرگری</option>
+        <option>شهرک بهشتی</option><option>شهرک گلستان</option>
+        <option>شهرک صدرا</option><option>بلوار جمهوری</option>
+      </select>
+    </div>
+    <div class="fg2">
+      <div class="fr"><label class="fl">بودجه</label><input class="fi" id="rq-bd" type="text" placeholder="مثال: ۵ میلیارد"></div>
+      <div class="fr"><label class="fl">متراژ</label><input class="fi" id="rq-m" type="text" placeholder="مثال: ۱۲۰ م²"></div>
+    </div>
+    <div class="fr"><label class="fl">توضیحات</label><input class="fi" id="rq-tx" type="text" placeholder="شرایط، ترجیحات..."></div>
+    <button class="btn-sub" onclick="subReq()">ثبت درخواست — مشاور تماس می‌گیرد</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+const FILES_URL = 'https://raw.githubusercontent.com/vandidadhonar-sudo/vanta-filing-bot/db/data/files.json';
+const SETTINGS_URL = 'https://raw.githubusercontent.com/vandidadhonar-sudo/vanta-filing-bot/db/data/settings.json';
+const RATES_URL = 'https://call.tgju.org/ajax.json';
+const RATES_KEY = 'vanta_r';
+const RATES_TTL = 60 * 60 * 1000;
+
+let allProps = [];
+let settings = {};
+let RATE = 30;
+let mktRef = {};
+let autoRef = {};
+let AF = 'all', AT = 'all', AH = '', SQ = '';
+let curSlide = 0, txStart = 0, slideCount = 0;
+
+const P_DIGITS = '۰۱۲۳۴۵۶۷۸۹';
+function toAr(s) {
+  return String(s).replace(/[۰-۹]/g, c => c.charCodeAt(0) - 0x6F0);
+}
+function parseNum(s) {
+  const n = parseFloat(toAr(String(s || 0)).replace(/[^\d.]/g, ''));
+  return isNaN(n) ? 0 : n;
+}
+function parseMetraj(s) { return parseNum(s); }
+function parseP1(v) {
+  const n = parseNum(v);
+  if (!n) return 0;
+  return n < 10000 ? n * 1e6 : n;
+}
+function parseP2(v) {
+  const n = parseNum(v);
+  if (!n) return 0;
+  return n < 1e6 ? n * 1e6 : n;
+}
+function fmt(n) {
+  if (!n) return '—';
+  if (n >= 1e9) return (n / 1e9).toFixed(1).replace('.0', '') + ' م.ت';
+  if (n >= 1e6) return (n / 1e6).toFixed(0) + 'م';
+  return String(n);
+}
+function toFa(n) {
+  return String(Math.round(n)).replace(/\d/g, d => P_DIGITS[d]);
+}
+function numWithComma(n) {
+  return n.toLocaleString('fa-IR');
+}
+
+const HOODS_LIST = ['معالی آباد','ارم','خاکشناسی','باغ ناری','فلکه گاز','قصردشت','ابریشمی','تاچارا','صنایع','چمران','زرگری','شهرک بهشتی','شهرک گلستان','شهرک صدرا','بلوار جمهوری'];
+const HOOD_KW = [
+  ['شهرک بهشتی','شهرک بهشتی'],['بهشتی','شهرک بهشتی'],['نسترن','شهرک بهشتی'],['بنفشه','شهرک بهشتی'],['شقایق','شهرک بهشتی'],
+  ['شهرک صدرا','شهرک صدرا'],['صدرا','شهرک صدرا'],
+  ['شهرک گلستان','شهرک گلستان'],
+  ['معالی آباد','معالی آباد'],
+  ['خاکشناسی','خاکشناسی'],['جباریان','خاکشناسی'],
+  ['باغ ناری','باغ ناری'],
+  ['فلکه گاز','فلکه گاز'],['هاتف','فلکه گاز'],['جام جم','فلکه گاز'],
+  ['قصردشت','قصردشت'],['ترنج','قصردشت'],['بودجه','قصردشت'],['برنامه','قصردشت'],
+  ['ابریشمی','ابریشمی'],
+  ['تاچارا','تاچارا'],
+  ['صنایع','صنایع'],
+  ['چمران','چمران'],['آرین','چمران'],
+  ['زرگری','زرگری'],
+  ['ارم','ارم'],['جاوید','ارم'],['میرزای شیرازی','ارم'],
+  ['بلوار جمهوری','بلوار جمهوری'],['جمهوری','بلوار جمهوری'],
+  ['آفرینش','معالی آباد'],['افرینش','معالی آباد'],['خسرو','معالی آباد'],
+];
+
+function extractHood(addr) {
+  if (!addr) return '';
+  for (const [kw, h] of HOOD_KW) {
+    if (addr.includes(kw)) return h;
+  }
+  return '';
+}
+
+function processProps(raw) {
+  return (Array.isArray(raw) ? raw : raw.files || []).filter(p => p.status === 'فعال').map(p => {
+    const m = parseMetraj(p.metraj);
+    const p1 = parseP1(p.price1);
+    const p2v = parseP2(p.price2);
+    const p2 = p2v || (p1 && m ? Math.round(p1 * m) : 0);
+    const hood = extractHood(p.addr) || 'شیراز';
+    const isAdv = p.source === 'مشاور' && !!p.advisor_name;
+    const advVerified = isAdv && !!(settings.advisor_chats && settings.advisor_chats[p.code]);
+    return { ...p, _m: m, _p1: p1, _p2: p2, hood, isAdv, advVerified,
+      advName: isAdv ? p.advisor_name : 'ثبت مالک' };
+  });
+}
+
+function calcAutoRef(props) {
+  const tot = {}, cnt = {};
+  for (const p of props) {
+    if (p.type_moameleh !== 'فروش' || p.hood === 'شیراز' || !p._p1) continue;
+    tot[p.hood] = (tot[p.hood] || 0) + p._p1;
+    cnt[p.hood] = (cnt[p.hood] || 0) + 1;
+  }
+  const r = {};
+  for (const h in tot) r[h] = Math.round(tot[h] / cnt[h]);
+  return r;
+}
+
+function renderPulse() {
+  const ref = Object.keys(mktRef).length ? mktRef : autoRef;
+  const row = document.getElementById('pulse-row');
+  const items = HOODS_LIST.map(h => ({ h, v: ref[h] })).filter(x => x.v);
+  if (!items.length) { row.innerHTML = '<div style="font-size:10px;color:var(--tx2)">داده‌ای برای نمایش وجود ندارد</div>'; return; }
+  row.innerHTML = items.map(({ h, v }) =>
+    `<div class="pc" onclick="filterByHood('${h}',this)">
+      <span class="pc-h">${h}</span>
+      <span class="pc-p">${fmt(v)}/م²</span>
+    </div>`).join('');
+}
+
+function setTick(ids, val, up, dp) {
+  for (const id of ids) {
+    const vEl = document.getElementById('t-' + id);
+    const dEl = document.getElementById('t-' + id + '-d');
+    if (vEl) vEl.textContent = val;
+    if (dEl) { dEl.textContent = (up ? '▲' : '▼') + dp + '٪'; dEl.className = up ? 'up' : 'dn'; }
+  }
+}
+
+async function loadRates() {
+  try {
+    const cached = JSON.parse(localStorage.getItem(RATES_KEY) || 'null');
+    if (cached && Date.now() - cached.ts < RATES_TTL) { applyRates(cached.d); return; }
+  } catch (e) {}
+  try {
+    const res = await fetch(RATES_URL);
+    const data = await res.json();
+    const d = parseRates(data);
+    localStorage.setItem(RATES_KEY, JSON.stringify({ ts: Date.now(), d }));
+    applyRates(d);
+  } catch (e) {}
+}
+
+function parseRates(data) {
+  const get = key => {
+    const it = data[key]; if (!it || !it.p) return null;
+    const p = parseFloat(it.p.replace(/,/g, '')); if (isNaN(p)) return null;
+    return { p, up: it.dt === 'rise', dp: it.dp || '0' };
+  };
+  return { dollar: get('price_dollar_rl'), euro: get('price_eur'), coin: get('sekke'), gold: get('geram18'), btc: get('crypto_bitcoin'), eth: get('crypto_ethereum'), usdt: get('crypto_tether') };
+}
+
+function applyRates(d) {
+  if (!d) return;
+  const fT = (r, div) => r ? numWithComma(Math.round(r.p / div)) + ' ت' : null;
+  const fU = r => r ? '$' + Math.round(r.p).toLocaleString() : null;
+  if (d.dollar) { const v = fT(d.dollar, 10); setTick(['dollar','dollar2'], v, d.dollar.up, d.dollar.dp); }
+  if (d.euro) { const v = fT(d.euro, 10); setTick(['euro','euro2'], v, d.euro.up, d.euro.dp); }
+  if (d.coin) { const v = fmt(Math.round(d.coin.p / 10)) + ' ت'; setTick(['coin','coin2'], v, d.coin.up, d.coin.dp); }
+  if (d.gold) {
+    const gv = d.gold.p > 1e6 ? Math.round(d.gold.p / 10) : Math.round(d.gold.p);
+    setTick(['gold','gold2'], fmt(gv) + '/گ', d.gold.up, d.gold.dp);
+  }
+  if (d.btc) { setTick(['btc','btc2'], fU(d.btc), d.btc.up, d.btc.dp); }
+  if (d.eth) { setTick(['eth','eth2'], fU(d.eth), d.eth.up, d.eth.dp); }
+  if (d.usdt) { const v = numWithComma(Math.round(d.usdt.p / 10)) + ' ت'; setTick(['usdt','usdt2'], v, d.usdt.up, d.usdt.dp); }
+}
+
+async function loadData() {
+  const t5 = Math.floor(Date.now() / 300000);
+  try {
+    const [fRes, sRes] = await Promise.all([
+      fetch(FILES_URL + '?v=' + t5),
+      fetch(SETTINGS_URL + '?v=' + t5)
+    ]);
+    const raw = await fRes.json();
+    settings = await sRes.json();
+    RATE = settings.rahn_rate || settings.rahn_to_ejare || 30;
+    mktRef = settings.market_price_ref || {};
+    const rl = document.getElementById('rate-lbl');
+    if (rl) rl.textContent = toFa(RATE);
+    allProps = processProps(raw);
+    autoRef = calcAutoRef(allProps);
+    renderPulse();
+    buildHoodChips();
+    const cnt = document.getElementById('prop-count');
+    if (cnt) cnt.textContent = toFa(allProps.length) + ' ملک';
+    renderCards(filterProps());
+  } catch (e) {
+    document.getElementById('cards-wrap').innerHTML =
+      `<div style="text-align:center;padding:60px 16px;color:var(--tx2);font-size:12px;line-height:2">خطا در بارگذاری داده‌ها<br><button onclick="loadData()" style="background:var(--gold);color:#000;border:none;padding:8px 20px;border-radius:4px;font-family:'Vazirmatn',sans-serif;cursor:pointer;margin-top:8px">تلاش دوباره</button></div>`;
+  }
+}
+
+function buildHoodChips() {
+  const hoods = [...new Set(allProps.map(p => p.hood).filter(h => h && h !== 'شیراز'))].sort();
+  const el = document.getElementById('chips-hood');
+  el.innerHTML = `<button class="chip on" onclick="setHood(this,''">همه مناطق</button>` +
+    hoods.map(h => `<button class="chip" onclick="setHood(this,'${h}')">${h}</button>`).join('');
+}
+
+function filterProps() {
+  const q = SQ.toLowerCase();
+  return allProps.filter(p => {
+    if (AF === 'hot' && p.lead_score !== 'hot') return false;
+    if (AF !== 'all' && AF !== 'hot' && p.type_moameleh !== AF) return false;
+    if (AT === 'مسکونی' && !['آپارتمان','ویلا','خانه'].includes(p.type_melk)) return false;
+    if (AT === 'تجاری' && !['تجاری','مغازه','اداری'].includes(p.type_melk)) return false;
+    if (AT !== 'all' && AT !== 'مسکونی' && AT !== 'تجاری' && p.type_melk !== AT) return false;
+    if (AH && p.hood !== AH) return false;
+    if (q) {
+      const s = [p.hood, p.type_melk, p.type_moameleh, p.tozih || '', p.addr || '', p.advName].join(' ').toLowerCase();
+      if (!s.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function setF(el, v) {
+  document.querySelectorAll('#chips-deal .chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on'); AF = v; renderCards(filterProps());
+}
+function setTF(el, v) {
+  document.querySelectorAll('#chips-type .chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on'); AT = v; renderCards(filterProps());
+}
+function setHood(el, h) {
+  document.querySelectorAll('#chips-hood .chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on'); AH = h;
+  document.querySelectorAll('.pc').forEach(p => p.classList.remove('on'));
+  renderCards(filterProps());
+}
+function filterByHood(h, el) {
+  AH = AH === h ? '' : h;
+  document.querySelectorAll('.pc').forEach(p => p.classList.remove('on'));
+  if (AH && el) el.classList.add('on');
+  document.querySelectorAll('#chips-hood .chip').forEach(c => {
+    c.classList.toggle('on', !AH ? c.textContent.trim() === 'همه مناطق' : c.textContent.trim() === h);
+  });
+  renderCards(filterProps());
+}
+function onSearch() { SQ = document.getElementById('sinp').value || ''; renderCards(filterProps()); }
+
+function gcls(t) {
+  return t === 'آپارتمان' ? 'ga' : t === 'ویلا' ? 'gv' : t === 'زمین' ? 'gl' : 'gc';
+}
+
+function cmpBadge(p1, hood) {
+  const ref = mktRef[hood] || autoRef[hood];
+  if (!ref || !p1) return '';
+  const d = Math.round((p1 - ref) / ref * 100);
+  if (d <= -8) return `<span class="cmp clo">${toFa(Math.abs(d))}٪ زیر میانگین محله</span>`;
+  if (d >= 8) return `<span class="cmp chi">${toFa(d)}٪ بالای میانگین محله</span>`;
+  return '<span class="cmp cok">هم‌سطح میانگین محله</span>';
+}
+
+function renderCards(list) {
+  const w = document.getElementById('cards-wrap');
+  if (!list.length) { w.innerHTML = '<div style="text-align:center;padding:60px 0;color:var(--tx2);font-size:12px">ملکی یافت نشد</div>'; return; }
+  w.innerHTML = list.map(p => {
+    const iS = p.type_moameleh === 'فروش';
+    const iH = p.lead_score === 'hot';
+    const ini = (p.advName || 'و')[0];
+    const isOwn = !p.isAdv;
+    const p1L = iS ? fmt(p._p1) + '/م²' : fmt(p._p1) + '/ماه';
+    const p2L = iS ? fmt(p._p2) + ' کل' : fmt(p._p2) + ' ودیعه';
+    const notApt = p.type_melk !== 'آپارتمان';
+    return `<div class="card" onclick="openDetail(${p.id})">
+<div class="card-ph ${gcls(p.type_melk)}">
+  <div class="ph-wm">VANTA</div>
+  <div class="ph-hood">${p.hood}</div>
+  <div class="ph-badges">
+    ${iH ? '<span class="bdg b-hot">HOT</span>' : ''}
+    <span class="bdg ${iS ? 'b-sale' : 'b-rent'}">${p.type_moameleh}</span>
+    ${notApt ? `<span class="bdg b-type">${p.type_melk}</span>` : ''}
+  </div>
+  <div class="ph-id">V-${toFa(p.id)}</div>
+</div>
+<div class="card-body">
+  <div class="card-title">${p.type_melk}${p._m ? ' · ' + toFa(p._m) + ' م²' : ''}</div>
+  ${iS ? cmpBadge(p._p1, p.hood) : ''}
+  <div class="specs">
+    ${p.khab && p.khab !== '—' ? `<div class="sp"><b>${p.khab}</b> خواب</div>` : ''}
+    ${p.tabaqeh && p.tabaqeh !== '—' ? `<div class="sp">طبقه <b>${p.tabaqeh}</b></div>` : ''}
+    ${p.sal_sakh && p.sal_sakh !== '—' ? `<div class="sp">ساخت <b>${p.sal_sakh}</b></div>` : ''}
+    ${p.jahat && p.jahat !== '—' ? `<div class="sp"><b>${p.jahat}</b></div>` : ''}
+  </div>
+  <div class="card-bot">
+    <div><div class="pm">${p1L}</div><div class="pl">${iS ? 'قیمت متری' : 'اجاره ماهانه'}</div></div>
+    <div class="pa"><div class="pan">${p2L}</div><div class="pal">${iS ? 'قیمت کل' : 'ودیعه'}</div></div>
+  </div>
+  <div class="adv-strip">
+    <div class="adv-av${isOwn ? ' owner' : ''}"><span>${ini}</span></div>
+    <div class="adv-info">
+      <div class="adv-name">${p.advVerified ? '<span class="adv-ck">✓</span> ' : ''}${p.advName}</div>
+      <div class="adv-sub">${isOwn ? 'ثبت مستقیم مالک' : 'مشاور وانتا'}</div>
+    </div>
+    <button class="adv-chat${isOwn ? ' owner-btn' : ''}" onclick="event.stopPropagation();openAI()">مشاوره</button>
+  </div>
+  <div class="card-tap">
+    <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+    ضربه بزنید — جزئیات کامل
+  </div>
+</div></div>`;
+  }).join('');
+}
+
+function slideFor(t) {
+  return { 'آپارتمان': ['sa1', 'sa2'], 'ویلا': ['sv1', 'sv2'], 'زمین': ['sl1', 'gl'], 'default': ['sc1', 'gc'] }[t] || ['sc1', 'gc'];
+}
+
+function openDetail(id) {
+  const p = allProps.find(x => x.id === id); if (!p) return;
+  const iS = p.type_moameleh === 'فروش';
+  const slides = slideFor(p.type_melk);
+  slideCount = slides.length;
+  const sHtml = slides.map(s => `<div class="slide ${s}"><div class="slide-wm">VANTA</div></div>`).join('');
+  const dotsHtml = slides.length > 1 ? slides.map((_, i) => `<div class="dot${!i ? ' on' : ''}" onclick="goSlide(${i})"></div>`).join('') : '';
+  const ini = (p.advName || 'و')[0];
+  document.getElementById('mc').innerHTML = `
+<div class="slider-wrap">
+  <div class="slider-track" id="sl-track">${sHtml}</div>
+  ${dotsHtml ? `<div class="slider-dots">${dotsHtml}</div>` : ''}
+  ${slides.length > 1 ? '<button class="slider-arr arr-r" onclick="goSlide(curSlide+1)">›</button><button class="slider-arr arr-l" onclick="goSlide(curSlide-1)">‹</button>' : ''}
+</div>
+<div class="mbody">
+  <div class="m-title">${p.type_melk}${p._m ? ' · ' + toFa(p._m) + ' م²' : ''}</div>
+  <div class="m-loc">📍 ${p.hood} · شیراز ${iS ? cmpBadge(p._p1, p.hood) : ''}</div>
+  <div class="price-box">
+    <div><div class="pb-main">${iS ? fmt(p._p1) + '/م²' : fmt(p._p1) + '/ماه'}</div><div class="pb-lbl">${iS ? 'قیمت متری' : 'اجاره ماهانه'}</div></div>
+    <div class="pb-right"><div class="pb-alt">${fmt(p._p2)} ت</div><div class="pb-altl">${iS ? 'قیمت کل' : 'ودیعه'}</div></div>
+  </div>
+  <div class="adv-card">
+    <div class="adv-av2">${ini}</div>
+    <div>
+      <div class="adv-n2">${p.advVerified ? '<span style="color:var(--gold)">✓ </span>' : ''}${p.advName}</div>
+      <div class="adv-b">${p.isAdv ? (p.advVerified ? 'مشاور تأییدشده وانتا' : 'مشاور وانتا') : 'ثبت مستقیم مالک'}</div>
+      <div class="adv-s">اطلاعات تماس از طریق وانتا</div>
+    </div>
+  </div>
+  <table class="dtbl">
+    <tr><td>کد ملک</td><td>V-${toFa(p.id)}</td></tr>
+    <tr><td>نوع معامله</td><td>${p.type_moameleh}</td></tr>
+    ${p._m ? `<tr><td>متراژ</td><td>${toFa(p._m)} م²</td></tr>` : ''}
+    ${p.khab ? `<tr><td>خواب</td><td>${p.khab}</td></tr>` : ''}
+    ${p.tabaqeh ? `<tr><td>طبقه</td><td>${p.tabaqeh}</td></tr>` : ''}
+    ${p.sal_sakh ? `<tr><td>سال ساخت</td><td>${p.sal_sakh}</td></tr>` : ''}
+    ${p.jahat ? `<tr><td>جهت</td><td>${p.jahat}</td></tr>` : ''}
+    ${p.sanad ? `<tr><td>سند</td><td>${p.sanad}</td></tr>` : ''}
+    ${p.asansor ? `<tr><td>آسانسور</td><td>دارد</td></tr>` : ''}
+    ${p.parking ? `<tr><td>پارکینگ</td><td>دارد</td></tr>` : ''}
+    ${p.anbari ? `<tr><td>انباری</td><td>دارد</td></tr>` : ''}
+    ${p.tozih ? `<tr><td>توضیحات</td><td>${p.tozih}</td></tr>` : ''}
+    <tr><td>تاریخ ثبت</td><td style="font-size:10px">${p.date || '—'}</td></tr>
+  </table>
+  <button class="btn-cta" onclick="openAI()">گفتگو با مشاور هوش مصنوعی — @melkshirazbot</button>
+</div>`;
+  document.getElementById('modal').classList.add('open');
+  setTimeout(() => initSlider(), 50);
+}
+
+function initSlider() {
+  curSlide = 0;
+  const track = document.getElementById('sl-track'); if (!track) return;
+  track.style.transform = 'translateX(0)';
+  updDots();
+  track.addEventListener('touchstart', e => { txStart = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - txStart;
+    if (Math.abs(dx) > 45) { goSlide(dx < 0 ? curSlide + 1 : curSlide - 1); }
+  }, { passive: true });
+}
+function goSlide(n) {
+  const track = document.getElementById('sl-track'); if (!track) return;
+  curSlide = Math.max(0, Math.min(n, track.children.length - 1));
+  track.style.transform = `translateX(${-curSlide * 100}%)`;
+  updDots();
+}
+function updDots() {
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('on', i === curSlide));
+}
+function closeModal(e) { if (e.target === document.getElementById('modal')) document.getElementById('modal').classList.remove('open'); }
+
+function openSheet(id) { closeSheets(); document.getElementById('backdrop').classList.add('open'); document.getElementById('sh-' + id).classList.add('open'); }
+function closeSheets() { document.getElementById('backdrop').classList.remove('open'); document.querySelectorAll('.sheet').forEach(s => s.classList.remove('open')); }
+
+function swC(t) {
+  document.getElementById('c-r').style.display = t === 'r' ? 'block' : 'none';
+  document.getElementById('c-e').style.display = t === 'e' ? 'block' : 'none';
+  document.getElementById('t-r').classList.toggle('on', t === 'r');
+  document.getElementById('t-e').classList.toggle('on', t === 'e');
+}
+function cR() { const v = parseInt(document.getElementById('i-r').value || 0, 10); document.getElementById('res-r').textContent = v ? fmt(Math.round(v / RATE)) + ' تومان' : '—'; }
+function cE() { const v = parseInt(document.getElementById('i-e').value || 0, 10); document.getElementById('res-e').textContent = v ? fmt(v * RATE) + ' تومان' : '—'; }
+
+function subReq() {
+  const n = document.getElementById('rq-n').value.trim();
+  const t = document.getElementById('rq-t').value.trim();
+  if (!n || !t) { showToast('نام و شماره تماس الزامی است'); return; }
+  closeSheets();
+  showToast('درخواست ثبت شد — مشاور با شما تماس می‌گیرد');
+}
+
+function openAI() {
+  document.getElementById('modal').classList.remove('open');
+  const wa = window.Bale?.WebApp || window.Telegram?.WebApp;
+  if (wa && wa.openTelegramLink) wa.openTelegramLink('https://t.me/melkshirazbot');
+  else showToast('در حال باز کردن @melkshirazbot ...');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+async function init() {
+  const wa = window.Bale?.WebApp || window.Telegram?.WebApp;
+  if (wa) { wa.ready(); wa.expand(); }
+  await loadData();
+  loadRates();
+}
+
+init();
+</script>
+</body>
+</html>
