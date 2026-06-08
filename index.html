@@ -3,269 +3,205 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>م.هادی بخت‌زاده</title>
+<title>م.هادی بخت‌زاده — AIOS Architects</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-
-:root{
-  --ink:#04040A;
-  --g1:#C9A84C;--g2:#E4C06A;--g3:rgba(201,168,76,0.06);
-  --t1:#EDEAE4;--t2:#9C9488;--t3:#3A3630;
-  --surf:#0B0B12;--line:#1A1A28;
-}
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{height:100%;overflow:hidden;}
-body{
-  background:var(--ink);color:var(--t1);
-  font-family:'Vazirmatn','Tahoma',sans-serif;direction:rtl;
-  position:relative;
+:root{
+  --ink:#06060C;--gold:#C9A84C;--gold2:#E4C06A;
+  --t1:#EDEAE4;--t2:#9C9488;--t3:#3A3630;
+  --surf:#0D0D16;--line:#1A1A2A;
 }
+html,body{height:100%;overflow:hidden;background:var(--ink);}
+body{font-family:'Vazirmatn','Tahoma',sans-serif;direction:rtl;color:var(--t1);}
 body.en,body.tr{font-family:'Space Grotesk',system-ui,sans-serif;direction:ltr;}
 body.ar{font-family:'Vazirmatn',sans-serif;direction:rtl;}
 
-/* Ambient glow */
-body::before{
-  content:'';position:fixed;
-  width:600px;height:600px;border-radius:50%;
-  background:radial-gradient(circle,rgba(201,168,76,0.04) 0%,transparent 70%);
-  top:-100px;right:-100px;pointer-events:none;z-index:0;
-  animation:drift 20s ease-in-out infinite alternate;
-}
-@keyframes drift{0%{transform:translate(0,0)}100%{transform:translate(-60px,80px)}}
+/* ── Desktop: split layout ── */
+.layout{display:flex;height:100vh;flex-direction:row-reverse;}
 
-/* ── Intro ── */
-.intro{
-  position:fixed;inset:0;z-index:100;
+/* Photo panel */
+.photo-panel{
+  flex:0 0 46%;position:relative;overflow:hidden;
+}
+.photo-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,#0A0A14 0%,transparent 30%,transparent 60%,#06060C 100%);
+  z-index:1;
+}
+.photo-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:top center;
+  filter:grayscale(8%) contrast(1.05);
+}
+.photo-content{
+  position:absolute;inset:0;z-index:2;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:40px 36px;
+}
+.photo-name{
+  font-size:clamp(24px,3vw,36px);font-weight:700;
+  color:#fff;line-height:1.1;
+  text-shadow:0 2px 20px rgba(0,0,0,0.8);
+}
+body.en .photo-name,body.tr .photo-name{font-family:'Space Grotesk',sans-serif;}
+.photo-title{
+  font-size:12px;color:var(--gold);letter-spacing:0.16em;
+  text-transform:uppercase;margin-top:6px;
+}
+.photo-line{
+  width:32px;height:2px;background:var(--gold);
+  margin-bottom:16px;
+}
+
+/* Chat panel */
+.chat-panel{
+  flex:1;display:flex;flex-direction:column;
+  border-right:1px solid var(--line);
   background:var(--ink);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;
-  transition:opacity 0.8s ease;
+  min-width:0;
 }
-.intro.out{opacity:0;pointer-events:none;}
-.intro-line{
-  width:0;height:1px;background:linear-gradient(90deg,transparent,var(--g1),transparent);
-  animation:line-in 1s 0.3s ease forwards;
-  margin-bottom:28px;
-}
-@keyframes line-in{to{width:240px}}
-.intro-name{
-  font-size:22px;font-weight:600;color:var(--t1);
-  letter-spacing:0.08em;opacity:0;
-  animation:fade-up 0.7s 0.8s ease forwards;
-  text-align:center;
-}
-body.en .intro-name,body.tr .intro-name{font-size:18px;}
-.intro-title{
-  font-size:11px;color:var(--g1);letter-spacing:0.18em;
-  text-transform:uppercase;margin-top:8px;
-  opacity:0;animation:fade-up 0.6s 1.1s ease forwards;
-}
-@keyframes fade-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-
-/* ── Shell ── */
-.shell{
-  position:relative;z-index:1;
-  height:100vh;max-width:680px;margin:0 auto;
-  display:grid;grid-template-rows:64px 1fr auto;
-}
-
-/* ── Header ── */
-.hd{
+.chat-top{
+  padding:20px 24px;border-bottom:1px solid var(--line);
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 28px;border-bottom:1px solid var(--line);
+  flex-shrink:0;
 }
-.hd-left{display:flex;align-items:center;gap:10px;}
-.hd-seal{
-  width:34px;height:34px;border-radius:8px;
-  border:1px solid rgba(201,168,76,0.3);
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:800;color:var(--g1);
-  letter-spacing:-0.5px;
-  background:rgba(201,168,76,0.04);
-}
-.hd-name{font-size:13px;font-weight:600;color:var(--t1);}
-.hd-sub{font-size:10px;color:var(--t3);margin-top:1px;letter-spacing:0.04em;}
-.hd-status{
-  display:flex;align-items:center;gap:6px;
-  font-size:10px;color:var(--g1);letter-spacing:0.08em;
-}
-.hd-dot{
-  width:5px;height:5px;border-radius:50%;background:var(--g1);
-  animation:pulse-dot 2.5s ease-in-out infinite;
-}
-@keyframes pulse-dot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(201,168,76,0.3)}60%{opacity:0.4;box-shadow:0 0 0 5px rgba(201,168,76,0)}}
+.chat-brand{font-size:10px;letter-spacing:0.14em;color:var(--t3);text-transform:uppercase;}
+.chat-live{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--gold);letter-spacing:0.08em;}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:ld 2.5s ease-in-out infinite;}
+@keyframes ld{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(201,168,76,0.3)}60%{opacity:0.4;box-shadow:0 0 0 5px rgba(201,168,76,0)}}
 
-/* ── Conversation ── */
 .msgs{
-  overflow-y:auto;padding:32px 28px 8px;
-  display:flex;flex-direction:column;gap:24px;
+  flex:1;overflow-y:auto;padding:24px 24px 8px;
+  display:flex;flex-direction:column;gap:20px;
 }
 .msgs::-webkit-scrollbar{width:2px;}
 .msgs::-webkit-scrollbar-thumb{background:var(--line);}
 
-/* Twin */
-.m-twin{}
-.m-label{font-size:9px;color:var(--g1);letter-spacing:0.14em;margin-bottom:10px;text-transform:uppercase;}
-.m-text{
-  font-size:clamp(14px,2vw,16px);line-height:1.95;
-  color:var(--t1);font-weight:300;
-  white-space:pre-wrap;word-break:break-word;
+/* Twin msg */
+.m-twin .m-from{font-size:9px;color:var(--gold);letter-spacing:0.12em;margin-bottom:8px;text-transform:uppercase;}
+.m-twin .m-text{
+  font-size:15px;line-height:1.9;color:var(--t1);
+  font-weight:300;white-space:pre-wrap;word-break:break-word;
 }
 
-/* User */
+/* User msg */
 .m-user{display:flex;justify-content:flex-start;}
 body.en .m-user,body.tr .m-user{justify-content:flex-end;}
 .m-bubble{
-  max-width:72%;
-  padding:11px 16px;
-  background:var(--surf);
-  border:1px solid var(--line);
-  border-right:2px solid rgba(201,168,76,0.4);
+  max-width:78%;padding:11px 16px;
+  background:var(--surf);border:1px solid var(--line);
+  border-right:2px solid rgba(201,168,76,0.35);
   border-radius:2px 12px 12px 12px;
-  font-size:14px;color:var(--t2);line-height:1.7;
-  word-break:break-word;
-  position:relative;
+  font-size:14px;color:var(--t2);line-height:1.7;word-break:break-word;
 }
 body.en .m-bubble,body.tr .m-bubble{
-  border-right:1px solid var(--line);
-  border-left:2px solid rgba(201,168,76,0.4);
+  border-right:1px solid var(--line);border-left:2px solid rgba(201,168,76,0.35);
   border-radius:12px 2px 12px 12px;
 }
 
-/* Cursor */
-.cur{
-  display:inline-block;width:1.5px;height:0.9em;
-  background:var(--g1);vertical-align:middle;margin-right:1px;
-  animation:blink 0.85s step-end infinite;
-}
+.cur{display:inline-block;width:1.5px;height:0.85em;background:var(--gold);vertical-align:middle;margin-right:1px;animation:blink 0.9s step-end infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
-/* Thinking */
-.think{display:none;gap:6px;align-items:center;padding:8px 0;}
+.think{display:none;gap:5px;align-items:center;padding:6px 0;}
 .think.on{display:flex;}
-.think span{
-  width:5px;height:5px;border-radius:50%;background:var(--g1);
-  animation:th 1.3s ease-in-out infinite;
-}
-.think span:nth-child(2){animation-delay:.18s}
-.think span:nth-child(3){animation-delay:.36s}
+.think i{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:th 1.3s ease-in-out infinite;}
+.think i:nth-child(2){animation-delay:.18s}.think i:nth-child(3){animation-delay:.36s}
 @keyframes th{0%,80%,100%{transform:scale(0.5);opacity:0.2}40%{transform:scale(1);opacity:1}}
 
 /* CTA */
-.cta{display:none;}
-.cta.show{
-  display:flex;align-items:center;gap:12px;
-  padding:16px 0 0;border-top:1px solid var(--line);margin-top:4px;
-}
-.cta-text{font-size:12px;color:var(--t3);}
+.cta{display:none;padding-top:16px;border-top:1px solid var(--line);margin-top:4px;}
+.cta.show{display:block;}
+.cta-inner{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.cta-txt{font-size:11px;color:var(--t3);}
 .cta-wa{
-  display:flex;align-items:center;gap:7px;
-  background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);
-  padding:8px 16px;border-radius:6px;
-  color:var(--g1);font-size:12px;font-weight:500;
-  text-decoration:none;transition:all 0.2s;
-  font-family:inherit;
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.22);
+  padding:8px 16px;border-radius:6px;color:var(--gold);
+  font-size:12px;font-weight:500;text-decoration:none;
+  transition:all 0.2s;font-family:inherit;
 }
-.cta-wa:hover{background:rgba(201,168,76,0.14);border-color:var(--g1);}
+.cta-wa:hover{background:rgba(201,168,76,0.14);border-color:var(--gold);}
 
-/* ── Compose ── */
-.compose{padding:16px 28px 28px;}
-.compose-bar{
-  display:flex;align-items:flex-end;gap:10px;
-  border-top:1px solid var(--line);padding-top:16px;
-}
+/* Compose */
+.compose{padding:14px 24px 24px;flex-shrink:0;}
+.compose::before{content:'';display:block;height:1px;background:var(--line);margin-bottom:14px;}
+.compose-row{display:flex;align-items:flex-end;gap:10px;}
 textarea{
   flex:1;background:transparent;border:none;outline:none;
   font-family:inherit;font-size:14px;color:var(--t1);
-  resize:none;min-height:22px;max-height:100px;line-height:1.65;
-  direction:inherit;
+  resize:none;min-height:22px;max-height:90px;line-height:1.65;direction:inherit;
 }
 body.en textarea,body.tr textarea{direction:ltr;}
 textarea::placeholder{color:var(--t3);}
 .sbtn{
-  width:34px;height:34px;flex-shrink:0;border-radius:8px;
-  background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  color:var(--g1);transition:all 0.2s;
+  width:34px;height:34px;flex-shrink:0;
+  background:rgba(201,168,76,0.09);border:1px solid rgba(201,168,76,0.2);
+  border-radius:8px;cursor:pointer;color:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;
 }
-.sbtn:hover{background:rgba(201,168,76,0.18);border-color:var(--g1);}
+.sbtn:hover{background:rgba(201,168,76,0.18);border-color:var(--gold);}
 .sbtn:active{transform:scale(0.93);}
-.powered{
-  text-align:center;font-size:10px;color:var(--t3);
-  margin-top:8px;letter-spacing:0.06em;
+
+/* ── Mobile ── */
+@media(max-width:700px){
+  .layout{flex-direction:column;}
+  .photo-panel{flex:0 0 42vh;}
+  .chat-panel{flex:1;border-right:none;border-top:1px solid var(--line);}
+  .photo-name{font-size:22px;}
 }
 </style>
 </head>
 <body class="fa">
+<div class="layout">
 
-<!-- Intro -->
-<div class="intro" id="intro">
-  <div class="intro-line"></div>
-  <div class="intro-name" id="iname">م.هادی بخت‌زاده</div>
-  <div class="intro-title">AIOS Architects</div>
-</div>
-
-<!-- Shell -->
-<div class="shell">
-  <div class="hd">
-    <div class="hd-left">
-      <div class="hd-seal">م.ه</div>
-      <div>
-        <div class="hd-name" id="hname">م.هادی بخت‌زاده</div>
-        <div class="hd-sub">Architect of Intelligent Systems</div>
-      </div>
-    </div>
-    <div class="hd-status">
-      <div class="hd-dot"></div>
-      <span id="hstatus">AIOS</span>
+  <!-- Photo panel -->
+  <div class="photo-panel">
+    <img class="photo-img" src="/public/hadi.jpg" alt="م.هادی بخت‌زاده">
+    <div class="photo-bg"></div>
+    <div class="photo-content">
+      <div class="photo-line"></div>
+      <div class="photo-name" id="pname">م.هادی بخت‌زاده</div>
+      <div class="photo-title">Architect of Intelligent Systems</div>
     </div>
   </div>
 
-  <div class="msgs" id="msgs"></div>
-
-  <div class="compose">
-    <div class="compose-bar">
-      <textarea id="inp" rows="1" placeholder="بنویسید..."></textarea>
-      <button class="sbtn" id="send">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-      </button>
+  <!-- Chat panel -->
+  <div class="chat-panel">
+    <div class="chat-top">
+      <div class="chat-brand">AIOS Architects</div>
+      <div class="chat-live"><div class="live-dot"></div><span id="lstatus">LIVE</span></div>
     </div>
-    <div class="powered" id="powered">vandidad.xyz</div>
+    <div class="msgs" id="msgs"></div>
+    <div class="compose">
+      <div class="compose-row">
+        <textarea id="inp" rows="1" placeholder="بنویسید..."></textarea>
+        <button class="sbtn" id="send">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-const OPEN={
-  fa:'کسب‌وکار شما در چه حوزه‌ای است؟',
-  en:'What business are you in?',
-  ar:'ما مجال عملك؟',
-  tr:'İşletmeniz hangi sektörde?'
-};
+const OPEN={fa:'کسب‌وکار شما در چه حوزه‌ای است؟',en:'What business are you in?',ar:'ما مجال عملك؟',tr:'İşletmeniz hangi sektörde?'};
 const PH={fa:'بنویسید...',en:'Write...',ar:'اكتب...',tr:'Yazın...'};
 const SYS={
-  fa:`تو نسخه دیجیتال م.هادی بخت‌زاده هستی. معمار سیستم‌های هوش مصنوعی. مؤسس وندیداد گروپ. ۲۰ سال تجربه در فرهنگ، اقتصاد، تکنولوژی.
-
-شخصیت: قاطع، آرام، گزیده‌گو. اقتدار بی‌صدا. جملات کوتاه با وزن. خطاب «شما». بدون ایموجی. بدون چاپلوسی.
-
-وقتی مخاطب کسب‌وکارش را گفت:
-۱. دردِ اصلی آن صنف را نام ببر (نه ویژگی، درد واقعی)
-۲. بگو AIOS چطور آن درد را حل می‌کند — با زبان همان صنف
-۳. یک تفاوت ملموس با نرم‌افزار معمولی نشان بده
-۴. یک سوال هدایت‌گر بپرس`,
-  en:`You are the digital twin of M.Hadi Bakhtzadeh. AI Systems Architect. Founder of Vandidad Group.
-
-Character: decisive, calm, economical. Quiet authority. Short weighted sentences. No emojis. Address as "you".
-
-When user states their business: name the exact pain (not features), explain how AIOS solves it in their industry's language, show one concrete difference from regular software, ask one guiding question.`,
-  ar:`أنت النسخة الرقمية لـ م. هادي بخت‌زاده. مهندس أنظمة الذكاء الاصطناعي. مؤسس مجموعة فانديداد. شخصية: حازم، هادئ، موجز. بدون رموز. عند ذكر العمل: حدد الألم، اشرح AIOS، أظهر فرقاً، اسأل سؤالاً.`,
-  tr:`Sen M.Hadi Bakhtzadeh'in dijital ikizinsin. Yapay Zeka Sistemleri Mimarı. Vandidad Group kurucusu. Kişilik: kararlı, sakin, öz. Emojisiz. İş söylenince: acıyı say, AIOS'u açıkla, fark göster, soru sor.`
+  fa:`تو نسخه دیجیتال م.هادی بخت‌زاده هستی. معمار سیستم‌های هوش مصنوعی. مؤسس وندیداد گروپ. ۲۰ سال در فرهنگ، اقتصاد، تکنولوژی.
+شخصیت: قاطع، آرام، گزیده‌گو. خطاب «شما». بدون ایموجی. بدون چاپلوسی.
+وقتی مخاطب کسب‌وکارش را گفت: ۱) دردِ اصلی آن صنف را نام ببر ۲) AIOS چطور آن درد را حل می‌کند ۳) یک تفاوت ملموس با نرم‌افزار معمولی ۴) یک سوال هدایت‌گر.`,
+  en:`You are the digital twin of M.Hadi Bakhtzadeh. AI Systems Architect. Founder of Vandidad Group. Character: decisive, calm, economical. No emojis. When user states business: name exact pain, explain AIOS solution, show concrete difference from regular software, ask one guiding question.`,
+  ar:`أنت النسخة الرقمية لم. هادي بخت‌زاده. مهندس أنظمة ذكاء اصطناعي. شخصية: حازم، هادئ، موجز. بدون رموز. حدد الألم، اشرح AIOS، أظهر فرقاً، اسأل سؤالاً.`,
+  tr:`Sen M.Hadi Bakhtzadeh'in dijital ikizinsin. Yapay Zeka Sistemleri Mimarı. Vandidad Group kurucusu. Kişilik: kararlı, sakin, öz. Emojisiz. İş söylenince: acıyı say, AIOS açıkla, fark göster, soru sor.`
 };
 
 const msgs=document.getElementById('msgs');
 const inp=document.getElementById('inp');
 const sendBtn=document.getElementById('send');
 const think=document.createElement('div');
-think.className='think';
-think.innerHTML='<span></span><span></span><span></span>';
+think.className='think';think.innerHTML='<i></i><i></i><i></i>';
 
 let history=[],lang='fa',msgCount=0,ctaShown=false;
 const SID='s'+Math.random().toString(36).substr(2,9);
@@ -274,7 +210,7 @@ function detectLang(){
   const l=(navigator.language||'fa').toLowerCase();
   if(l.startsWith('ar'))return 'ar';
   if(l.startsWith('tr'))return 'tr';
-  if(l.startsWith('en'))return 'en';
+  if(l.startsWith('en')&&!l.includes('ir'))return 'en';
   return 'fa';
 }
 
@@ -285,25 +221,19 @@ function applyLang(l){
 
 const scroll=()=>{msgs.scrollTop=msgs.scrollHeight;};
 
-function typeEl(el,txt,spd=10){
-  return new Promise(r=>{
-    let i=0;
-    const c=document.createElement('span');c.className='cur';el.appendChild(c);
-    const iv=setInterval(()=>{
-      if(i<txt.length){el.insertBefore(document.createTextNode(txt[i]),c);i++;if(i%50===0)scroll();}
-      else{clearInterval(iv);c.remove();r();}
-    },spd);
-  });
-}
-
-function addTwin(txt,fast=false){
+function addTwin(txt){
   const d=document.createElement('div');d.className='m-twin';
-  const lbl=document.createElement('div');lbl.className='m-label';
-  lbl.textContent='م.هادی بخت‌زاده';
+  const from=document.createElement('div');from.className='m-from';from.textContent='م.هادی بخت‌زاده';
   const t=document.createElement('div');t.className='m-text';
-  d.appendChild(lbl);d.appendChild(t);msgs.appendChild(d);
-  if(fast){t.textContent=txt;scroll();return Promise.resolve();}
-  return typeEl(t,txt,10);
+  d.appendChild(from);d.appendChild(t);msgs.appendChild(d);
+  return new Promise(res=>{
+    let i=0;
+    const c=document.createElement('span');c.className='cur';t.appendChild(c);
+    const iv=setInterval(()=>{
+      if(i<txt.length){t.insertBefore(document.createTextNode(txt[i]),c);i++;if(i%60===0)scroll();}
+      else{clearInterval(iv);c.remove();res();}
+    },11);
+  });
 }
 
 function addUser(txt){
@@ -315,19 +245,18 @@ function addUser(txt){
 function showCTA(){
   if(ctaShown)return;ctaShown=true;
   const d=document.createElement('div');d.className='cta show';
-  const ctaTexts={fa:'برای گفت‌وگوی مستقیم:',en:'Direct conversation:',ar:'للمحادثة المباشرة:',tr:'Doğrudan görüşme:'};
-  const btnTexts={fa:'واتس‌اپ',en:'WhatsApp',ar:'واتساب',tr:'WhatsApp'};
-  d.innerHTML=`<div class="cta-text">${ctaTexts[lang]||ctaTexts.fa}</div>
+  const labels={fa:'گفت‌وگوی مستقیم:',en:'Direct conversation:',ar:'للمحادثة:',tr:'Doğrudan görüşme:'};
+  d.innerHTML=`<div class="cta-inner">
+  <span class="cta-txt">${labels[lang]||labels.fa}</span>
   <a class="cta-wa" href="https://wa.me/905521881819" target="_blank">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    ${btnTexts[lang]||btnTexts.fa}
-  </a>`;
+    WhatsApp
+  </a></div>`;
   msgs.appendChild(d);scroll();
 }
 
 async function sendMsg(){
-  const txt=inp.value.trim();
-  if(!txt||sendBtn.disabled)return;
+  const txt=inp.value.trim();if(!txt||sendBtn.disabled)return;
   if(msgCount===0){
     const l=txt.match(/[\u0600-\u06FF]/)?'fa':txt.match(/[\u0750-\u077F]/)?'ar':txt.match(/[şğüçıİĞÜÇŞ]/i)?'tr':'en';
     applyLang(l);
@@ -335,21 +264,17 @@ async function sendMsg(){
   inp.value='';inp.style.height='auto';sendBtn.disabled=true;
   addUser(txt);history.push({role:'user',content:txt});msgCount++;
   msgs.appendChild(think);think.classList.add('on');scroll();
-
   try{
     const res=await fetch(window.location.origin,{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({message:txt,session_id:SID,language:lang})
     });
     think.classList.remove('on');try{msgs.removeChild(think);}catch(_){}
-
     const d=document.createElement('div');d.className='m-twin';
-    const lbl=document.createElement('div');lbl.className='m-label';
-    lbl.textContent='م.هادی بخت‌زاده';
+    const from=document.createElement('div');from.className='m-from';from.textContent='م.هادی بخت‌زاده';
     const t=document.createElement('div');t.className='m-text';
-    d.appendChild(lbl);d.appendChild(t);msgs.appendChild(d);
-
-    const cur=document.createElement('span');cur.className='cur';t.appendChild(cur);
+    d.appendChild(from);d.appendChild(t);msgs.appendChild(d);
+    const c=document.createElement('span');c.className='cur';t.appendChild(c);
     let full='';
     const reader=res.body.getReader();const dec=new TextDecoder();
     while(true){
@@ -357,34 +282,24 @@ async function sendMsg(){
       dec.decode(value).split('\n').forEach(line=>{
         if(!line.startsWith('data:'))return;
         try{const p=JSON.parse(line.slice(5).trim());
-          if(p.type==='chunk'){full+=p.text;t.insertBefore(document.createTextNode(p.text),cur);scroll();}
+          if(p.type==='chunk'){full+=p.text;t.insertBefore(document.createTextNode(p.text),c);scroll();}
         }catch(e){}
       });
     }
-    cur.remove();history.push({role:'assistant',content:full});
+    c.remove();history.push({role:'assistant',content:full});
     if(msgCount>=3)showCTA();
   }catch(e){
     think.classList.remove('on');try{msgs.removeChild(think);}catch(_){}
-    const d=document.createElement('div');d.className='m-twin';
-    d.innerHTML='<div class="m-label">م.هادی بخت‌زاده</div><div class="m-text" style="color:#3A3630">—</div>';
-    msgs.appendChild(d);
   }
   sendBtn.disabled=false;
 }
 
-inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,100)+'px';});
+inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,90)+'px';});
 inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
 sendBtn.addEventListener('click',sendMsg);
 
-// Boot
 const l0=detectLang();applyLang(l0);
-setTimeout(()=>{
-  document.getElementById('intro').classList.add('out');
-  setTimeout(async()=>{
-    await addTwin(OPEN[l0]);
-    history.push({role:'assistant',content:OPEN[l0]});
-  },600);
-},2000);
+addTwin(OPEN[l0]).then(()=>{history.push({role:'assistant',content:OPEN[l0]});});
 </script>
 </body>
 </html>
