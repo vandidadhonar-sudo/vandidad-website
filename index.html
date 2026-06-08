@@ -2,633 +2,389 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AIOS Architects — M.Hadi Bakhtzadeh</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>م.هادی بخت‌زاده</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 :root{
-  --bg:#070710;--bg2:#0B0B18;--surf:#10101E;
-  --b1:#1C1C32;--b2:#252540;
-  --t1:#F4F4F8;--t2:#8888A8;--t3:#3A3A58;
-  --mint:#4FFFB0;--mintd:#2EE090;--mintx:rgba(79,255,176,0.07);
-  --vio:#7C5CFC;--viox:rgba(124,92,252,0.07);
-  --red:#FF4040;
-  --gold:#FFB830;
-  --fn-fa:'Vazirmatn',Tahoma,sans-serif;
-  --fn-en:'Space Grotesk',system-ui,sans-serif;
+  --ink:#04040A;
+  --g1:#C9A84C;--g2:#E4C06A;--g3:rgba(201,168,76,0.06);
+  --t1:#EDEAE4;--t2:#9C9488;--t3:#3A3630;
+  --surf:#0B0B12;--line:#1A1A28;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--t1);font-size:16px;line-height:1.6;overflow-x:hidden;}
-body.fa{font-family:var(--fn-fa);direction:rtl;}
-body.en,body.tr{font-family:var(--fn-en);direction:ltr;}
-body.ar{font-family:var(--fn-fa);direction:rtl;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;overflow:hidden;}
+body{
+  background:var(--ink);color:var(--t1);
+  font-family:'Vazirmatn','Tahoma',sans-serif;direction:rtl;
+  position:relative;
+}
+body.en,body.tr{font-family:'Space Grotesk',system-ui,sans-serif;direction:ltr;}
+body.ar{font-family:'Vazirmatn',sans-serif;direction:rtl;}
 
-/* Canvas BG */
-#canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.45;pointer-events:none;}
+/* Ambient glow */
+body::before{
+  content:'';position:fixed;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,168,76,0.04) 0%,transparent 70%);
+  top:-100px;right:-100px;pointer-events:none;z-index:0;
+  animation:drift 20s ease-in-out infinite alternate;
+}
+@keyframes drift{0%{transform:translate(0,0)}100%{transform:translate(-60px,80px)}}
 
-/* Grain overlay */
-body::after{
-  content:'';position:fixed;inset:0;z-index:1;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-  pointer-events:none;opacity:0.4;
+/* ── Intro ── */
+.intro{
+  position:fixed;inset:0;z-index:100;
+  background:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;
+  transition:opacity 0.8s ease;
+}
+.intro.out{opacity:0;pointer-events:none;}
+.intro-line{
+  width:0;height:1px;background:linear-gradient(90deg,transparent,var(--g1),transparent);
+  animation:line-in 1s 0.3s ease forwards;
+  margin-bottom:28px;
+}
+@keyframes line-in{to{width:240px}}
+.intro-name{
+  font-size:22px;font-weight:600;color:var(--t1);
+  letter-spacing:0.08em;opacity:0;
+  animation:fade-up 0.7s 0.8s ease forwards;
+  text-align:center;
+}
+body.en .intro-name,body.tr .intro-name{font-size:18px;}
+.intro-title{
+  font-size:11px;color:var(--g1);letter-spacing:0.18em;
+  text-transform:uppercase;margin-top:8px;
+  opacity:0;animation:fade-up 0.6s 1.1s ease forwards;
+}
+@keyframes fade-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ── Shell ── */
+.shell{
+  position:relative;z-index:1;
+  height:100vh;max-width:680px;margin:0 auto;
+  display:grid;grid-template-rows:64px 1fr auto;
 }
 
-/* NAV */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
+/* ── Header ── */
+.hd{
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 40px;height:64px;
-  background:rgba(7,7,16,0.8);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--b1);
+  padding:0 28px;border-bottom:1px solid var(--line);
 }
-.nav-brand{display:flex;align-items:center;gap:12px;}
-.nav-mark{
-  width:36px;height:36px;border-radius:10px;
-  background:linear-gradient(135deg,var(--mint) 0%,var(--vio) 100%);
+.hd-left{display:flex;align-items:center;gap:10px;}
+.hd-seal{
+  width:34px;height:34px;border-radius:8px;
+  border:1px solid rgba(201,168,76,0.3);
   display:flex;align-items:center;justify-content:center;
-  font-size:13px;font-weight:800;color:#000;letter-spacing:-0.5px;
+  font-size:11px;font-weight:800;color:var(--g1);
+  letter-spacing:-0.5px;
+  background:rgba(201,168,76,0.04);
 }
-.nav-name{font-size:14px;font-weight:600;color:var(--t1);}
-.nav-name span{color:var(--mint);}
-.nav-live{
-  display:flex;align-items:center;gap:7px;
-  background:rgba(79,255,176,0.06);border:1px solid rgba(79,255,176,0.2);
-  padding:5px 12px;border-radius:20px;font-size:11px;color:var(--mint);letter-spacing:0.08em;
+.hd-name{font-size:13px;font-weight:600;color:var(--t1);}
+.hd-sub{font-size:10px;color:var(--t3);margin-top:1px;letter-spacing:0.04em;}
+.hd-status{
+  display:flex;align-items:center;gap:6px;
+  font-size:10px;color:var(--g1);letter-spacing:0.08em;
 }
-.live-dot{width:6px;height:6px;border-radius:50%;background:var(--mint);animation:ldot 2s infinite;}
-@keyframes ldot{0%,100%{box-shadow:0 0 0 0 rgba(79,255,176,0.4)}60%{box-shadow:0 0 0 6px rgba(79,255,176,0)}}
+.hd-dot{
+  width:5px;height:5px;border-radius:50%;background:var(--g1);
+  animation:pulse-dot 2.5s ease-in-out infinite;
+}
+@keyframes pulse-dot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(201,168,76,0.3)}60%{opacity:0.4;box-shadow:0 0 0 5px rgba(201,168,76,0)}}
 
-/* HERO */
-.hero{
-  position:relative;z-index:2;
-  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:100px 40px 80px;
+/* ── Conversation ── */
+.msgs{
+  overflow-y:auto;padding:32px 28px 8px;
+  display:flex;flex-direction:column;gap:24px;
 }
-.hero-label{
-  font-size:11px;letter-spacing:0.2em;color:var(--mint);
-  text-transform:uppercase;margin-bottom:28px;opacity:0;
-  animation:up 0.7s 0.4s ease forwards;
-}
-.hero-h1{
-  font-size:clamp(36px,7vw,88px);font-weight:700;
-  line-height:1.05;letter-spacing:-0.02em;
-  color:var(--t1);opacity:0;
-  animation:up 0.8s 0.7s ease forwards;
-  max-width:900px;
-}
-body.fa .hero-h1{font-weight:800;letter-spacing:0;}
-.hero-h1 .accent{
-  background:linear-gradient(90deg,var(--mint),var(--vio));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.hero-sub{
-  font-size:clamp(15px,2vw,20px);color:var(--t2);margin-top:24px;
-  max-width:580px;font-weight:300;opacity:0;
-  animation:up 0.7s 1s ease forwards;
-}
-.hero-cta{
-  display:flex;gap:14px;margin-top:44px;flex-wrap:wrap;justify-content:center;
-  opacity:0;animation:up 0.7s 1.3s ease forwards;
-}
-.btn-primary{
-  padding:14px 32px;border-radius:12px;font-size:15px;font-weight:600;
-  background:var(--mint);color:#000;border:none;cursor:pointer;
-  font-family:inherit;transition:all 0.2s;letter-spacing:-0.01em;
-}
-.btn-primary:hover{background:var(--mintd);transform:translateY(-2px);box-shadow:0 12px 40px rgba(79,255,176,0.25);}
-.btn-ghost{
-  padding:14px 32px;border-radius:12px;font-size:15px;font-weight:500;
-  background:transparent;color:var(--t1);border:1px solid var(--b2);cursor:pointer;
-  font-family:inherit;transition:all 0.2s;
-}
-.btn-ghost:hover{border-color:var(--mint);color:var(--mint);}
-.hero-stats{
-  display:flex;gap:40px;margin-top:60px;flex-wrap:wrap;justify-content:center;
-  opacity:0;animation:up 0.7s 1.6s ease forwards;
-}
-.stat{text-align:center;}
-.stat-n{font-size:clamp(24px,4vw,36px);font-weight:700;color:var(--t1);}
-.stat-n span{color:var(--mint);}
-.stat-l{font-size:12px;color:var(--t3);margin-top:2px;letter-spacing:0.04em;}
+.msgs::-webkit-scrollbar{width:2px;}
+.msgs::-webkit-scrollbar-thumb{background:var(--line);}
 
-@keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+/* Twin */
+.m-twin{}
+.m-label{font-size:9px;color:var(--g1);letter-spacing:0.14em;margin-bottom:10px;text-transform:uppercase;}
+.m-text{
+  font-size:clamp(14px,2vw,16px);line-height:1.95;
+  color:var(--t1);font-weight:300;
+  white-space:pre-wrap;word-break:break-word;
+}
 
-/* SECTION BASE */
-section{position:relative;z-index:2;padding:100px 40px;}
-.section-label{
-  font-size:10px;letter-spacing:0.2em;color:var(--mint);text-transform:uppercase;
-  margin-bottom:16px;
+/* User */
+.m-user{display:flex;justify-content:flex-start;}
+body.en .m-user,body.tr .m-user{justify-content:flex-end;}
+.m-bubble{
+  max-width:72%;
+  padding:11px 16px;
+  background:var(--surf);
+  border:1px solid var(--line);
+  border-right:2px solid rgba(201,168,76,0.4);
+  border-radius:2px 12px 12px 12px;
+  font-size:14px;color:var(--t2);line-height:1.7;
+  word-break:break-word;
+  position:relative;
 }
-.section-h{font-size:clamp(28px,4vw,48px);font-weight:700;color:var(--t1);line-height:1.1;margin-bottom:16px;}
-body.fa .section-h{font-weight:800;}
-.section-sub{font-size:16px;color:var(--t2);font-weight:300;max-width:520px;}
-.container{max-width:1100px;margin:0 auto;}
+body.en .m-bubble,body.tr .m-bubble{
+  border-right:1px solid var(--line);
+  border-left:2px solid rgba(201,168,76,0.4);
+  border-radius:12px 2px 12px 12px;
+}
 
-/* PAIN SECTION */
-.pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--b1);border-radius:20px;overflow:hidden;margin-top:60px;}
-.pain-card{
-  background:var(--surf);padding:36px 32px;
-  transition:background 0.3s;cursor:default;
-  opacity:0;transform:translateY(30px);transition:opacity 0.6s,transform 0.6s,background 0.3s;
+/* Cursor */
+.cur{
+  display:inline-block;width:1.5px;height:0.9em;
+  background:var(--g1);vertical-align:middle;margin-right:1px;
+  animation:blink 0.85s step-end infinite;
 }
-.pain-card.visible{opacity:1;transform:translateY(0);}
-.pain-card:hover{background:var(--bg2);}
-.pain-icon{font-size:28px;margin-bottom:16px;}
-.pain-who{font-size:10px;letter-spacing:0.15em;color:var(--vio);text-transform:uppercase;margin-bottom:8px;}
-.pain-title{font-size:18px;font-weight:600;color:var(--t1);margin-bottom:10px;line-height:1.3;}
-.pain-body{font-size:14px;color:var(--t2);line-height:1.7;}
-.pain-fix{
-  margin-top:18px;padding-top:18px;border-top:1px solid var(--b1);
-  font-size:13px;color:var(--mint);display:flex;align-items:center;gap:8px;
-}
-.pain-fix::before{content:'✓';font-weight:700;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
-/* DEMO SECTION */
-.demo-wrap{
-  max-width:800px;margin:60px auto 0;
-  background:var(--surf);border:1px solid var(--b1);border-radius:20px;overflow:hidden;
+/* Thinking */
+.think{display:none;gap:6px;align-items:center;padding:8px 0;}
+.think.on{display:flex;}
+.think span{
+  width:5px;height:5px;border-radius:50%;background:var(--g1);
+  animation:th 1.3s ease-in-out infinite;
 }
-.demo-top{
-  padding:16px 20px;border-bottom:1px solid var(--b1);
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(7,7,16,0.5);
-}
-.demo-brand{font-size:12px;color:var(--t2);letter-spacing:0.06em;}
-.demo-indicator{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mint);}
-.demo-dot{width:6px;height:6px;border-radius:50%;background:var(--mint);animation:ldot 2s infinite;}
-.demo-msgs{height:360px;overflow-y:auto;padding:24px 20px;display:flex;flex-direction:column;gap:16px;}
-.demo-msgs::-webkit-scrollbar{width:2px;}
-.demo-msgs::-webkit-scrollbar-thumb{background:var(--b2);}
-.dmsg-ai .dlabel{font-size:10px;color:var(--mint);letter-spacing:0.08em;margin-bottom:8px;}
-.dmsg-ai .dbody{font-size:14px;line-height:1.85;color:var(--t1);white-space:pre-wrap;word-break:break-word;}
-.dmsg-user{display:flex;justify-content:flex-start;}
-body.en .dmsg-user,.body.tr .dmsg-user{justify-content:flex-end;}
-.dmsg-user .dbubble{
-  background:var(--bg2);border:1px solid var(--b1);
-  padding:10px 14px;border-radius:12px;font-size:14px;color:var(--t1);
-  max-width:70%;line-height:1.65;
-}
-body.fa .dmsg-user .dbubble{border-right:2px solid var(--mint);}
-body:not(.fa) .dmsg-user .dbubble{border-left:2px solid var(--mint);}
-.dcursor{display:inline-block;width:2px;height:14px;background:var(--mint);vertical-align:middle;animation:bl 0.8s step-end infinite;margin-right:1px;}
-@keyframes bl{0%,100%{opacity:1}50%{opacity:0}}
-.dthink{display:none;gap:5px;align-items:center;padding:4px 0;}
-.dthink.on{display:flex;}
-.dthink span{width:5px;height:5px;border-radius:50%;background:var(--mint);animation:th 1.2s ease infinite;}
-.dthink span:nth-child(2){animation-delay:.2s}.dthink span:nth-child(3){animation-delay:.4s}
-@keyframes th{0%,80%,100%{transform:scale(0.6);opacity:0.3}40%{transform:scale(1);opacity:1}}
-.demo-inp{
-  padding:14px 16px;border-top:1px solid var(--b1);
-  display:flex;gap:10px;background:rgba(7,7,16,0.4);
-}
-.demo-inp textarea{
-  flex:1;background:transparent;border:none;outline:none;resize:none;
-  font-family:inherit;font-size:13.5px;color:var(--t1);line-height:1.6;
-  min-height:32px;max-height:80px;
-}
-body.fa .demo-inp textarea{direction:rtl;}
-.demo-inp textarea::placeholder{color:var(--t3);}
-.dsend{
-  width:34px;height:34px;background:var(--mint);border:none;border-radius:9px;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  transition:all 0.2s;
-}
-.dsend:hover{background:var(--mintd);}
+.think span:nth-child(2){animation-delay:.18s}
+.think span:nth-child(3){animation-delay:.36s}
+@keyframes th{0%,80%,100%{transform:scale(0.5);opacity:0.2}40%{transform:scale(1);opacity:1}}
 
-/* CHANNELS */
-.chan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:60px;}
-.chan-card{
-  background:var(--surf);border:1px solid var(--b1);border-radius:16px;
-  padding:28px 24px;text-align:center;
-  opacity:0;transform:translateY(20px);
-  transition:opacity 0.5s,transform 0.5s,border-color 0.2s,background 0.2s;
+/* CTA */
+.cta{display:none;}
+.cta.show{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 0 0;border-top:1px solid var(--line);margin-top:4px;
 }
-.chan-card.visible{opacity:1;transform:translateY(0);}
-.chan-card:hover{border-color:var(--mint);background:var(--mintx);}
-.chan-icon{font-size:32px;margin-bottom:14px;}
-.chan-name{font-size:15px;font-weight:600;color:var(--t1);margin-bottom:6px;}
-.chan-desc{font-size:12px;color:var(--t2);}
-.chan-badge{
-  display:inline-block;margin-top:12px;
-  font-size:10px;padding:3px 10px;border-radius:10px;letter-spacing:0.06em;
-}
-.chan-badge.live{background:rgba(79,255,176,0.1);border:1px solid rgba(79,255,176,0.2);color:var(--mint);}
-.chan-badge.soon{background:var(--b1);border:1px solid var(--b2);color:var(--t3);}
-
-/* INDUSTRIES */
-.ind-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:50px;}
-.ind-pill{
-  padding:14px 18px;border-radius:12px;
-  border:1px solid var(--b1);background:var(--surf);
-  font-size:13px;color:var(--t2);cursor:pointer;text-align:center;
-  transition:all 0.2s;
-  opacity:0;animation:fadein 0.4s forwards;
-}
-.ind-pill:hover{border-color:var(--mint);color:var(--mint);background:var(--mintx);}
-.ind-pill .ind-icon{font-size:20px;margin-bottom:6px;}
-@keyframes fadein{to{opacity:1}}
-
-/* CTA FINAL */
-.cta-final{
-  text-align:center;padding:100px 40px;
-  background:linear-gradient(180deg,var(--bg) 0%,rgba(79,255,176,0.03) 50%,var(--bg) 100%);
-}
-.cta-final .section-h{margin:16px auto 20px;max-width:600px;}
-.cta-final .section-sub{margin:0 auto 40px;}
-.cta-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.cta-text{font-size:12px;color:var(--t3);}
 .cta-wa{
-  display:flex;align-items:center;gap:10px;
-  padding:16px 28px;background:var(--mint);color:#000;
-  border-radius:12px;font-size:15px;font-weight:700;text-decoration:none;
-  transition:all 0.2s;font-family:inherit;
+  display:flex;align-items:center;gap:7px;
+  background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);
+  padding:8px 16px;border-radius:6px;
+  color:var(--g1);font-size:12px;font-weight:500;
+  text-decoration:none;transition:all 0.2s;
+  font-family:inherit;
 }
-.cta-wa:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(79,255,176,0.3);}
-.cta-by{margin-top:48px;font-size:13px;color:var(--t3);}
-.cta-by b{color:var(--gold);}
+.cta-wa:hover{background:rgba(201,168,76,0.14);border-color:var(--g1);}
 
-/* FOOTER */
-footer{
-  border-top:1px solid var(--b1);padding:24px 40px;
-  display:flex;align-items:center;justify-content:space-between;
-  font-size:12px;color:var(--t3);position:relative;z-index:2;
-  flex-wrap:wrap;gap:10px;
+/* ── Compose ── */
+.compose{padding:16px 28px 28px;}
+.compose-bar{
+  display:flex;align-items:flex-end;gap:10px;
+  border-top:1px solid var(--line);padding-top:16px;
 }
-.foot-name{color:var(--gold);}
-
-/* Scroll anim setup */
-.scroll-el{opacity:0;transform:translateY(30px);transition:opacity 0.7s,transform 0.7s;}
-.scroll-el.visible{opacity:1;transform:none;}
+textarea{
+  flex:1;background:transparent;border:none;outline:none;
+  font-family:inherit;font-size:14px;color:var(--t1);
+  resize:none;min-height:22px;max-height:100px;line-height:1.65;
+  direction:inherit;
+}
+body.en textarea,body.tr textarea{direction:ltr;}
+textarea::placeholder{color:var(--t3);}
+.sbtn{
+  width:34px;height:34px;flex-shrink:0;border-radius:8px;
+  background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  color:var(--g1);transition:all 0.2s;
+}
+.sbtn:hover{background:rgba(201,168,76,0.18);border-color:var(--g1);}
+.sbtn:active{transform:scale(0.93);}
+.powered{
+  text-align:center;font-size:10px;color:var(--t3);
+  margin-top:8px;letter-spacing:0.06em;
+}
 </style>
 </head>
 <body class="fa">
 
-<canvas id="canvas"></canvas>
-
-<!-- NAV -->
-<nav>
-  <div class="nav-brand">
-    <div class="nav-mark">م.ه</div>
-    <div class="nav-name" id="nav-name">م.هادی بخت‌زاده</div>
-  </div>
-  <div class="nav-live"><div class="live-dot"></div><span id="nav-live">AIOS ACTIVE</span></div>
-</nav>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-label" id="h-label">AIOS Architects</div>
-  <h1 class="hero-h1" id="h-title">کسب‌وکار شما<br>یک <span class="accent">ذهن</span> می‌خواهد</h1>
-  <p class="hero-sub" id="h-sub">نه چت‌بات. نه نرم‌افزار آماده. یک سیستم‌عامل هوش مصنوعی که با برند شما می‌اندیشد، یاد می‌گیرد و عمل می‌کند.</p>
-  <div class="hero-cta">
-    <button class="btn-primary" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})" id="h-cta1">همین الان تجربه کنید</button>
-    <button class="btn-ghost" onclick="document.getElementById('channels').scrollIntoView({behavior:'smooth'})" id="h-cta2">چطور کار می‌کند</button>
-  </div>
-  <div class="hero-stats">
-    <div class="stat"><div class="stat-n"><span>+</span>۸۰</div><div class="stat-l" id="s1">صنف و حوزه</div></div>
-    <div class="stat"><div class="stat-n"><span>۲۴</span>/۷</div><div class="stat-l" id="s2">فعال و پاسخگو</div></div>
-    <div class="stat"><div class="stat-n"><span>۴</span></div><div class="stat-l" id="s3">کانال ارتباطی</div></div>
-  </div>
+<!-- Intro -->
+<div class="intro" id="intro">
+  <div class="intro-line"></div>
+  <div class="intro-name" id="iname">م.هادی بخت‌زاده</div>
+  <div class="intro-title">AIOS Architects</div>
 </div>
 
-<!-- PAIN -->
-<section id="pain">
-  <div class="container">
-    <div class="scroll-el">
-      <div class="section-label" id="p-label">مشکل آشنا</div>
-      <h2 class="section-h" id="p-title">می‌دانیم چه درد دارید</h2>
-      <p class="section-sub" id="p-sub">این را هر مدیری می‌گوید. راه‌حل یکی نیست — یک ذهن است.</p>
-    </div>
-    <div class="pain-grid">
-      <div class="pain-card"><div class="pain-icon">💬</div><div class="pain-who" id="pw1">فروش و پشتیبانی</div><div class="pain-title" id="pt1">پیام‌ها بی‌پاسخ می‌مانند</div><div class="pain-body" id="pb1">ساعت یازده شب مشتری می‌پرسد. نیرو نیست. فردا دیگر نیست.</div><div class="pain-fix" id="pf1">AIOS ۲۴ ساعت پاسخ می‌دهد — با لحن برند شما</div></div>
-      <div class="pain-card"><div class="pain-icon">📊</div><div class="pain-who" id="pw2">مدیر و تصمیم‌گیری</div><div class="pain-title" id="pt2">بدون داده تصمیم می‌گیرید</div><div class="pain-body" id="pb2">گزارش روز آخر ماه آماده می‌شود. فرصت‌ها قبلاً از دست رفته‌اند.</div><div class="pain-fix" id="pf2">AIOS لحظه به لحظه تحلیل می‌کند و هشدار می‌دهد</div></div>
-      <div class="pain-card"><div class="pain-icon">⚡</div><div class="pain-who" id="pw3">مقیاس و رشد</div><div class="pain-title" id="pt3">برای رشد، نیرو استخدام می‌کنید</div><div class="pain-body" id="pb3">هر ۲۰٪ رشد یعنی یک نفر بیشتر. هزینه خطی است. درآمد نیست.</div><div class="pain-fix" id="pf3">AIOS بدون استخدام مقیاس می‌شود</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- DEMO -->
-<section id="demo" style="padding-top:60px;">
-  <div class="container">
-    <div class="scroll-el" style="text-align:center;">
-      <div class="section-label" id="d-label">تجربه‌ی زنده</div>
-      <h2 class="section-h" id="d-title">همین الان صحبت کنید</h2>
-      <p class="section-sub" id="d-sub" style="margin:0 auto;">حوزه‌ی کسب‌وکار خود را بگویید. ذهن کار خودش را می‌کند.</p>
-    </div>
-    <div class="demo-wrap">
-      <div class="demo-top">
-        <div class="demo-brand" id="db-brand">نسخه دیجیتال م.هادی بخت‌زاده</div>
-        <div class="demo-indicator"><div class="demo-dot"></div><span id="db-status">در حال اجرا</span></div>
-      </div>
-      <div class="demo-msgs" id="dmsgs"></div>
-      <div class="dthink" id="dthink"><span></span><span></span><span></span></div>
-      <div class="demo-inp">
-        <textarea id="dinp" rows="1" placeholder="کسب‌وکار خود را توضیح دهید..."></textarea>
-        <button class="dsend" id="dsend">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
+<!-- Shell -->
+<div class="shell">
+  <div class="hd">
+    <div class="hd-left">
+      <div class="hd-seal">م.ه</div>
+      <div>
+        <div class="hd-name" id="hname">م.هادی بخت‌زاده</div>
+        <div class="hd-sub">Architect of Intelligent Systems</div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- CHANNELS -->
-<section id="channels">
-  <div class="container">
-    <div class="scroll-el">
-      <div class="section-label" id="c-label">زیرساخت</div>
-      <h2 class="section-h" id="c-title">یک ذهن — همه جا</h2>
-      <p class="section-sub" id="c-sub">مخاطب هر کانالی را انتخاب کند، همان ذهن است. همان حافظه. همان شخصیت.</p>
-    </div>
-    <div class="chan-grid">
-      <div class="chan-card"><div class="chan-icon">💬</div><div class="chan-name">واتس‌اپ</div><div class="chan-desc" id="ch1d">محبوب‌ترین کانال. شماره ترکیه. دسترسی جهانی.</div><div class="chan-badge live">LIVE</div></div>
-      <div class="chan-card"><div class="chan-icon">📱</div><div class="chan-name">بله</div><div class="chan-desc" id="ch2d">پیام‌رسانِ ایرانی. بدون فیلتر. اولین انتخاب.</div><div class="chan-badge live">LIVE</div></div>
-      <div class="chan-card"><div class="chan-icon">✈️</div><div class="chan-name">تلگرام</div><div class="chan-desc" id="ch3d">گسترده‌ترین بستر ایرانی. کانال اصلی تجاری.</div><div class="chan-badge live">LIVE</div></div>
-      <div class="chan-card"><div class="chan-icon">🌐</div><div class="chan-name" id="ch4n">وب‌سایت</div><div class="chan-desc" id="ch4d">همین صفحه. گفت‌وگوی streaming. بدون نصب.</div><div class="chan-badge live">LIVE</div></div>
+    <div class="hd-status">
+      <div class="hd-dot"></div>
+      <span id="hstatus">AIOS</span>
     </div>
   </div>
-</section>
 
-<!-- INDUSTRIES -->
-<section id="industries">
-  <div class="container">
-    <div class="scroll-el">
-      <div class="section-label" id="i-label">حوزه‌ها</div>
-      <h2 class="section-h" id="i-title">برای هر کسب‌وکاری</h2>
+  <div class="msgs" id="msgs"></div>
+
+  <div class="compose">
+    <div class="compose-bar">
+      <textarea id="inp" rows="1" placeholder="بنویسید..."></textarea>
+      <button class="sbtn" id="send">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
     </div>
-    <div class="ind-grid" id="ind-grid"></div>
+    <div class="powered" id="powered">vandidad.xyz</div>
   </div>
-</section>
-
-<!-- CTA -->
-<div class="cta-final">
-  <div class="section-label">شروع</div>
-  <h2 class="section-h" id="ct-title">یک جلسه‌ی ۱۰ دقیقه‌ای</h2>
-  <p class="section-sub" id="ct-sub">رایگان. بدون تعهد. فقط ببینید چطور AIOS برای کسب‌وکار شما کار می‌کند.</p>
-  <div class="cta-links">
-    <a href="https://wa.me/905521881819" class="cta-wa" target="_blank">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      <span id="ct-btn">گفت‌وگو با هادی</span>
-    </a>
-  </div>
-  <div class="cta-by" id="ct-by">طراحی و معماری: <b>م.هادی بخت‌زاده</b> | Vandidad Group</div>
 </div>
-
-<footer>
-  <div><span class="foot-name">م.هادی بخت‌زاده</span> · AIOS Architects</div>
-  <div>vandidad.xyz</div>
-</footer>
 
 <script>
-// ── NEURAL CANVAS ──
-const cvs=document.getElementById('canvas');
-const ctx=cvs.getContext('2d');
-let W,H,nodes=[];
-function resize(){W=cvs.width=window.innerWidth;H=cvs.height=window.innerHeight;}
-resize();window.addEventListener('resize',resize);
-function makeNodes(){
-  nodes=[];
-  const n=Math.min(50,Math.floor(W*H/20000));
-  for(let i=0;i<n;i++)nodes.push({
-    x:Math.random()*W,y:Math.random()*H,
-    vx:(Math.random()-0.5)*0.35,vy:(Math.random()-0.5)*0.35,
-    r:Math.random()*2+1,opacity:Math.random()*0.6+0.2,
-    pulse:Math.random()*Math.PI*2
-  });
-}
-makeNodes();
-function draw(){
-  ctx.clearRect(0,0,W,H);
-  const DIST=130;
-  nodes.forEach(n=>{
-    n.x+=n.vx;n.y+=n.vy;n.pulse+=0.02;
-    if(n.x<0||n.x>W)n.vx*=-1;
-    if(n.y<0||n.y>H)n.vy*=-1;
-    const pulse=0.6+Math.sin(n.pulse)*0.4;
-    ctx.beginPath();
-    ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
-    ctx.fillStyle=`rgba(79,255,176,${n.opacity*pulse})`;
-    ctx.fill();
-  });
-  for(let i=0;i<nodes.length;i++){
-    for(let j=i+1;j<nodes.length;j++){
-      const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y;
-      const d=Math.sqrt(dx*dx+dy*dy);
-      if(d<DIST){
-        const alpha=(1-d/DIST)*0.25;
-        ctx.beginPath();
-        ctx.moveTo(nodes[i].x,nodes[i].y);
-        ctx.lineTo(nodes[j].x,nodes[j].y);
-        ctx.strokeStyle=`rgba(79,255,176,${alpha})`;
-        ctx.lineWidth=0.5;ctx.stroke();
-      }
-    }
-  }
-  requestAnimationFrame(draw);
-}
-draw();
+const OPEN={
+  fa:'کسب‌وکار شما در چه حوزه‌ای است؟',
+  en:'What business are you in?',
+  ar:'ما مجال عملك؟',
+  tr:'İşletmeniz hangi sektörde?'
+};
+const PH={fa:'بنویسید...',en:'Write...',ar:'اكتب...',tr:'Yazın...'};
+const SYS={
+  fa:`تو نسخه دیجیتال م.هادی بخت‌زاده هستی. معمار سیستم‌های هوش مصنوعی. مؤسس وندیداد گروپ. ۲۰ سال تجربه در فرهنگ، اقتصاد، تکنولوژی.
 
-// ── i18n ──
-const T={
-  fa:{dir:'rtl',cls:'fa',
-    'nav-name':'م.هادی بخت‌زاده','nav-live':'AIOS فعال',
-    'h-label':'معماران AIOS','h-title':'کسب‌وکار شما<br>یک <span class="accent">ذهن</span> می‌خواهد',
-    'h-sub':'نه چت‌بات. نه نرم‌افزار آماده. یک سیستم‌عامل هوش مصنوعی که با برند شما می‌اندیشد، یاد می‌گیرد و عمل می‌کند.',
-    'h-cta1':'همین الان تجربه کنید','h-cta2':'چطور کار می‌کند',
-    's1':'صنف و حوزه','s2':'فعال و پاسخگو','s3':'کانال ارتباطی',
-    'p-label':'مشکل آشنا','p-title':'می‌دانیم چه درد دارید','p-sub':'این را هر مدیری می‌گوید. راه‌حل یکی نیست — یک ذهن است.',
-    'pw1':'فروش و پشتیبانی','pt1':'پیام‌ها بی‌پاسخ می‌مانند','pb1':'ساعت یازده شب مشتری می‌پرسد. نیرو نیست. فردا دیگر نیست.','pf1':'AIOS ۲۴ ساعت پاسخ می‌دهد — با لحن برند شما',
-    'pw2':'مدیر مالی','pt2':'بدون داده تصمیم می‌گیرید','pb2':'گزارش روز آخر ماه آماده می‌شود. فرصت‌ها قبلاً از دست رفته.','pf2':'AIOS لحظه به لحظه تحلیل می‌کند',
-    'pw3':'مقیاس و رشد','pt3':'برای رشد، نیرو استخدام می‌کنید','pb3':'هر ۲۰٪ رشد یعنی یک نفر بیشتر. هزینه خطی است.','pf3':'AIOS بدون استخدام مقیاس می‌شود',
-    'd-label':'تجربه‌ی زنده','d-title':'همین الان صحبت کنید','d-sub':'حوزه‌ی کسب‌وکار خود را بگویید.',
-    'db-brand':'نسخه دیجیتال م.هادی بخت‌زاده','db-status':'در حال اجرا',
-    'c-label':'زیرساخت','c-title':'یک ذهن — همه جا','c-sub':'مخاطب هر کانالی را انتخاب کند، همان ذهن است.',
-    'ch1d':'محبوب‌ترین کانال. شماره ترکیه.','ch2d':'پیام‌رسانِ ایرانی. بدون فیلتر.','ch3d':'گسترده‌ترین بستر تجاری.','ch4n':'وب‌سایت','ch4d':'همین صفحه. گفت‌وگوی زنده.',
-    'i-label':'حوزه‌ها','i-title':'برای هر کسب‌وکاری',
-    'ct-title':'یک جلسه‌ی ۱۰ دقیقه‌ای','ct-sub':'رایگان. بدون تعهد. فقط ببینید چطور AIOS برای شما کار می‌کند.','ct-btn':'گفت‌وگو با هادی','ct-by':'طراحی و معماری: م.هادی بخت‌زاده | Vandidad Group',
-    industries:['🏥 کلینیک و پزشکی','⚖️ حقوق','🏪 فروشگاه','🏗️ ساختمان','📐 معماری','💰 مالی','🎓 آموزش','🏨 هتل','🍽️ رستوران','🚗 خودرو','💊 داروخانه','🏭 صنعت'],
-    welcome:`کسب‌وکار شما در چه حوزه‌ای است؟\n\nبا یک جمله بگویید — ادامه‌اش با من.`,
-    sys:`تو نسخه دیجیتال م.هادی بخت‌زاده هستی. معمار سیستم‌های خودمختار AIOS. قاطع، آرام، گزیده‌گو. خطاب «شما». بدون ایموجی. وقتی مخاطب حوزه‌اش را گفت: ۱) درد اصلی آن صنف را بگو ۲) بگو AIOS چطور آن را حل می‌کند ۳) تفاوت با نرم‌افزار معمولی را توضیح بده ۴) به جلسه با هادی دعوت کن. پاسخ فارسی، کوتاه، بی‌واسطه.`,
-    placeholder:'کسب‌وکار خود را توضیح دهید...'
-  },
-  en:{dir:'ltr',cls:'en',
-    'nav-name':'M.Hadi Bakhtzadeh','nav-live':'AIOS ACTIVE',
-    'h-label':'AIOS Architects','h-title':'Your Business<br>Needs a <span class="accent">Mind</span>',
-    'h-sub':'Not a chatbot. Not off-the-shelf software. An AI operating system that thinks, learns, and acts with your brand.',
-    'h-cta1':'Experience It Now','h-cta2':'How It Works',
-    's1':'Industries','s2':'Always On','s3':'Channels',
-    'p-label':'Familiar Pain','p-title':'We Know Your Problems',
-    'p-sub':'Every manager says this. The solution is not a tool — it\'s a mind.',
-    'pw1':'Sales & Support','pt1':'Messages Go Unanswered','pb1':'A customer asks at 11pm. No staff. Tomorrow, they\'re gone.','pf1':'AIOS responds 24/7 — in your brand\'s voice',
-    'pw2':'Management','pt2':'Deciding Without Data','pb2':'Month-end reports come late. Opportunities already lost.','pf2':'AIOS analyzes in real-time and alerts you',
-    'pw3':'Scale & Growth','pt3':'Growth Requires More Hiring','pb3':'Every 20% growth means another salary. Costs are linear. Revenue isn\'t.','pf3':'AIOS scales without headcount',
-    'd-label':'Live Experience','d-title':'Talk to the Mind','d-sub':'Tell it your business. It takes it from there.',
-    'db-brand':'Digital Twin — M.Hadi Bakhtzadeh','db-status':'Running',
-    'c-label':'Infrastructure','c-title':'One Mind — Everywhere','c-sub':'Whichever channel your client chooses, same mind. Same memory. Same voice.',
-    'ch1d':'Most popular channel. Turkish number. Global reach.','ch2d':'Iranian messenger. No filtering.','ch3d':'Widest business platform.','ch4n':'Website','ch4d':'This page. Live streaming chat.',
-    'i-label':'Industries','i-title':'For Every Business',
-    'ct-title':'A 10-Minute Session','ct-sub':'Free. No commitment. Just see how AIOS works for your business.','ct-btn':'Talk to Hadi','ct-by':'Designed by M.Hadi Bakhtzadeh | Vandidad Group',
-    industries:['🏥 Clinics','⚖️ Legal','🏪 Retail','🏗️ Construction','📐 Architecture','💰 Finance','🎓 Education','🏨 Hotels','🍽️ Restaurant','🚗 Auto','💊 Pharmacy','🏭 Industry'],
-    welcome:`What industry is your business in?\n\nOne sentence is enough — I'll take it from there.`,
-    sys:`You are the digital twin of M.Hadi Bakhtzadeh. Autonomous Systems Architect. Calm, authoritative, concise. Address as "you". No emojis. When user states their industry: 1) name the main pain 2) show how AIOS solves it 3) differentiate from regular software 4) invite to a session with Hadi. Short, direct, in English.`,
-    placeholder:'Describe your business...'
-  },
-  ar:{dir:'rtl',cls:'ar',
-    'nav-name':'م. هادي بخت‌زاده','nav-live':'نظام AIOS نشط',
-    'h-label':'معماريو AIOS','h-title':'عملك يحتاج<br>إلى <span class="accent">عقل</span>',
-    'h-sub':'ليس روبوت محادثة. ليس برنامجاً جاهزاً. نظام تشغيل ذكاء اصطناعي يفكر ويتعلم ويتصرف بأسلوب علامتك التجارية.',
-    'h-cta1':'جرّب الآن','h-cta2':'كيف يعمل',
-    's1':'مجالات','s2':'متاح دائماً','s3':'قنوات',
-    'p-label':'مشاكل مألوفة','p-title':'نعرف مشاكلك',
-    'p-sub':'كل مدير يقول هذا. الحل ليس أداة — بل عقل.',
-    'pw1':'المبيعات والدعم','pt1':'الرسائل تبقى بلا رد','pb1':'عميل يسأل الساعة ١١ ليلاً. لا موظف. غداً لن يعود.','pf1':'AIOS يرد ٢٤ ساعة بأسلوب علامتك',
-    'pw2':'الإدارة','pt2':'قرارات بدون بيانات','pb2':'التقرير يأتي في آخر الشهر. الفرص ضاعت.','pf2':'AIOS يحلل فورياً ويرسل تنبيهات',
-    'pw3':'النمو','pt3':'النمو يعني توظيف أكثر','pb3':'كل ٢٠٪ نمو = راتب إضافي. التكاليف خطية.','pf3':'AIOS يتوسع دون توظيف',
-    'd-label':'تجربة حية','d-title':'تحدث الآن','d-sub':'أخبره بمجال عملك. سيتولى الباقي.',
-    'db-brand':'النسخة الرقمية — م. هادي بخت‌زاده','db-status':'يعمل',
-    'c-label':'البنية التحتية','c-title':'عقل واحد — في كل مكان','c-sub':'أياً كانت القناة، نفس العقل. نفس الذاكرة.',
-    'ch1d':'القناة الأكثر شعبية.','ch2d':'تطبيق إيراني بدون حجب.','ch3d':'أوسع منصة تجارية.','ch4n':'الموقع','ch4d':'هذه الصفحة. دردشة مباشرة.',
-    'i-label':'المجالات','i-title':'لكل عمل تجاري',
-    'ct-title':'جلسة ١٠ دقائق','ct-sub':'مجاناً. بدون التزام. فقط اكتشف كيف يعمل AIOS لعملك.','ct-btn':'تحدث مع هادي','ct-by':'تصميم م. هادي بخت‌زاده | Vandidad Group',
-    industries:['🏥 عيادات','⚖️ قانون','🏪 متاجر','🏗️ إنشاء','📐 معمارية','💰 مالية','🎓 تعليم','🏨 فنادق','🍽️ مطاعم','🚗 سيارات','💊 صيدلية','🏭 صناعة'],
-    welcome:`ما مجال عملك؟\n\nجملة واحدة تكفي.`,
-    sys:`أنت النسخة الرقمية لم. هادي بخت‌زاده. مهندس أنظمة ذكية. هادئ، موثوق، موجز. بدون رموز. عندما يذكر المستخدم مجاله: ١) اذكر الألم الرئيسي ٢) كيف يحله AIOS ٣) الفرق عن البرامج العادية ٤) ادعه لجلسة مع هادي. رد بالعربية.`,
-    placeholder:'صف عملك التجاري...'
-  },
-  tr:{dir:'ltr',cls:'tr',
-    'nav-name':'M.Hadi Bakhtzadeh','nav-live':'AIOS AKTİF',
-    'h-label':'AIOS Mimarları','h-title':'İşletmenizin<br>Bir <span class="accent">Zihne</span> İhtiyacı Var',
-    'h-sub':'Chatbot değil. Hazır yazılım değil. Markanızla düşünen, öğrenen ve hareket eden bir yapay zeka işletim sistemi.',
-    'h-cta1':'Hemen Deneyin','h-cta2':'Nasıl Çalışır',
-    's1':'Sektörler','s2':'7/24 Aktif','s3':'Kanal',
-    'p-label':'Tanıdık Sorun','p-title':'Sorunlarınızı Biliyoruz',
-    'p-sub':'Her yönetici bunu söyler. Çözüm bir araç değil — bir zihindir.',
-    'pw1':'Satış ve Destek','pt1':'Mesajlar Yanıtsız Kalıyor','pb1':'Saat 23\'te müşteri soruyor. Personel yok. Yarın gitmez.','pf1':'AIOS 7/24 markanızın sesiyle yanıtlıyor',
-    'pw2':'Yönetim','pt2':'Verisiz Karar Veriyorsunuz','pb2':'Rapor ay sonunda geliyor. Fırsatlar çoktan kaçtı.','pf2':'AIOS anlık analiz ediyor',
-    'pw3':'Büyüme','pt3':'Büyümek Ek İşe Alım Gerektiriyor','pb3':'Her %20 büyüme yeni bir maaş demek.','pf3':'AIOS personel olmadan ölçekleniyor',
-    'd-label':'Canlı Deneyim','d-title':'Şimdi Konuşun','d-sub':'İşinizi anlatın. Gerisini zihin halleder.',
-    'db-brand':'M.Hadi Bakhtzadeh — Dijital İkiz','db-status':'Çalışıyor',
-    'c-label':'Altyapı','c-title':'Tek Zihin — Her Yerde','c-sub':'Müşteri hangi kanalı seçerse seçsin, aynı zihin.',
-    'ch1d':'En popüler kanal. Türk numarası.','ch2d':'İranlı messenger. Filtresiz.','ch3d':'En geniş iş platformu.','ch4n':'Web Sitesi','ch4d':'Bu sayfa. Canlı sohbet.',
-    'i-label':'Sektörler','i-title':'Her İşletme İçin',
-    'ct-title':'10 Dakikalık Görüşme','ct-sub':'Ücretsiz. Bağlayıcı değil. AIOS\'u görün.','ct-btn':'Hadi ile Konuş','ct-by':'Tasarım: M.Hadi Bakhtzadeh | Vandidad Group',
-    industries:['🏥 Klinik','⚖️ Hukuk','🏪 Perakende','🏗️ İnşaat','📐 Mimari','💰 Finans','🎓 Eğitim','🏨 Otel','🍽️ Restoran','🚗 Otomotiv','💊 Eczane','🏭 Sanayi'],
-    welcome:`İşletmeniz hangi sektörde?\n\nBir cümle yeterli.`,
-    sys:`Sen M.Hadi Bakhtzadeh'in dijital ikizinsin. Otonom Sistemler Mimarı. Sakin, otoriter, öz. Emojisiz. Kullanıcı sektörünü söylediğinde: 1) ana acıyı söyle 2) AIOS nasıl çözer 3) normal yazılımdan farkı 4) Hadi ile görüşmeye davet et. Türkçe cevap ver.`,
-    placeholder:'İşletmenizi anlatın...'
-  }
+شخصیت: قاطع، آرام، گزیده‌گو. اقتدار بی‌صدا. جملات کوتاه با وزن. خطاب «شما». بدون ایموجی. بدون چاپلوسی.
+
+وقتی مخاطب کسب‌وکارش را گفت:
+۱. دردِ اصلی آن صنف را نام ببر (نه ویژگی، درد واقعی)
+۲. بگو AIOS چطور آن درد را حل می‌کند — با زبان همان صنف
+۳. یک تفاوت ملموس با نرم‌افزار معمولی نشان بده
+۴. یک سوال هدایت‌گر بپرس`,
+  en:`You are the digital twin of M.Hadi Bakhtzadeh. AI Systems Architect. Founder of Vandidad Group.
+
+Character: decisive, calm, economical. Quiet authority. Short weighted sentences. No emojis. Address as "you".
+
+When user states their business: name the exact pain (not features), explain how AIOS solves it in their industry's language, show one concrete difference from regular software, ask one guiding question.`,
+  ar:`أنت النسخة الرقمية لـ م. هادي بخت‌زاده. مهندس أنظمة الذكاء الاصطناعي. مؤسس مجموعة فانديداد. شخصية: حازم، هادئ، موجز. بدون رموز. عند ذكر العمل: حدد الألم، اشرح AIOS، أظهر فرقاً، اسأل سؤالاً.`,
+  tr:`Sen M.Hadi Bakhtzadeh'in dijital ikizinsin. Yapay Zeka Sistemleri Mimarı. Vandidad Group kurucusu. Kişilik: kararlı, sakin, öz. Emojisiz. İş söylenince: acıyı say, AIOS'u açıkla, fark göster, soru sor.`
 };
 
-// Detect language
+const msgs=document.getElementById('msgs');
+const inp=document.getElementById('inp');
+const sendBtn=document.getElementById('send');
+const think=document.createElement('div');
+think.className='think';
+think.innerHTML='<span></span><span></span><span></span>';
+
+let history=[],lang='fa',msgCount=0,ctaShown=false;
+const SID='s'+Math.random().toString(36).substr(2,9);
+
 function detectLang(){
-  const l=(navigator.language||navigator.userLanguage||'fa').toLowerCase();
-  if(l.startsWith('fa')||l.startsWith('per'))return 'fa';
+  const l=(navigator.language||'fa').toLowerCase();
   if(l.startsWith('ar'))return 'ar';
   if(l.startsWith('tr'))return 'tr';
-  return 'en';
+  if(l.startsWith('en'))return 'en';
+  return 'fa';
 }
 
-let LANG=detectLang();
-let t=T[LANG];
-
-function applyLang(){
-  t=T[LANG];
-  document.documentElement.lang=LANG;
-  document.body.className=t.cls;
-  Object.keys(t).forEach(k=>{
-    const el=document.getElementById(k);
-    if(el&&typeof t[k]==='string'){el.innerHTML=t[k];}
-  });
-  // Industries
-  const ig=document.getElementById('ind-grid');
-  ig.innerHTML='';
-  t.industries.forEach((ind,i)=>{
-    const [icon,...rest]=ind.split(' ');
-    const d=document.createElement('div');
-    d.className='ind-pill';d.style.animationDelay=(i*0.05)+'s';
-    d.innerHTML=`<div class="ind-icon">${icon}</div><div>${rest.join(' ')}</div>`;
-    ig.appendChild(d);
-  });
-  // Demo placeholder and welcome
-  document.getElementById('dinp').placeholder=t.placeholder;
-  // Reset demo
-  dmsgs.innerHTML='';history=[];
-  addAIMsg(t.welcome,false);
+function applyLang(l){
+  lang=l;document.body.className=l;
+  inp.placeholder=PH[l];
 }
 
-// Scroll animations
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
-},{threshold:0.1});
-document.querySelectorAll('.scroll-el,.pain-card,.chan-card').forEach(el=>observer.observe(el));
-// Pain cards stagger
-document.querySelectorAll('.pain-card').forEach((c,i)=>{
-  c.style.transitionDelay=(i*0.15)+'s';
-  observer.observe(c);
-});
-
-// ── DEMO CHAT ──
-const dmsgs=document.getElementById('dmsgs');
-const dthink=document.getElementById('dthink');
-const dinp=document.getElementById('dinp');
-const dsend=document.getElementById('dsend');
-let history=[];
+const scroll=()=>{msgs.scrollTop=msgs.scrollHeight;};
 
 function typeEl(el,txt,spd=10){
   return new Promise(r=>{
     let i=0;
-    const cur=document.createElement('span');cur.className='dcursor';el.appendChild(cur);
+    const c=document.createElement('span');c.className='cur';el.appendChild(c);
     const iv=setInterval(()=>{
-      if(i<txt.length){el.insertBefore(document.createTextNode(txt[i]),cur);i++;if(i%60===0)dmsgs.scrollTop=dmsgs.scrollHeight;}
-      else{clearInterval(iv);cur.remove();r();}
+      if(i<txt.length){el.insertBefore(document.createTextNode(txt[i]),c);i++;if(i%50===0)scroll();}
+      else{clearInterval(iv);c.remove();r();}
     },spd);
   });
 }
 
-function addAIMsg(txt,type=true){
-  const d=document.createElement('div');d.className='dmsg-ai';
-  const lbl=document.createElement('div');lbl.className='dlabel';lbl.textContent='م.هادی بخت‌زاده';
-  const b=document.createElement('div');b.className='dbody';
-  d.appendChild(lbl);d.appendChild(b);dmsgs.appendChild(d);
-  if(type)return typeEl(b,txt);
-  else{b.textContent=txt;return Promise.resolve();}
+function addTwin(txt,fast=false){
+  const d=document.createElement('div');d.className='m-twin';
+  const lbl=document.createElement('div');lbl.className='m-label';
+  lbl.textContent='م.هادی بخت‌زاده';
+  const t=document.createElement('div');t.className='m-text';
+  d.appendChild(lbl);d.appendChild(t);msgs.appendChild(d);
+  if(fast){t.textContent=txt;scroll();return Promise.resolve();}
+  return typeEl(t,txt,10);
 }
 
-function addUserMsg(txt){
-  const d=document.createElement('div');d.className='dmsg-user';
-  d.innerHTML=`<div class="dbubble">${txt.replace(/\n/g,'<br>')}</div>`;
-  dmsgs.appendChild(d);dmsgs.scrollTop=dmsgs.scrollHeight;
+function addUser(txt){
+  const d=document.createElement('div');d.className='m-user';
+  d.innerHTML=`<div class="m-bubble">${txt.replace(/\n/g,'<br>')}</div>`;
+  msgs.appendChild(d);scroll();
 }
 
-async function sendDemo(){
-  const txt=dinp.value.trim();if(!txt||dsend.disabled)return;
-  dinp.value='';dinp.style.height='auto';dsend.disabled=true;
-  addUserMsg(txt);history.push({role:'user',content:txt});
-  dthink.classList.add('on');dmsgs.appendChild(dthink);dmsgs.scrollTop=dmsgs.scrollHeight;
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:t.sys,messages:history})
-    });
-    const data=await res.json();
-    const reply=data.content?.[0]?.text||'—';
-    history.push({role:'assistant',content:reply});
-    dthink.classList.remove('on');
-    await addAIMsg(reply);
-  }catch(e){
-    dthink.classList.remove('on');
-    await addAIMsg('— خطا در اتصال.');
+function showCTA(){
+  if(ctaShown)return;ctaShown=true;
+  const d=document.createElement('div');d.className='cta show';
+  const ctaTexts={fa:'برای گفت‌وگوی مستقیم:',en:'Direct conversation:',ar:'للمحادثة المباشرة:',tr:'Doğrudan görüşme:'};
+  const btnTexts={fa:'واتس‌اپ',en:'WhatsApp',ar:'واتساب',tr:'WhatsApp'};
+  d.innerHTML=`<div class="cta-text">${ctaTexts[lang]||ctaTexts.fa}</div>
+  <a class="cta-wa" href="https://wa.me/905521881819" target="_blank">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    ${btnTexts[lang]||btnTexts.fa}
+  </a>`;
+  msgs.appendChild(d);scroll();
+}
+
+async function sendMsg(){
+  const txt=inp.value.trim();
+  if(!txt||sendBtn.disabled)return;
+  if(msgCount===0){
+    const l=txt.match(/[\u0600-\u06FF]/)?'fa':txt.match(/[\u0750-\u077F]/)?'ar':txt.match(/[şğüçıİĞÜÇŞ]/i)?'tr':'en';
+    applyLang(l);
   }
-  dsend.disabled=false;
+  inp.value='';inp.style.height='auto';sendBtn.disabled=true;
+  addUser(txt);history.push({role:'user',content:txt});msgCount++;
+  msgs.appendChild(think);think.classList.add('on');scroll();
+
+  try{
+    const res=await fetch(window.location.origin,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:txt,session_id:SID,language:lang})
+    });
+    think.classList.remove('on');try{msgs.removeChild(think);}catch(_){}
+
+    const d=document.createElement('div');d.className='m-twin';
+    const lbl=document.createElement('div');lbl.className='m-label';
+    lbl.textContent='م.هادی بخت‌زاده';
+    const t=document.createElement('div');t.className='m-text';
+    d.appendChild(lbl);d.appendChild(t);msgs.appendChild(d);
+
+    const cur=document.createElement('span');cur.className='cur';t.appendChild(cur);
+    let full='';
+    const reader=res.body.getReader();const dec=new TextDecoder();
+    while(true){
+      const {done,value}=await reader.read();if(done)break;
+      dec.decode(value).split('\n').forEach(line=>{
+        if(!line.startsWith('data:'))return;
+        try{const p=JSON.parse(line.slice(5).trim());
+          if(p.type==='chunk'){full+=p.text;t.insertBefore(document.createTextNode(p.text),cur);scroll();}
+        }catch(e){}
+      });
+    }
+    cur.remove();history.push({role:'assistant',content:full});
+    if(msgCount>=3)showCTA();
+  }catch(e){
+    think.classList.remove('on');try{msgs.removeChild(think);}catch(_){}
+    const d=document.createElement('div');d.className='m-twin';
+    d.innerHTML='<div class="m-label">م.هادی بخت‌زاده</div><div class="m-text" style="color:#3A3630">—</div>';
+    msgs.appendChild(d);
+  }
+  sendBtn.disabled=false;
 }
 
-dinp.addEventListener('input',()=>{dinp.style.height='auto';dinp.style.height=Math.min(dinp.scrollHeight,80)+'px';});
-dinp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendDemo();}});
-dsend.addEventListener('click',sendDemo);
+inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,100)+'px';});
+inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
+sendBtn.addEventListener('click',sendMsg);
 
 // Boot
-applyLang();
-history.push({role:'assistant',content:t.welcome});
+const l0=detectLang();applyLang(l0);
+setTimeout(()=>{
+  document.getElementById('intro').classList.add('out');
+  setTimeout(async()=>{
+    await addTwin(OPEN[l0]);
+    history.push({role:'assistant',content:OPEN[l0]});
+  },600);
+},2000);
 </script>
 </body>
 </html>
