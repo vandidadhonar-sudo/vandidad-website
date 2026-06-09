@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "echo \"Static site - no build needed\"",
+    "build": "echo \"no build needed\"",
     "lint": "eslint .",
     "preview": "vite preview"
   },
