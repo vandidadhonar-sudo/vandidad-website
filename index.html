@@ -396,11 +396,11 @@ async function runMirror(input) {
       await sleep(400);
       const dc = $("demoContent");
       dc.innerHTML = "";
-      await typeInto(dc, demo.trim(), 12);
+      await renderInto(dc, demo.trim());
     } else {
       $("demoStage").classList.add("shown");
       $("demoContent").innerHTML = "";
-      await typeInto($("demoContent"), reflection.trim(), 12);
+      await renderInto($("demoContent"), reflection.trim());
     }
     $("mCta").classList.add("shown");
   } catch(e) {
@@ -603,6 +603,18 @@ function renderArtifact(text) {
   }
   cardHtml += '</div>';
   return { before, cardHtml, after };
+}
+
+
+// Render text into an element, converting ━━━ artifacts into styled cards
+async function renderInto(el, text) {
+  const art = renderArtifact(text);
+  if (!art) { await typeInto(el, text, 12); return; }
+  if (art.before) { const b = document.createElement("div"); el.appendChild(b); await typeInto(b, art.before, 12); }
+  const card = document.createElement("div");
+  card.innerHTML = art.cardHtml;
+  el.appendChild(card);
+  if (art.after) { const a = document.createElement("div"); a.style.marginTop="12px"; el.appendChild(a); await typeInto(a, art.after, 12); }
 }
 
 // ── Report choice cards (PDF vs instant text) ──
