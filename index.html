@@ -207,6 +207,37 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
 }
+
+/* ── Back button ── */
+.back-btn{position:fixed;top:80px;right:32px;z-index:50;display:flex;align-items:center;gap:8px;
+  background:var(--surface);border:1px solid var(--line);color:var(--bone-dim);
+  font-family:inherit;font-size:13px;padding:9px 16px;border-radius:2px;cursor:pointer;
+  transition:all 0.3s;opacity:0;pointer-events:none}
+.back-btn.show{opacity:1;pointer-events:auto}
+.back-btn:hover{border-color:var(--copper);color:var(--copper)}
+@media(max-width:680px){.back-btn{top:70px;right:16px;padding:7px 12px;font-size:12px}}
+
+/* ── Prettier artifact card (━━━ blocks become styled cards) ── */
+.artifact-card{background:linear-gradient(180deg,rgba(199,123,48,0.05),rgba(199,123,48,0.01));
+  border:1px solid var(--line);border-right:2px solid var(--copper);
+  border-radius:3px;padding:20px 22px;margin:14px 0;direction:rtl}
+.artifact-row{display:flex;gap:10px;padding:6px 0;font-size:14px;line-height:1.7;
+  border-bottom:1px solid rgba(199,123,48,0.06)}
+.artifact-row:last-child{border-bottom:none}
+.artifact-key{color:var(--copper);font-weight:700;flex-shrink:0;min-width:90px}
+.artifact-val{color:var(--bone)}
+
+/* ── Report choice cards ── */
+.report-choice{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.choice-card{display:flex;align-items:center;gap:14px;background:var(--surface);
+  border:1px solid var(--line);border-radius:3px;padding:16px 18px;cursor:pointer;
+  transition:all 0.25s;direction:rtl;text-align:right}
+.choice-card:hover{border-color:var(--copper);background:rgba(199,123,48,0.05);transform:translateY(-1px)}
+.choice-icon{width:38px;height:38px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(199,123,48,0.1);border-radius:3px;color:var(--copper)}
+.choice-text{flex:1}
+.choice-title{font-size:14px;font-weight:700;color:var(--bone);margin-bottom:3px}
+.choice-sub{font-size:12px;color:var(--bone-dim)}
 </style>
 </head>
 <body>
@@ -237,7 +268,11 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;
     <div class="hdr-live"><span class="hdr-dot"></span>ذهن، زنده است</div>
   </header>
 
-  <section id="mirror">
+  <button class="back-btn" id="backBtn" onclick="goBack()">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+  <span>بازگشت</span>
+</button>
+<section id="mirror">
     <div class="mirror-label">آینه</div>
     <div class="mirror-echo" id="mEcho"></div>
     <div class="mirror-read" id="mRead"><span class="cur"></span></div>
@@ -310,6 +345,7 @@ function enter(seed) {
   $("threshold").classList.add("dismissed");
   setTimeout(() => {
     $("main").classList.add("live");
+    showBack();
     if (firstInput) runMirror(firstInput);
     else openConversation(true);
   }, 700);
@@ -400,7 +436,34 @@ function addTwin(text) {
   d.innerHTML = '<div class="b-from">هادی بخت‌زاده</div><div class="b-text"></div>';
   $("convStream").appendChild(d);
   const el = d.querySelector(".b-text");
-  typeInto(el, text);
+
+  // If the message contains an artifact (━━━), render it as a styled card
+  const art = renderArtifact(text);
+  if (art) {
+    (async () => {
+      if (art.before) { await typeInto(el, art.before); }
+      const cardDiv = document.createElement("div");
+      cardDiv.innerHTML = art.cardHtml;
+      el.appendChild(cardDiv);
+      scrollConv();
+      if (art.after) {
+        const afterEl = document.createElement("div");
+        afterEl.style.marginTop = "12px";
+        el.appendChild(afterEl);
+        await typeInto(afterEl, art.after);
+      }
+      // If report was offered, show choice cards
+      if (/گزارش|تحلیل|داسیه/.test(art.after) && /می‌توانم|آماده کنم|تهیه/.test(art.after)) {
+        showReportChoice();
+      }
+    })();
+  } else {
+    typeInto(el, text);
+    // Offer report choice when twin offers a report
+    if (/می‌توانم یک گزارش|گزارش تحلیلی اختصاصی|گزارش کامل/.test(text)) {
+      setTimeout(showReportChoice, text.length * 10 + 300);
+    }
+  }
   scrollConv();
 }
 function addYou(text) {
@@ -488,6 +551,85 @@ async function typeInto(el, text, speed) {
     el.innerHTML += text[i]==="\n" ? "<br>" : escapeHtml(text[i]);
     if (i % 2 === 0) await sleep(speed);
   }
+}
+
+// ── Back button ──
+function goBack() {
+  // From conversation or mirror → back to threshold
+  $("converse").classList.remove("active");
+  $("mirror").style.display = "";
+  $("main").classList.remove("live");
+  $("backBtn").classList.remove("show");
+  const th = $("threshold");
+  th.classList.remove("dismissed");
+  $("thInput").value = "";
+  // reset mirror
+  $("mEcho").innerHTML = "";
+  $("mRead").innerHTML = '<span class="cur"></span>';
+  $("demoStage").classList.remove("shown");
+  $("mCta").classList.remove("shown");
+  const dc = $("demoContent");
+  if (dc) dc.innerHTML = '<div class="demo-working"><span></span><span></span><span></span></div>';
+  history = [];
+  chatStarted = false;
+  setTimeout(() => $("thInput").focus(), 400);
+}
+
+// Show back button once we enter
+function showBack() { $("backBtn").classList.add("show"); }
+
+// ── Render artifact (━━━ blocks → styled cards) ──
+function renderArtifact(text) {
+  // Detect ━━━ delimited block
+  const parts = text.split(/━{3,}/);
+  if (parts.length < 3) return null; // no artifact
+  const cardContent = parts[1].trim();
+  const before = parts[0].trim();
+  const after = parts.slice(2).join("").trim();
+
+  const rows = cardContent.split("\n").filter(l => l.trim());
+  let cardHtml = '<div class="artifact-card">';
+  for (const row of rows) {
+    const ci = row.indexOf(":");
+    const ci2 = row.indexOf("：");
+    const idx = ci >= 0 ? ci : ci2;
+    if (idx > 0) {
+      const key = row.slice(0, idx).trim();
+      const val = row.slice(idx + 1).trim();
+      cardHtml += '<div class="artifact-row"><span class="artifact-key">' + escapeHtml(key) + '</span><span class="artifact-val">' + escapeHtml(val) + '</span></div>';
+    } else {
+      cardHtml += '<div class="artifact-row"><span class="artifact-val">' + escapeHtml(row.trim()) + '</span></div>';
+    }
+  }
+  cardHtml += '</div>';
+  return { before, cardHtml, after };
+}
+
+// ── Report choice cards (PDF vs instant text) ──
+function showReportChoice() {
+  const stream = $("convStream");
+  const wrap = document.createElement("div");
+  wrap.className = "report-choice";
+  wrap.innerHTML = `
+    <div class="choice-card" onclick="chooseReport('pdf')">
+      <div class="choice-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div class="choice-text"><div class="choice-title">گزارش کامل PDF</div><div class="choice-sub">سند تحلیلی اختصاصی — آماده در حدود ۲۰ ثانیه</div></div>
+    </div>
+    <div class="choice-card" onclick="chooseReport('text')">
+      <div class="choice-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/></svg></div>
+      <div class="choice-text"><div class="choice-title">خلاصه‌ی متنی — همین حالا</div><div class="choice-sub">تحلیل فشرده، بی‌درنگ در همین گفتگو</div></div>
+    </div>`;
+  stream.appendChild(wrap);
+  scrollConv();
+}
+function chooseReport(type) {
+  document.querySelectorAll(".report-choice").forEach(e => e.remove());
+  if (type === "pdf") {
+    $("convField").value = "گزارش کامل PDF را می‌خواهم";
+  } else {
+    $("convField").value = "خلاصه‌ی متنی تحلیل را همین‌جا بده";
+  }
+  sendConv();
 }
 </script>
 </body>
