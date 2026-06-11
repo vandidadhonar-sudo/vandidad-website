@@ -249,6 +249,14 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;
 .lang-opt:hover{color:var(--bone)}
 .lang-opt.active{background:var(--copper);color:#0A0E14}
 @media(max-width:680px){.lang-switch{top:16px;left:16px;padding:3px}.lang-opt{padding:5px 9px;font-size:10px}}
+
+/* ── Deep work indicator ── */
+.deep-work{display:flex;align-items:center;gap:12px;padding:6px 0}
+.dw-pulse{width:18px;height:18px;border-radius:50%;background:var(--copper);
+  animation:dwPulse 1.3s ease-in-out infinite;flex-shrink:0}
+@keyframes dwPulse{0%,100%{opacity:0.35;transform:scale(0.85)}50%{opacity:1;transform:scale(1.1)}}
+.dw-text{color:var(--bone-dim);font-size:14px;font-style:italic;animation:dwFade 0.5s}
+@keyframes dwFade{from{opacity:0}to{opacity:1}}
 </style>
 </head>
 <body>
@@ -385,7 +393,8 @@ setInterval(() => { if(!$("threshold").classList.contains("dismissed")){ thi=(th
 async function runMirror(input) {
   $("mEcho").innerHTML = "شما نوشتید: <b>" + escapeHtml(input) + "</b>";
   const readEl = $("mRead");
-  readEl.innerHTML = '<span class="cur"></span>';
+  readEl.innerHTML = '<div class="deep-work"><div class="dw-pulse"></div><div class="dw-text" id="dwText">در حال تحلیل عمیق…</div></div>';
+  startDeepWork();
 
   // Single call: ask the twin to (1) reflect understanding (2) produce a real sample artifact
   const mirrorPrompt = input + "\n\n[سیستم: اولین پیام از وب‌سایت. ابتدا در یک تا دو جمله نشان بده حوزه و دغدغه‌ی عمیق این شخص را فهمیدی — فاخر، دقیق، بدون تعریف و تمجید. سپس با علامت ||DEMO|| یک نمونه‌ی متحول‌کننده بساز. قانون مطلق: نمونه نباید یک منشی یا پاسخ‌گوی خودکار باشد (مثل پاسخ به پیام مشتری، لیست محصولات، نوبت‌دهی) — این‌ها قدیمی و کلیشه‌اند و کاربر را مأیوس می‌کنند. به جایش، کاری را نشان بده که فقط یک سیستم‌عامل هوشمند می‌تواند و هیچ انسان و هیچ ابزار ساده‌ای نمی‌تواند: کشف الگوی پنهان، پیش‌بینی رفتار پیش از وقوع، تصمیمی که پول می‌سازد، چیزی که خودِ صاحب کسب‌وکار هم ندیده. نمونه باید کوتاه باشد و کاربر را به این فکر بیندازد «این چطور ممکن است؟ این کسب‌وکارم را متحول می‌کند». هرگز نام، آدرس، قیمت یا جزئیات جعلی نساز — از «برند شما»، «مشتری شما» استفاده کن.]";
@@ -414,6 +423,8 @@ async function runMirror(input) {
     if (reply.includes("||DEMO||")) {
       [reflection, demo] = reply.split("||DEMO||");
     }
+    stopDeepWork();
+    readEl.innerHTML = "";
     await typeInto(readEl, reflection.trim());
 
     if (demo.trim()) {
@@ -503,9 +514,24 @@ function addYou(text) {
 function addWork() {
   const d = document.createElement("div");
   d.className = "bubble-twin"; d.id = "convWork";
-  d.innerHTML = '<div class="b-from">هادی بخت‌زاده</div><div class="conv-work"><span></span><span></span><span></span></div>';
+  d.innerHTML = '<div class="b-from">هادی بخت‌زاده</div><div class="deep-work"><div class="dw-pulse"></div><div class="dw-text" id="dwText">در حال تحلیل عمیق…</div></div>';
   $("convStream").appendChild(d); scrollConv();
+  startDeepWork();
 }
+let _dwTimer=null, _dwI=0;
+const _DW_MSGS_FA=["در حال تحلیل عمیق…","بررسی بازار و داده‌های واقعی…","شناسایی الگوهای پنهان…","ساختن بینش اختصاصی…"];
+const _DW_MSGS_EN=["Analyzing deeply…","Reviewing real market data…","Detecting hidden patterns…","Crafting a tailored insight…"];
+function startDeepWork(){
+  _dwI=0;
+  const msgs = (typeof LANG!=="undefined" && LANG==="en")?_DW_MSGS_EN:_DW_MSGS_FA;
+  clearInterval(_dwTimer);
+  _dwTimer=setInterval(()=>{
+    _dwI=(_dwI+1)%msgs.length;
+    const el=document.getElementById("dwText");
+    if(el) el.textContent=msgs[_dwI];
+  },2200);
+}
+function stopDeepWork(){ clearInterval(_dwTimer); _dwTimer=null; }
 function addButtons(btns) {
   if(!btns || !btns.length) return;
   const wrap = document.createElement("div");
@@ -541,7 +567,7 @@ async function sendConv() {
       body: JSON.stringify({message:text, session_id:SESSION, history:history.slice(-12)})
     });
     const data = await res.json();
-    $("convWork")?.remove();
+    stopDeepWork(); $("convWork")?.remove();
     const reply = (data.reply||"").trim();
     if (reply) { addTwin(reply); history.push({role:"assistant", content:reply}); }
     if (data.buttons && data.buttons.length) setTimeout(()=>addButtons(data.buttons), 400);
@@ -549,7 +575,7 @@ async function sendConv() {
     // reveal handoff after a few exchanges
     if (history.filter(h=>h.role==="user").length >= 3) $("handoff").classList.add("shown");
   } catch(e) {
-    $("convWork")?.remove();
+    stopDeepWork(); $("convWork")?.remove();
     addTwin("اتصال لحظه‌ای قطع شد. دوباره بفرمایید.");
   }
   busy = false; $("convSend").disabled = false; field.focus();
