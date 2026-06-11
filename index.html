@@ -238,24 +238,42 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;
 .choice-text{flex:1}
 .choice-title{font-size:14px;font-weight:700;color:var(--bone);margin-bottom:3px}
 .choice-sub{font-size:12px;color:var(--bone-dim)}
+
+/* ── Language switcher (modern, minimal) ── */
+.lang-switch{position:fixed;top:24px;left:24px;z-index:100;display:flex;gap:2px;
+  background:rgba(20,28,40,0.6);backdrop-filter:blur(10px);border:1px solid var(--line);
+  border-radius:100px;padding:4px}
+.lang-opt{border:none;background:none;color:var(--bone-dim);font-family:inherit;
+  font-size:11px;font-weight:600;letter-spacing:0.5px;padding:6px 11px;border-radius:100px;
+  cursor:pointer;transition:all 0.25s;text-transform:uppercase}
+.lang-opt:hover{color:var(--bone)}
+.lang-opt.active{background:var(--copper);color:#0A0E14}
+@media(max-width:680px){.lang-switch{top:16px;left:16px;padding:3px}.lang-opt{padding:5px 9px;font-size:10px}}
 </style>
 </head>
 <body>
 <div class="nerve"></div>
 
+<div class="lang-switch" id="langSwitch">
+  <button class="lang-opt" data-lang="fa" onclick="setLang('fa')">فا</button>
+  <button class="lang-opt" data-lang="en" onclick="setLang('en')">EN</button>
+  <button class="lang-opt" data-lang="ar" onclick="setLang('ar')">ع</button>
+  <button class="lang-opt" data-lang="tr" onclick="setLang('tr')">TR</button>
+</div>
+
 <!-- ════ THRESHOLD ════ -->
 <div id="threshold">
   <div class="th-pulse"></div>
-  <div class="th-line" id="thLine">یک ذهن، پیش از آنکه نامش را بداند، می‌پرسد:</div>
-  <h1 class="th-question">چه کار می‌کنید؟<br>یا چه چیزی ذهنتان را مشغول کرده؟</h1>
+  <div class="th-line" id="thLine" data-i18n="thLine">یک ذهن، پیش از آنکه نامش را بداند، می‌پرسد:</div>
+  <h1 class="th-question" data-i18n="thQ">چه کار می‌کنید؟<br>یا چه چیزی ذهنتان را مشغول کرده؟</h1>
   <div class="th-input-wrap">
-    <input class="th-input" id="thInput" placeholder="در یک جمله بنویسید…" autocomplete="off">
+    <input class="th-input" id="thInput" placeholder="در یک جمله بنویسید…" data-i18n-ph="thPh" autocomplete="off">
     <button class="th-go" id="thGo" aria-label="ادامه">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     </button>
   </div>
-  <div class="th-hint">هر چه هستید — مدیر، پزشک، هنرمند، دانشجو، معامله‌گر — همان را بنویسید.</div>
-  <button class="th-skip" id="thSkip">ورود مستقیم</button>
+  <div class="th-hint" data-i18n="thHint">هر چه هستید — مدیر، پزشک، هنرمند، دانشجو، معامله‌گر — همان را بنویسید.</div>
+  <button class="th-skip" id="thSkip" data-i18n="thSkip">ورود مستقیم</button>
 </div>
 
 <!-- ════ MAIN ════ -->
@@ -265,12 +283,12 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;
       <div class="brand">هادی <span>بخت‌زاده</span></div>
       <div class="brand-sub">ARCHITECT OF INTELLIGENT SYSTEMS</div>
     </div>
-    <div class="hdr-live"><span class="hdr-dot"></span>ذهن، زنده است</div>
+    <div class="hdr-live"><span class="hdr-dot"></span><span data-i18n="live">ذهن، زنده است</span></div>
   </header>
 
   <button class="back-btn" id="backBtn" onclick="goBack()">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-  <span>بازگشت</span>
+  <span data-i18n="back">بازگشت</span>
 </button>
 <section id="mirror">
     <div class="mirror-label">آینه</div>
@@ -651,6 +669,85 @@ function chooseReport(type) {
   }
   sendConv();
 }
+
+// ── i18n: UI translations + browser detection ──
+const I18N = {
+  fa: {
+    thLine: "یک ذهن، پیش از آنکه نامش را بداند، می‌پرسد:",
+    thQ: "چه کار می‌کنید؟<br>یا چه چیزی ذهنتان را مشغول کرده؟",
+    thPh: "در یک جمله بنویسید…",
+    thHint: "هر چه هستید — مدیر، پزشک، هنرمند، دانشجو، معامله‌گر — همان را بنویسید.",
+    thSkip: "ورود مستقیم", back: "بازگشت", live: "ذهن، زنده است",
+    convPh: "بنویسید…", mirrorLabel: "آینه"
+  },
+  en: {
+    thLine: "A mind, before it knows its name, asks:",
+    thQ: "What do you do?<br>Or what's on your mind?",
+    thPh: "Write it in one line…",
+    thHint: "Whoever you are — founder, doctor, artist, student, trader — just write it.",
+    thSkip: "Enter directly", back: "Back", live: "The mind is alive",
+    convPh: "Type…", mirrorLabel: "Mirror"
+  },
+  ar: {
+    thLine: "عقلٌ، قبل أن يعرف اسمه، يسأل:",
+    thQ: "بماذا تعمل؟<br>أو ما الذي يشغل بالك؟",
+    thPh: "اكتبه في جملة واحدة…",
+    thHint: "مهما كنت — مدير، طبيب، فنان، طالب، تاجر — اكتبه فقط.",
+    thSkip: "الدخول مباشرة", back: "رجوع", live: "العقل حيّ",
+    convPh: "اكتب…", mirrorLabel: "المرآة"
+  },
+  tr: {
+    thLine: "Bir zihin, adını bilmeden önce sorar:",
+    thQ: "Ne iş yapıyorsunuz?<br>Ya da aklınızda ne var?",
+    thPh: "Tek cümleyle yazın…",
+    thHint: "Kim olursanız olun — yönetici, doktor, sanatçı, öğrenci, tüccar — yazmanız yeterli.",
+    thSkip: "Doğrudan gir", back: "Geri", live: "Zihin canlı",
+    convPh: "Yazın…", mirrorLabel: "Ayna"
+  }
+};
+let LANG = "fa";
+const RTL_LANGS = ["fa", "ar"];
+
+function setLang(lang) {
+  if (!I18N[lang]) lang = "fa";
+  LANG = lang;
+  const t = I18N[lang];
+  // text content
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const k = el.getAttribute("data-i18n");
+    if (t[k]) el.innerHTML = t[k];
+  });
+  // placeholders
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => {
+    const k = el.getAttribute("data-i18n-ph");
+    if (t[k]) el.placeholder = t[k];
+  });
+  // conversation field placeholder
+  const cf = document.getElementById("convField");
+  if (cf && t.convPh) cf.placeholder = t.convPh;
+  const ml = document.querySelector(".mirror-label");
+  if (ml && t.mirrorLabel) ml.textContent = t.mirrorLabel;
+  // direction
+  const rtl = RTL_LANGS.includes(lang);
+  document.documentElement.dir = rtl ? "rtl" : "ltr";
+  document.documentElement.lang = lang;
+  // active button
+  document.querySelectorAll(".lang-opt").forEach(b => {
+    b.classList.toggle("active", b.getAttribute("data-lang") === lang);
+  });
+}
+
+function detectLang() {
+  const nav = (navigator.language || navigator.userLanguage || "fa").toLowerCase();
+  if (nav.startsWith("fa") || nav.startsWith("pe")) return "fa";
+  if (nav.startsWith("ar")) return "ar";
+  if (nav.startsWith("tr")) return "tr";
+  if (nav.startsWith("en")) return "en";
+  return "fa"; // default Persian (primary market)
+}
+
+// Initialize on load
+window.addEventListener("DOMContentLoaded", () => { setLang(detectLang()); });
 </script>
 </body>
 </html>
