@@ -240,7 +240,7 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;
 .choice-sub{font-size:12px;color:var(--bone-dim)}
 
 /* ── Language switcher (modern, minimal) ── */
-.lang-switch{position:fixed;top:24px;left:24px;z-index:100;display:flex;gap:2px;
+.lang-switch{position:fixed;top:24px;left:24px;z-index:1100;display:flex;gap:2px;
   background:rgba(20,28,40,0.6);backdrop-filter:blur(10px);border:1px solid var(--line);
   border-radius:100px;padding:4px}
 .lang-opt{border:none;background:none;color:var(--bone-dim);font-family:inherit;
@@ -388,7 +388,7 @@ async function runMirror(input) {
   readEl.innerHTML = '<span class="cur"></span>';
 
   // Single call: ask the twin to (1) reflect understanding (2) produce a real sample artifact
-  const mirrorPrompt = input + "\n\n[سیستم: این اولین پیام از وب‌سایت است. ابتدا در یک تا دو جمله نشان بده که حوزه و دغدغه‌ی این شخص را عمیقاً فهمیدی — فاخر و دقیق. سپس با علامت ||DEMO|| یک نمونه‌ی واقعی و ملموس بساز که نشان دهد یک سیستم هوش مصنوعی دقیقاً چه کاری برای همین شخص انجام می‌دهد — نه توضیح، بلکه خودِ خروجی واقعی. کوتاه، مشخص، خیره‌کننده.]";
+  const mirrorPrompt = input + "\n\n[سیستم: اولین پیام از وب‌سایت. ابتدا در یک تا دو جمله نشان بده حوزه و دغدغه‌ی عمیق این شخص را فهمیدی — فاخر، دقیق، بدون تعریف و تمجید. سپس با علامت ||DEMO|| یک نمونه‌ی متحول‌کننده بساز. قانون مطلق: نمونه نباید یک منشی یا پاسخ‌گوی خودکار باشد (مثل پاسخ به پیام مشتری، لیست محصولات، نوبت‌دهی) — این‌ها قدیمی و کلیشه‌اند و کاربر را مأیوس می‌کنند. به جایش، کاری را نشان بده که فقط یک سیستم‌عامل هوشمند می‌تواند و هیچ انسان و هیچ ابزار ساده‌ای نمی‌تواند: کشف الگوی پنهان، پیش‌بینی رفتار پیش از وقوع، تصمیمی که پول می‌سازد، چیزی که خودِ صاحب کسب‌وکار هم ندیده. نمونه باید کوتاه باشد و کاربر را به این فکر بیندازد «این چطور ممکن است؟ این کسب‌وکارم را متحول می‌کند». هرگز نام، آدرس، قیمت یا جزئیات جعلی نساز — از «برند شما»، «مشتری شما» استفاده کن.]";
 
   history = [{role:"user", content: input}];
 
