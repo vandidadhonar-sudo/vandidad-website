@@ -257,6 +257,31 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;
 @keyframes dwPulse{0%,100%{opacity:0.35;transform:scale(0.85)}50%{opacity:1;transform:scale(1.1)}}
 .dw-text{color:var(--bone-dim);font-size:14px;font-style:italic;animation:dwFade 0.5s}
 @keyframes dwFade{from{opacity:0}to{opacity:1}}
+
+/* ── AIOS visual cards (live in chat) ── */
+.aios-card{margin:14px 0;padding:26px 24px 18px;border-radius:18px;background:linear-gradient(180deg,#111C2E,#0A1220);border:1px solid #C77B30;box-shadow:0 14px 44px rgba(0,0,0,.5);opacity:0;transform:translateY(14px);animation:acIn .7s cubic-bezier(.2,.8,.2,1) forwards;direction:rtl}
+@keyframes acIn{to{opacity:1;transform:none}}
+.ac-label{font-size:12px;letter-spacing:.14em;color:#C77B30;text-align:center;margin-bottom:8px}
+.ac-title{font-size:21px;font-weight:800;color:#F0EBE2;text-align:center;margin-bottom:16px}
+.ac-title:after{content:"";display:block;width:54px;height:3px;background:#C77B30;margin:12px auto 0;border-radius:2px}
+.ac-amount-box{background:#0E1726;border:1px solid #C77B30;border-radius:14px;padding:18px 14px;text-align:center;margin-bottom:16px}
+.ac-period{font-size:13px;color:#96A0AC;margin-bottom:8px}
+.ac-amount{font-size:30px;font-weight:900;color:#D69A66;letter-spacing:.01em;transition:text-shadow .4s}
+.ac-amount.settled{text-shadow:0 0 22px rgba(214,154,102,.45)}
+.ac-items{list-style:none;margin:0;padding:0}
+.ac-items li{position:relative;padding:7px 22px 7px 0;font-size:14.5px;color:#E7E1D6;line-height:1.7}
+.ac-items li:before{content:"";position:absolute;right:0;top:16px;width:9px;height:9px;border-radius:50%;background:#C77B30}
+.ac-brand{margin-top:14px;padding-top:12px;border-top:1px solid #263449;text-align:center;font-size:12px;color:#96A0AC}
+.ac-brand b{color:#D69A66}
+.ac-layer{background:#0E1726;border:1px solid #263449;border-radius:14px;padding:14px 16px;margin-bottom:12px;opacity:0;transform:translateY(10px);animation:acIn .6s forwards}
+.ac-layer:first-of-type{border-color:#C77B30}
+.ac-layer .ln{font-size:11px;letter-spacing:.12em;color:#C77B30;margin-bottom:4px}
+.ac-layer .lt{font-size:16px;font-weight:800;color:#F0EBE2;margin-bottom:4px}
+.ac-layer .ld{font-size:13.5px;color:#96A0AC;line-height:1.7}
+.ac-step{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;opacity:0;transform:translateY(10px);animation:acIn .6s forwards}
+.ac-step .sn{flex:0 0 38px;height:38px;border:2px solid #C77B30;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#D69A66;font-weight:800;font-size:17px}
+.ac-step .st{font-size:14.5px;color:#E7E1D6;line-height:1.7;padding-top:7px}
+.ac-cta{margin-top:6px;background:#1E1812;border:2px solid #C77B30;border-radius:14px;padding:14px;text-align:center;font-size:15px;font-weight:800;color:#D69A66}
 </style>
 </head>
 <body>
@@ -551,6 +576,45 @@ function addPdf(url) {
   $("convStream").appendChild(a); scrollConv();
 }
 
+
+// ── AIOS visual cards renderer ──
+function addCards(cards){
+  (cards||[]).slice(0,1).forEach(c=>{ const el=renderCardEl(c); if(el){ $("convStream").appendChild(el); scrollConv(); } });
+}
+function renderCardEl(card){
+  const t=(card.type||"").toLowerCase(), d=card.data||{};
+  const wrap=document.createElement("div"); wrap.className="aios-card";
+  const brand='<div class="ac-brand"><b>هادی بخت‌زاده</b> · AIOS · vandidad.xyz</div>';
+  if(t==="loss"){
+    wrap.innerHTML='<div class="ac-label">تحلیل اختصاصی</div>'
+      +'<div class="ac-title">'+escapeHtml(d.title||"")+'</div>'
+      +'<div class="ac-amount-box"><div class="ac-period">'+escapeHtml(d.period||"")+'</div>'
+      +'<div class="ac-amount">۰</div></div>'
+      +'<ul class="ac-items">'+(d.items||[]).slice(0,4).map(i=>'<li>'+escapeHtml(i)+'</li>').join("")+'</ul>'+brand;
+    const amtEl=wrap.querySelector(".ac-amount");
+    setTimeout(()=>animateAmount(amtEl, String(d.amount||"")), 350);
+  } else if(t==="architecture"){
+    wrap.innerHTML='<div class="ac-label">معماری پیشنهادی</div>'
+      +'<div class="ac-title">'+escapeHtml(d.title||"")+'</div>'
+      +(d.layers||[]).slice(0,3).map((l,i)=>'<div class="ac-layer" style="animation-delay:'+(0.25+i*0.3)+'s"><div class="ln">لایه '+["۱","۲","۳"][i]+'</div><div class="lt">'+escapeHtml(l.title||"")+'</div><div class="ld">'+escapeHtml(l.desc||"")+'</div></div>').join("")+brand;
+  } else if(t==="roadmap"){
+    wrap.innerHTML='<div class="ac-label">نقشه‌راه شما</div>'
+      +'<div class="ac-title">'+escapeHtml(d.title||"")+'</div>'
+      +(d.steps||[]).slice(0,4).map((s,i)=>'<div class="ac-step" style="animation-delay:'+(0.25+i*0.25)+'s"><div class="sn">'+["۱","۲","۳","۴"][i]+'</div><div class="st">'+escapeHtml(s)+'</div></div>').join("")
+      +(d.cta?'<div class="ac-cta">'+escapeHtml(d.cta)+'</div>':'')+brand;
+  } else return null;
+  return wrap;
+}
+function animateAmount(el, finalText){
+  if(!el) return;
+  const digits="۰۱۲۳۴۵۶۷۸۹"; let n=0;
+  const iv=setInterval(()=>{
+    n++;
+    el.textContent=finalText.replace(/[۰-۹0-9]/g,()=>digits[Math.floor(Math.random()*10)]);
+    if(n>16){ clearInterval(iv); el.textContent=finalText; el.classList.add("settled"); }
+  },55);
+}
+
 async function sendConv() {
   if (busy) return;
   const field = $("convField");
@@ -571,6 +635,7 @@ async function sendConv() {
     const reply = (data.reply||"").trim();
     if (reply) { addTwin(reply); history.push({role:"assistant", content:reply}); }
     if (data.buttons && data.buttons.length) setTimeout(()=>addButtons(data.buttons), 400);
+    if (data.cards && data.cards.length) setTimeout(()=>addCards(data.cards), 250);
     if (data.pdf_url) addPdf(data.pdf_url);
     // reveal handoff after a few exchanges
     if (history.filter(h=>h.role==="user").length >= 3) $("handoff").classList.add("shown");
