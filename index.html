@@ -332,7 +332,7 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;
 
 <script>
 const API = "https://6nvxe8fq35.execute-api.us-east-1.amazonaws.com/production/webhook/web";
-const SESSION = "web-" + Math.random().toString(36).slice(2, 11);
+let SESSION = "web-" + Math.random().toString(36).slice(2, 11);
 let history = [];
 let busy = false;
 let firstInput = "";
@@ -377,11 +377,19 @@ async function runMirror(input) {
   try {
     const res = await fetch(API, {
       method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({message: mirrorPrompt, session_id: SESSION, history: []})
+      body: JSON.stringify({message: mirrorPrompt, display_message: input, session_id: SESSION, history: []})
     });
     const data = await res.json();
     let reply = data.reply || "";
-    history.push({role:"assistant", content: reply});
+
+    // split reflection || demo
+    let _refl = reply, _demo = "";
+    if (reply.includes("||DEMO||")) { [_refl, _demo] = reply.split("||DEMO||"); }
+
+    // Record REAL conversation turns so the chat continues seamlessly:
+    // user's actual sector + the twin's reflection (not the engineered prompt)
+    history.push({role:"user", content: input});
+    history.push({role:"assistant", content: _refl.trim() + (_demo ? "\n\n" + _demo.trim() : "")});
 
     // split reflection || demo
     let reflection = reply, demo = "";
@@ -571,7 +579,7 @@ function goBack() {
   const dc = $("demoContent");
   if (dc) dc.innerHTML = '<div class="demo-working"><span></span><span></span><span></span></div>';
   history = [];
-  chatStarted = false;
+  SESSION = "web-" + Math.random().toString(36).slice(2, 11);  // fresh session
   setTimeout(() => $("thInput").focus(), 400);
 }
 
