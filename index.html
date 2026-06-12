@@ -433,6 +433,7 @@ async function runMirror(input) {
     });
     const data = await res.json();
     let reply = data.reply || "";
+    window._WEB_CID = data.contact_id || window._WEB_CID;
 
     // split reflection || demo
     let _refl = reply, _demo = "";
@@ -459,6 +460,7 @@ async function runMirror(input) {
       const dc = $("demoContent");
       dc.innerHTML = "";
       await renderInto(dc, demo.trim());
+      if (data.cards && data.cards.length) addCardsTo(dc, data.cards);
     } else {
       $("demoStage").classList.add("shown");
       $("demoContent").innerHTML = "";
@@ -578,8 +580,9 @@ function addPdf(url) {
 
 
 // ── AIOS visual cards renderer ──
-function addCards(cards){
-  (cards||[]).slice(0,1).forEach(c=>{ const el=renderCardEl(c); if(el){ $("convStream").appendChild(el); scrollConv(); } });
+function addCards(cards){ addCardsTo($("convStream"), cards); scrollConv(); }
+function addCardsTo(parent, cards){
+  (cards||[]).slice(0,1).forEach(c=>{ const el=renderCardEl(c); if(el){ parent.appendChild(el); } });
 }
 function renderCardEl(card){
   const t=(card.type||"").toLowerCase(), d=card.data||{};
@@ -597,6 +600,34 @@ function renderCardEl(card){
     wrap.innerHTML='<div class="ac-label">معماری پیشنهادی</div>'
       +'<div class="ac-title">'+escapeHtml(d.title||"")+'</div>'
       +(d.layers||[]).slice(0,3).map((l,i)=>'<div class="ac-layer" style="animation-delay:'+(0.25+i*0.3)+'s"><div class="ln">لایه '+["۱","۲","۳"][i]+'</div><div class="lt">'+escapeHtml(l.title||"")+'</div><div class="ld">'+escapeHtml(l.desc||"")+'</div></div>').join("")+brand;
+  } else if(t==="xray"){
+    const axes=(d.axes||[]).slice(0,5);
+    const n=Math.max(axes.length,3), R=88, cx=110, cy=110;
+    const pt=(i,f)=>{const a=-Math.PI/2+i*2*Math.PI/n;return (cx+R*f*Math.cos(a)).toFixed(1)+","+(cy+R*f*Math.sin(a)).toFixed(1);};
+    let rings="";[0.25,0.5,0.75,1].forEach(r=>{rings+='<polygon points="'+axes.map((_,i)=>pt(i,r)).join(" ")+'" fill="none" stroke="#263449" stroke-width="1"/>';});
+    const poly=axes.map((a,i)=>pt(i,Math.max(0.08,Math.min(1,(a.score||0)/10)))).join(" ");
+    const labels=axes.map((a,i)=>{const ang=-Math.PI/2+i*2*Math.PI/n;const lx=cx+(R+24)*Math.cos(ang),ly=cy+(R+24)*Math.sin(ang);
+      return '<text x="'+lx+'" y="'+ly+'" fill="#F0EBE2" font-size="10" text-anchor="middle">'+escapeHtml(a.name||"")+'</text>'
+           +'<text x="'+lx+'" y="'+(ly+12)+'" fill="'+(((a.score||0)<5)?"#D69A66":"#96A0AC")+'" font-size="9" text-anchor="middle">'+(a.score||0)+'/10</text>';}).join("");
+    wrap.innerHTML='<div class="ac-label">\u0627\u0645\u200c\u0622\u0631\u200c\u0622\u06cc \u06a9\u0633\u0628\u200c\u0648\u06a9\u0627\u0631 \u2014 \u06a9\u0627\u0644\u0628\u062f\u0634\u06a9\u0627\u0641\u06cc \u0648\u0646\u062f\u06cc\u062f\u0627\u062f</div>'
+      +'<div class="ac-title">'+escapeHtml(d.title||"")+'</div>'
+      +'<svg viewBox="0 0 220 220" style="width:100%;max-width:330px;display:block;margin:0 auto">'+rings
+      +axes.map((_,i)=>'<line x1="'+cx+'" y1="'+cy+'" x2="'+pt(i,1).split(",")[0]+'" y2="'+pt(i,1).split(",")[1]+'" stroke="#263449" stroke-width="1"/>').join("")
+      +'<polygon points="'+poly+'" fill="rgba(196,124,62,.38)" stroke="#D69A66" stroke-width="2" style="animation:acIn 1s"/>'+labels+'</svg>'
+      +(d.diagnosis?'<div class="ac-cta" style="margin-top:14px">'+escapeHtml(d.diagnosis)+'</div>':'')+brand;
+  } else if(t==="roi"){
+    const col=(c,hl)=>'<div style="flex:1;background:#0E1726;border:1px solid '+(hl?"#C77B30":"#263449")+';border-radius:12px;padding:12px">'
+      +'<div style="text-align:center;font-weight:800;font-size:15px;color:'+(hl?"#D69A66":"#96A0AC")+';margin-bottom:8px">'+escapeHtml((c||{}).title||"")+'</div>'
+      +((c||{}).rows||[]).slice(0,5).map(r=>'<div style="font-size:12.5px;color:'+(hl?"#E7E1D6":"#96A0AC")+';text-align:center;padding:4px 0;line-height:1.6">'+escapeHtml(r)+'</div>').join("")+'</div>';
+    wrap.innerHTML='<div class="ac-label">\u0645\u0642\u0627\u06cc\u0633\u0647 \u0648\u0627\u0642\u0639\u06cc</div>'
+      +'<div class="ac-title">'+escapeHtml(d.title||"")+'</div>'
+      +'<div style="display:flex;gap:10px;direction:rtl">'+col(d.left,true)+col(d.right,false)+'</div>'
+      +(d.verdict?'<div class="ac-cta" style="margin-top:12px">'+escapeHtml(d.verdict)+'</div>':'')+brand;
+  } else if(t==="future"){
+    wrap.innerHTML='<div class="ac-label">'+escapeHtml(d.date||"")+' \u2014 \u06af\u0632\u0627\u0631\u0634 \u0639\u0645\u0644\u06a9\u0631\u062f\u060c \u06cc\u06a9 \u0633\u0627\u0644 \u0628\u0639\u062f</div>'
+      +'<div class="ac-title">'+escapeHtml(d.title||"")+'</div>'
+      +(d.metrics||[]).slice(0,4).map((m,i)=>'<div class="ac-layer" style="animation-delay:'+(0.25+i*0.3)+'s;display:flex;justify-content:space-between;align-items:center"><div class="ld">'+escapeHtml(m.name||"")+'</div><div style="font-size:22px;font-weight:900;color:#D69A66">'+escapeHtml(m.value||"")+'</div></div>').join("")
+      +(d.note?'<div class="ac-brand" style="border:none;color:#E7E1D6;font-size:13px">'+escapeHtml(d.note)+'</div>':'')+brand;
   } else if(t==="roadmap"){
     wrap.innerHTML='<div class="ac-label">نقشه‌راه شما</div>'
       +'<div class="ac-title">'+escapeHtml(d.title||"")+'</div>'
@@ -632,6 +663,7 @@ async function sendConv() {
     });
     const data = await res.json();
     stopDeepWork(); $("convWork")?.remove();
+    window._WEB_CID = data.contact_id || window._WEB_CID;
     const reply = (data.reply||"").trim();
     if (reply) { addTwin(reply); history.push({role:"assistant", content:reply}); }
     if (data.buttons && data.buttons.length) setTimeout(()=>addButtons(data.buttons), 400);
@@ -656,18 +688,48 @@ $("handoffGo").onclick = () => {
   const summary = encodeURIComponent("درود. گفتگوی ما در سایت را ادامه می‌دهم.");
   window.open("https://wa.me/905521881819?text=" + summary, "_blank");
 };
+// ── Seamless continuity: same mind, same memory, on their messenger ──
+(function(){
+  const ho = $("handoff");
+  if (!ho || ho.querySelector(".ho-links")) return;
+  const links = document.createElement("div");
+  links.className = "ho-links";
+  links.style.cssText = "display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap";
+  const mk = (label, href) => {
+    const a = document.createElement("a");
+    a.textContent = label; a.target = "_blank";
+    a.style.cssText = "padding:9px 18px;border:1px solid #C77B30;border-radius:24px;color:#D69A66;font-size:13px;text-decoration:none";
+    a.onclick = (e) => { e.preventDefault(); window.open(href(), "_blank"); };
+    return a;
+  };
+  links.appendChild(mk("\u0627\u062f\u0627\u0645\u0647 \u062f\u0631 \u062a\u0644\u06af\u0631\u0627\u0645", () => "https://t.me/aios_architects_bot?start=w_" + (window._WEB_CID||"")));
+  links.appendChild(mk("\u0627\u062f\u0627\u0645\u0647 \u062f\u0631 \u0628\u0644\u0647", () => "https://ble.ir/aios_bot?start=w_" + (window._WEB_CID||"")));
+  ho.appendChild(links);
+})();
 
 // ── helpers ──
 function escapeHtml(s){ return s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
 function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
 function scrollConv(){ const c=$("convStream"); window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"}); }
+function mdLite(text){
+  // Minimal safe markdown: bold, hr lines, bullets, line breaks
+  let s = escapeHtml(text);
+  s = s.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+  s = s.replace(/^[\u2500\u2501\u2014-]{4,}$/gm, '<hr style="border:none;border-top:1px solid #263449;margin:10px 0">');
+  s = s.replace(/^[\u2022\u00b7]\s?/gm, '<span style="color:#C77B30">\u25cf</span> ');
+  s = s.replace(/\n/g, "<br>");
+  return s;
+}
 async function typeInto(el, text, speed) {
   speed = speed || 18;
+  // Type plain (markers stripped), then settle into formatted HTML
+  const plain = text.replace(/\*\*/g, "");
   el.innerHTML = "";
-  for (let i=0;i<text.length;i++){
-    el.innerHTML += text[i]==="\n" ? "<br>" : escapeHtml(text[i]);
+  for (let i=0;i<plain.length;i++){
+    el.innerHTML += plain[i]==="\n" ? "<br>" : escapeHtml(plain[i]);
     if (i % 2 === 0) await sleep(speed);
   }
+  el.innerHTML = mdLite(text);
 }
 
 // ── Back button ──
