@@ -462,7 +462,7 @@ async function runMirror(input) {
     // Record REAL conversation turns so the chat continues seamlessly:
     // user's actual sector + the twin's reflection (not the engineered prompt)
     history.push({role:"user", content: input});
-    history.push({role:"assistant", content: _refl.trim() + (_demo ? "\n\n" + _demo.trim() : "")});
+    history.push({role:"assistant", content: stripMarkers(_refl) + (_demo ? "\n\n" + stripMarkers(_demo) : "")});
 
     // split reflection || demo
     let reflection = reply, demo = "";
@@ -515,6 +515,10 @@ function openConversation(fresh) {
   $("mirror").style.display = "none";
   $("converse").classList.add("active");
   const stream = $("convStream");
+  // Idempotent: if the conversation already has content, never re-greet
+  if (stream.children.length > 0) { setTimeout(()=>$("convField").focus(), 300); return; }
+  // If a mirror exchange already happened, always carry it over — never restart
+  if (history.length > 0) fresh = false;
   if (fresh) {
     addTwin("درود.\n\nنام و حوزه فعالیت‌تان را بفرمایید تا نقشه‌ی تحول کسب‌وکارتان با هوش مصنوعی را ترسیم کنیم.");
   } else {
@@ -745,6 +749,15 @@ $("handoffGo").onclick = () => {
 function escapeHtml(s){ return s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
 function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
 function scrollConv(){ const c=$("convStream"); window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"}); }
+function stripMarkers(t){
+  // Remove server-side control markers that must never reach the eye
+  return (t||"")
+    .replace(/\[BUTTONS\][\s\S]*?\[\/BUTTONS\]/g, "")
+    .replace(/\[\/?BUTTONS\]/g, "")
+    .replace(/\[CARD:\w+\][\s\S]*?\[\/CARD\]/g, "")
+    .replace(/\[GENERATE_REPORT\]|\[BOOK_CALL\]|\[BREAK\]/g, "")
+    .trim();
+}
 function mdLite(text){
   // Minimal safe markdown: bold, hr lines, bullets, line breaks
   let s = escapeHtml(text);
@@ -756,6 +769,7 @@ function mdLite(text){
 }
 async function typeInto(el, text, speed) {
   speed = speed || 18;
+  text = stripMarkers(text);
   // Type plain (markers stripped), then settle into formatted HTML
   const plain = text.replace(/\*\*/g, "");
   el.innerHTML = "";
