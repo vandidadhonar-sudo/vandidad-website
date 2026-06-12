@@ -355,6 +355,18 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
 #boardroom .br-close{position:fixed;top:18px;left:22px;font-size:26px;color:#96A0AC;background:none;border:none;cursor:pointer}
 #boardroom .br-slide-text{font-size:20px;line-height:2.1;color:#E7E1D6;padding:30px;border:1px solid rgba(199,123,48,.4);border-radius:18px;background:rgba(17,28,46,.6)}
 @media(max-width:760px){#mindTrace{display:none}#mindOrb{width:64px;height:64px}#caseBar .cb-meta{display:none}}
+
+/* ── polish v2 ── */
+#themeBtn{top:66px;left:16px}
+#convStream div, #demoContent div, .artifact-row span{unicode-bidi:plaintext}
+#caseBar{gap:16px;padding:12px 20px}
+#caseBar .cb-title{font-size:12px;letter-spacing:.12em;opacity:.85}
+#caseBar .cb-brand{letter-spacing:.02em}
+#caseBar .cb-actions button{transition:all .25s}
+#caseBar .cb-actions button:hover{background:rgba(199,123,48,.15);box-shadow:0 0 14px rgba(199,123,48,.25)}
+#mindTrace{font-size:10px;opacity:.8}
+#mindTrace div{border-right-width:1.5px}
+.cta-row .btn, #caseBar .cb-actions button{font-family:inherit}
 </style>
 </head>
 <body>
@@ -535,6 +547,7 @@ async function runMirror(input) {
     // user's actual sector + the twin's reflection (not the engineered prompt)
     history.push({role:"user", content: input});
     history.push({role:"assistant", content: stripMarkers(_refl) + (_demo ? "\n\n" + stripMarkers(_demo) : "")});
+    try{ sessionStorage.setItem("aios_state", JSON.stringify({cid: window._WEB_CID||"", hist: history.slice(-6)})); }catch(e){}
 
     // split reflection || demo
     let reflection = reply, demo = "";
@@ -589,8 +602,20 @@ function openConversation(fresh) {
   const stream = $("convStream");
   // Idempotent: if the conversation already has content, never re-greet
   if (stream.children.length > 0) { setTimeout(()=>$("convField").focus(), 300); return; }
-  // If a mirror exchange already happened, always carry it over — never restart
-  if (history.length > 0) fresh = false;
+  // Restore state (page reloads / back navigation) — the mind never forgets
+  if (history.length === 0) {
+    try{
+      var _st = JSON.parse(sessionStorage.getItem("aios_state")||"null");
+      if (_st && _st.hist && _st.hist.length){ history.push.apply(history, _st.hist); window._WEB_CID = window._WEB_CID || _st.cid; }
+    }catch(e){}
+  }
+  // Any prior context (JS memory OR restored state) → carry over, never restart
+  if (history.length > 0 || window._WEB_CID) fresh = false;
+  if (!fresh && history.length === 0) {
+    addTwin("درود. پرونده‌تان نزد من محفوظ است — از همان نقطه ادامه می‌دهیم. بفرمایید.");
+    setTimeout(()=>$("convField").focus(), 400);
+    return;
+  }
   if (fresh) {
     try{ var g=document.querySelector("#convStream"); window._greetPrefix = timeGreetingFa() + ". "; }catch(e){}
 
@@ -794,6 +819,7 @@ async function sendConv() {
     const data = await res.json();
     stopDeepWork(); $("convWork")?.remove();
     window._WEB_CID = data.contact_id || window._WEB_CID;
+    try{ sessionStorage.setItem("aios_state", JSON.stringify({cid: window._WEB_CID||"", hist: history.slice(-6)})); }catch(e){}
     if (data.file) updateCaseFile(data.file);
     const reply = (data.reply||"").trim();
     if (reply && reply.length > 120) collectSlide("text", reply);
@@ -928,7 +954,8 @@ function updateCaseFile(f){
   if(pieces>_filePieces){ mindTrace("قطعه‌ی "+pieces+" از ۷ پرونده ثبت شد"); window.orbState && orbState("pulse"); }
   _filePieces=pieces;
   var ring=$("cbRingFill"); if(ring) ring.style.strokeDashoffset=String(119.4*(1-pieces/7));
-  $("cbTitle").textContent="پرونده — "+pieces+" از ۷ قطعه";
+  var faN="۰۱۲۳۴۵۶۷۸۹"[pieces]||pieces;
+  $("cbTitle").textContent="پرونده — "+faN+" از ۷ قطعه";
   $("cbMeta").textContent=dualDateStr();
   var brand=f.brand||f.name||"";
   if(brand){ $("cbBrand").textContent=brand;
