@@ -422,7 +422,7 @@ async function runMirror(input) {
   startDeepWork();
 
   // Single call: ask the twin to (1) reflect understanding (2) produce a real sample artifact
-  const mirrorPrompt = input + "\n\n[سیستم: اولین پیام از وب‌سایت. ابتدا در یک تا دو جمله نشان بده حوزه و دغدغه‌ی عمیق این شخص را فهمیدی — فاخر، دقیق، بدون تعریف و تمجید. سپس با علامت ||DEMO|| یک نمونه‌ی متحول‌کننده بساز. قانون مطلق: نمونه نباید یک منشی یا پاسخ‌گوی خودکار باشد (مثل پاسخ به پیام مشتری، لیست محصولات، نوبت‌دهی) — این‌ها قدیمی و کلیشه‌اند و کاربر را مأیوس می‌کنند. به جایش، کاری را نشان بده که فقط یک سیستم‌عامل هوشمند می‌تواند و هیچ انسان و هیچ ابزار ساده‌ای نمی‌تواند: کشف الگوی پنهان، پیش‌بینی رفتار پیش از وقوع، تصمیمی که پول می‌سازد، چیزی که خودِ صاحب کسب‌وکار هم ندیده. نمونه باید کوتاه باشد و کاربر را به این فکر بیندازد «این چطور ممکن است؟ این کسب‌وکارم را متحول می‌کند». هرگز نام، آدرس، قیمت یا جزئیات جعلی نساز — از «برند شما»، «مشتری شما» استفاده کن.]";
+  const mirrorPrompt = input + "\n\n[سیستم: اولین پیام از وب‌سایت. ابتدا در یک تا دو جمله نشان بده حوزه و دغدغه‌ی عمیق این شخص را فهمیدی — فاخر، دقیق، بدون تعریف و تمجید. سپس با علامت ||DEMO|| یک نمونه‌ی متحول‌کننده بساز. قانون مطلق: نمونه نباید یک منشی یا پاسخ‌گوی خودکار باشد (مثل پاسخ به پیام مشتری، لیست محصولات، نوبت‌دهی) — این‌ها قدیمی و کلیشه‌اند و کاربر را مأیوس می‌کنند. به جایش، کاری را نشان بده که فقط یک سیستم‌عامل هوشمند می‌تواند و هیچ انسان و هیچ ابزار ساده‌ای نمی‌تواند: کشف الگوی پنهان، پیش‌بینی رفتار پیش از وقوع، تصمیمی که پول می‌سازد، چیزی که خودِ صاحب کسب‌وکار هم ندیده. نمونه باید کوتاه باشد و کاربر را به این فکر بیندازد «این چطور ممکن است؟ این کسب‌وکارم را متحول می‌کند». قانون منطق صنف (مطلق): نمونه باید از نظر منطق آن صنف بی‌نقص باشد — نقش‌ها و اختیارات واقعی را رعایت کن (مشاور املاک مالک نیست و قیمت تعیین نمی‌کند؛ پزشک تخفیف درمان نمی‌دهد؛ وکیل نتیجه پرونده را تضمین نمی‌کند). تصمیم پیشنهادی باید در حیطه اختیار واقعی همان شغل باشد. هرگز عدد، درصد، آمار، نام محله یا جزئیات جعلی را به‌عنوان داده واقعی او ارائه نکن — نمونه را با «تصور کنید» و «منطقه X»، «پروژه Y» قاب‌بندی کن تا روشن باشد سناریوی فرضی است، اما مکانیزم کشف الگو واقعی و دقیق باشد. هرگز نام، آدرس، قیمت یا جزئیات جعلی نساز — از «برند شما»، «مشتری شما» استفاده کن.]";
 
   history = [{role:"user", content: input}];
 
@@ -758,6 +758,10 @@ function goBack() {
 function showBack() { $("backBtn").classList.add("show"); }
 
 // ── Render artifact (━━━ blocks → styled cards) ──
+function mdInline(s){
+  // Single-line markdown: bold + arrow, safe-escaped
+  return escapeHtml(s).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/\*\*/g, "");
+}
 function renderArtifact(text) {
   // Detect ━━━ delimited block
   const parts = text.split(/━{3,}/);
@@ -775,9 +779,9 @@ function renderArtifact(text) {
     if (idx > 0) {
       const key = row.slice(0, idx).trim();
       const val = row.slice(idx + 1).trim();
-      cardHtml += '<div class="artifact-row"><span class="artifact-key">' + escapeHtml(key) + '</span><span class="artifact-val">' + escapeHtml(val) + '</span></div>';
+      cardHtml += '<div class="artifact-row"><span class="artifact-key">' + mdInline(key) + '</span><span class="artifact-val">' + mdInline(val) + '</span></div>';
     } else {
-      cardHtml += '<div class="artifact-row"><span class="artifact-val">' + escapeHtml(row.trim()) + '</span></div>';
+      cardHtml += '<div class="artifact-row"><span class="artifact-val">' + mdInline(row.trim()) + '</span></div>';
     }
   }
   cardHtml += '</div>';
