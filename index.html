@@ -300,9 +300,72 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;
 }
 .aios-card, .artifact-card{max-width:100%;box-sizing:border-box}
 .aios-card svg{height:auto}
+
+/* ── Luminous dark: aurora breathing background ── */
+body{position:relative}
+#aurora{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;
+ background:radial-gradient(60% 50% at 20% 10%,rgba(199,123,48,.16),transparent 60%),
+ radial-gradient(50% 45% at 85% 85%,rgba(60,110,190,.14),transparent 60%),
+ radial-gradient(40% 40% at 70% 20%,rgba(199,123,48,.08),transparent 60%);
+ animation:auroraMove 18s ease-in-out infinite alternate}
+@keyframes auroraMove{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(-2%,1.5%,0) scale(1.06)}}
+/* ── Light theme ── */
+body.light{background:#F4EFE6;color:#1c2533}
+body.light #aurora{opacity:.5;background:radial-gradient(60% 50% at 20% 10%,rgba(199,123,48,.18),transparent 60%),radial-gradient(50% 45% at 85% 85%,rgba(30,60,120,.10),transparent 60%)}
+body.light .aios-card{background:#fff;border-color:#C77B30;box-shadow:0 10px 36px rgba(60,40,20,.12)}
+body.light .ac-title,body.light .ac-items li,body.light .ac-step .st{color:#23150a}
+body.light .ac-amount-box,body.light .ac-layer{background:#FBF6EC;border-color:#e3d2bb}
+#themeBtn{position:fixed;top:14px;left:64px;z-index:1200;width:38px;height:38px;border-radius:50%;border:1px solid #C77B30;background:rgba(15,23,38,.65);color:#D69A66;cursor:pointer;font-size:16px;backdrop-filter:blur(6px)}
+body.light #themeBtn{background:rgba(255,255,255,.7);color:#9a5d1f}
+/* ── Case file header ── */
+#caseBar{position:sticky;top:0;z-index:900;display:none;align-items:center;gap:14px;direction:rtl;
+ padding:10px 18px;margin:0 0 8px;border-bottom:1px solid rgba(199,123,48,.35);
+ background:rgba(10,16,28,.72);backdrop-filter:blur(10px)}
+body.light #caseBar{background:rgba(250,246,238,.85)}
+#caseBar .cb-ring{width:44px;height:44px;flex:0 0 44px}
+#caseBar .cb-ring svg{transform:rotate(-90deg)}
+#caseBar .cb-title{font-size:13px;color:#D69A66;letter-spacing:.06em}
+#caseBar .cb-brand{font-size:16px;font-weight:800;color:#F0EBE2}
+body.light #caseBar .cb-brand{color:#23150a}
+#caseBar .cb-meta{margin-right:auto;text-align:left;direction:ltr;font-size:11.5px;color:#96A0AC;line-height:1.6}
+#caseBar .cb-actions{display:flex;gap:8px}
+#caseBar .cb-actions button{border:1px solid #C77B30;background:transparent;color:#D69A66;border-radius:18px;padding:5px 12px;font-size:11.5px;cursor:pointer}
+/* ── Neural orb ── */
+#mindOrb{position:fixed;bottom:18px;left:18px;width:92px;height:92px;z-index:950;pointer-events:none;opacity:.9}
+/* ── Mind trace console ── */
+#mindTrace{position:fixed;bottom:18px;right:18px;z-index:940;width:230px;max-height:130px;overflow:hidden;direction:rtl;
+ font-size:10.5px;color:#8fa0b5;pointer-events:none}
+#mindTrace div{padding:2px 0;border-right:2px solid rgba(199,123,48,.5);padding-right:8px;margin-bottom:3px;
+ opacity:0;animation:traceIn .5s forwards;background:linear-gradient(270deg,transparent,rgba(10,16,28,.6))}
+@keyframes traceIn{to{opacity:1}}
+body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transparent,rgba(250,246,238,.7))}
+/* ── Cinematic wait seconds ── */
+.dw-sec{font-variant-numeric:tabular-nums;color:#C77B30;font-size:11px;margin-right:8px}
+/* ── Ceremony ── */
+#ceremony{position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;flex-direction:column;
+ background:radial-gradient(ellipse at center,rgba(12,20,34,.96),rgba(6,10,18,.99));direction:rtl}
+#ceremony .c-label{font-size:13px;letter-spacing:.3em;color:#C77B30;margin-bottom:18px}
+#ceremony .c-brand{font-size:42px;font-weight:900;color:#F0EBE2;border-bottom:3px solid #C77B30;padding-bottom:14px}
+#ceremony .c-no{margin-top:18px;font-size:13px;color:#96A0AC;letter-spacing:.12em}
+/* ── Boardroom ── */
+#boardroom{position:fixed;inset:0;z-index:1900;display:none;background:#070c16;direction:rtl;align-items:center;justify-content:center}
+#boardroom .br-stage{width:min(860px,92vw);max-height:88vh;overflow:auto}
+#boardroom .br-nav{position:fixed;bottom:26px;left:0;right:0;display:flex;gap:14px;justify-content:center}
+#boardroom .br-nav button{border:1px solid #C77B30;background:transparent;color:#D69A66;border-radius:22px;padding:8px 22px;cursor:pointer;font-size:14px}
+#boardroom .br-close{position:fixed;top:18px;left:22px;font-size:26px;color:#96A0AC;background:none;border:none;cursor:pointer}
+#boardroom .br-slide-text{font-size:20px;line-height:2.1;color:#E7E1D6;padding:30px;border:1px solid rgba(199,123,48,.4);border-radius:18px;background:rgba(17,28,46,.6)}
+@media(max-width:760px){#mindTrace{display:none}#mindOrb{width:64px;height:64px}#caseBar .cb-meta{display:none}}
 </style>
 </head>
 <body>
+<div id="aurora"></div>
+<button id="themeBtn" title="تم">◐</button>
+<canvas id="mindOrb" width="184" height="184"></canvas>
+<div id="mindTrace"></div>
+<div id="ceremony"><div class="c-label">A I O S</div><div class="c-brand" id="cerBrand"></div><div class="c-no" id="cerNo"></div></div>
+<div id="boardroom"><button class="br-close" onclick="brClose()">✕</button><div class="br-stage" id="brStage"></div>
+<div class="br-nav"><button onclick="brStep(1)">بعدی ‹</button><button onclick="brStep(-1)">› قبلی</button></div></div>
+
 <div class="nerve"></div>
 
 <div class="lang-switch" id="langSwitch">
@@ -371,6 +434,15 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;
   </section>
 
   <section id="converse">
+<div id="caseBar">
+ <div class="cb-ring"><svg viewBox="0 0 44 44" width="44" height="44">
+  <circle cx="22" cy="22" r="19" fill="none" stroke="rgba(150,160,170,.25)" stroke-width="3"/>
+  <circle id="cbRingFill" cx="22" cy="22" r="19" fill="none" stroke="#C77B30" stroke-width="3" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="119.4" style="transition:stroke-dashoffset .9s"/>
+ </svg></div>
+ <div><div class="cb-title" id="cbTitle">پرونده در حال گشایش…</div><div class="cb-brand" id="cbBrand">—</div></div>
+ <div class="cb-meta" id="cbMeta"></div>
+ <div class="cb-actions"><button onclick="openBoardroom()">حالت ارائه</button><button onclick="makePlaque()">سند پرونده</button></div>
+</div>
     <div class="conv-stream" id="convStream"></div>
     <div class="handoff" id="handoff">
       <div class="handoff-t">گفتگو را همراه خود ببرید</div>
@@ -520,7 +592,9 @@ function openConversation(fresh) {
   // If a mirror exchange already happened, always carry it over — never restart
   if (history.length > 0) fresh = false;
   if (fresh) {
-    addTwin("درود.\n\nنام و حوزه فعالیت‌تان را بفرمایید تا نقشه‌ی تحول کسب‌وکارتان با هوش مصنوعی را ترسیم کنیم.");
+    try{ var g=document.querySelector("#convStream"); window._greetPrefix = timeGreetingFa() + ". "; }catch(e){}
+
+    addTwin("درود. " + (window._greetPrefix||"") + "\n\nنام و حوزه فعالیت‌تان را بفرمایید تا نقشه‌ی تحول کسب‌وکارتان با هوش مصنوعی را ترسیم کنیم.");
   } else {
     // carry over the mirror reflection
     const last = history.filter(h=>h.role==="assistant").pop();
@@ -587,6 +661,18 @@ let _dwTimer=null, _dwI=0;
 const _DW_MSGS_FA=["در حال تحلیل عمیق…","بررسی بازار و داده‌های واقعی…","شناسایی الگوهای پنهان…","ساختن بینش اختصاصی…"];
 const _DW_MSGS_EN=["Analyzing deeply…","Reviewing real market data…","Detecting hidden patterns…","Crafting a tailored insight…"];
 function startDeepWork(){
+  window.orbState && orbState("think");
+  mindTrace("تحلیل عمیق آغاز شد");
+  window._dwSec=0;
+  window._dwTimer=setInterval(function(){
+    window._dwSec++;
+    document.querySelectorAll(".dw-text").forEach(function(el){
+      var s=el.parentNode.querySelector(".dw-sec");
+      if(!s){s=document.createElement("span");s.className="dw-sec";el.parentNode.appendChild(s);}
+      s.textContent=window._dwSec+"s";
+    });
+  },1000);
+
   _dwI=0;
   const msgs = (typeof LANG!=="undefined" && LANG==="en")?_DW_MSGS_EN:_DW_MSGS_FA;
   clearInterval(_dwTimer);
@@ -596,7 +682,11 @@ function startDeepWork(){
     if(el) el.textContent=msgs[_dwI];
   },2200);
 }
-function stopDeepWork(){ clearInterval(_dwTimer); _dwTimer=null; }
+function stopDeepWork(){
+  window.orbState && orbState("idle");
+  if(window._dwTimer){clearInterval(window._dwTimer);window._dwTimer=null;}
+  mindTrace("تحلیل کامل شد");
+ clearInterval(_dwTimer); _dwTimer=null; }
 function addButtons(btns) {
   if(!btns || !btns.length) return;
   const wrap = document.createElement("div");
@@ -620,7 +710,9 @@ function addPdf(url) {
 // ── AIOS visual cards renderer ──
 function addCards(cards){ addCardsTo($("convStream"), cards); scrollConv(); }
 function addCardsTo(parent, cards){
-  (cards||[]).slice(0,1).forEach(c=>{ const el=renderCardEl(c); if(el){ parent.appendChild(el); } });
+  (cards||[]).slice(0,1).forEach(c=>{ const el=renderCardEl(c); if(el){ parent.appendChild(el);
+    collectSlide("card", c); window.orbState && orbState("pulse");
+    mindTrace("کارت تحلیلی صادر شد"); } });
 }
 function renderCardEl(card){
   const t=(card.type||"").toLowerCase(), d=card.data||{};
@@ -702,7 +794,9 @@ async function sendConv() {
     const data = await res.json();
     stopDeepWork(); $("convWork")?.remove();
     window._WEB_CID = data.contact_id || window._WEB_CID;
+    if (data.file) updateCaseFile(data.file);
     const reply = (data.reply||"").trim();
+    if (reply && reply.length > 120) collectSlide("text", reply);
     if (reply) { addTwin(reply); history.push({role:"assistant", content:reply}); }
     if (data.buttons && data.buttons.length) setTimeout(()=>addButtons(data.buttons), 400);
     if (data.cards && data.cards.length) setTimeout(()=>addCards(data.cards), 250);
@@ -758,6 +852,141 @@ function stripMarkers(t){
     .replace(/\[GENERATE_REPORT\]|\[BOOK_CALL\]|\[BREAK\]/g, "")
     .trim();
 }
+
+/* ══════════ AIOS Experience Engine ══════════ */
+(function(){
+  // Theme
+  var tb=document.getElementById("themeBtn");
+  if(tb){ tb.onclick=function(){ document.body.classList.toggle("light"); }; }
+})();
+var _trace=[], _slides=[], _brIdx=0, _filePieces=0, _caseNo=null, _brandShown="";
+
+function mindTrace(txt){
+  var box=$("mindTrace"); if(!box) return;
+  var d=document.createElement("div");
+  var t=new Date(); 
+  d.textContent=("0"+t.getHours()).slice(-2)+":"+("0"+t.getMinutes()).slice(-2)+" — "+txt;
+  box.appendChild(d); _trace.push(txt);
+  while(box.children.length>5) box.removeChild(box.firstChild);
+}
+function timeGreetingFa(){
+  var h=new Date().getHours();
+  return h<5?"شب‌تان آرام":h<12?"صبح‌تان بخیر":h<15?"ظهرتان بخیر":h<19?"عصرتان بخیر":"شب‌تان بخیر";
+}
+function dualDateStr(){
+  try{
+    var fa=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{day:"numeric",month:"long",year:"numeric"}).format(new Date());
+    var en=new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(new Date());
+    var hm=new Date().toTimeString().slice(0,5);
+    return fa+" · "+en+" · "+hm;
+  }catch(e){return ""}
+}
+setInterval(function(){var m=$("cbMeta"); if(m && m.offsetParent!==null) m.textContent=dualDateStr();},30000);
+
+/* ── Neural orb ── */
+(function(){
+  var cv=$("mindOrb"); if(!cv) return;
+  var ctx=cv.getContext("2d"), W=184, H=184, N=26, nodes=[], state="idle", flare=0;
+  for(var i=0;i<N;i++){var a=Math.random()*6.283,r=30+Math.random()*48;
+    nodes.push({a:a,r:r,s:.002+Math.random()*.004,p:Math.random()*6.283});}
+  window.orbState=function(s){state=s; if(s==="pulse"){flare=1; setTimeout(function(){state="idle"},1400);}};
+  function tick(t){
+    ctx.clearRect(0,0,W,H);
+    var speed=state==="think"?3.2:1, glow=state==="think"?.9:.45+flare*.5;
+    flare*=.96;
+    var pts=[];
+    for(var i=0;i<N;i++){var n=nodes[i]; n.a+=n.s*speed;
+      var br=Math.sin(t*.001+n.p)*5;
+      var x=92+Math.cos(n.a)*(n.r+br), y=92+Math.sin(n.a)*(n.r+br);
+      pts.push([x,y]);}
+    ctx.strokeStyle="rgba(199,123,48,"+(0.10+glow*.12)+")"; ctx.lineWidth=.6;
+    for(var i=0;i<N;i++) for(var j=i+1;j<N;j++){
+      var dx=pts[i][0]-pts[j][0], dy=pts[i][1]-pts[j][1];
+      if(dx*dx+dy*dy<1500){ctx.beginPath();ctx.moveTo(pts[i][0],pts[i][1]);ctx.lineTo(pts[j][0],pts[j][1]);ctx.stroke();}}
+    for(var i=0;i<N;i++){
+      ctx.beginPath();ctx.arc(pts[i][0],pts[i][1],1.6+(i<_filePieces?1.4:0),0,6.283);
+      ctx.fillStyle=i<_filePieces?"rgba(214,154,102,"+(0.85+flare*.15)+")":"rgba(214,154,102,"+(0.35+glow*.3)+")";
+      ctx.fill();}
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+/* ── Case file ── */
+function updateCaseFile(f){
+  if(!f) return;
+  var bar=$("caseBar"); if(!bar) return;
+  bar.style.display="flex";
+  var pieces=0;
+  if(f.register) pieces++;
+  if(history.length>=2) pieces++;
+  if(history.length>=6) pieces++;
+  if(f.brand) pieces+=2;
+  if(f.name) pieces++;
+  if(f.phone) pieces++;
+  pieces=Math.min(7,pieces);
+  if(pieces>_filePieces){ mindTrace("قطعه‌ی "+pieces+" از ۷ پرونده ثبت شد"); window.orbState && orbState("pulse"); }
+  _filePieces=pieces;
+  var ring=$("cbRingFill"); if(ring) ring.style.strokeDashoffset=String(119.4*(1-pieces/7));
+  $("cbTitle").textContent="پرونده — "+pieces+" از ۷ قطعه";
+  $("cbMeta").textContent=dualDateStr();
+  var brand=f.brand||f.name||"";
+  if(brand){ $("cbBrand").textContent=brand;
+    if(brand!==_brandShown){ _brandShown=brand; openCeremony(brand); }
+  }
+}
+function openCeremony(brand){
+  if(!_caseNo){_caseNo=Math.floor(100+Math.random()*900);}
+  var c=$("ceremony"); if(!c) return;
+  $("cerBrand").textContent=brand;
+  $("cerNo").textContent="پرونده شماره "+new Date().getFullYear()+"/"+_caseNo+" گشوده شد";
+  c.style.display="flex"; c.style.opacity="0"; c.style.transition="opacity .6s";
+  requestAnimationFrame(function(){c.style.opacity="1"});
+  mindTrace("پرونده‌ی «"+brand+"» گشوده شد");
+  setTimeout(function(){c.style.opacity="0"; setTimeout(function(){c.style.display="none"},650);},2400);
+}
+
+/* ── Boardroom ── */
+function collectSlide(kind, payload){ _slides.push({kind:kind, payload:payload}); }
+function openBoardroom(){
+  if(!_slides.length){ mindTrace("هنوز محتوایی برای ارائه نیست"); return; }
+  _brIdx=0; $("boardroom").style.display="flex"; brRender();
+}
+function brRender(){
+  var st=$("brStage"); st.innerHTML="";
+  var s=_slides[_brIdx]; if(!s) return;
+  if(s.kind==="card"){ var el=renderCardEl(s.payload); if(el){el.style.maxWidth="640px"; el.style.margin="0 auto"; st.appendChild(el);} }
+  else { var d=document.createElement("div"); d.className="br-slide-text"; d.innerHTML=mdLite(s.payload); st.appendChild(d); }
+}
+function brStep(dir){ _brIdx=Math.max(0,Math.min(_slides.length-1,_brIdx+dir)); brRender(); }
+function brClose(){ $("boardroom").style.display="none"; }
+
+/* ── Plaque (client-side PNG) ── */
+function makePlaque(){
+  var brand=_brandShown||"برند شما";
+  var cv=document.createElement("canvas"); cv.width=1000; cv.height=600;
+  var x=cv.getContext("2d");
+  var g=x.createLinearGradient(0,0,0,600); g.addColorStop(0,"#101a2c"); g.addColorStop(1,"#0a1220");
+  x.fillStyle=g; x.fillRect(0,0,1000,600);
+  x.strokeStyle="#C77B30"; x.lineWidth=4; x.strokeRect(26,26,948,548);
+  x.strokeStyle="rgba(199,123,48,.35)"; x.lineWidth=1; x.strokeRect(40,40,920,520);
+  x.fillStyle="#C77B30"; x.font="26px Tahoma"; x.textAlign="center";
+  x.fillText("A I O S", 500, 110);
+  x.fillStyle="#F0EBE2"; x.font="bold 54px Tahoma";
+  x.fillText(brand, 500, 250);
+  x.strokeStyle="#C77B30"; x.beginPath(); x.moveTo(380,285); x.lineTo(620,285); x.lineWidth=3; x.stroke();
+  x.fillStyle="#96A0AC"; x.font="22px Tahoma";
+  x.fillText("پرونده شماره "+new Date().getFullYear()+"/"+(_caseNo||"—"), 500, 340);
+  x.fillText(dualDateStr(), 500, 385);
+  x.fillStyle="#D69A66"; x.font="bold 24px Tahoma";
+  x.fillText("تحلیل اختصاصی هادی بخت‌زاده", 500, 470);
+  x.fillStyle="#96A0AC"; x.font="18px Tahoma";
+  x.fillText("vandidad.xyz", 500, 510);
+  var a=document.createElement("a"); a.download="aios-case-"+(_caseNo||"x")+".png";
+  a.href=cv.toDataURL("image/png"); a.click();
+  mindTrace("سند پرونده صادر شد");
+}
+
 function mdLite(text){
   // Minimal safe markdown: bold, hr lines, bullets, line breaks
   let s = escapeHtml(text);
