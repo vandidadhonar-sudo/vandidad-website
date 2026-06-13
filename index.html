@@ -175,10 +175,16 @@ body.light .panel-file{background:#fff;border-color:rgba(199,123,48,.22)}
 .pf-brand{font-size:17px;font-weight:800;color:#F0EBE2;margin-top:3px;unicode-bidi:plaintext}
 body.light .pf-brand{color:#23150a}
 .pf-meta{font-size:11px;color:#7e8a98;direction:ltr;text-align:left;line-height:1.7;margin-top:10px;border-top:1px solid rgba(199,123,48,.14);padding-top:10px}
+.pf-metrics{display:flex;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(199,123,48,.12)}
+.pf-metric{flex:1;text-align:center;padding:8px 6px;border-radius:10px;background:rgba(199,123,48,.05);transition:all .4s}
+.pf-metric:hover{background:rgba(199,123,48,.10)}
+.pm-val{font-size:14px;font-weight:800;color:#E7B583;margin-bottom:3px;min-height:18px;unicode-bidi:plaintext}
+.pm-key{font-size:9.5px;letter-spacing:.12em;color:#7e8a98;text-transform:uppercase}
+body.light .pm-val{color:#9a6a30}
 .pf-actions{display:flex;flex-direction:column;gap:9px;margin-top:16px}
 .pf-actions button{border:1px solid #C77B30;background:transparent;color:#D69A66;border-radius:12px;padding:10px;font-size:12.5px;font-family:inherit;cursor:pointer;transition:all .25s}
 .pf-actions button:hover{background:rgba(199,123,48,.14);box-shadow:0 0 16px rgba(199,123,48,.22)}
-.conv-stream{display:flex;flex-direction:column;gap:24px;margin-bottom:28px}
+.conv-stream{display:flex;flex-direction:column;gap:32px;margin-bottom:32px}
 .bubble-twin .b-from{font-size:10px;color:var(--copper);letter-spacing:0.2em;
   text-transform:uppercase;margin-bottom:8px}
 .bubble-twin .b-text{font-size:16px;line-height:1.95;color:var(--bone);white-space:pre-wrap;
@@ -463,6 +469,9 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
   .conv-left{position:static;display:flex;flex-direction:column;gap:12px}
   .panel-pulse{padding:14px 16px}
   .panel-file{padding:16px}
+  .pf-metrics{gap:8px}
+  .pm-val{font-size:12px}
+  .pm-key{font-size:8.5px}
   .pf-actions{flex-direction:column;gap:10px}
   .pf-actions button{width:100%;padding:13px}
   /* cards full width, less rotation on mobile */
@@ -577,6 +586,11 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
           <div><div class="pf-title" id="cbTitle" data-i18n="fileOpening">پرونده در حال گشایش…</div><div class="pf-brand" id="cbBrand">—</div></div>
         </div>
         <div class="pf-meta" id="cbMeta"></div>
+        <div class="pf-metrics" id="pfMetrics">
+          <div class="pf-metric"><div class="pm-val" id="pmSector">—</div><div class="pm-key" data-i18n="pmSectorK">صنف</div></div>
+          <div class="pf-metric"><div class="pm-val" id="pmFocus">—</div><div class="pm-key" data-i18n="pmFocusK">تمرکز</div></div>
+          <div class="pf-metric"><div class="pm-val" id="pmStage">—</div><div class="pm-key" data-i18n="pmStageK">مرحله</div></div>
+        </div>
         <div class="pf-actions">
           <button onclick="openBoardroom()" data-i18n="actBoard">حالت ارائه (Boardroom)</button>
           <button onclick="makePlaque()" data-i18n="actPlaque">دریافت سند پرونده</button>
@@ -954,7 +968,11 @@ async function sendConv() {
     window._WEB_CID = data.contact_id || window._WEB_CID;
     try{ sessionStorage.setItem("aios_state", JSON.stringify({cid: window._WEB_CID||"", hist: history.slice(-6)})); }catch(e){}
     if (data.file) updateCaseFile(data.file);
-    if (data.stage) { try{ document.body.setAttribute("data-stage", String(data.stage)); }catch(e){} }
+    if (data.stage) { try{
+      document.body.setAttribute("data-stage", String(data.stage));
+      var stMap = {discover:T("stDiscover"),thirst:T("stThirst"),questions:T("stQuestions"),close:T("stClose"),booked:T("stBooked")};
+      var pst=$("pmStage"); if(pst && stMap[data.stage]) pst.textContent=stMap[data.stage];
+    }catch(e){} }
     const reply = (data.reply||"").trim();
     if (reply && reply.length > 120) collectSlide("text", reply);
     if (reply) { addTwin(reply); history.push({role:"assistant", content:reply}); }
@@ -1074,6 +1092,11 @@ function updateCaseFile(f){
   var ring=$("cbRingFill"); if(ring) ring.style.strokeDashoffset=String(138.2*(1-pieces/7));
   $("cbTitle").textContent=T("filePieces",{n:faNum(pieces)});
   $("cbMeta").textContent=dualDateStr();
+  // live business metrics
+  try{
+    if(f.sector){ var ps=$("pmSector"); if(ps) ps.textContent=f.sector; }
+    var pf=$("pmFocus"); if(pf && f.brand) pf.textContent=f.brand;
+  }catch(e){}
   var brand=f.brand||f.name||"";
   if(brand){ $("cbBrand").textContent=brand;
     if(brand!==_brandShown){ _brandShown=brand; openCeremony(brand); }
@@ -1273,6 +1296,7 @@ const I18N = {
     connErr: "اتصال برقرار نشد. لطفاً دوباره تلاش کنید.",
     handoffT: "گفتگو را همراه خود ببرید", handoffS: "شماره‌تان را بنویسید تا همین گفتگو — با همین حافظه — در واتساپ ادامه پیدا کند.",
     ctaWa: "ادامه در واتساپ", ctaTg: "ادامه در تلگرام", ctaBale: "ادامه در Bale", ctaHere: "همین‌جا ادامه می‌دهم", footBrand: "هادی <span>بخت‌زاده</span>",
+    pmSectorK: "صنف", pmFocusK: "برند", pmStageK: "مرحله", stDiscover: "آشنایی", stThirst: "کشف فرصت", stQuestions: "بررسی", stClose: "جمع‌بندی", stBooked: "قرار",
     footRole: "معمار سیستم‌های هوش مصنوعی · ازمیر", linkWa: "واتساپ", linkTg: "تلگرام", linkMail: "ایمیل",
     senderName: "هادی بخت‌زاده",
     dwAnalyze: "در حال تحلیل عمیق…", dwMarket: "بررسی بازار و داده‌های واقعی…", dwPattern: "شناسایی الگوهای پنهان…", dwInsight: "ساختن بینش اختصاصی…",
@@ -1301,6 +1325,8 @@ const I18N = {
     connErr: "Connection failed. Please try again.",
     handoffT: "Take the conversation with you", handoffS: "Enter your number to continue this same conversation — with full memory — on WhatsApp.",
     ctaWa: "Continue on WhatsApp", ctaTg: "Continue on Telegram", ctaBale: "Continue on Bale", ctaHere: "Continue here", footBrand: "Hadi <span>Bakhtzadeh</span>",
+    pmSectorK: "Sektör", pmFocusK: "Marka", pmStageK: "Aşama", stDiscover: "Tanışma", stThirst: "Fırsat", stQuestions: "İnceleme", stClose: "Kapanış", stBooked: "Randevu",
+    pmSectorK: "Sector", pmFocusK: "Brand", pmStageK: "Stage", stDiscover: "Discovery", stThirst: "Opportunity", stQuestions: "Review", stClose: "Closing", stBooked: "Booked",
     footRole: "AI Systems Architect · Izmir", linkWa: "WhatsApp", linkTg: "Telegram", linkMail: "Email",
     senderName: "Hadi Bakhtzadeh",
     dwAnalyze: "Analyzing deeply…", dwMarket: "Reviewing real market data…", dwPattern: "Detecting hidden patterns…", dwInsight: "Crafting a tailored insight…",
@@ -1329,6 +1355,7 @@ const I18N = {
     connErr: "فشل الاتصال. يرجى المحاولة مرة أخرى.",
     handoffT: "خذ المحادثة معك", handoffS: "اكتب رقمك لمتابعة هذه المحادثة نفسها — بكامل الذاكرة — على واتساب.",
     ctaWa: "المتابعة على واتساب", ctaTg: "المتابعة على تيليجرام", ctaBale: "المتابعة على Bale", ctaHere: "المتابعة هنا", footBrand: "هادي <span>بختزاده</span>",
+    pmSectorK: "القطاع", pmFocusK: "العلامة", pmStageK: "المرحلة", stDiscover: "تعارف", stThirst: "اكتشاف الفرصة", stQuestions: "مراجعة", stClose: "ختام", stBooked: "موعد",
     footRole: "مهندس أنظمة الذكاء الاصطناعي · إزمير", linkWa: "واتساب", linkTg: "تيليجرام", linkMail: "البريد",
     senderName: "هادي بختزاده",
     dwAnalyze: "تحليل عميق جارٍ…", dwMarket: "مراجعة بيانات السوق الحقيقية…", dwPattern: "اكتشاف الأنماط الخفية…", dwInsight: "صياغة رؤية مخصصة…",
