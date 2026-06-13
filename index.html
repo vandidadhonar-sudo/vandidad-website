@@ -151,6 +151,21 @@ body.light .panel-orb{background:radial-gradient(120% 100% at 50% 0%,rgba(199,12
 .panel-orb canvas{position:absolute;inset:0;width:100%;height:100%}
 .panel-orb .po-status{position:absolute;bottom:14px;left:0;right:0;text-align:center;
   font-size:11px;letter-spacing:.22em;color:#D69A66;text-transform:uppercase;opacity:.85}
+.panel-pulse{display:flex;align-items:center;gap:14px;padding:18px 20px;border-radius:16px;
+  background:radial-gradient(140% 120% at 0% 0%,rgba(199,123,48,.10),transparent 60%),rgba(17,28,46,.5);
+  border:1px solid rgba(199,123,48,.2)}
+body.light .panel-pulse{background:radial-gradient(140% 120% at 0% 0%,rgba(199,123,48,.12),transparent 60%),#fff;border-color:rgba(199,123,48,.22)}
+.pp-ring{width:44px;height:44px;flex:0 0 44px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  border:1.5px solid rgba(199,123,48,.4);position:relative}
+.pp-ring::after{content:"";position:absolute;inset:-1.5px;border-radius:50%;border:1.5px solid rgba(199,123,48,.5);
+  animation:ppPulse 2.4s ease-out infinite}
+.pp-dot{width:12px;height:12px;border-radius:50%;background:#C77B30;box-shadow:0 0 14px rgba(199,123,48,.7);transition:all .4s}
+@keyframes ppPulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.5);opacity:0}}
+body[data-stage="thirst"] .pp-dot,body[data-stage="questions"] .pp-dot{background:#E0A45C;box-shadow:0 0 18px rgba(224,164,92,.9)}
+body[data-stage="close"] .pp-dot,body[data-stage="booked"] .pp-dot{background:#F0C078;box-shadow:0 0 22px rgba(240,192,120,1);transform:scale(1.15)}
+.panel-pulse.thinking .pp-dot{animation:ppThink .8s ease-in-out infinite}
+@keyframes ppThink{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+.po-status{font-size:12.5px;letter-spacing:.04em;color:#D69A66;opacity:.9}
 .panel-file{border-radius:16px;padding:20px;background:rgba(17,28,46,.5);border:1px solid rgba(199,123,48,.18)}
 body.light .panel-file{background:#fff;border-color:rgba(199,123,48,.22)}
 .pf-head{display:flex;align-items:center;gap:14px;margin-bottom:16px}
@@ -294,7 +309,11 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;
 @keyframes dwFade{from{opacity:0}to{opacity:1}}
 
 /* ── AIOS visual cards (live in chat) ── */
-.aios-card{margin:14px 0;padding:26px 24px 18px;border-radius:18px;background:linear-gradient(180deg,#111C2E,#0A1220);border:1px solid #C77B30;box-shadow:0 14px 44px rgba(0,0,0,.5);opacity:0;transform:translateY(14px);animation:acIn .7s cubic-bezier(.2,.8,.2,1) forwards;direction:rtl}
+@keyframes cardPlace{0%{opacity:0;transform:translateY(22px) rotate(-1.2deg) scale(.97)}60%{opacity:1}100%{opacity:1;transform:translateY(0) rotate(-0.25deg) scale(1)}}
+.aios-card{animation:cardPlace .7s cubic-bezier(.2,.7,.2,1) forwards}
+.aios-card:hover{transform:translateY(-3px) rotate(0deg);box-shadow:0 24px 60px rgba(0,0,0,.6),0 2px 0 rgba(199,123,48,.25) inset;transition:all .35s}
+body.light .aios-card{background:linear-gradient(157deg,#ffffffcc,#fbf6ec);border-color:rgba(199,123,48,.5);box-shadow:0 18px 50px rgba(60,40,20,.14)}
+.aios-card{margin:18px 0;padding:26px 24px 18px;border-radius:14px;background:linear-gradient(157deg,#13203356,#0A1220);border:1px solid rgba(199,123,48,.55);box-shadow:0 18px 50px rgba(0,0,0,.55),0 2px 0 rgba(199,123,48,.18) inset;backdrop-filter:blur(6px);opacity:0;transform:translateY(14px);animation:acIn .7s cubic-bezier(.2,.8,.2,1) forwards;direction:rtl}
 @keyframes acIn{to{opacity:1;transform:none}}
 .ac-label{font-size:12px;letter-spacing:.14em;color:#C77B30;text-align:center;margin-bottom:8px}
 .ac-title{font-size:21px;font-weight:800;color:#F0EBE2;text-align:center;margin-bottom:16px}
@@ -338,19 +357,25 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;
 
 /* ── Luminous dark: aurora breathing background ── */
 body{position:relative}
-#aurora{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;
- background:radial-gradient(60% 50% at 20% 10%,rgba(199,123,48,.16),transparent 60%),
- radial-gradient(50% 45% at 85% 85%,rgba(60,110,190,.14),transparent 60%),
- radial-gradient(40% 40% at 70% 20%,rgba(199,123,48,.08),transparent 60%);
- animation:auroraMove 18s ease-in-out infinite alternate}
-@keyframes auroraMove{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(-2%,1.5%,0) scale(1.06)}}
+#aurora{position:fixed;inset:0;z-index:0;pointer-events:none;transition:opacity 1.2s ease, background 1.6s ease;opacity:.5;
+ background:radial-gradient(60% 55% at 22% 12%,rgba(199,123,48,.12),transparent 62%),
+ radial-gradient(55% 50% at 82% 84%,rgba(60,110,190,.10),transparent 62%)}
+/* Stage-reactive atmosphere — the room breathes with the negotiation */
+body[data-stage="discover"] #aurora{opacity:.42;background:radial-gradient(60% 55% at 25% 15%,rgba(80,120,180,.12),transparent 62%),radial-gradient(50% 45% at 80% 85%,rgba(40,70,120,.10),transparent 62%)}
+body[data-stage="thirst"] #aurora,body[data-stage="questions"] #aurora{opacity:.6;background:radial-gradient(62% 56% at 24% 14%,rgba(199,123,48,.18),transparent 60%),radial-gradient(54% 48% at 82% 82%,rgba(150,90,40,.13),transparent 62%)}
+body[data-stage="close"] #aurora,body[data-stage="booked"] #aurora{opacity:.78;background:radial-gradient(66% 58% at 50% 30%,rgba(214,154,102,.26),transparent 58%),radial-gradient(50% 45% at 80% 85%,rgba(199,123,48,.16),transparent 60%)}
+#roomGlow{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 1.4s ease;
+ background:radial-gradient(40% 30% at 50% 0%,rgba(214,154,102,.10),transparent 70%)}
+body[data-stage="close"] #roomGlow,body[data-stage="booked"] #roomGlow{opacity:1}
+@keyframes auroraDrift{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-1.5%,1%,0)}}
+#aurora{animation:auroraDrift 22s ease-in-out infinite alternate}}
 /* ── Light theme ── */
 body.light{background:#F4EFE6;color:#1c2533}
 body.light #aurora{opacity:.5;background:radial-gradient(60% 50% at 20% 10%,rgba(199,123,48,.18),transparent 60%),radial-gradient(50% 45% at 85% 85%,rgba(30,60,120,.10),transparent 60%)}
 body.light .aios-card{background:#fff;border-color:#C77B30;box-shadow:0 10px 36px rgba(60,40,20,.12)}
 body.light .ac-title,body.light .ac-items li,body.light .ac-step .st{color:#23150a}
 body.light .ac-amount-box,body.light .ac-layer{background:#FBF6EC;border-color:#e3d2bb}
-#themeBtn{position:fixed;top:14px;left:64px;z-index:1200;width:38px;height:38px;border-radius:50%;border:1px solid #C77B30;background:rgba(15,23,38,.65);color:#D69A66;cursor:pointer;font-size:16px;backdrop-filter:blur(6px)}
+#themeBtn{position:fixed;top:72px;left:24px;z-index:1200;width:38px;height:38px;border-radius:50%;border:1px solid #C77B30;background:rgba(15,23,38,.65);color:#D69A66;cursor:pointer;font-size:16px;backdrop-filter:blur(6px)}
 body.light #themeBtn{background:rgba(255,255,255,.7);color:#9a5d1f}
 /* ── Case file header ── */
 #caseBar{position:sticky;top:0;z-index:900;display:none;align-items:center;gap:14px;direction:rtl;
@@ -419,10 +444,50 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
 #mindTrace{font-size:10px;opacity:.8}
 #mindTrace div{border-right-width:1.5px}
 .cta-row .btn, #caseBar .cb-actions button{font-family:inherit}
+
+/* ════════ LIVING ROOM — RESPONSIVE (authoritative) ════════ */
+/* Tablet */
+@media (max-width: 1100px) and (min-width: 761px){
+  #converse{max-width:760px;padding:40px 24px 120px}
+  .conv-layout{grid-template-columns:1fr;gap:20px}
+  .conv-left{position:static;flex-direction:row;gap:14px;align-items:stretch}
+  .panel-pulse{flex:1 1 220px}
+  .panel-file{flex:1 1 320px}
+}
+/* Phone */
+@media (max-width: 760px){
+  .lang-switch{top:12px;left:12px;gap:2px}
+  #themeBtn{top:12px;left:auto;right:12px;width:34px;height:34px}
+  #converse{max-width:100%;padding:30px 14px 110px}
+  .conv-layout{grid-template-columns:1fr;gap:14px}
+  .conv-left{position:static;display:flex;flex-direction:column;gap:12px}
+  .panel-pulse{padding:14px 16px}
+  .panel-file{padding:16px}
+  .pf-actions{flex-direction:column;gap:10px}
+  .pf-actions button{width:100%;padding:13px}
+  /* cards full width, less rotation on mobile */
+  .aios-card{margin:14px 0;padding:20px 16px 14px;border-radius:12px}
+  .aios-card:hover{transform:none}
+  /* CTA + handoff stack with generous spacing */
+  .cta-row{flex-direction:column;gap:12px}
+  .cta-row .btn{width:100%;padding:15px 20px}
+  .handoff-row{flex-direction:column;gap:12px}
+  .handoff-row .btn-fill{width:100%;white-space:normal}
+  .handoff-input{width:100%}
+  .conv-input{gap:10px;padding:12px 0}
+  .bubble-twin .b-text{font-size:15px;padding:14px 15px}
+  .bubble-you .b-text{max-width:88%}
+}
+/* Small phone */
+@media (max-width: 400px){
+  .lang-opt{padding:5px 8px;font-size:12px}
+  .aios-card{padding:18px 14px 12px}
+}
 </style>
 </head>
 <body>
 <div id="aurora"></div>
+<div id="roomGlow"></div>
 <button id="themeBtn" title="تم">◐</button>
 <div id="mindTrace"></div>
 <div id="ceremony"><div class="c-label">A I O S</div><div class="c-brand" id="cerBrand"></div><div class="c-no" id="cerNo"></div></div>
@@ -499,8 +564,8 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
   <section id="converse">
 <div class="conv-layout">
     <aside class="conv-left">
-      <div class="panel-orb">
-        <canvas id="mindOrb" width="340" height="300"></canvas>
+      <div class="panel-pulse">
+        <div class="pp-ring"><span class="pp-dot"></span></div>
         <div class="po-status" id="orbStatus" data-i18n="orbIdle">ذهن، آماده است</div>
       </div>
       <div class="panel-file" id="caseBar">
@@ -752,6 +817,7 @@ const _DW_MSGS_EN=["Analyzing deeply…","Reviewing real market data…","Detect
 function startDeepWork(){
   window.orbState && orbState("think");
   var _os=$("orbStatus"); if(_os) _os.textContent=T("orbThink");
+  var _pp=document.querySelector(".panel-pulse"); if(_pp) _pp.classList.add("thinking");
   mindTrace(T("trAnalyzeStart"));
   window._dwSec=0;
   window._dwTimer=setInterval(function(){
@@ -775,6 +841,7 @@ function startDeepWork(){
 function stopDeepWork(){
   window.orbState && orbState("idle");
   var _os2=$("orbStatus"); if(_os2) _os2.textContent=T("orbIdle");
+  var _pp2=document.querySelector(".panel-pulse"); if(_pp2) _pp2.classList.remove("thinking");
   if(window._dwTimer){clearInterval(window._dwTimer);window._dwTimer=null;}
   mindTrace(T("trAnalyzeDone"));
  clearInterval(_dwTimer); _dwTimer=null; }
@@ -887,6 +954,7 @@ async function sendConv() {
     window._WEB_CID = data.contact_id || window._WEB_CID;
     try{ sessionStorage.setItem("aios_state", JSON.stringify({cid: window._WEB_CID||"", hist: history.slice(-6)})); }catch(e){}
     if (data.file) updateCaseFile(data.file);
+    if (data.stage) { try{ document.body.setAttribute("data-stage", String(data.stage)); }catch(e){} }
     const reply = (data.reply||"").trim();
     if (reply && reply.length > 120) collectSlide("text", reply);
     if (reply) { addTwin(reply); history.push({role:"assistant", content:reply}); }
@@ -986,67 +1054,7 @@ function dualDateStr(){
 }
 setInterval(function(){var m=$("cbMeta"); if(m && m.offsetParent!==null) m.textContent=dualDateStr();},30000);
 
-/* ── Neural orb (3D sphere, depth + synapses) ── */
-(function(){
-  var cv=$("mindOrb"); if(!cv) return;
-  var ctx=cv.getContext("2d");
-  var W=cv.width, H=cv.height, CX=W/2, CY=H/2, R=Math.min(W,H)*0.42;
-  var state="idle", flare=0, t=0;
-  var N=120, nodes=[];
-  for(var i=0;i<N;i++){
-    var y=1-(i/(N-1))*2, rr=Math.sqrt(Math.max(0,1-y*y)), phi=i*2.39996;
-    nodes.push({x:Math.cos(phi)*rr,y:y,z:Math.sin(phi)*rr,p:Math.random()*6.28,lit:Math.random()<0.5});
-  }
-  window.orbState=function(s){state=s; if(s==="pulse"){flare=1; setTimeout(function(){state="idle"},1400);}};
-  function rY(p,a){var c=Math.cos(a),s=Math.sin(a);return{x:p.x*c-p.z*s,y:p.y,z:p.x*s+p.z*c};}
-  function rX(p,a){var c=Math.cos(a),s=Math.sin(a);return{x:p.x,y:p.y*c-p.z*s,z:p.y*s+p.z*c};}
-  function frame(){
-    t+=0.016;
-    var spin=state==="think"?0.85:0.26;
-    var breathe=1+Math.sin(t*1.1)*(state==="think"?0.05:0.025)+flare*0.12;
-    flare*=0.95;
-    ctx.clearRect(0,0,W,H);
-    var hg=ctx.createRadialGradient(CX,CY,R*0.4,CX,CY,R*1.7*breathe);
-    hg.addColorStop(0,"rgba(199,123,48,"+(0.14+flare*0.3)+")");
-    hg.addColorStop(1,"rgba(199,123,48,0)");
-    ctx.fillStyle=hg; ctx.beginPath(); ctx.arc(CX,CY,R*1.7*breathe,0,6.28); ctx.fill();
-    var ay=t*spin, ax=Math.sin(t*0.3)*0.32, pts=[];
-    for(var i=0;i<N;i++){
-      var p=rX(rY(nodes[i],ay),ax), depth=(p.z+1)/2;
-      pts.push({sx:CX+p.x*R*breathe, sy:CY+p.y*R*breathe, d:depth, n:nodes[i]});
-    }
-    pts.sort(function(a,b){return a.d-b.d;});
-    ctx.lineWidth=0.6;
-    for(var i=0;i<pts.length;i++){
-      for(var j=i+1;j<i+6 && j<pts.length;j++){
-        var dx=pts[i].sx-pts[j].sx, dy=pts[i].sy-pts[j].sy, dd=dx*dx+dy*dy;
-        var lim=R*R*0.16;
-        if(dd<lim){
-          var op=(1-dd/lim)*0.5*((pts[i].d+pts[j].d)/2);
-          ctx.strokeStyle="rgba(199,123,48,"+(op*(state==="think"?1.4:0.8))+")";
-          ctx.beginPath(); ctx.moveTo(pts[i].sx,pts[i].sy); ctx.lineTo(pts[j].sx,pts[j].sy); ctx.stroke();
-        }
-      }
-    }
-    var litCount=Math.max(0,Math.min(N,(window._filePieces||0)*8));
-    for(var i=0;i<pts.length;i++){
-      var p=pts[i], n=p.n, tw=0.5+0.5*Math.sin(t*2+n.p);
-      var on=n.lit || (i<litCount);
-      var sz=(0.6+p.d*1.7)*(on?1.5:1)*breathe;
-      var br=on?(0.55+tw*0.45):(0.2+p.d*0.3); br=Math.min(1,br+flare*0.4);
-      ctx.beginPath(); ctx.arc(p.sx,p.sy,sz,0,6.28);
-      ctx.fillStyle="rgba("+Math.round(214+(255-214)*tw)+","+Math.round(154+(210-154)*tw*0.5)+",102,"+br+")";
-      ctx.fill();
-    }
-    var cg=ctx.createRadialGradient(CX,CY,0,CX,CY,R*0.22*breathe);
-    cg.addColorStop(0,"rgba(255,225,180,"+(0.9+flare*0.1)+")");
-    cg.addColorStop(0.5,"rgba(214,154,102,0.5)");
-    cg.addColorStop(1,"rgba(199,123,48,0)");
-    ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(CX,CY,R*0.22*breathe,0,6.28); ctx.fill();
-    requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
-})();
+/* orb removed — living status pulse used instead */
 
 /* ── Case file ── */
 function updateCaseFile(f){
