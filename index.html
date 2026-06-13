@@ -208,7 +208,8 @@ body.light .bubble-you .b-text{background:rgba(199,123,48,.08)}
 .handoff.shown{display:block;animation:fadeIn 0.6s}
 .handoff-t{font-size:15px;font-weight:700;color:var(--bone);margin-bottom:8px}
 .handoff-s{font-size:13px;color:var(--bone-dim);margin-bottom:16px;line-height:1.7}
-.handoff-row{display:flex;gap:10px}
+.handoff-row{display:flex;gap:10px;align-items:stretch}
+.handoff-row .btn-fill{white-space:nowrap;padding:11px 18px;font-size:13.5px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
 .handoff-input{flex:1;background:var(--void);border:1px solid var(--line);color:var(--bone);
   font-family:inherit;font-size:14px;padding:11px 14px;border-radius:2px;outline:none;direction:ltr;text-align:left}
 .handoff-input:focus{border-color:var(--copper)}
@@ -398,6 +399,9 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
   .pf-actions button{flex:1}
 }
 @media(max-width:560px){
+  .handoff-row{flex-direction:column}
+  .handoff-row .btn-fill{width:100%}
+
   .conv-left{flex-direction:column}
   .panel-orb{height:200px}
   .pf-actions{flex-direction:column}
@@ -486,8 +490,8 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
       <div class="cta-row" style="flex-wrap:wrap;gap:10px">
         <button class="btn btn-fill" id="ctaContinue">همین‌جا ادامه می‌دهم</button>
         <button class="btn btn-line" id="ctaTeleg">ادامه در تلگرام</button>
-        <button class="btn btn-line" id="ctaBale">ادامه در بله</button>
-        <button class="btn btn-line" id="ctaWa">ادامه در واتساپ</button>
+        <button class="btn btn-line" id="ctaBale" data-i18n="ctaBale">ادامه در بله</button>
+        <button class="btn btn-line" id="ctaWa" data-i18n="ctaWa">ادامه در واتساپ</button>
       </div>
     </div>
   </section>
@@ -517,11 +521,11 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
     <div class="conv-right">
     <div class="conv-stream" id="convStream"></div>
     <div class="handoff" id="handoff">
-      <div class="handoff-t">گفتگو را همراه خود ببرید</div>
-      <div class="handoff-s">شماره‌تان را بنویسید تا همین گفتگو — با همین حافظه — در واتساپ ادامه پیدا کند.</div>
+      <div class="handoff-t" data-i18n="handoffT">گفتگو را همراه خود ببرید</div>
+      <div class="handoff-s" data-i18n="handoffS">شماره‌تان را بنویسید تا همین گفتگو — با همین حافظه — در واتساپ ادامه پیدا کند.</div>
       <div class="handoff-row">
         <input class="handoff-input" id="handoffPhone" placeholder="+98 / +90 ..." inputmode="tel">
-        <button class="btn btn-fill" id="handoffGo">ادامه در واتساپ</button>
+        <button class="btn btn-fill" id="handoffGo" data-i18n="ctaWa">ادامه در واتساپ</button>
       </div>
     </div>
     <div class="conv-input">
@@ -537,12 +541,12 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
   <footer>
     <div>
       <div class="foot-brand">هادی <span>بخت‌زاده</span></div>
-      <div class="foot-sub">معمار سیستم‌های هوش مصنوعی · ازمیر</div>
+      <div class="foot-sub" data-i18n="footRole">معمار سیستم‌های هوش مصنوعی · ازمیر</div>
     </div>
     <div class="foot-links">
-      <a href="https://wa.me/905521881819" target="_blank">واتساپ</a>
-      <a href="https://t.me/aios_architects_bot" target="_blank">تلگرام</a>
-      <a href="mailto:vandidadhonar@gmail.com">ایمیل</a>
+      <a href="https://wa.me/905521881819" target="_blank" data-i18n="linkWa">واتساپ</a>
+      <a href="https://t.me/aios_architects_bot" target="_blank" data-i18n="linkTg">تلگرام</a>
+      <a href="mailto:vandidadhonar@gmail.com" data-i18n="linkMail">ایمیل</a>
     </div>
   </footer>
 </main>
@@ -694,7 +698,7 @@ function openConversation(fresh) {
 function addTwin(text) {
   const d = document.createElement("div");
   d.className = "bubble-twin";
-  d.innerHTML = '<div class="b-from">هادی بخت‌زاده</div><div class="b-text"></div>';
+  d.innerHTML = '<div class="b-from">'+T("senderName")+'</div><div class="b-text"></div>';
   $("convStream").appendChild(d);
   const el = d.querySelector(".b-text");
 
@@ -760,7 +764,7 @@ function startDeepWork(){
   },1000);
 
   _dwI=0;
-  const msgs = (typeof LANG!=="undefined" && LANG==="en")?_DW_MSGS_EN:_DW_MSGS_FA;
+  const msgs = [T("dwAnalyze"),T("dwMarket"),T("dwPattern"),T("dwInsight")];
   clearInterval(_dwTimer);
   _dwTimer=setInterval(()=>{
     _dwI=(_dwI+1)%msgs.length;
@@ -806,7 +810,7 @@ function renderCardEl(card){
   const wrap=document.createElement("div"); wrap.className="aios-card";
   const brand='<div class="ac-brand"><b>هادی بخت‌زاده</b> · AIOS · vandidad.xyz</div>';
   if(t==="loss"){
-    wrap.innerHTML='<div class="ac-label">تحلیل اختصاصی</div>'
+    wrap.innerHTML='<div class="ac-label">'+T("acLabel")+'</div>'
       +'<div class="ac-title">'+escapeHtml(d.title||"")+'</div>'
       +'<div class="ac-amount-box"><div class="ac-period">'+escapeHtml(d.period||"")+'</div>'
       +'<div class="ac-amount">۰</div></div>'
@@ -963,10 +967,21 @@ function timeGreetingFa(){
 }
 function dualDateStr(){
   try{
-    var fa=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{day:"numeric",month:"long",year:"numeric"}).format(new Date());
-    var en=new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(new Date());
-    var hm=new Date().toTimeString().slice(0,5);
-    return fa+" · "+en+" · "+hm;
+    var now=new Date(), hm=now.toTimeString().slice(0,5);
+    if(LANG==="fa"){
+      var fa=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{day:"numeric",month:"long",year:"numeric"}).format(now);
+      return fa+" · "+hm;
+    }
+    if(LANG==="ar"){
+      var ar=new Intl.DateTimeFormat("ar",{day:"numeric",month:"long",year:"numeric"}).format(now);
+      return ar+" · "+hm;
+    }
+    if(LANG==="tr"){
+      var tr=new Intl.DateTimeFormat("tr-TR",{day:"numeric",month:"long",year:"numeric"}).format(now);
+      return tr+" · "+hm;
+    }
+    var en=new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(now);
+    return en+" · "+hm;
   }catch(e){return ""}
 }
 setInterval(function(){var m=$("cbMeta"); if(m && m.offsetParent!==null) m.textContent=dualDateStr();},30000);
@@ -1248,6 +1263,12 @@ const I18N = {
     boardEmpty: "هنوز محتوایی برای ارائه نیست", boardNext: "بعدی ‹", boardPrev: "› قبلی",
     plaqueTitle: "تحلیل اختصاصی هادی بخت‌زاده", plaqueCaseNo: "پرونده شماره {y}/{n}",
     connErr: "اتصال برقرار نشد. لطفاً دوباره تلاش کنید.",
+    handoffT: "گفتگو را همراه خود ببرید", handoffS: "شماره‌تان را بنویسید تا همین گفتگو — با همین حافظه — در واتساپ ادامه پیدا کند.",
+    ctaWa: "ادامه در واتساپ", ctaTg: "ادامه در تلگرام", ctaBale: "ادامه در بله",
+    footRole: "معمار سیستم‌های هوش مصنوعی · ازمیر", linkWa: "واتساپ", linkTg: "تلگرام", linkMail: "ایمیل",
+    senderName: "هادی بخت‌زاده",
+    dwAnalyze: "در حال تحلیل عمیق…", dwMarket: "بررسی بازار و داده‌های واقعی…", dwPattern: "شناسایی الگوهای پنهان…", dwInsight: "ساختن بینش اختصاصی…",
+    acLabel: "تحلیل اختصاصی",
     greetHello: "درود", greetAsk: "نام و حوزه فعالیت‌تان را بفرمایید تا نقشه‌ی تحول کسب‌وکارتان با هوش مصنوعی را ترسیم کنیم."
   },
   en: {
@@ -1270,6 +1291,12 @@ const I18N = {
     boardEmpty: "Nothing to present yet", boardNext: "Next ‹", boardPrev: "› Prev",
     plaqueTitle: "Bespoke analysis by Hadi Bakhtzadeh", plaqueCaseNo: "Case No. {y}/{n}",
     connErr: "Connection failed. Please try again.",
+    handoffT: "Take the conversation with you", handoffS: "Enter your number to continue this same conversation — with full memory — on WhatsApp.",
+    ctaWa: "Continue on WhatsApp", ctaTg: "Continue on Telegram", ctaBale: "Continue on Bale",
+    footRole: "AI Systems Architect · Izmir", linkWa: "WhatsApp", linkTg: "Telegram", linkMail: "Email",
+    senderName: "Hadi Bakhtzadeh",
+    dwAnalyze: "Analyzing deeply…", dwMarket: "Reviewing real market data…", dwPattern: "Detecting hidden patterns…", dwInsight: "Crafting a tailored insight…",
+    acLabel: "Bespoke analysis",
     greetHello: "Hello", greetAsk: "Tell me your name and field, and I\u2019ll map out how AI can transform your business."
   },
   ar: {
@@ -1292,6 +1319,12 @@ const I18N = {
     boardEmpty: "لا يوجد محتوى للعرض بعد", boardNext: "التالي ‹", boardPrev: "› السابق",
     plaqueTitle: "تحليل حصري بواسطة هادي بختزاده", plaqueCaseNo: "الملف رقم {y}/{n}",
     connErr: "فشل الاتصال. يرجى المحاولة مرة أخرى.",
+    handoffT: "خذ المحادثة معك", handoffS: "اكتب رقمك لمتابعة هذه المحادثة نفسها — بكامل الذاكرة — على واتساب.",
+    ctaWa: "المتابعة على واتساب", ctaTg: "المتابعة على تيليجرام", ctaBale: "المتابعة على بله",
+    footRole: "مهندس أنظمة الذكاء الاصطناعي · إزمير", linkWa: "واتساب", linkTg: "تيليجرام", linkMail: "البريد",
+    senderName: "هادي بختزاده",
+    dwAnalyze: "تحليل عميق جارٍ…", dwMarket: "مراجعة بيانات السوق الحقيقية…", dwPattern: "اكتشاف الأنماط الخفية…", dwInsight: "صياغة رؤية مخصصة…",
+    acLabel: "تحليل حصري",
     greetHello: "مرحباً", greetAsk: "أخبرني باسمك ومجال عملك، لأرسم لك خارطة تحويل عملك بالذكاء الاصطناعي."
   },
   tr: {
@@ -1314,6 +1347,12 @@ const I18N = {
     boardEmpty: "Henüz sunulacak içerik yok", boardNext: "İleri ‹", boardPrev: "› Geri",
     plaqueTitle: "Hadi Bakhtzadeh tarafından özel analiz", plaqueCaseNo: "Dosya No. {y}/{n}",
     connErr: "Bağlantı kurulamadı. Lütfen tekrar deneyin.",
+    handoffT: "Sohbeti yanınızda taşıyın", handoffS: "Numaranızı yazın, bu sohbet — tüm hafızasıyla — WhatsApp'ta devam etsin.",
+    ctaWa: "WhatsApp'ta devam et", ctaTg: "Telegram'da devam et", ctaBale: "Bale'de devam et",
+    footRole: "Yapay Zekâ Sistem Mimarı · İzmir", linkWa: "WhatsApp", linkTg: "Telegram", linkMail: "E-posta",
+    senderName: "Hadi Bakhtzadeh",
+    dwAnalyze: "Derinlemesine analiz ediliyor…", dwMarket: "Gerçek pazar verileri inceleniyor…", dwPattern: "Gizli desenler tespit ediliyor…", dwInsight: "Size özel içgörü oluşturuluyor…",
+    acLabel: "Özel analiz",
     greetHello: "Merhaba", greetAsk: "Adınızı ve alanınızı söyleyin, yapay zekânın işinizi nasıl dönüştüreceğinin haritasını çıkarayım."
   }
 };
@@ -1344,6 +1383,10 @@ function setLang(lang) {
   document.documentElement.dir = rtl ? "rtl" : "ltr";
   document.documentElement.lang = lang;
   // refresh live dynamic UI in new language
+  try{
+    document.querySelectorAll(".bubble-twin .b-from").forEach(function(e){ e.textContent=T("senderName"); });
+    var cm=$("cbMeta"); if(cm && cm.textContent.trim()) cm.textContent=dualDateStr();
+  }catch(e){}
   try{
     if(window._filePieces>0){ var ct=$("cbTitle"); if(ct) ct.textContent=T("filePieces",{n:faNum(window._filePieces)}); }
     var os=$("orbStatus"); if(os && !window._dwTimer) os.textContent=T("orbIdle");
