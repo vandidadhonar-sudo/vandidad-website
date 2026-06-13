@@ -488,8 +488,8 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
     <div class="mirror-cta" id="mCta">
       <div class="cta-prompt">این تنها یک نمونه بود. ادامه دهیم؟</div>
       <div class="cta-row" style="flex-wrap:wrap;gap:10px">
-        <button class="btn btn-fill" id="ctaContinue">همین‌جا ادامه می‌دهم</button>
-        <button class="btn btn-line" id="ctaTeleg">ادامه در تلگرام</button>
+        <button class="btn btn-fill" id="ctaContinue" data-i18n="ctaHere">همین‌جا ادامه می‌دهم</button>
+        <button class="btn btn-line" id="ctaTeleg" data-i18n="ctaTg">ادامه در تلگرام</button>
         <button class="btn btn-line" id="ctaBale" data-i18n="ctaBale">ادامه در بله</button>
         <button class="btn btn-line" id="ctaWa" data-i18n="ctaWa">ادامه در واتساپ</button>
       </div>
@@ -540,7 +540,7 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
 
   <footer>
     <div>
-      <div class="foot-brand">هادی <span>بخت‌زاده</span></div>
+      <div class="foot-brand" data-i18n="footBrand">هادی <span>بخت‌زاده</span></div>
       <div class="foot-sub" data-i18n="footRole">معمار سیستم‌های هوش مصنوعی · ازمیر</div>
     </div>
     <div class="foot-links">
@@ -1264,7 +1264,7 @@ const I18N = {
     plaqueTitle: "تحلیل اختصاصی هادی بخت‌زاده", plaqueCaseNo: "پرونده شماره {y}/{n}",
     connErr: "اتصال برقرار نشد. لطفاً دوباره تلاش کنید.",
     handoffT: "گفتگو را همراه خود ببرید", handoffS: "شماره‌تان را بنویسید تا همین گفتگو — با همین حافظه — در واتساپ ادامه پیدا کند.",
-    ctaWa: "ادامه در واتساپ", ctaTg: "ادامه در تلگرام", ctaBale: "ادامه در بله",
+    ctaWa: "ادامه در واتساپ", ctaTg: "ادامه در تلگرام", ctaBale: "ادامه در Bale", ctaHere: "همین‌جا ادامه می‌دهم", footBrand: "هادی <span>بخت‌زاده</span>",
     footRole: "معمار سیستم‌های هوش مصنوعی · ازمیر", linkWa: "واتساپ", linkTg: "تلگرام", linkMail: "ایمیل",
     senderName: "هادی بخت‌زاده",
     dwAnalyze: "در حال تحلیل عمیق…", dwMarket: "بررسی بازار و داده‌های واقعی…", dwPattern: "شناسایی الگوهای پنهان…", dwInsight: "ساختن بینش اختصاصی…",
@@ -1292,7 +1292,7 @@ const I18N = {
     plaqueTitle: "Bespoke analysis by Hadi Bakhtzadeh", plaqueCaseNo: "Case No. {y}/{n}",
     connErr: "Connection failed. Please try again.",
     handoffT: "Take the conversation with you", handoffS: "Enter your number to continue this same conversation — with full memory — on WhatsApp.",
-    ctaWa: "Continue on WhatsApp", ctaTg: "Continue on Telegram", ctaBale: "Continue on Bale",
+    ctaWa: "Continue on WhatsApp", ctaTg: "Continue on Telegram", ctaBale: "Continue on Bale", ctaHere: "Continue here", footBrand: "Hadi <span>Bakhtzadeh</span>",
     footRole: "AI Systems Architect · Izmir", linkWa: "WhatsApp", linkTg: "Telegram", linkMail: "Email",
     senderName: "Hadi Bakhtzadeh",
     dwAnalyze: "Analyzing deeply…", dwMarket: "Reviewing real market data…", dwPattern: "Detecting hidden patterns…", dwInsight: "Crafting a tailored insight…",
@@ -1320,7 +1320,7 @@ const I18N = {
     plaqueTitle: "تحليل حصري بواسطة هادي بختزاده", plaqueCaseNo: "الملف رقم {y}/{n}",
     connErr: "فشل الاتصال. يرجى المحاولة مرة أخرى.",
     handoffT: "خذ المحادثة معك", handoffS: "اكتب رقمك لمتابعة هذه المحادثة نفسها — بكامل الذاكرة — على واتساب.",
-    ctaWa: "المتابعة على واتساب", ctaTg: "المتابعة على تيليجرام", ctaBale: "المتابعة على بله",
+    ctaWa: "المتابعة على واتساب", ctaTg: "المتابعة على تيليجرام", ctaBale: "المتابعة على Bale", ctaHere: "المتابعة هنا", footBrand: "هادي <span>بختزاده</span>",
     footRole: "مهندس أنظمة الذكاء الاصطناعي · إزمير", linkWa: "واتساب", linkTg: "تيليجرام", linkMail: "البريد",
     senderName: "هادي بختزاده",
     dwAnalyze: "تحليل عميق جارٍ…", dwMarket: "مراجعة بيانات السوق الحقيقية…", dwPattern: "اكتشاف الأنماط الخفية…", dwInsight: "صياغة رؤية مخصصة…",
@@ -1348,7 +1348,7 @@ const I18N = {
     plaqueTitle: "Hadi Bakhtzadeh tarafından özel analiz", plaqueCaseNo: "Dosya No. {y}/{n}",
     connErr: "Bağlantı kurulamadı. Lütfen tekrar deneyin.",
     handoffT: "Sohbeti yanınızda taşıyın", handoffS: "Numaranızı yazın, bu sohbet — tüm hafızasıyla — WhatsApp'ta devam etsin.",
-    ctaWa: "WhatsApp'ta devam et", ctaTg: "Telegram'da devam et", ctaBale: "Bale'de devam et",
+    ctaWa: "WhatsApp'ta devam et", ctaTg: "Telegram'da devam et", ctaBale: "Bale'de devam et", ctaHere: "Burada devam et", footBrand: "Hadi <span>Bakhtzadeh</span>",
     footRole: "Yapay Zekâ Sistem Mimarı · İzmir", linkWa: "WhatsApp", linkTg: "Telegram", linkMail: "E-posta",
     senderName: "Hadi Bakhtzadeh",
     dwAnalyze: "Derinlemesine analiz ediliyor…", dwMarket: "Gerçek pazar verileri inceleniyor…", dwPattern: "Gizli desenler tespit ediliyor…", dwInsight: "Size özel içgörü oluşturuluyor…",
