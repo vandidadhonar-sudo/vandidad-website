@@ -88,6 +88,10 @@ header{position:fixed;top:0;right:0;left:0;z-index:100;padding:18px 32px;
 .brand span{color:var(--copper)}
 .brand-sub{font-size:9px;color:var(--bone-dim);letter-spacing:0.28em;margin-top:1px;font-weight:400}
 .hdr-live{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--copper);letter-spacing:0.08em}
+.hdr-dot.stage-flash{animation:stageFlash 1.2s ease-out 2}
+@keyframes stageFlash{0%{transform:scale(1);box-shadow:0 0 10px var(--copper-glow)}50%{transform:scale(1.8);box-shadow:0 0 22px var(--copper),0 0 36px var(--copper-glow)}100%{transform:scale(1);box-shadow:0 0 10px var(--copper-glow)}}
+.hdr-live #hdrLive{transition:color .4s}
+body[data-stage="close"] .hdr-live #hdrLive,body[data-stage="booked"] .hdr-live #hdrLive{color:#F0C078;font-weight:700}
 .hdr-dot{width:6px;height:6px;border-radius:50%;background:var(--copper);
   animation:thPulse 2.4s infinite;box-shadow:0 0 10px var(--copper-glow)}
 
@@ -533,7 +537,7 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
       <div class="brand">هادی <span>بخت‌زاده</span></div>
       <div class="brand-sub">ARCHITECT OF INTELLIGENT SYSTEMS</div>
     </div>
-    <div class="hdr-live"><span class="hdr-dot"></span><span data-i18n="live">ذهن، زنده است</span></div>
+    <div class="hdr-live"><span class="hdr-dot" id="hdrDot"></span><span data-i18n="live" id="hdrLive">ذهن، زنده است</span></div>
   </header>
 
   <button class="back-btn" id="backBtn" onclick="goBack()">
@@ -670,7 +674,7 @@ async function runMirror(input) {
   startDeepWork();
 
   // Single call: ask the twin to (1) reflect understanding (2) produce a real sample artifact
-  const mirrorPrompt = input + "\n\n[سیستم: این اولین پیام از وب‌سایت است. تو نسخه‌ی دیجیتال هادی بخت‌زاده‌ای — گرم، انسانی، باهوش. این پیام اول، مهم‌ترین لحظه است و باید دقیقاً طبق پله ۱ نردبان باشد:\n\n۱) یک ارتباطِ کوتاهِ گرم و انسانی بگیر — نشان بده با علاقه به حوزه‌ی کارِ این شخص نگاه می‌کنی و آن را عمیقاً می‌شناسی. فاخر و صمیمی، نه تعریف و تمجیدِ توخالی، نه رسمیِ خشک.\n\n۲) بعد، یک سوالِ میلیون‌دلاریِ تخصصی بپرس — این امضای توست و قدرتِ توست. سوالی چنان دقیق و حرفه‌ای درباره‌ی دردهای واقعیِ همین صنف که مدیر با خودش بگوید «این دردِ من را از خودم بهتر می‌شناسد». سوال باید منطبق با نقش و اختیاراتِ واقعیِ آن صنف باشد. سوالِ عمومی، سطح‌پایین، یا مبتدی مطلقاً ممنوع است — همان لحظه آنتی‌برند می‌شوی. اگر صنف از پیام مبهم بود، یک سوالِ گرمِ هوشمند بپرس که او را به گفتنِ کارش دعوت کند.\n\nمطلقاً ممنوع در این پیام اول: هیچ کارت، هیچ تحلیلِ سه‌بولتی، هیچ دموی قابلیت‌ها، هیچ گزارش، هیچ درخواستِ شماره. فقط ارتباطِ گرم + یک سوالِ تخصصیِ خیره‌کننده. کوتاه، انسانی، هوشمند. کاربر باید بعد از این پیام حس کند با یک متخصصِ واقعی روبه‌روست و مشتاق شود جواب بدهد. این تازه شروعِ یک گفتگوست، نه ارائه‌ی محصول.]";
+  const mirrorPrompt = input + "\n\n[سیستم: این اولین پیام از وب‌سایت است. تو نسخه‌ی دیجیتال هادی بخت‌زاده‌ای — گرم، انسانی، باهوش. این پیام اول، مهم‌ترین لحظه است و باید دقیقاً طبق پله ۱ نردبان باشد:\n\n۱) یک ارتباطِ کوتاهِ گرم و انسانی بگیر — نشان بده با علاقه به حوزه‌ی کارِ این شخص نگاه می‌کنی و آن را عمیقاً می‌شناسی. فاخر و صمیمی، نه تعریف و تمجیدِ توخالی، نه رسمیِ خشک.\n\n۲) بعد، یک سوالِ میلیون‌دلاری بپرس — امضای تو و قدرتِ توست. این نباید سوالِ عمومی درباره‌ی «مشکل» یا «درد» باشد (مثل «بزرگ‌ترین مشکلتان چیست؟» — سطح‌پایین و آنتی‌برند). باید یک سوالِ هوشمندِ تیز باشد که نشان دهد سازوکارِ رشد و پولدرآوردنِ این صنف را عمیقاً می‌فهمی و روی یک فرصتِ پنهانِ رشد یا نشتِ درآمدِ مشخص دست بگذارد — چیزی که مدیر بگوید «این رشدِ کارِ من را از خودم بهتر می‌فهمد». ساختار: یک گزینه‌ی تیز بده، بعد گرم بپرس آیا این نقطه است یا جای دیگر، و با یک دعوتِ گرم تمام کن («بفرمایید تا با هم بررسی کنیم» / «خوشحال می‌شوم بشنوم»). منطبق با نقش واقعیِ صنف. اگر صنف مبهم بود، یک سوالِ گرم بپرس که او را به گفتنِ کارش دعوت کند. یادت باشد: مردم با حس تصمیم می‌گیرند — این حس را با پرستیژ و گرمی منتقل کن.\n\nمطلقاً ممنوع در این پیام اول: هیچ کارت، هیچ تحلیلِ سه‌بولتی، هیچ دموی قابلیت‌ها، هیچ گزارش، هیچ درخواستِ شماره. فقط ارتباطِ گرم + یک سوالِ تخصصیِ خیره‌کننده. کوتاه، انسانی، هوشمند. کاربر باید بعد از این پیام حس کند با یک متخصصِ واقعی روبه‌روست و مشتاق شود جواب بدهد. این تازه شروعِ یک گفتگوست، نه ارائه‌ی محصول.]";
 
   history = [{role:"user", content: input}];
 
@@ -971,6 +975,9 @@ async function sendConv() {
       document.body.setAttribute("data-stage", String(data.stage));
       var stMap = {discover:T("stDiscover"),thirst:T("stThirst"),questions:T("stQuestions"),close:T("stClose"),booked:T("stBooked")};
       var pst=$("pmStage"); if(pst && stMap[data.stage]) pst.textContent=stMap[data.stage];
+      // header shows the live stage name, with an active blink
+      var hl=$("hdrLive"); if(hl && stMap[data.stage]){ hl.textContent=stMap[data.stage]; hl.removeAttribute("data-i18n"); }
+      var hd=$("hdrDot"); if(hd){ hd.classList.remove("stage-flash"); void hd.offsetWidth; hd.classList.add("stage-flash"); }
     }catch(e){} }
     const reply = (data.reply||"").trim();
     if (reply && reply.length > 120) collectSlide("text", reply);
