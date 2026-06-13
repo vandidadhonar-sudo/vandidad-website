@@ -138,15 +138,49 @@ header{position:fixed;top:0;right:0;left:0;z-index:100;padding:18px 32px;
 .btn-line:hover{border-color:var(--copper);color:var(--copper)}
 
 /* ════ CONTINUE / CONVERSATION ════ */
-#converse{max-width:760px;margin:0 auto;padding:60px 32px 120px;display:none}
+#converse{max-width:1180px;margin:0 auto;padding:48px 32px 120px;display:none}
 #converse.active{display:block}
+.conv-layout{display:grid;grid-template-columns:340px 1fr;gap:36px;align-items:start}
+.conv-right{min-width:0}
+/* ── Left living panel ── */
+.conv-left{position:sticky;top:24px;display:flex;flex-direction:column;gap:18px}
+.panel-orb{position:relative;height:300px;border-radius:18px;overflow:hidden;
+  background:radial-gradient(120% 100% at 50% 0%,rgba(199,123,48,.06),transparent 60%),rgba(10,16,28,.4);
+  border:1px solid rgba(199,123,48,.18)}
+body.light .panel-orb{background:radial-gradient(120% 100% at 50% 0%,rgba(199,123,48,.10),transparent 60%),rgba(250,246,238,.5);border-color:rgba(199,123,48,.25)}
+.panel-orb canvas{position:absolute;inset:0;width:100%;height:100%}
+.panel-orb .po-status{position:absolute;bottom:14px;left:0;right:0;text-align:center;
+  font-size:11px;letter-spacing:.22em;color:#D69A66;text-transform:uppercase;opacity:.85}
+.panel-file{border-radius:16px;padding:20px;background:rgba(17,28,46,.5);border:1px solid rgba(199,123,48,.18)}
+body.light .panel-file{background:#fff;border-color:rgba(199,123,48,.22)}
+.pf-head{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.pf-ring{width:52px;height:52px;flex:0 0 52px}
+.pf-ring svg{transform:rotate(-90deg)}
+.pf-title{font-size:11px;letter-spacing:.1em;color:#D69A66;opacity:.85}
+.pf-brand{font-size:17px;font-weight:800;color:#F0EBE2;margin-top:3px;unicode-bidi:plaintext}
+body.light .pf-brand{color:#23150a}
+.pf-meta{font-size:11px;color:#7e8a98;direction:ltr;text-align:left;line-height:1.7;margin-top:10px;border-top:1px solid rgba(199,123,48,.14);padding-top:10px}
+.pf-actions{display:flex;flex-direction:column;gap:9px;margin-top:16px}
+.pf-actions button{border:1px solid #C77B30;background:transparent;color:#D69A66;border-radius:12px;padding:10px;font-size:12.5px;font-family:inherit;cursor:pointer;transition:all .25s}
+.pf-actions button:hover{background:rgba(199,123,48,.14);box-shadow:0 0 16px rgba(199,123,48,.22)}
 .conv-stream{display:flex;flex-direction:column;gap:24px;margin-bottom:28px}
 .bubble-twin .b-from{font-size:10px;color:var(--copper);letter-spacing:0.2em;
   text-transform:uppercase;margin-bottom:8px}
-.bubble-twin .b-text{font-size:16px;line-height:1.95;color:var(--bone);white-space:pre-wrap}
+.bubble-twin .b-text{font-size:16px;line-height:1.95;color:var(--bone);white-space:pre-wrap;
+  background:rgba(17,28,46,.45);border:1px solid rgba(199,123,48,.16);border-radius:14px;
+  padding:16px 18px;backdrop-filter:blur(4px);animation:bubbleIn .5s ease}
+body.light .bubble-twin .b-text{background:rgba(255,255,255,.6);border-color:rgba(199,123,48,.18)}
+@keyframes bubbleIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.bubble-twin .b-text p{margin:0 0 .6em}
+.bubble-twin .b-text ul{list-style:none;margin:.4em 0;padding:0}
+.bubble-twin .b-text li{position:relative;padding-right:20px;margin:.45em 0;line-height:1.85}
+.bubble-twin .b-text li::before{content:"";position:absolute;right:4px;top:.7em;width:7px;height:7px;
+  border-radius:50%;background:#C77B30;box-shadow:0 0 8px rgba(199,123,48,.5)}
+.bubble-twin .b-text strong{color:#E7B583;font-weight:700}
 .bubble-you{display:flex;justify-content:flex-start}
-.bubble-you .b-text{background:var(--surface2);border:1px solid var(--line-soft);
-  padding:12px 16px;border-radius:2px;font-size:15px;color:var(--bone);max-width:82%;line-height:1.8}
+.bubble-you .b-text{background:rgba(199,123,48,.10);border:1px solid rgba(199,123,48,.22);
+  padding:12px 16px;border-radius:14px;font-size:15px;color:var(--bone);max-width:82%;line-height:1.8;animation:bubbleIn .4s ease}
+body.light .bubble-you .b-text{background:rgba(199,123,48,.08)}
 .conv-work{display:flex;gap:6px;align-items:center;padding:4px 0}
 .conv-work span{width:5px;height:5px;border-radius:50%;background:var(--copper);animation:work 1.2s infinite}
 .conv-work span:nth-child(2){animation-delay:0.15s}
@@ -331,7 +365,7 @@ body.light #caseBar .cb-brand{color:#23150a}
 #caseBar .cb-actions{display:flex;gap:8px}
 #caseBar .cb-actions button{border:1px solid #C77B30;background:transparent;color:#D69A66;border-radius:18px;padding:5px 12px;font-size:11.5px;cursor:pointer}
 /* ── Neural orb ── */
-#mindOrb{position:fixed;bottom:18px;left:18px;width:92px;height:92px;z-index:950;pointer-events:none;opacity:.9}
+#mindOrb{display:block;pointer-events:none}
 /* ── Mind trace console ── */
 #mindTrace{position:fixed;bottom:18px;right:18px;z-index:940;width:230px;max-height:130px;overflow:hidden;direction:rtl;
  font-size:10.5px;color:#8fa0b5;pointer-events:none}
@@ -354,7 +388,21 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
 #boardroom .br-nav button{border:1px solid #C77B30;background:transparent;color:#D69A66;border-radius:22px;padding:8px 22px;cursor:pointer;font-size:14px}
 #boardroom .br-close{position:fixed;top:18px;left:22px;font-size:26px;color:#96A0AC;background:none;border:none;cursor:pointer}
 #boardroom .br-slide-text{font-size:20px;line-height:2.1;color:#E7E1D6;padding:30px;border:1px solid rgba(199,123,48,.4);border-radius:18px;background:rgba(17,28,46,.6)}
-@media(max-width:760px){#mindTrace{display:none}#mindOrb{width:64px;height:64px}#caseBar .cb-meta{display:none}}
+@media(max-width:920px){
+  #converse{max-width:760px;padding:40px 20px 100px}
+  .conv-layout{grid-template-columns:1fr;gap:22px}
+  .conv-left{position:static;flex-direction:row;flex-wrap:wrap;gap:14px}
+  .panel-orb{height:180px;flex:1 1 200px;min-width:200px}
+  .panel-file{flex:2 1 280px}
+  .pf-actions{flex-direction:row}
+  .pf-actions button{flex:1}
+}
+@media(max-width:560px){
+  .conv-left{flex-direction:column}
+  .panel-orb{height:200px}
+  .pf-actions{flex-direction:column}
+}
+@media(max-width:760px){#mindTrace{display:none}#caseBar .cb-meta{display:none}}
 
 /* ── polish v2 ── */
 #themeBtn{top:66px;left:16px}
@@ -372,7 +420,6 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
 <body>
 <div id="aurora"></div>
 <button id="themeBtn" title="تم">◐</button>
-<canvas id="mindOrb" width="184" height="184"></canvas>
 <div id="mindTrace"></div>
 <div id="ceremony"><div class="c-label">A I O S</div><div class="c-brand" id="cerBrand"></div><div class="c-no" id="cerNo"></div></div>
 <div id="boardroom"><button class="br-close" onclick="brClose()">✕</button><div class="br-stage" id="brStage"></div>
@@ -446,15 +493,28 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
   </section>
 
   <section id="converse">
-<div id="caseBar">
- <div class="cb-ring"><svg viewBox="0 0 44 44" width="44" height="44">
-  <circle cx="22" cy="22" r="19" fill="none" stroke="rgba(150,160,170,.25)" stroke-width="3"/>
-  <circle id="cbRingFill" cx="22" cy="22" r="19" fill="none" stroke="#C77B30" stroke-width="3" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="119.4" style="transition:stroke-dashoffset .9s"/>
- </svg></div>
- <div><div class="cb-title" id="cbTitle">پرونده در حال گشایش…</div><div class="cb-brand" id="cbBrand">—</div></div>
- <div class="cb-meta" id="cbMeta"></div>
- <div class="cb-actions"><button onclick="openBoardroom()">حالت ارائه</button><button onclick="makePlaque()">سند پرونده</button></div>
-</div>
+<div class="conv-layout">
+    <aside class="conv-left">
+      <div class="panel-orb">
+        <canvas id="mindOrb" width="340" height="300"></canvas>
+        <div class="po-status" id="orbStatus">ذهن، آماده است</div>
+      </div>
+      <div class="panel-file" id="caseBar">
+        <div class="pf-head">
+          <div class="pf-ring"><svg viewBox="0 0 52 52" width="52" height="52">
+            <circle cx="26" cy="26" r="22" fill="none" stroke="rgba(150,160,170,.22)" stroke-width="3"/>
+            <circle id="cbRingFill" cx="26" cy="26" r="22" fill="none" stroke="#C77B30" stroke-width="3" stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="138.2" style="transition:stroke-dashoffset .9s"/>
+          </svg></div>
+          <div><div class="pf-title" id="cbTitle">پرونده در حال گشایش…</div><div class="pf-brand" id="cbBrand">—</div></div>
+        </div>
+        <div class="pf-meta" id="cbMeta"></div>
+        <div class="pf-actions">
+          <button onclick="openBoardroom()">حالت ارائه (Boardroom)</button>
+          <button onclick="makePlaque()">دریافت سند پرونده</button>
+        </div>
+      </div>
+    </aside>
+    <div class="conv-right">
     <div class="conv-stream" id="convStream"></div>
     <div class="handoff" id="handoff">
       <div class="handoff-t">گفتگو را همراه خود ببرید</div>
@@ -470,6 +530,8 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
     </div>
+    </div>
+  </div>
   </section>
 
   <footer>
@@ -687,6 +749,7 @@ const _DW_MSGS_FA=["در حال تحلیل عمیق…","بررسی بازار �
 const _DW_MSGS_EN=["Analyzing deeply…","Reviewing real market data…","Detecting hidden patterns…","Crafting a tailored insight…"];
 function startDeepWork(){
   window.orbState && orbState("think");
+  var _os=$("orbStatus"); if(_os) _os.textContent="در حال تحلیل…";
   mindTrace("تحلیل عمیق آغاز شد");
   window._dwSec=0;
   window._dwTimer=setInterval(function(){
@@ -709,6 +772,7 @@ function startDeepWork(){
 }
 function stopDeepWork(){
   window.orbState && orbState("idle");
+  var _os2=$("orbStatus"); if(_os2) _os2.textContent="ذهن، آماده است";
   if(window._dwTimer){clearInterval(window._dwTimer);window._dwTimer=null;}
   mindTrace("تحلیل کامل شد");
  clearInterval(_dwTimer); _dwTimer=null; }
@@ -909,33 +973,66 @@ function dualDateStr(){
 }
 setInterval(function(){var m=$("cbMeta"); if(m && m.offsetParent!==null) m.textContent=dualDateStr();},30000);
 
-/* ── Neural orb ── */
+/* ── Neural orb (3D sphere, depth + synapses) ── */
 (function(){
   var cv=$("mindOrb"); if(!cv) return;
-  var ctx=cv.getContext("2d"), W=184, H=184, N=26, nodes=[], state="idle", flare=0;
-  for(var i=0;i<N;i++){var a=Math.random()*6.283,r=30+Math.random()*48;
-    nodes.push({a:a,r:r,s:.002+Math.random()*.004,p:Math.random()*6.283});}
-  window.orbState=function(s){state=s; if(s==="pulse"){flare=1; setTimeout(function(){state="idle"},1400);}};
-  function tick(t){
-    ctx.clearRect(0,0,W,H);
-    var speed=state==="think"?3.2:1, glow=state==="think"?.9:.45+flare*.5;
-    flare*=.96;
-    var pts=[];
-    for(var i=0;i<N;i++){var n=nodes[i]; n.a+=n.s*speed;
-      var br=Math.sin(t*.001+n.p)*5;
-      var x=92+Math.cos(n.a)*(n.r+br), y=92+Math.sin(n.a)*(n.r+br);
-      pts.push([x,y]);}
-    ctx.strokeStyle="rgba(199,123,48,"+(0.10+glow*.12)+")"; ctx.lineWidth=.6;
-    for(var i=0;i<N;i++) for(var j=i+1;j<N;j++){
-      var dx=pts[i][0]-pts[j][0], dy=pts[i][1]-pts[j][1];
-      if(dx*dx+dy*dy<1500){ctx.beginPath();ctx.moveTo(pts[i][0],pts[i][1]);ctx.lineTo(pts[j][0],pts[j][1]);ctx.stroke();}}
-    for(var i=0;i<N;i++){
-      ctx.beginPath();ctx.arc(pts[i][0],pts[i][1],1.6+(i<_filePieces?1.4:0),0,6.283);
-      ctx.fillStyle=i<_filePieces?"rgba(214,154,102,"+(0.85+flare*.15)+")":"rgba(214,154,102,"+(0.35+glow*.3)+")";
-      ctx.fill();}
-    requestAnimationFrame(tick);
+  var ctx=cv.getContext("2d");
+  var W=cv.width, H=cv.height, CX=W/2, CY=H/2, R=Math.min(W,H)*0.42;
+  var state="idle", flare=0, t=0;
+  var N=120, nodes=[];
+  for(var i=0;i<N;i++){
+    var y=1-(i/(N-1))*2, rr=Math.sqrt(Math.max(0,1-y*y)), phi=i*2.39996;
+    nodes.push({x:Math.cos(phi)*rr,y:y,z:Math.sin(phi)*rr,p:Math.random()*6.28,lit:Math.random()<0.5});
   }
-  requestAnimationFrame(tick);
+  window.orbState=function(s){state=s; if(s==="pulse"){flare=1; setTimeout(function(){state="idle"},1400);}};
+  function rY(p,a){var c=Math.cos(a),s=Math.sin(a);return{x:p.x*c-p.z*s,y:p.y,z:p.x*s+p.z*c};}
+  function rX(p,a){var c=Math.cos(a),s=Math.sin(a);return{x:p.x,y:p.y*c-p.z*s,z:p.y*s+p.z*c};}
+  function frame(){
+    t+=0.016;
+    var spin=state==="think"?0.85:0.26;
+    var breathe=1+Math.sin(t*1.1)*(state==="think"?0.05:0.025)+flare*0.12;
+    flare*=0.95;
+    ctx.clearRect(0,0,W,H);
+    var hg=ctx.createRadialGradient(CX,CY,R*0.4,CX,CY,R*1.7*breathe);
+    hg.addColorStop(0,"rgba(199,123,48,"+(0.14+flare*0.3)+")");
+    hg.addColorStop(1,"rgba(199,123,48,0)");
+    ctx.fillStyle=hg; ctx.beginPath(); ctx.arc(CX,CY,R*1.7*breathe,0,6.28); ctx.fill();
+    var ay=t*spin, ax=Math.sin(t*0.3)*0.32, pts=[];
+    for(var i=0;i<N;i++){
+      var p=rX(rY(nodes[i],ay),ax), depth=(p.z+1)/2;
+      pts.push({sx:CX+p.x*R*breathe, sy:CY+p.y*R*breathe, d:depth, n:nodes[i]});
+    }
+    pts.sort(function(a,b){return a.d-b.d;});
+    ctx.lineWidth=0.6;
+    for(var i=0;i<pts.length;i++){
+      for(var j=i+1;j<i+6 && j<pts.length;j++){
+        var dx=pts[i].sx-pts[j].sx, dy=pts[i].sy-pts[j].sy, dd=dx*dx+dy*dy;
+        var lim=R*R*0.16;
+        if(dd<lim){
+          var op=(1-dd/lim)*0.5*((pts[i].d+pts[j].d)/2);
+          ctx.strokeStyle="rgba(199,123,48,"+(op*(state==="think"?1.4:0.8))+")";
+          ctx.beginPath(); ctx.moveTo(pts[i].sx,pts[i].sy); ctx.lineTo(pts[j].sx,pts[j].sy); ctx.stroke();
+        }
+      }
+    }
+    var litCount=Math.max(0,Math.min(N,(window._filePieces||0)*8));
+    for(var i=0;i<pts.length;i++){
+      var p=pts[i], n=p.n, tw=0.5+0.5*Math.sin(t*2+n.p);
+      var on=n.lit || (i<litCount);
+      var sz=(0.6+p.d*1.7)*(on?1.5:1)*breathe;
+      var br=on?(0.55+tw*0.45):(0.2+p.d*0.3); br=Math.min(1,br+flare*0.4);
+      ctx.beginPath(); ctx.arc(p.sx,p.sy,sz,0,6.28);
+      ctx.fillStyle="rgba("+Math.round(214+(255-214)*tw)+","+Math.round(154+(210-154)*tw*0.5)+",102,"+br+")";
+      ctx.fill();
+    }
+    var cg=ctx.createRadialGradient(CX,CY,0,CX,CY,R*0.22*breathe);
+    cg.addColorStop(0,"rgba(255,225,180,"+(0.9+flare*0.1)+")");
+    cg.addColorStop(0.5,"rgba(214,154,102,0.5)");
+    cg.addColorStop(1,"rgba(199,123,48,0)");
+    ctx.fillStyle=cg; ctx.beginPath(); ctx.arc(CX,CY,R*0.22*breathe,0,6.28); ctx.fill();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 })();
 
 /* ── Case file ── */
@@ -953,7 +1050,7 @@ function updateCaseFile(f){
   pieces=Math.min(7,pieces);
   if(pieces>_filePieces){ mindTrace("قطعه‌ی "+pieces+" از ۷ پرونده ثبت شد"); window.orbState && orbState("pulse"); }
   _filePieces=pieces;
-  var ring=$("cbRingFill"); if(ring) ring.style.strokeDashoffset=String(119.4*(1-pieces/7));
+  var ring=$("cbRingFill"); if(ring) ring.style.strokeDashoffset=String(138.2*(1-pieces/7));
   var faN="۰۱۲۳۴۵۶۷۸۹"[pieces]||pieces;
   $("cbTitle").textContent="پرونده — "+faN+" از ۷ قطعه";
   $("cbMeta").textContent=dualDateStr();
@@ -1019,7 +1116,7 @@ function mdLite(text){
   let s = escapeHtml(text);
   s = s.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
   s = s.replace(/^[\u2500\u2501\u2014-]{4,}$/gm, '<hr style="border:none;border-top:1px solid #263449;margin:10px 0">');
-  s = s.replace(/^[\u2022\u00b7]\s?/gm, '<span style="color:#C77B30">\u25cf</span> ');
+  s = s.replace(/^[\u2022\u00b7\u2013\u2014]\s?/gm, '<span style="color:#C77B30;text-shadow:0 0 8px rgba(199,123,48,.6)">\u25cf</span>\u2009');
   s = s.replace(/\n/g, "<br>");
   return s;
 }
