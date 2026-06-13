@@ -399,7 +399,7 @@ body.light #caseBar .cb-brand{color:#23150a}
 /* ── Neural orb ── */
 #mindOrb{display:block;pointer-events:none}
 /* ── Mind trace console ── */
-#mindTrace{position:fixed;bottom:18px;right:18px;z-index:940;width:230px;max-height:130px;overflow:hidden;direction:rtl;
+#mindTrace{position:fixed;top:120px;right:18px;z-index:940;width:250px;max-height:140px;overflow:hidden;direction:rtl;
  font-size:10.5px;color:#8fa0b5;pointer-events:none}
 #mindTrace div{padding:2px 0;border-right:2px solid rgba(199,123,48,.5);padding-right:8px;margin-bottom:3px;
  opacity:0;animation:traceIn .5s forwards;background:linear-gradient(270deg,transparent,rgba(10,16,28,.6))}
@@ -497,7 +497,6 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
 <body>
 <div id="aurora"></div>
 <div id="roomGlow"></div>
-<button id="themeBtn" title="تم">◐</button>
 <div id="mindTrace"></div>
 <div id="ceremony"><div class="c-label">A I O S</div><div class="c-brand" id="cerBrand"></div><div class="c-no" id="cerNo"></div></div>
 <div id="boardroom"><button class="br-close" onclick="brClose()">✕</button><div class="br-stage" id="brStage"></div>
@@ -671,7 +670,7 @@ async function runMirror(input) {
   startDeepWork();
 
   // Single call: ask the twin to (1) reflect understanding (2) produce a real sample artifact
-  const mirrorPrompt = input + "\n\n[سیستم: اولین پیام از وب‌سایت. ساختار پاسخ، دقیقاً سه بخش:\n(۱) در یک تا دو جمله نشان بده حوزه و جنس کسب‌وکار این شخص را عمیقاً فهمیدی — فاخر، دقیق، بدون تعریف و تمجید.\n(۲) با علامت ||DEMO|| یک تصویر کلی قدرتمند بده: ۳ تا ۴ قابلیت مشخص که یک سیستم‌عامل هوش مصنوعی در همین صنف او خلق می‌کند — هر کدام یک خط کوتاه و کوبنده، دقیقاً منطبق با نقش و اختیارات واقعی آن صنف (مشاور املاک مالک نیست و قیمت تعیین نمی‌کند؛ پزشک تخفیف نمی‌دهد). قابلیت‌ها نباید منشی/پاسخ خودکار/لیست محصول باشند — باید کشف الگوی پنهان، پیش‌بینی، تصمیم درآمدزا و چیزی باشند که کاربر بگوید این چطور ممکن است. هیچ عدد و آمار جعلی به‌عنوان داده واقعی او نده؛ سناریو را با تصور کنید و منطقه X قاب‌بندی کن.\n(۳) در انتها دقیقاً یک کارت بصری بفرست: [CARD:architecture] با عنوان معماری AIOS برای صنف او و سه لایه قابلیت اختصاصی همان صنف، و سپس دو یا سه سوال درگیرکننده کوتاه به‌صورت دکمه با فرمت [BUTTONS]سوال اول|سوال دوم|سوال سوم[/BUTTONS] — سوال‌هایی که جواب‌دادنشان برای او آسان و وسوسه‌انگیز است و به ما برای تحلیل دقیق‌تر داده می‌دهد (مثل تعداد پرونده/مشتری، بزرگترین گلوگاه، تعداد نیرو). هرگز در این پیام اول شماره تماس نخواه.]"
+  const mirrorPrompt = input + "\n\n[سیستم: این اولین پیام از وب‌سایت است. تو نسخه‌ی دیجیتال هادی بخت‌زاده‌ای — گرم، انسانی، باهوش. این پیام اول، مهم‌ترین لحظه است و باید دقیقاً طبق پله ۱ نردبان باشد:\n\n۱) یک ارتباطِ کوتاهِ گرم و انسانی بگیر — نشان بده با علاقه به حوزه‌ی کارِ این شخص نگاه می‌کنی و آن را عمیقاً می‌شناسی. فاخر و صمیمی، نه تعریف و تمجیدِ توخالی، نه رسمیِ خشک.\n\n۲) بعد، یک سوالِ میلیون‌دلاریِ تخصصی بپرس — این امضای توست و قدرتِ توست. سوالی چنان دقیق و حرفه‌ای درباره‌ی دردهای واقعیِ همین صنف که مدیر با خودش بگوید «این دردِ من را از خودم بهتر می‌شناسد». سوال باید منطبق با نقش و اختیاراتِ واقعیِ آن صنف باشد. سوالِ عمومی، سطح‌پایین، یا مبتدی مطلقاً ممنوع است — همان لحظه آنتی‌برند می‌شوی. اگر صنف از پیام مبهم بود، یک سوالِ گرمِ هوشمند بپرس که او را به گفتنِ کارش دعوت کند.\n\nمطلقاً ممنوع در این پیام اول: هیچ کارت، هیچ تحلیلِ سه‌بولتی، هیچ دموی قابلیت‌ها، هیچ گزارش، هیچ درخواستِ شماره. فقط ارتباطِ گرم + یک سوالِ تخصصیِ خیره‌کننده. کوتاه، انسانی، هوشمند. کاربر باید بعد از این پیام حس کند با یک متخصصِ واقعی روبه‌روست و مشتاق شود جواب بدهد. این تازه شروعِ یک گفتگوست، نه ارائه‌ی محصول.]";
 
   history = [{role:"user", content: input}];
 
@@ -979,8 +978,10 @@ async function sendConv() {
     if (data.buttons && data.buttons.length) setTimeout(()=>addButtons(data.buttons), 400);
     if (data.cards && data.cards.length) setTimeout(()=>addCards(data.cards), 250);
     if (data.pdf_url) addPdf(data.pdf_url);
-    // reveal handoff after a few exchanges
-    if (history.filter(h=>h.role==="user").length >= 3) $("handoff").classList.add("shown");
+    // reveal handoff ONLY when the twin signals readiness (stage close/booked, or explicit flag)
+    if (data.handoff_ready === true || data.stage === "close" || data.stage === "booked") {
+      $("handoff").classList.add("shown");
+    }
   } catch(e) {
     stopDeepWork(); $("convWork")?.remove();
     addTwin("اتصال لحظه‌ای قطع شد. دوباره بفرمایید.");
@@ -1033,9 +1034,7 @@ function stripMarkers(t){
 
 /* ══════════ AIOS Experience Engine ══════════ */
 (function(){
-  // Theme
-  var tb=document.getElementById("themeBtn");
-  if(tb){ tb.onclick=function(){ document.body.classList.toggle("light"); }; }
+  // Theme button removed
 })();
 var _trace=[], _slides=[], _brIdx=0, _filePieces=0, _caseNo=null, _brandShown="";
 
