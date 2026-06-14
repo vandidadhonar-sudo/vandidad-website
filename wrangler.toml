@@ -1,4 +1,7 @@
 name = "vandidad-website"
-main = "worker.js"
+# Self-fetching worker: serves the live index.html (single source of truth),
+# so a `wrangler deploy` can never publish a stale embedded copy. worker.js is
+# legacy (old embedded HTML) and is no longer referenced.
+main = "worker_full.js"
 compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
