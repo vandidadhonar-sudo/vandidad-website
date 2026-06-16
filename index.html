@@ -919,6 +919,7 @@ function renderCardEl(card){
       +'<svg viewBox="0 0 220 220" style="width:100%;max-width:330px;display:block;margin:0 auto">'+rings
       +axes.map((_,i)=>'<line x1="'+cx+'" y1="'+cy+'" x2="'+pt(i,1).split(",")[0]+'" y2="'+pt(i,1).split(",")[1]+'" stroke="#263449" stroke-width="1"/>').join("")
       +'<polygon points="'+poly+'" fill="rgba(196,124,62,.38)" stroke="#D69A66" stroke-width="2" style="animation:acIn 1s"/>'+labels+'</svg>'
+      +'<div style="margin-top:12px;direction:rtl">'+axes.map(a=>{var s=+(a.score||0);var c=(s<=5?"#D69A66":"#7FB88A");return '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 2px;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px"><span style="color:#E7E1D6">'+escapeHtml(a.name||"")+'</span><span style="color:'+c+';font-weight:700;white-space:nowrap">'+s+'/۱۰ — '+acScoreLabel(s)+'</span></div>';}).join("")+'</div>'
       +(d.diagnosis?'<div class="ac-cta" style="margin-top:14px">'+escapeHtml(d.diagnosis)+'</div>':'')+brand;
   } else if(t==="roi"){
     const col=(c,hl)=>'<div style="flex:1;background:#0E1726;border:1px solid '+(hl?"#C77B30":"#263449")+';border-radius:12px;padding:12px">'
@@ -941,6 +942,8 @@ function renderCardEl(card){
   } else return null;
   return wrap;
 }
+// Step 4: turn a bare 0–10 score into a meaningful Persian readiness label.
+function acScoreLabel(s){ s=+s||0; return s<=3?"بحرانی":(s<=5?"جای رشدِ جدی":(s<=7?"متوسط، قابلِ تقویت":(s<=8?"خوب":"عالی"))); }
 function animateAmount(el, finalText){
   if(!el) return;
   const digits="۰۱۲۳۴۵۶۷۸۹"; let n=0;
