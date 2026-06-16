@@ -80,7 +80,7 @@ body{
 main{opacity:0;transition:opacity 1.2s ease}
 main.live{opacity:1}
 
-header{position:fixed;top:0;right:0;left:0;z-index:100;padding:18px 32px;
+header{position:fixed;top:0;right:0;left:0;z-index:100;padding:18px 32px;padding-left:120px;/* reserve space so the fixed lang-switch never overlaps header content */
   display:flex;align-items:center;justify-content:space-between;
   background:rgba(10,14,20,0.7);backdrop-filter:blur(20px);
   border-bottom:1px solid var(--line-soft)}
@@ -94,6 +94,17 @@ header{position:fixed;top:0;right:0;left:0;z-index:100;padding:18px 32px;
 body[data-stage="close"] .hdr-live #hdrLive,body[data-stage="booked"] .hdr-live #hdrLive{color:#F0C078;font-weight:700}
 .hdr-dot{width:6px;height:6px;border-radius:50%;background:var(--copper);
   animation:thPulse 2.4s infinite;box-shadow:0 0 10px var(--copper-glow)}
+
+/* ── Mobile: keep the fixed top controls from overlapping the header/each other ── */
+@media(max-width:600px){
+  header{padding:12px 14px;padding-left:92px}
+  .brand{font-size:13px}
+  .brand-sub{display:none}
+  .lang-switch{top:12px;left:10px;padding:3px}
+  .lang-opt{padding:5px 8px;font-size:10px}
+  #themeBtn{top:54px;left:10px;width:32px;height:32px;font-size:14px}
+  #mindTrace{display:none}
+}
 
 /* ════ THE MIRROR (live analysis) ════ */
 #mirror{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
@@ -509,10 +520,10 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
 <div class="nerve"></div>
 
 <div class="lang-switch" id="langSwitch">
-  <button class="lang-opt" data-lang="fa" onclick="setLang('fa')">فا</button>
-  <button class="lang-opt" data-lang="en" onclick="setLang('en')">EN</button>
-  <button class="lang-opt" data-lang="ar" onclick="setLang('ar')">ع</button>
-  <button class="lang-opt" data-lang="tr" onclick="setLang('tr')">TR</button>
+  <button class="lang-opt" data-lang="fa" onclick="pickLang('fa')">فا</button>
+  <button class="lang-opt" data-lang="en" onclick="pickLang('en')">EN</button>
+  <button class="lang-opt" data-lang="ar" onclick="pickLang('ar')">ع</button>
+  <button class="lang-opt" data-lang="tr" onclick="pickLang('tr')">TR</button>
 </div>
 
 <!-- ════ THRESHOLD ════ -->
@@ -1403,6 +1414,8 @@ const I18N = {
 let LANG = "fa";
 const RTL_LANGS = ["fa", "ar"];
 
+// Manual language pick — persists the explicit choice, then applies it.
+function pickLang(lang){ try{ localStorage.setItem("aios_lang", lang); }catch(e){} setLang(lang); }
 function setLang(lang) {
   if (!I18N[lang]) lang = "fa";
   LANG = lang;
@@ -1453,11 +1466,22 @@ function timeGreeting(){
 }
 function faNum(n){ if(LANG!=="fa"&&LANG!=="ar") return String(n); var d=(LANG==="ar")?"٠١٢٣٤٥٦٧٨٩":"۰۱۲۳۴۵۶۷۸۹"; return String(n).replace(/[0-9]/g,function(c){return d[+c];}); }
 function detectLang() {
-  const nav = (navigator.language || navigator.userLanguage || "fa").toLowerCase();
+  // 1) explicit prior choice wins (persisted on manual switch)
+  try { var saved = localStorage.getItem("aios_lang"); if (saved && I18N[saved]) return saved; } catch(e){}
+  // 2) browser language (priority per spec)
+  const nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
   if (nav.startsWith("fa") || nav.startsWith("pe")) return "fa";
   if (nav.startsWith("ar")) return "ar";
   if (nav.startsWith("tr")) return "tr";
   if (nav.startsWith("en")) return "en";
+  // 3) IP fallback — Cloudflare CF-IPCountry injected by the worker (zero cost)
+  var c = String(window.__CF_COUNTRY__ || "").toUpperCase();
+  if (c) {
+    if (c === "IR") return "fa";
+    if (c === "TR") return "tr";
+    if (["SA","AE","EG","IQ","KW","QA","BH","OM","JO","LB","SY","YE","LY","DZ","MA","TN","SD","PS","MR"].indexOf(c) >= 0) return "ar";
+    return "en";
+  }
   return "fa"; // default Persian (primary market)
 }
 
