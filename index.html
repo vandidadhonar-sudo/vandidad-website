@@ -1470,28 +1470,42 @@ function timeGreeting(){
   return T(key);
 }
 function faNum(n){ if(LANG!=="fa"&&LANG!=="ar") return String(n); var d=(LANG==="ar")?"٠١٢٣٤٥٦٧٨٩":"۰۱۲۳۴۵۶۷۸۹"; return String(n).replace(/[0-9]/g,function(c){return d[+c];}); }
-function detectLang() {
-  // 1) explicit prior choice wins (persisted on manual switch)
-  try { var saved = localStorage.getItem("aios_lang"); if (saved && I18N[saved]) return saved; } catch(e){}
-  // 2) browser language (priority per spec)
-  const nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
-  if (nav.startsWith("fa") || nav.startsWith("pe")) return "fa";
-  if (nav.startsWith("ar")) return "ar";
-  if (nav.startsWith("tr")) return "tr";
-  if (nav.startsWith("en")) return "en";
-  // 3) IP fallback — Cloudflare CF-IPCountry injected by the worker (zero cost)
-  var c = String(window.__CF_COUNTRY__ || "").toUpperCase();
-  if (c) {
-    if (c === "IR") return "fa";
-    if (c === "TR") return "tr";
-    if (["SA","AE","EG","IQ","KW","QA","BH","OM","JO","LB","SY","YE","LY","DZ","MA","TN","SD","PS","MR"].indexOf(c) >= 0) return "ar";
-    return "en";
-  }
-  return "fa"; // default Persian (primary market)
+function savedLang(){ try{ var s=localStorage.getItem("aios_lang"); if(s && I18N[s]) return s; }catch(e){} return ""; }
+function browserLang(){
+  var nav = (navigator.language || navigator.userLanguage || "").toLowerCase();
+  if (nav.indexOf("fa")===0 || nav.indexOf("pe")===0) return "fa";
+  if (nav.indexOf("ar")===0) return "ar";
+  if (nav.indexOf("tr")===0) return "tr";
+  if (nav.indexOf("en")===0) return "en";
+  return "";
+}
+function countryToLang(c){
+  c = String(c||"").toUpperCase();
+  if (c==="IR") return "fa";
+  if (c==="TR") return "tr";
+  if (["SA","AE","EG","IQ","KW","QA","BH","OM","JO","LB","SY","YE","LY","DZ","MA","TN","SD","PS","MR"].indexOf(c)>=0) return "ar";
+  return c ? "en" : "";
+}
+// Priority: saved choice → browser → country → fa
+function detectLang(){ return savedLang() || browserLang() || countryToLang(window.__CF_COUNTRY__) || "fa"; }
+
+async function initLang(){
+  setLang(detectLang());  // instant first paint
+  // Only when there is NO explicit/browser/injected signal, refine the country via
+  // Cloudflare's same-origin /cdn-cgi/trace (free on every CF site, independent of
+  // how the page is served). Keeps priority: saved → browser → country → fa.
+  if (savedLang() || browserLang() || countryToLang(window.__CF_COUNTRY__)) return;
+  try{
+    var r = await fetch("/cdn-cgi/trace", {cache:"no-store"});
+    if(!r.ok) return;
+    var m = (await r.text()).match(/(?:^|\n)loc=([A-Za-z]{2})/);
+    var lang = countryToLang(m && m[1]);
+    if (lang && !savedLang()) setLang(lang);
+  }catch(e){}
 }
 
 // Initialize on load
-window.addEventListener("DOMContentLoaded", () => { setLang(detectLang()); });
+window.addEventListener("DOMContentLoaded", initLang);
 </script>
 </body>
 </html>
