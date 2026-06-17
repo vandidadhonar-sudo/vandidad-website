@@ -950,6 +950,11 @@ function renderCardEl(card){
       +'<div class="ac-title">'+escapeHtml(d.title||"")+'</div>'
       +(d.steps||[]).slice(0,4).map((s,i)=>'<div class="ac-step" style="animation-delay:'+(0.25+i*0.25)+'s"><div class="sn">'+["۱","۲","۳","۴"][i]+'</div><div class="st">'+escapeHtml(s)+'</div></div>').join("")
       +(d.cta?'<div class="ac-cta">'+escapeHtml(d.cta)+'</div>':'')+brand;
+  } else if(t==="teaser"){
+    wrap.innerHTML='<div class="ac-label">'+escapeHtml(d.intro||"یک نمونه از کاری که برایتان می‌سازیم")+'</div>'
+      +'<div class="ac-title">'+escapeHtml(d.title||"")+'</div>'
+      +'<div style="margin-top:6px">'+(d.capabilities||[]).slice(0,3).map((c,i)=>'<div class="ac-step" style="animation-delay:'+(0.2+i*0.25)+'s"><div class="sn">✦</div><div class="st">'+escapeHtml(c)+'</div></div>').join("")+'</div>'
+      +'<div class="ac-cta">'+escapeHtml(d.cta||"برای دیدنِ کاملش، شماره‌تان را بدهید")+'</div>'+brand;
   } else return null;
   return wrap;
 }
