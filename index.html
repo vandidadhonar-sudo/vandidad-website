@@ -479,7 +479,15 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
 @media (max-width: 760px){
   .lang-switch{top:12px;left:12px;gap:2px}
   #themeBtn{top:12px;left:auto;right:12px;width:34px;height:34px}
-  #converse{max-width:100%;padding:30px 14px 110px}
+  /* Mobile scroll contract: header (name+lang) + input bar STAY; status,
+     back button and the analysis/stage panel SCROLL with the conversation. */
+  #converse{max-width:100%;padding:100px 14px 110px}/* top clears the fixed header (~56px) + the scrolling back-button row, so neither overlaps content */
+  /* Back button: scroll with the page (was position:fixed). Sits below the
+     header in the cleared top zone, then scrolls up under it (z-index 50<100). */
+  .back-btn{position:absolute;top:62px;right:16px}
+  /* Analysis/stage panel: scroll with content (was sticky top:0;z-index:900,
+     which on mobile stuck over the fixed header). */
+  #caseBar{position:static;z-index:auto}
   .conv-layout{grid-template-columns:1fr;gap:14px}
   .conv-left{position:static;display:flex;flex-direction:column;gap:12px}
   .panel-pulse{padding:14px 16px}
