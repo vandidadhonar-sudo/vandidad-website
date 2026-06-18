@@ -653,16 +653,30 @@ let firstInput = "";
 
 const $ = id => document.getElementById(id);
 
-// ── THRESHOLD → MIRROR ──
+// ── THRESHOLD → CONVERSATION ──
 function enter(seed) {
   firstInput = (seed || "").trim();
   $("threshold").classList.add("dismissed");
   setTimeout(() => {
     $("main").classList.add("live");
     showBack();
-    if (firstInput) runMirror(firstInput);
+    // Every first input — even a single word like "حسابدار" — goes straight
+    // into the normal DISCOVER conversation (owned by the backend). The old
+    // one-shot "mirror" demo (runMirror) is kept below but never auto-triggered;
+    // it framed the twin's first real answer as a throwaway "sample".
+    if (firstInput) startConversationWith(firstInput);
     else openConversation(true);
   }, 700);
+}
+
+// First input → open the conversation view silently (no separate greeting
+// bubble; the twin's first reply greets warmly + asks the sharp question) and
+// send it as the first turn so the backend activates its opening-turn behavior.
+function startConversationWith(text) {
+  $("mirror").style.display = "none";
+  $("converse").classList.add("active");
+  $("convField").value = text;
+  sendConv({first:true});
 }
 
 $("thGo").onclick = () => { const v = $("thInput").value.trim(); if(v) enter(v); };
@@ -970,11 +984,14 @@ function animateAmount(el, finalText){
   },55);
 }
 
-async function sendConv() {
+async function sendConv(opts) {
   if (busy) return;
   const field = $("convField");
   const text = field.value.trim();
   if (!text) return;
+  // opts.first is only set by the first-turn caller; event-handler callers
+  // pass an Event (no .first), so this stays false for normal sends.
+  const isFirst = !!(opts && opts.first === true);
   field.value=""; field.style.height="";
   addYou(text);
   history.push({role:"user", content:text});
@@ -983,7 +1000,7 @@ async function sendConv() {
   try {
     const res = await fetch(API, {
       method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({message:text, session_id:SESSION, lang:LANG, history:history.slice(-12)})
+      body: JSON.stringify({message:text, session_id:SESSION, lang:LANG, history:history.slice(-12), first:isFirst})
     });
     const data = await res.json();
     stopDeepWork(); $("convWork")?.remove();
