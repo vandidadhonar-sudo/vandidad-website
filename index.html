@@ -398,11 +398,13 @@ body.light .ac-title,body.light .ac-items li,body.light .ac-step .st{color:#2315
 body.light .ac-amount-box,body.light .ac-layer{background:#FBF6EC;border-color:#e3d2bb}
 #themeBtn{position:fixed;top:72px;left:24px;z-index:1200;width:38px;height:38px;border-radius:50%;border:1px solid #C77B30;background:rgba(15,23,38,.65);color:#D69A66;cursor:pointer;font-size:16px;backdrop-filter:blur(6px)}
 body.light #themeBtn{background:rgba(255,255,255,.7);color:#9a5d1f}
-/* ── Case file header ── */
-#caseBar{position:sticky;top:0;z-index:900;display:none;align-items:center;gap:14px;direction:rtl;
- padding:10px 18px;margin:0 0 8px;border-bottom:1px solid rgba(199,123,48,.35);
- background:rgba(10,16,28,.72);backdrop-filter:blur(10px)}
-body.light #caseBar{background:rgba(250,246,238,.85)}
+/* ── Case file panel ── */
+/* #caseBar IS the vertical .panel-file side panel (the id was reused from a
+   legacy horizontal bar). Keep ONLY the hidden-until-active state and let
+   .panel-file own layout + visuals. The old bar styling (flex-row via
+   align-items + sticky/z-index/border-bottom/backdrop) turned the panel into a
+   flex ROW, so its children — including the two action buttons — overlapped. */
+#caseBar{display:none;direction:rtl}
 #caseBar .cb-ring{width:44px;height:44px;flex:0 0 44px}
 #caseBar .cb-ring svg{transform:rotate(-90deg)}
 #caseBar .cb-title{font-size:13px;color:#D69A66;letter-spacing:.06em}
@@ -1202,7 +1204,7 @@ setInterval(function(){var m=$("cbMeta"); if(m && m.offsetParent!==null) m.textC
 function updateCaseFile(f){
   if(!f) return;
   var bar=$("caseBar"); if(!bar) return;
-  bar.style.display="flex";
+  bar.style.display="block";   // vertical .panel-file card — NOT a flex row
   var pieces=0;
   if(f.register) pieces++;
   if(history.length>=2) pieces++;
