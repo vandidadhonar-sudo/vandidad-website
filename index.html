@@ -662,7 +662,19 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
 // (RESPONSE_STREAM + Lambda Web Adapter), NOT the 30s-capped API Gateway path.
 // The frontend consumes Server-Sent Events from this URL (see sendConv).
 const API = "https://qyfm5ip2y7e2xmlakzzolzd6ai0mkkrn.lambda-url.us-east-1.on.aws";
-let SESSION = "web-" + Math.random().toString(36).slice(2, 11);
+// Durable web identity (SINGLE SOURCE OF TRUTH for the visitor's contact).
+// The backend derives the contact — and with it ALL history + negotiation state
+// (stage, buy_signal, register, history_summary) — purely from session_id. So it
+// MUST survive reloads/return visits; otherwise every reload spawns a NEW contact
+// → the twin re-greets and forgets ("returning contact" detection also breaks).
+// Persisted in localStorage; reset ONLY on explicit goBack ("start over").
+let SESSION = (function(){
+  try {
+    let s = localStorage.getItem("aios_sid");
+    if (!s) { s = "web-" + Math.random().toString(36).slice(2, 11); localStorage.setItem("aios_sid", s); }
+    return s;
+  } catch(e) { return "web-" + Math.random().toString(36).slice(2, 11); }
+})();
 let history = [];
 let busy = false;
 let firstInput = "";
@@ -1324,7 +1336,10 @@ function goBack() {
   const dc = $("demoContent");
   if (dc) dc.innerHTML = '<div class="demo-working"><span></span><span></span><span></span></div>';
   history = [];
-  SESSION = "web-" + Math.random().toString(36).slice(2, 11);  // fresh session
+  // "Start over" → brand-new durable identity + drop any restored client state,
+  // so the next conversation is genuinely fresh (and persisted as the new id).
+  SESSION = "web-" + Math.random().toString(36).slice(2, 11);
+  try { localStorage.setItem("aios_sid", SESSION); sessionStorage.removeItem("aios_state"); } catch(e){}
   setTimeout(() => $("thInput").focus(), 400);
 }
 
