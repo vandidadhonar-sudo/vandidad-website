@@ -653,7 +653,10 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
 </main>
 
 <script>
-const API = "https://6nvxe8fq35.execute-api.us-east-1.amazonaws.com/production/webhook/web";
+// Streaming chat endpoint — the aios-twin-website-chat Lambda Function URL
+// (RESPONSE_STREAM + Lambda Web Adapter), NOT the 30s-capped API Gateway path.
+// The frontend consumes Server-Sent Events from this URL (see sendConv).
+const API = "https://qyfm5ip2y7e2xmlakzzolzd6ai0mkkrn.lambda-url.us-east-1.on.aws";
 let SESSION = "web-" + Math.random().toString(36).slice(2, 11);
 let history = [];
 let busy = false;
@@ -992,6 +995,23 @@ function animateAmount(el, finalText){
   },55);
 }
 
+// Finalize a streamed bubble with the authoritative reply (━━━ artifact-aware),
+// without re-running the typing animation — the prose already streamed in.
+function finalizeStreamBubble(el, text) {
+  const art = renderArtifact(text);
+  if (art) {
+    el.innerHTML = "";
+    if (art.before) { const b=document.createElement("div"); b.innerHTML = mdLite(art.before); el.appendChild(b); }
+    const card = document.createElement("div"); card.innerHTML = art.cardHtml; el.appendChild(card);
+    if (art.after) { const a=document.createElement("div"); a.style.marginTop="12px"; a.innerHTML = mdLite(art.after); el.appendChild(a); }
+    if (/گزارش|تحلیل|داسیه/.test(art.after||"") && /می‌توانم|آماده کنم|تهیه/.test(art.after||"")) showReportChoice();
+  } else {
+    el.innerHTML = mdLite(text);
+    if (/می‌توانم یک گزارش|گزارش تحلیلی اختصاصی|گزارش کامل/.test(text)) setTimeout(showReportChoice, 300);
+  }
+  scrollConv();
+}
+
 async function sendConv(opts) {
   if (busy) return;
   const field = $("convField");
@@ -1005,13 +1025,58 @@ async function sendConv(opts) {
   history.push({role:"user", content:text});
   busy = true; $("convSend").disabled = true;
   addWork();
+  // ── Streaming SSE: progressive REPLY prose, then the authoritative `done`
+  // contract (same shape the old sync endpoint returned). Frames are "\n\n"
+  // separated; ": keepalive" comments are ignored. ──
+  let sBubble = null, sText = null, gotChunk = false, doneData = null;
+  const ensureBubble = () => {
+    if (sBubble) return;
+    $("convWork")?.remove();
+    const d = document.createElement("div");
+    d.className = "bubble-twin";
+    d.innerHTML = '<div class="b-from">'+T("senderName")+'</div><div class="b-text"></div>';
+    $("convStream").appendChild(d);
+    sBubble = d; sText = d.querySelector(".b-text");
+  };
+  const handleEvt = (evt) => {
+    if (evt.type === "chunk") {
+      gotChunk = true; ensureBubble();
+      sText.innerHTML = mdLite(evt.text || "");   // full clean prose so far
+      scrollConv();
+    } else if (evt.type === "done") {
+      doneData = evt;
+    } else if (evt.type === "error") {
+      ensureBubble();
+      sText.innerHTML = mdLite(evt.message || "خطایی رخ داد.");
+    }
+    // "typing" → keep the deep-work indicator as-is
+  };
   try {
     const res = await fetch(API, {
       method:"POST", headers:{"Content-Type":"application/json"},
       body: JSON.stringify({message:text, session_id:SESSION, lang:LANG, history:history.slice(-12), first:isFirst})
     });
-    const data = await res.json();
+    if (!res.ok || !res.body) throw new Error("bad response " + (res && res.status));
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = "";
+    while (true) {
+      const {done, value} = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, {stream:true});
+      let nl;
+      while ((nl = buf.indexOf("\n\n")) >= 0) {
+        const frame = buf.slice(0, nl); buf = buf.slice(nl + 2);
+        const line = frame.trim();
+        if (!line.startsWith("data:")) continue;   // skip comments/keepalives
+        const payload = line.slice(5).trim();
+        if (!payload) continue;
+        let evt; try { evt = JSON.parse(payload); } catch(e) { continue; }
+        handleEvt(evt);
+      }
+    }
     stopDeepWork(); $("convWork")?.remove();
+    const data = doneData || {};
     window._WEB_CID = data.contact_id || window._WEB_CID;
     try{ sessionStorage.setItem("aios_state", JSON.stringify({cid: window._WEB_CID||"", hist: history.slice(-6)})); }catch(e){}
     if (data.file) updateCaseFile(data.file);
@@ -1024,8 +1089,16 @@ async function sendConv(opts) {
       var hd=$("hdrDot"); if(hd){ hd.classList.remove("stage-flash"); void hd.offsetWidth; hd.classList.add("stage-flash"); }
     }catch(e){} }
     const reply = (data.reply||"").trim();
-    if (reply && reply.length > 120) collectSlide("text", reply);
-    if (reply) { addTwin(reply); history.push({role:"assistant", content:reply}); }
+    if (reply) {
+      // Finalize with the authoritative reply (artifact-aware). If we streamed a
+      // bubble, replace its content in place (no re-typing); else create one.
+      if (sBubble) finalizeStreamBubble(sText, reply);
+      else addTwin(reply);
+      if (reply.length > 120) collectSlide("text", reply);
+      history.push({role:"assistant", content:reply});
+    } else if (!gotChunk) {
+      addTwin("اتصال لحظه‌ای قطع شد. دوباره بفرمایید.");
+    }
     if (data.buttons && data.buttons.length) setTimeout(()=>addButtons(data.buttons), 400);
     if (data.cards && data.cards.length) setTimeout(()=>addCards(data.cards), 250);
     if (data.pdf_url) addPdf(data.pdf_url);
@@ -1035,7 +1108,8 @@ async function sendConv(opts) {
     }
   } catch(e) {
     stopDeepWork(); $("convWork")?.remove();
-    addTwin("اتصال لحظه‌ای قطع شد. دوباره بفرمایید.");
+    // Keep any partial streamed text; otherwise show a recoverable error.
+    if (!(sBubble && gotChunk)) addTwin("اتصال لحظه‌ای قطع شد. دوباره بفرمایید.");
   }
   busy = false; $("convSend").disabled = false; field.focus();
 }
