@@ -80,14 +80,17 @@ body{
 main{opacity:0;transition:opacity 1.2s ease}
 main.live{opacity:1}
 
-header{position:fixed;top:0;right:0;left:0;z-index:100;padding:18px 32px;padding-left:200px;/* reserve ≥ the lang-switch footprint (left:24 + ~162 width ≈ 186px) so the fixed top-left lang-switch never overlaps the live-status on the header's left edge */
+header{position:fixed;top:0;right:0;left:0;z-index:100;padding:18px 32px;padding-left:232px;/* reserve WELL beyond the lang-switch footprint (left:24 + ~162 ≈ 186px) so the fixed top-left lang-switch keeps a clear ~45px gap from the live-status (RTL → status sits at the header's left edge) in EVERY state, incl. processing */
   display:flex;align-items:center;justify-content:space-between;gap:16px;
   background:rgba(10,14,20,0.7);backdrop-filter:blur(20px);
   border-bottom:1px solid var(--line-soft)}
 .brand{font-weight:900;font-size:15px;letter-spacing:-0.02em}
 .brand span{color:var(--copper)}
 .brand-sub{font-size:9px;color:var(--bone-dim);letter-spacing:0.28em;margin-top:1px;font-weight:400}
-.hdr-live{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--copper);letter-spacing:0.08em;min-width:0;white-space:nowrap;overflow:hidden;flex-shrink:1}
+/* Muted status TEXT (not copper) so it never blends with the copper active-
+   language pill sitting just to its left; the pulsing copper .hdr-dot remains
+   the "live" signal. close/booked still override #hdrLive to gold below. */
+.hdr-live{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--bone-dim);letter-spacing:0.08em;min-width:0;white-space:nowrap;overflow:hidden;flex-shrink:1}
 .hdr-dot.stage-flash{animation:stageFlash 1.2s ease-out 2}
 @keyframes stageFlash{0%{transform:scale(1);box-shadow:0 0 10px var(--copper-glow)}50%{transform:scale(1.8);box-shadow:0 0 22px var(--copper),0 0 36px var(--copper-glow)}100%{transform:scale(1);box-shadow:0 0 10px var(--copper-glow)}}
 .hdr-live #hdrLive{transition:color .4s}
@@ -97,7 +100,7 @@ body[data-stage="close"] .hdr-live #hdrLive,body[data-stage="booked"] .hdr-live 
 
 /* ── Mobile: keep the fixed top controls from overlapping the header/each other ── */
 @media(max-width:600px){
-  header{padding:12px 14px;padding-left:150px}/* clears mobile lang-switch (left:10 + ~124 ≈ 134px) */
+  header{padding:12px 14px;padding-left:156px}/* clears mobile lang-switch (left:10 + ~132 ≈ 142px) with a comfortable gap */
   .brand{font-size:13px}
   .brand-sub{display:none}
   .lang-switch{top:12px;left:10px;padding:3px}
