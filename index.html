@@ -245,6 +245,15 @@ body.light .bubble-you .b-text{background:rgba(199,123,48,.08)}
   box-shadow:0 6px 18px rgba(199,123,48,.28);transition:transform .2s,box-shadow .2s,filter .2s}
 .conv-send:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(199,123,48,.42);filter:brightness(1.06)}
 .conv-send:active{transform:translateY(0)}
+
+/* ── Polish (additive, safe): a11y focus rings + tactile press + status parity ── */
+.conv-send:focus-visible,.conv-field:focus-visible,.conv-btn:focus-visible,.lang-opt:focus-visible,
+.back-btn:focus-visible,.pf-actions button:focus-visible,#themeBtn:focus-visible,.btn:focus-visible,
+.handoff a:focus-visible,.conv-send:focus-visible{outline:2px solid var(--copper-bright);outline-offset:2px;border-radius:10px}
+.btn:active,.conv-btn:active,.pf-actions button:active,.lang-opt:active{transform:translateY(1px)}
+/* Panel status reads in the same pill language as the header live-status. */
+.panel-pulse .po-status{font-size:11px;letter-spacing:.06em;color:var(--bone-dim);
+  background:rgba(199,123,48,.07);border:1px solid rgba(199,123,48,.14);padding:4px 11px;border-radius:100px}
 .conv-send:disabled{opacity:0.4;cursor:not-allowed}
 
 /* handoff card */
@@ -398,7 +407,7 @@ body[data-stage="close"] #aurora,body[data-stage="booked"] #aurora{opacity:.78;b
  background:radial-gradient(40% 30% at 50% 0%,rgba(214,154,102,.10),transparent 70%)}
 body[data-stage="close"] #roomGlow,body[data-stage="booked"] #roomGlow{opacity:1}
 @keyframes auroraDrift{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-1.5%,1%,0)}}
-#aurora{animation:auroraDrift 22s ease-in-out infinite alternate}}
+#aurora{animation:auroraDrift 22s ease-in-out infinite alternate}
 /* ── Light theme ── */
 body.light{background:#F4EFE6;color:#1c2533}
 body.light #aurora{opacity:.5;background:radial-gradient(60% 50% at 20% 10%,rgba(199,123,48,.18),transparent 60%),radial-gradient(50% 45% at 85% 85%,rgba(30,60,120,.10),transparent 60%)}
