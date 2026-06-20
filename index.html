@@ -1163,7 +1163,15 @@ $("handoffGo").onclick = () => {
 // ── helpers ──
 function escapeHtml(s){ return s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
 function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
-function scrollConv(){ const c=$("convStream"); window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"}); }
+function scrollConv(){
+  // A freshly-appended card's height isn't final on the first tick (entrance
+  // animation / SVG / async render), so a single scroll under-shoots on mobile
+  // and the card looks "stuck" above the fold. Re-run once layout settles.
+  const go = () => window.scrollTo({top:document.body.scrollHeight, behavior:"smooth"});
+  go();
+  requestAnimationFrame(go);
+  setTimeout(go, 160);
+}
 function stripMarkers(t){
   // Remove server-side control markers that must never reach the eye
   return (t||"")
