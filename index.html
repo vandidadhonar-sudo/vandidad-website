@@ -90,7 +90,7 @@ header{position:fixed;top:0;right:0;left:0;z-index:100;padding:18px 32px;padding
 /* Muted status TEXT (not copper) so it never blends with the copper active-
    language pill sitting just to its left; the pulsing copper .hdr-dot remains
    the "live" signal. close/booked still override #hdrLive to gold below. */
-.hdr-live{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--bone-dim);letter-spacing:0.08em;min-width:0;white-space:nowrap;overflow:hidden;flex-shrink:1}
+.hdr-live{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--bone-dim);letter-spacing:0.08em;min-width:0;white-space:nowrap;overflow:hidden;flex-shrink:1;background:rgba(199,123,48,.07);border:1px solid rgba(199,123,48,.14);padding:5px 12px;border-radius:100px}
 .hdr-dot.stage-flash{animation:stageFlash 1.2s ease-out 2}
 @keyframes stageFlash{0%{transform:scale(1);box-shadow:0 0 10px var(--copper-glow)}50%{transform:scale(1.8);box-shadow:0 0 22px var(--copper),0 0 36px var(--copper-glow)}100%{transform:scale(1);box-shadow:0 0 10px var(--copper-glow)}}
 .hdr-live #hdrLive{transition:color .4s}
@@ -107,6 +107,9 @@ body[data-stage="close"] .hdr-live #hdrLive,body[data-stage="booked"] .hdr-live 
   .lang-opt{padding:5px 8px;font-size:10px}
   #themeBtn{top:54px;left:10px;width:32px;height:32px;font-size:14px}
   #mindTrace{display:none}
+  /* The header live-status collides with the fixed lang-switch on phones; the
+     side panel already shows the stage, so drop it here to declutter. */
+  .hdr-live{display:none}
 }
 
 /* ════ THE MIRROR (live analysis) ════ */
@@ -207,7 +210,8 @@ body.light .pm-val{color:#9a6a30}
   text-transform:uppercase;margin-bottom:8px}
 .bubble-twin .b-text{font-size:16px;line-height:1.95;color:var(--bone);white-space:pre-wrap;
   background:rgba(17,28,46,.45);border:1px solid rgba(199,123,48,.16);border-radius:14px;
-  padding:16px 18px;backdrop-filter:blur(4px);animation:bubbleIn .5s ease}
+  padding:18px 20px;backdrop-filter:blur(4px);animation:bubbleIn .5s ease;
+  max-width:680px}/* cap line length for comfortable reading (not full column width) */
 body.light .bubble-twin .b-text{background:rgba(255,255,255,.6);border-color:rgba(199,123,48,.18)}
 @keyframes bubbleIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .bubble-twin .b-text p{margin:0 0 .6em}
@@ -226,19 +230,21 @@ body.light .bubble-you .b-text{background:rgba(199,123,48,.08)}
 .conv-work span:nth-child(3){animation-delay:0.3s}
 .conv-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
 .conv-btn{font-family:inherit;font-size:13px;color:var(--copper);background:rgba(199,123,48,0.06);
-  border:1px solid var(--line);padding:9px 18px;border-radius:2px;cursor:pointer;
+  border:1px solid var(--line);padding:9px 18px;border-radius:10px;cursor:pointer;
   transition:all 0.25s;direction:rtl}
-.conv-btn:hover{background:rgba(199,123,48,0.14);border-color:var(--copper)}
+.conv-btn:hover{background:rgba(199,123,48,0.14);border-color:var(--copper);transform:translateY(-1px)}
 .conv-input{display:flex;gap:12px;align-items:flex-end;position:sticky;bottom:0;
-  background:var(--void);padding:16px 0;border-top:1px solid var(--line-soft)}
+  background:var(--void);padding:16px 0 18px;border-top:1px solid var(--line-soft)}
 .conv-field{flex:1;background:var(--surface);border:1px solid var(--line);
-  color:var(--bone);font-family:inherit;font-size:15px;padding:13px 16px;border-radius:2px;
-  outline:none;direction:rtl;resize:none;min-height:48px;max-height:120px;transition:border-color 0.3s}
-.conv-field:focus{border-color:var(--copper)}
-.conv-send{width:48px;height:48px;flex-shrink:0;background:var(--copper);border:none;
-  border-radius:2px;color:var(--void);cursor:pointer;display:flex;align-items:center;
-  justify-content:center;transition:background 0.3s}
-.conv-send:hover{background:var(--copper-bright)}
+  color:var(--bone);font-family:inherit;font-size:15px;padding:14px 18px;border-radius:14px;
+  outline:none;direction:rtl;resize:none;min-height:50px;max-height:120px;transition:border-color .3s,box-shadow .3s}
+.conv-field:focus{border-color:var(--copper);box-shadow:0 0 0 3px rgba(199,123,48,.13)}
+.conv-send{width:50px;height:50px;flex-shrink:0;border:none;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;border-radius:14px;color:var(--void);
+  background:linear-gradient(145deg,var(--copper-bright),var(--copper));
+  box-shadow:0 6px 18px rgba(199,123,48,.28);transition:transform .2s,box-shadow .2s,filter .2s}
+.conv-send:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(199,123,48,.42);filter:brightness(1.06)}
+.conv-send:active{transform:translateY(0)}
 .conv-send:disabled{opacity:0.4;cursor:not-allowed}
 
 /* handoff card */
