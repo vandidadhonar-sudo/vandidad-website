@@ -458,6 +458,7 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
 @media(max-width:920px){
   #converse{max-width:760px;padding:40px 20px 100px}
   .conv-layout{grid-template-columns:1fr;gap:22px}
+  .conv-right{order:-1}/* CHAT FIRST on mobile/tablet — the case-file panel drops below it, instead of burying the conversation */
   .conv-left{position:static;flex-direction:row;flex-wrap:wrap;gap:14px}
   .panel-orb{height:180px;flex:1 1 200px;min-width:200px}
   .panel-file{flex:2 1 280px}
