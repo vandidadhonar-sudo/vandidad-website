@@ -159,12 +159,12 @@ body[data-stage="close"] .hdr-live #hdrLive,body[data-stage="booked"] .hdr-live 
 .btn-line:hover{border-color:var(--copper);color:var(--copper)}
 
 /* ════ CONTINUE / CONVERSATION ════ */
-#converse{max-width:1180px;margin:0 auto;padding:48px 32px 120px;display:none}
+#converse{max-width:1180px;margin:0 auto;padding:96px 32px 120px;display:none}/* top clears the fixed header */
 #converse.active{display:block}
 .conv-layout{display:grid;grid-template-columns:340px 1fr;gap:36px;align-items:start}
 .conv-right{min-width:0}
 /* ── Left living panel ── */
-.conv-left{position:sticky;top:24px;z-index:10;display:flex;flex-direction:column;gap:18px}
+.conv-left{position:sticky;top:96px;z-index:10;display:flex;flex-direction:column;gap:18px}/* pin BELOW the fixed header, not behind it */
 .panel-orb{position:relative;height:300px;border-radius:18px;overflow:hidden;
   background:radial-gradient(120% 100% at 50% 0%,rgba(199,123,48,.06),transparent 60%),rgba(10,16,28,.4);
   border:1px solid rgba(199,123,48,.18)}
@@ -298,13 +298,15 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;
 }
 
 /* ── Back button ── */
-.back-btn{position:fixed;top:80px;right:32px;z-index:50;display:flex;align-items:center;gap:8px;
+/* Desktop: top-LEFT, clear of the RTL right-column panel (was right:32, which
+   overlapped the panel orb). Mobile keeps it top-right (panel is reordered below). */
+.back-btn{position:fixed;top:118px;left:24px;right:auto;z-index:50;display:flex;align-items:center;gap:8px;
   background:var(--surface);border:1px solid var(--line);color:var(--bone-dim);
-  font-family:inherit;font-size:13px;padding:9px 16px;border-radius:2px;cursor:pointer;
+  font-family:inherit;font-size:13px;padding:9px 16px;border-radius:10px;cursor:pointer;
   transition:all 0.3s;opacity:0;pointer-events:none}
 .back-btn.show{opacity:1;pointer-events:auto}
 .back-btn:hover{border-color:var(--copper);color:var(--copper)}
-@media(max-width:680px){.back-btn{top:70px;right:16px;padding:7px 12px;font-size:12px}}
+@media(max-width:680px){.back-btn{top:70px;right:16px;left:auto;padding:7px 12px;font-size:12px}}
 
 /* ── Prettier artifact card (━━━ blocks become styled cards) ── */
 .artifact-card{background:linear-gradient(180deg,rgba(199,123,48,0.05),rgba(199,123,48,0.01));
@@ -436,6 +438,9 @@ body.light #caseBar .cb-brand{color:#23150a}
 /* ── Mind trace console ── */
 #mindTrace{position:fixed;top:120px;right:18px;z-index:940;width:250px;max-height:140px;overflow:hidden;direction:rtl;
  font-size:10.5px;color:#8fa0b5;pointer-events:none}
+/* It is right-aligned and always overlaps the RTL right-column panel except on
+   ultra-wide screens; hide it below 1500px so it never masks the panel. */
+@media(max-width:1500px){#mindTrace{display:none}}
 #mindTrace div{padding:2px 0;border-right:2px solid rgba(199,123,48,.5);padding-right:8px;margin-bottom:3px;
  opacity:0;animation:traceIn .5s forwards;background:linear-gradient(270deg,transparent,rgba(10,16,28,.6))}
 @keyframes traceIn{to{opacity:1}}
@@ -505,7 +510,7 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
   #converse{max-width:100%;padding:100px 14px 110px}/* top clears the fixed header (~56px) + the scrolling back-button row, so neither overlaps content */
   /* Back button: scroll with the page (was position:fixed). Sits below the
      header in the cleared top zone, then scrolls up under it (z-index 50<100). */
-  .back-btn{position:absolute;top:62px;right:16px}
+  .back-btn{position:absolute;top:62px;right:16px;left:auto}
   /* Analysis/stage panel: scroll with content (was sticky top:0;z-index:900,
      which on mobile stuck over the fixed header). */
   #caseBar{position:static;z-index:auto}
