@@ -436,11 +436,11 @@ body.light #caseBar .cb-brand{color:#23150a}
 /* ── Neural orb ── */
 #mindOrb{display:block;pointer-events:none}
 /* ── Mind trace console ── */
-#mindTrace{position:fixed;top:120px;right:18px;z-index:940;width:250px;max-height:140px;overflow:hidden;direction:rtl;
+#mindTrace{position:fixed;top:120px;left:18px;right:auto;z-index:940;width:250px;max-height:140px;overflow:hidden;direction:rtl;
  font-size:10.5px;color:#8fa0b5;pointer-events:none}
-/* It is right-aligned and always overlaps the RTL right-column panel except on
-   ultra-wide screens; hide it below 1500px so it never masks the panel. */
-@media(max-width:1500px){#mindTrace{display:none}}
+/* Moved to the empty LEFT margin so it no longer masks the RTL right-column panel.
+   Hidden only on phones (≤920) where there's no room. */
+@media(max-width:920px){#mindTrace{display:none}}
 #mindTrace div{padding:2px 0;border-right:2px solid rgba(199,123,48,.5);padding-right:8px;margin-bottom:3px;
  opacity:0;animation:traceIn .5s forwards;background:linear-gradient(270deg,transparent,rgba(10,16,28,.6))}
 @keyframes traceIn{to{opacity:1}}
@@ -540,6 +540,25 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
 @media (max-width: 400px){
   .lang-opt{padding:5px 8px;font-size:12px}
   .aios-card{padding:18px 14px 12px}
+}
+
+/* ════ Mobile: case-file as an off-canvas DRAWER (slides in beside, never masks) ════ */
+.drawer-toggle,.drawer-backdrop{display:none}
+@media(max-width:760px){
+  /* The panel becomes a right-side drawer; the chat stays full-screen. */
+  .conv-left{position:fixed;top:0;right:0;bottom:0;height:100%;width:86%;max-width:320px;
+    transform:translateX(106%);transition:transform .32s cubic-bezier(.2,.8,.2,1);
+    z-index:1300;overflow-y:auto;display:flex;flex-direction:column;gap:14px;
+    padding:78px 16px 24px;background:rgba(8,13,22,.985);backdrop-filter:blur(10px);
+    border-left:1px solid rgba(199,123,48,.28);box-shadow:-14px 0 44px rgba(0,0,0,.55)}
+  .conv-left.open{transform:translateX(0)}
+  .drawer-backdrop{display:block;position:fixed;inset:0;z-index:1290;background:rgba(0,0,0,.5);
+    opacity:0;pointer-events:none;transition:opacity .3s}
+  .drawer-backdrop.open{opacity:1;pointer-events:auto}
+  .drawer-toggle{display:flex;position:fixed;bottom:88px;left:14px;z-index:1280;align-items:center;gap:7px;
+    padding:10px 15px;border:none;border-radius:100px;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:700;
+    color:var(--void);background:linear-gradient(145deg,var(--copper-bright),var(--copper));
+    box-shadow:0 6px 18px rgba(199,123,48,.45)}
 }
 </style>
 </head>
@@ -663,6 +682,11 @@ body.light #mindTrace div{color:#7a6a55;background:linear-gradient(270deg,transp
     </div>
     </div>
   </div>
+  <button class="drawer-toggle" onclick="toggleDrawer()" aria-label="پرونده‌ی هوشمند">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    <span>پرونده</span>
+  </button>
+  <div class="drawer-backdrop" onclick="toggleDrawer()"></div>
   </section>
 
   <footer>
@@ -1374,6 +1398,13 @@ function goBack() {
 
 // Show back button once we enter
 function showBack() { $("backBtn").classList.add("show"); }
+// Mobile case-file drawer (off-canvas). Toggled by the floating "پرونده" button.
+function toggleDrawer(){
+  var p=document.querySelector(".conv-left"), b=document.querySelector(".drawer-backdrop");
+  if(!p) return;
+  var open=p.classList.toggle("open");
+  if(b) b.classList.toggle("open", open);
+}
 
 // ── Render artifact (━━━ blocks → styled cards) ──
 function mdInline(s){
