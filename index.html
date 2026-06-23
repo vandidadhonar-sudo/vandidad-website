@@ -664,6 +664,15 @@ body.light #caseBar .cb-brand{color:#23150a}
   .lang-opt{padding:5px 8px;font-size:11px}
   .aios-card{padding:18px 14px 12px}
 }
+@media (max-width:480px){
+  /* entry must never bleed past the viewport edges on mobile */
+  #threshold{padding-left:18px;padding-right:18px;box-sizing:border-box;overflow-x:hidden}
+  #threshold>*{max-width:100%;box-sizing:border-box}
+  .th-eyebrow{letter-spacing:.18em;font-size:8.5px;white-space:normal;max-width:100%;text-align:center;line-height:1.6;word-break:break-word}
+  .th-line{font-size:14px;max-width:88vw;margin-left:auto;margin-right:auto;text-align:center}
+  .th-question{font-size:clamp(22px,6vw,30px);max-width:88vw;margin-left:auto;margin-right:auto;letter-spacing:-0.01em}
+  .th-input-wrap{width:88vw;max-width:88vw}
+}
 
 /* ════ Mobile: analysis panel as an off-canvas DRAWER (slides in, never masks) ════ */
 .drawer-toggle,.drawer-backdrop{display:none}
