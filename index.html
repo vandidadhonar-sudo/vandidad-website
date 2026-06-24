@@ -567,7 +567,14 @@ body[data-stage="close"] #aurora,body[data-stage="booked"] #aurora{opacity:.78;b
  background:radial-gradient(40% 30% at 50% 0%,rgba(217,183,122,.10),transparent 70%)}
 body[data-stage="close"] #roomGlow,body[data-stage="booked"] #roomGlow{opacity:1}
 @keyframes auroraDrift{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-1.5%,1%,0)}}
-#aurora{animation:auroraDrift 22s ease-in-out infinite alternate}
+#aurora{animation:none}
+/* ── performance: this was maxing the laptop fan ─────────────────────────────
+   backdrop-filter re-blurs every frame over the animated background layers; on
+   this dark theme its visual gain is negligible but its GPU cost is huge. Kill
+   blur globally, stop the full-screen aurora drift and the always-on entry/nerve
+   loops. Small in-use pulses (thinking/mind-trace) stay for life. */
+*{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.nerve,.th-pulse,.th-pulse::after{animation:none!important}
 /* main content must sit above the aurora/roomGlow layers (z-index:0). Only the
    in-flow <main> needs lifting; the fixed chrome (header/lang/back/nerve/overlays)
    already declare their own higher z-index above and must KEEP their position. */
