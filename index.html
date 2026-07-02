@@ -39,13 +39,13 @@
   --cool:#6FD6C4;
   --cool-glow:rgba(111,214,196,.5);
   /* text */
-  --ink-1:#F2EEE8;          /* primary */
-  --ink-2:#A8A29A;          /* secondary */
-  --ink-3:#6E6A64;          /* tertiary */
+  --ink-1:#F8F5EF;          /* primary — sharp */
+  --ink-2:#B6B0A6;          /* secondary */
+  --ink-3:#767168;          /* tertiary */
   /* hairlines — gradient, lighter at top */
-  --line:rgba(255,255,255,.08);
-  --line-soft:rgba(255,255,255,.055);
-  --hair:rgba(255,255,255,.05);
+  --line:rgba(255,255,255,.11);
+  --line-soft:rgba(255,255,255,.07);
+  --hair:rgba(255,255,255,.06);
   --hair-grad:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.04));
   /* legacy aliases (kept so every existing rule resolves cleanly) */
   --copper:var(--gold);
@@ -444,6 +444,45 @@ body.light .bubble-you .b-text{background:rgba(216,192,140,.08)}
 @media(max-width:560px){.ho-msgrid{grid-template-columns:1fr}.ho-msg{flex-direction:row;justify-content:flex-start;gap:14px;padding:13px 16px}.handoff-row{flex-direction:column}}
 
 /* pdf card */
+/* sector demo chips */
+.th-sectors{margin-top:34px;animation:thFade 1s .5s both}
+.ths-cap{font-size:12.5px;color:var(--ink-3);letter-spacing:.04em;margin-bottom:12px}
+.ths-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.ths-chip{background:rgba(255,255,255,.03);border:1px solid var(--line);color:var(--ink-2);
+  border-radius:999px;padding:7px 18px;font:inherit;font-size:13.5px;cursor:pointer;
+  transition:all .25s;backdrop-filter:blur(6px)}
+.ths-chip:hover{border-color:var(--gold);color:var(--gold-bright);transform:translateY(-1px);
+  box-shadow:0 8px 24px -12px var(--gold-glow)}
+@keyframes thFade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+/* returning visitor */
+.th-return{margin-top:30px;padding:18px 22px;border:1px solid rgba(216,192,140,.35);
+  border-radius:16px;background:rgba(216,192,140,.05);animation:thFade .9s .3s both;
+  max-width:440px;margin-left:auto;margin-right:auto}
+.thr-line{font-size:14.5px;color:var(--ink-1);line-height:1.9;margin-bottom:12px}
+.thr-btn{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#14110a;
+  border:none;border-radius:11px;padding:10px 26px;font:inherit;font-size:14px;font-weight:700;
+  cursor:pointer;box-shadow:0 10px 26px -12px var(--gold-glow)}
+.thr-btn:hover{filter:brightness(1.07)}
+/* dossier cinematic reveal */
+.dossier{max-width:400px;margin:18px auto;border:1px solid rgba(216,192,140,.45);border-radius:18px;
+  background:linear-gradient(165deg,rgba(216,192,140,.10),rgba(20,19,25,.9) 55%);padding:26px 22px;
+  text-align:center;animation:dosIn 1s cubic-bezier(.2,.7,.2,1) both;position:relative;overflow:hidden}
+.dossier:before{content:"";position:absolute;inset:0;
+  background:radial-gradient(300px 120px at 50% 0%,rgba(216,192,140,.14),transparent 70%)}
+.dos-seal{width:54px;height:54px;margin:0 auto 12px;border-radius:50%;
+  border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;
+  color:var(--gold);font-size:20px;animation:sealSpin 1.4s cubic-bezier(.2,.7,.2,1) both,
+  sealGlow 3s 1.4s infinite}
+@keyframes sealSpin{from{transform:rotate(-160deg) scale(.4);opacity:0}to{transform:none;opacity:1}}
+@keyframes sealGlow{0%,100%{box-shadow:0 0 0 0 var(--gold-glow)}50%{box-shadow:0 0 22px 2px var(--gold-glow)}}
+@keyframes dosIn{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+.dos-t{font-size:17px;font-weight:800;color:var(--ink-1)}
+.dos-s{font-size:12.5px;color:var(--ink-2);margin:4px 0 16px}
+.dos-btn{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  color:#14110a;border-radius:11px;padding:11px 30px;font-size:14px;font-weight:800;
+  text-decoration:none;box-shadow:0 12px 30px -12px var(--gold-glow)}
+.dos-btn:hover{filter:brightness(1.06)}
+.dos-note{font-size:11.5px;color:var(--ink-3);margin-top:12px}
 .pdf-card{display:flex;align-items:center;gap:14px;background:rgba(216,192,140,0.05);
   border:1px solid var(--line);padding:16px;border-radius:var(--radius-sm);margin-top:8px;
   text-decoration:none;max-width:360px;transition:background 0.3s,border-color .3s,transform .2s}
@@ -737,6 +776,21 @@ body.light #caseBar .cb-brand{color:#23150a}
   <div class="th-bottom">
     <span class="th-legal">HADI BAKHTZADEH · AI OPERATING SYSTEMS</span>
     <button class="th-skip" id="thSkip" data-i18n="thSkip">ورود مستقیم</button>
+    <div class="th-sectors" id="thSectors">
+      <div class="ths-cap">یا ببینید این ذهن برای صنفِ شما چگونه می‌اندیشد:</div>
+      <div class="ths-row">
+        <button class="ths-chip" data-seed="رستوران دارم">رستوران</button>
+        <button class="ths-chip" data-seed="کلینیک زیبایی دارم">کلینیک</button>
+        <button class="ths-chip" data-seed="مشاور املاک هستم">املاک</button>
+        <button class="ths-chip" data-seed="فروشگاه آنلاین دارم">فروشگاه آنلاین</button>
+        <button class="ths-chip" data-seed="آموزشگاه دارم">آموزشگاه</button>
+        <button class="ths-chip" data-seed="تولیدی دارم">تولیدی</button>
+      </div>
+    </div>
+    <div class="th-return" id="thReturn" style="display:none">
+      <div class="thr-line" id="thrLine"></div>
+      <button class="thr-btn" id="thrGo">ادامه‌ی گفتگو</button>
+    </div>
   </div>
 </div>
 
@@ -951,6 +1005,39 @@ function startConversationWith(text) {
   $("convField").value = text;
   sendConv({first:true});
 }
+
+// ── Sector demo chips: one tap → a REAL first turn in their own sector ──
+document.querySelectorAll(".ths-chip").forEach(b => {
+  b.addEventListener("click", () => enter(b.dataset.seed || b.textContent));
+});
+
+// ── Returning visitor: personal welcome from their own last conversation ──
+function saveProfile(data){
+  try{
+    const f = (data && data.file) || {};
+    const p = JSON.parse(localStorage.getItem("aios_profile") || "{}");
+    const np = {
+      name: f.name || p.name || "",
+      brand: f.brand || p.brand || "",
+      sector: (data && data.sector) || p.sector || "",
+      ts: Date.now()
+    };
+    if (np.name || np.brand || np.sector) localStorage.setItem("aios_profile", JSON.stringify(np));
+  }catch(e){}
+}
+(function returningWelcome(){
+  try{
+    const p = JSON.parse(localStorage.getItem("aios_profile") || "null");
+    if (!p || !(p.name || p.brand || p.sector)) return;
+    if (Date.now() - (p.ts||0) > 90*24*3600e3) return;
+    const who = p.name || p.brand;
+    const about = p.sector ? "درباره‌ی " + p.sector + " صحبت می‌کردیم" : "گفتگویمان نیمه‌کاره ماند";
+    $("thrLine").textContent = (who ? who + "، " : "") + "خوش برگشتید — " + about + ". از همان‌جا ادامه بدهیم؟";
+    $("thReturn").style.display = "block";
+    $("thSectors").style.display = "none";
+    $("thrGo").onclick = () => enter("");
+  }catch(e){}
+})();
 
 $("thGo").onclick = () => { const v = $("thInput").value.trim(); if(v) enter(v); };
 $("thInput").addEventListener("keydown", e => { if(e.key==="Enter"){const v=$("thInput").value.trim(); if(v) enter(v);} });
@@ -1172,11 +1259,27 @@ function addButtons(btns) {
   });
   $("convStream").appendChild(wrap); scrollConv();
 }
-function addPdf(url) {
-  const a = document.createElement("a");
-  a.className = "pdf-card"; a.href = url; a.target = "_blank";
-  a.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D8C08C" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><div><div class="pdf-card-t">گزارش تحلیلی اختصاصی</div><div class="pdf-card-s">PDF · آماده‌ی دریافت</div></div>';
-  $("convStream").appendChild(a); scrollConv();
+function addPdf(url, caseUrl) {
+  const w = document.createElement("div");
+  w.className = "dossier";
+  w.innerHTML = '<div class="dos-seal">✦</div>'
+    + '<div class="dos-t">پرونده‌ی شما آماده شد</div>'
+    + '<div class="dos-s">گزارش تحلیلی اختصاصی · مُهرشده به نام شما</div>'
+    + '<a class="dos-btn" href="'+url+'" target="_blank" rel="noopener">دریافت گزارش (PDF)</a>'
+    + (caseUrl ? '<div class="dos-note"><a href="'+caseUrl+'" target="_blank" rel="noopener" style="color:var(--gold)">پرونده‌ی زنده‌ی شما — همیشه به‌روز ←</a></div>'
+               : '<div class="dos-note">این تحلیل بر پایه‌ی گفته‌های خودِ شماست.</div>');
+  $("convStream").appendChild(w); scrollConv();
+  window.orbState && orbState("pulse");
+}
+function addCaseLink(caseUrl) {
+  const w = document.createElement("div");
+  w.className = "dossier";
+  w.innerHTML = '<div class="dos-seal">✦</div>'
+    + '<div class="dos-t">پرونده‌ی زنده‌ی شما</div>'
+    + '<div class="dos-s">تحلیل، نقشه‌ی راه و قرارِ شما — در یک صفحه‌ی اختصاصی، همیشه به‌روز</div>'
+    + '<a class="dos-btn" href="'+caseUrl+'" target="_blank" rel="noopener">باز کردن پرونده</a>';
+  $("convStream").appendChild(w); scrollConv();
+  window.orbState && orbState("pulse");
 }
 
 
@@ -1363,7 +1466,9 @@ async function sendConv(opts) {
     }
     if (data.buttons && data.buttons.length) setTimeout(()=>addButtons(data.buttons), 400);
     if (data.cards && data.cards.length) setTimeout(()=>addCards(data.cards), 250);
-    if (data.pdf_url) addPdf(data.pdf_url);
+    if (data.pdf_url) addPdf(data.pdf_url, data.case_url || "");
+    else if (data.case_url && !window._caseShown) { window._caseShown = true; addCaseLink(data.case_url); }
+    saveProfile(data);
     // reveal handoff ONLY when the twin signals readiness (stage close/booked, or explicit flag)
     if (data.handoff_ready === true || data.stage === "close" || data.stage === "booked") {
       $("handoff").classList.add("shown");
