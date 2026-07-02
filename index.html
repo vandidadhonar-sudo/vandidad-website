@@ -902,12 +902,23 @@ const API = "https://qyfm5ip2y7e2xmlakzzolzd6ai0mkkrn.lambda-url.us-east-1.on.aw
 // MUST survive reloads/return visits; otherwise every reload spawns a NEW contact
 // → the twin re-greets and forgets ("returning contact" detection also breaks).
 // Persisted in localStorage; reset ONLY on explicit goBack ("start over").
+// Session ids are bearer keys to this visitor's conversation memory, so they
+// must be unguessable: crypto.randomUUID (CSPRNG), not Math.random.
+function newSid(){
+  try { return "web-" + crypto.randomUUID(); }
+  catch(e) {
+    try {
+      var a = new Uint8Array(16); crypto.getRandomValues(a);
+      return "web-" + Array.from(a, function(b){ return b.toString(16).padStart(2,"0"); }).join("");
+    } catch(e2) { return "web-" + Math.random().toString(36).slice(2, 11) + Date.now().toString(36); }
+  }
+}
 let SESSION = (function(){
   try {
     let s = localStorage.getItem("aios_sid");
-    if (!s) { s = "web-" + Math.random().toString(36).slice(2, 11); localStorage.setItem("aios_sid", s); }
+    if (!s) { s = newSid(); localStorage.setItem("aios_sid", s); }
     return s;
-  } catch(e) { return "web-" + Math.random().toString(36).slice(2, 11); }
+  } catch(e) { return newSid(); }
 })();
 let history = [];
 let busy = false;
@@ -1580,7 +1591,7 @@ function goBack() {
   history = [];
   // "Start over" → brand-new durable identity + drop any restored client state,
   // so the next conversation is genuinely fresh (and persisted as the new id).
-  SESSION = "web-" + Math.random().toString(36).slice(2, 11);
+  SESSION = newSid();
   try { localStorage.setItem("aios_sid", SESSION); sessionStorage.removeItem("aios_state"); } catch(e){}
   setTimeout(() => $("thInput").focus(), 400);
 }
