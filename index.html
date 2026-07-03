@@ -1037,6 +1037,42 @@ function saveProfile(data){
     if (np.name || np.brand || np.sector) localStorage.setItem("aios_profile", JSON.stringify(np));
   }catch(e){}
 }
+// ── Messenger continuity sheet: after the first reply, offer Telegram/
+// Bale/WhatsApp with FULL memory (deep links carry the contact id) — or
+// simply continue here. Once per session, never nags again.
+function showMsgrSheet(){
+  try{
+    if (sessionStorage.getItem("aios_msgr_seen")) return;
+    sessionStorage.setItem("aios_msgr_seen", "1");
+    var cid = window._WEB_CID || "";
+    var L = (typeof LANG !== "undefined" && LANG) || "fa";
+    var TT = {
+      fa:{t:"گفتگو را هر جا خواستید ادامه دهید", s:"این ذهن شما را به‌خاطر می‌آورد — در هر پیام‌رسان دقیقاً از همین نقطه ادامه می‌دهید.", stay:"همین‌جا ادامه می‌دهم", wa:"سلام، گفتگو را از سایت ادامه می‌دهم"},
+      en:{t:"Continue anywhere you like", s:"This mind remembers you — pick any messenger and continue from this exact point.", stay:"I'll continue here", wa:"Hi, continuing our conversation from the website"},
+      ar:{t:"تابع الحوار أينما شئت", s:"هذا العقل يتذكرك — تابع من نفس النقطة في أي تطبيق.", stay:"سأتابع هنا", wa:"مرحباً، أتابع حوارنا من الموقع"},
+      tr:{t:"Sohbete dilediğiniz yerde devam edin", s:"Bu zihin sizi hatırlar — tam bu noktadan devam edersiniz.", stay:"Burada devam edeceğim", wa:"Merhaba, sohbetimize siteden devam ediyorum"}
+    }[L] || null;
+    if(!TT) return;
+    var code = cid ? " — کد: w_" + cid : "";
+    var el = document.createElement("div");
+    el.id = "msgrSheet";
+    el.innerHTML = '<div class="ms-card">'
+      + '<div class="ms-t">' + TT.t + '</div>'
+      + '<div class="ms-s">' + TT.s + '</div>'
+      + '<div class="ms-row">'
+      + '<a class="ms-btn" target="_blank" rel="noopener" href="https://t.me/aios_architects_bot' + (cid ? "?start=w_" + cid : "") + '">Telegram</a>'
+      + '<a class="ms-btn" target="_blank" rel="noopener" href="https://ble.ir/aios_bot' + (cid ? "?start=w_" + cid : "") + '">Bale</a>'
+      + '<a class="ms-btn" target="_blank" rel="noopener" href="https://wa.me/905521881819?text=' + encodeURIComponent(TT.wa + code) + '">WhatsApp</a>'
+      + '</div><button class="ms-stay">' + TT.stay + '</button></div>';
+    document.body.appendChild(el);
+    var close = function(){ el.classList.remove("open"); setTimeout(function(){ el.remove(); }, 300); };
+    el.querySelector(".ms-stay").onclick = close;
+    el.addEventListener("click", function(e){ if(e.target === el) close(); });
+    el.querySelectorAll(".ms-btn").forEach(function(b){ b.addEventListener("click", function(){ setTimeout(close, 400); }); });
+    requestAnimationFrame(function(){ el.classList.add("open"); });
+  }catch(e){}
+}
+
 function applyReturningHint(){
   try{
     var p = JSON.parse(localStorage.getItem("aios_profile") || "null");
@@ -1490,6 +1526,8 @@ async function sendConv(opts) {
     if (data.pdf_url) addPdf(data.pdf_url, data.case_url || "");
     else if (data.case_url && !window._caseShown) { window._caseShown = true; addCaseLink(data.case_url); }
     saveProfile(data);
+    window._turnN = (window._turnN || 0) + 1;
+    if (window._turnN === 1) setTimeout(showMsgrSheet, 1600);
     // reveal handoff ONLY when the twin signals readiness (stage close/booked, or explicit flag)
     if (data.handoff_ready === true || data.stage === "close" || data.stage === "booked") {
       $("handoff").classList.add("shown");
@@ -2195,9 +2233,29 @@ window.addEventListener("DOMContentLoaded", initLang);
   border:1px solid rgba(191,160,92,.38)!important}
 .artifact-card,.report-card{background:linear-gradient(165deg,rgba(0,96,57,.14),rgba(7,18,12,.92) 60%)!important;
   border-color:rgba(191,160,92,.34)!important}
-/* composer: NO dark band — a green fade that melts into the stage */
-.conv-input{background:linear-gradient(180deg,transparent,rgba(6,17,11,.94) 30%)!important;
-  backdrop-filter:blur(2px)}
+/* composer: NO band at all — field & button float on the stage */
+.conv-input{background:transparent!important;backdrop-filter:none}
+.conv-field{box-shadow:0 14px 34px -16px rgba(0,0,0,.55)}
+.conv-send{box-shadow:0 10px 26px -10px rgba(191,160,92,.45)!important}
+/* ── messenger continuity sheet ── */
+#msgrSheet{position:fixed;inset:0;z-index:1200;display:none;align-items:flex-end;
+  justify-content:center;background:rgba(3,8,5,.55);backdrop-filter:blur(3px)}
+#msgrSheet.open{display:flex}
+.ms-card{width:min(480px,94vw);margin-bottom:4vh;border-radius:20px;padding:26px 22px;
+  background:linear-gradient(165deg,rgba(0,96,57,.32),rgba(7,18,12,.97) 60%);
+  border:1px solid rgba(191,160,92,.45);box-shadow:0 30px 80px -20px rgba(0,0,0,.85);
+  animation:msUp .5s cubic-bezier(.2,.7,.2,1)}
+@keyframes msUp{from{transform:translateY(46px);opacity:0}}
+.ms-t{font-size:16.5px;font-weight:800;color:#F3EDE1;text-align:center}
+.ms-s{font-size:13px;color:#BFC9C0;text-align:center;margin:7px 0 16px;line-height:1.9}
+.ms-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.ms-btn{display:flex;align-items:center;justify-content:center;padding:12px 6px;border-radius:12px;
+  border:1px solid rgba(191,160,92,.4);color:#F3EDE1;text-decoration:none;
+  font-size:13.5px;font-weight:700;background:rgba(255,255,255,.03);transition:all .2s}
+.ms-btn:hover{border-color:#BFA05C;transform:translateY(-1px)}
+.ms-stay{display:block;width:100%;margin-top:10px;padding:13px;border:none;border-radius:12px;
+  background:linear-gradient(135deg,#BFA05C,#8E7434);color:#14110a;font:inherit;
+  font-size:14px;font-weight:800;cursor:pointer}
 .conv-field{background:linear-gradient(150deg,rgba(0,96,57,.26),rgba(8,22,15,.9))!important;
   border:1px solid rgba(30,158,102,.42)!important;color:#F3EDE1!important}
 .conv-field::placeholder{color:rgba(210,228,218,.55)!important}
