@@ -2182,8 +2182,22 @@ window.addEventListener("DOMContentLoaded", initLang);
 /* the twin's signature dot stays gold; live/positive signals are green (--cool) */
 .conv-left .panel-pulse,.conv-left .panel-file{border-color:rgba(30,158,102,.22)}
 #converse .aios-card{border-color:rgba(191,160,92,.30)}
-/* composer: rolex-green glass field + gold send */
-.conv-input{background:linear-gradient(180deg,transparent,#050B08 22%)!important}
+/* ═══ ROLEX = رنگ سازمانی: all surfaces breathe deep green ═══ */
+:root{
+  --void:#050C08; --ink:#07130D;
+  --surface:#0B1810; --surface2:#132619;
+  --elev:rgba(10,24,16,.72);
+  --line:rgba(120,200,160,.13); --line-soft:rgba(120,200,160,.09);
+  --hair:rgba(120,200,160,.07);
+}
+/* in-chat cards & artifacts: green-glass body, gold frame */
+.aios-card{background:linear-gradient(165deg,rgba(0,96,57,.16),rgba(7,18,12,.94) 60%)!important;
+  border:1px solid rgba(191,160,92,.38)!important}
+.artifact-card,.report-card{background:linear-gradient(165deg,rgba(0,96,57,.14),rgba(7,18,12,.92) 60%)!important;
+  border-color:rgba(191,160,92,.34)!important}
+/* composer: NO dark band — a green fade that melts into the stage */
+.conv-input{background:linear-gradient(180deg,transparent,rgba(6,17,11,.94) 30%)!important;
+  backdrop-filter:blur(2px)}
 .conv-field{background:linear-gradient(150deg,rgba(0,96,57,.26),rgba(8,22,15,.9))!important;
   border:1px solid rgba(30,158,102,.42)!important;color:#F3EDE1!important}
 .conv-field::placeholder{color:rgba(210,228,218,.55)!important}
