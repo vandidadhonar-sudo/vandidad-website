@@ -500,9 +500,7 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;margin-top:40px;
 .foot-links a{color:var(--bone-dim);font-size:13px;text-decoration:none;transition:color 0.3s}
 .foot-links a:hover{color:var(--copper)}
 
-@media(prefers-reduced-motion:reduce){
-  *{animation-duration:0.01ms!important;transition-duration:0.01ms!important;scroll-behavior:auto!important}
-}
+
 
 /* ── Back button: lives top-LEFT, clear of everything (LTR side has no content) ── */
 .back-btn{position:fixed;top:calc(var(--header-h) + 16px);left:24px;right:auto;z-index:90;display:flex;align-items:center;gap:8px;
@@ -2095,16 +2093,21 @@ window.addEventListener("DOMContentLoaded", initLang);
 (function(){
   var v=document.getElementById('heroVid'),th=document.getElementById('threshold'),c=document.getElementById('thCircle');
   if(!v)return;
-  // Robust playback: reduced-motion or any autoplay/decode failure → freeze on
-  // the poster (threshold has it as CSS background) instead of a bare page.
-  var rm=false; try{rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
-  function posterOnly(){ try{v.pause()}catch(e){}; v.style.display='none'; }
-  if(rm){ posterOnly(); }
-  else{
-    v.addEventListener('error', posterOnly);
-    var p=v.play&&v.play(); if(p&&p.catch) p.catch(posterOnly);
-  }
-  try{if(navigator.connection&&navigator.connection.saveData){v.removeAttribute('autoplay');posterOnly();}}catch(e){}
+  // OWNER'S RULE: the video plays under ALL conditions, on every device.
+  // No reduced-motion gate, no saveData gate. Autoplay is muted+playsinline
+  // (allowed everywhere); we still retry on readiness and on the first
+  // user gesture to defeat any leftover autoplay policy.
+  function tryPlay(){ try{ var p=v.play(); if(p&&p.catch) p.catch(function(){}); }catch(e){} }
+  v.addEventListener('canplay', tryPlay);
+  v.addEventListener('loadeddata', tryPlay);
+  document.addEventListener('touchstart', tryPlay, {once:true, passive:true});
+  document.addEventListener('click', tryPlay, {once:true});
+  tryPlay();
+  // hide only if EVERY source genuinely failed (real network/decode error)
+  var srcs=v.querySelectorAll('source');
+  if(srcs.length){ srcs[srcs.length-1].addEventListener('error', function(){ v.style.display='none'; }); }
+  try{ v.load(); }catch(e){}
+  tryPlay();
   document.addEventListener('visibilitychange',function(){try{document.hidden?v.pause():(th.classList.contains('dismissed')||v.play());}catch(e){}});
   new MutationObserver(function(){if(th.classList.contains('dismissed')){try{v.pause()}catch(e){};v.style.display='none';}})
     .observe(th,{attributes:true,attributeFilter:['class']});
