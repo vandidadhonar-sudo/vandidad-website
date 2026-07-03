@@ -760,7 +760,11 @@ body.light #caseBar .cb-brand{color:#23150a}
 
 <!-- ════ THRESHOLD ════ -->
 <div id="threshold">
-  <video id="heroVid" autoplay muted loop playsinline preload="auto" poster="/hero-poster.jpg"><source src="/hero.mp4" type="video/mp4"></video>
+  <div class="th-brand" aria-hidden="false">
+    <div class="tb-en">HADI BAKHTZADEH &middot; AI OPERATING SYSTEM</div>
+    <div class="tb-fa">هادی بخت‌زاده · معمار هوش مصنوعی</div>
+  </div>
+  <video id="heroVid" autoplay muted loop playsinline preload="auto" poster="/hero-poster.jpg?v=2"><source src="/hero.mp4?v=2" type="video/mp4"></video>
   <div class="th-shade" aria-hidden="true"></div>
   <div class="th-eyebrow">AIOS · ARCHITECT OF INTELLIGENT SYSTEMS</div>
   <div class="th-pulse"></div>
@@ -1035,19 +1039,22 @@ function saveProfile(data){
     if (np.name || np.brand || np.sector) localStorage.setItem("aios_profile", JSON.stringify(np));
   }catch(e){}
 }
-(function returningWelcome(){
+window.addEventListener("DOMContentLoaded", function returningWelcome(){
   try{
     const p = JSON.parse(localStorage.getItem("aios_profile") || "null");
     if (!p || !(p.name || p.brand || p.sector)) return;
     if (Date.now() - (p.ts||0) > 90*24*3600e3) return;
     const who = p.name || p.brand;
     const about = p.sector ? "درباره‌ی " + p.sector + " صحبت می‌کردیم" : "گفتگویمان نیمه‌کاره ماند";
-    $("thrLine").textContent = (who ? who + "، " : "") + "خوش برگشتید — " + about + ". از همان‌جا ادامه بدهیم؟";
-    $("thReturn").style.display = "block";
-    $("thSectors").style.display = "none";
-    $("thrGo").onclick = () => enter("");
+    var hintEl = document.querySelector("#threshold .th-hint");
+    if (hintEl) {
+      hintEl.removeAttribute("data-i18n");
+      hintEl.textContent = (who ? who + "، " : "") + "خوش برگشتید — " + about + ". برای ادامه همین‌جا لمس کنید.";
+      hintEl.classList.add("thr-live");
+      hintEl.onclick = () => enter("");
+    }
   }catch(e){}
-})();
+});
 
 $("thGo").onclick = () => { const v = $("thInput").value.trim(); if(v) enter(v); };
 $("thInput").addEventListener("keydown", e => { if(e.key==="Enter"){const v=$("thInput").value.trim(); if(v) enter(v);} });
@@ -2082,7 +2089,7 @@ window.addEventListener("DOMContentLoaded", initLang);
     .th-legal{display:none}
   .th-bottom{justify-content:center}
 }
-#threshold{background:#0A0A0C url('/hero-poster.jpg') center/cover no-repeat}
+#threshold{background:#0A0A0C url('/hero-poster.jpg?v=2') center/cover no-repeat}
 </style>
 <script>
 (function(){
@@ -2104,5 +2111,53 @@ window.addEventListener("DOMContentLoaded", initLang);
     .observe(th,{attributes:true,attributeFilter:['class']});
 })();
 </script>
+
+<style>
+/* ═══ PAGE ONE — owner's layout: lang top-left (existing), brand top-right,
+   chat box lower-right, hint at the very bottom. Bone-white type only. ═══ */
+:root{
+  --bone-ink:#F3EDE1;
+  /* Rolex palette for the pages AFTER the threshold */
+  --gold:#BFA05C; --gold-deep:#8E7434; --gold-bright:#E8D194;
+  --gold-glow:rgba(191,160,92,.36); --gold-soft:#BFA05C;
+  --cool:#1E9E66; --cool-glow:rgba(30,158,102,.5);
+}
+/* nothing else on page one */
+#threshold .th-eyebrow,#threshold .th-pulse,#threshold .th-line,
+#threshold .th-question,#threshold .th-bottom,#threshold .th-return{display:none!important}
+/* brand — top right */
+#threshold .th-brand{position:absolute!important;top:22px;right:26px;left:auto;z-index:3;text-align:center;margin:0}
+.tb-en{font-family:var(--latin);font-size:13px;font-weight:700;letter-spacing:.14em;
+  color:var(--bone-ink);text-shadow:0 1px 10px rgba(0,0,0,.85)}
+.tb-fa{font-size:12.5px;color:var(--bone-ink);opacity:.92;margin-top:3px;
+  text-shadow:0 1px 10px rgba(0,0,0,.85)}
+/* chat box — lower, pulled toward the right on wide screens */
+#threshold .th-input-wrap{position:absolute!important;z-index:3;bottom:23%;right:7%;left:auto;
+  width:min(600px,86vw);margin:0}
+#threshold .th-input{background:rgba(8,8,10,.5);border:1.5px solid rgba(243,237,225,.5);
+  color:var(--bone-ink);backdrop-filter:blur(10px);font-size:16px}
+#threshold .th-input::placeholder{color:rgba(243,237,225,.75)}
+#threshold .th-input:focus{border-color:var(--bone-ink)}
+#threshold .th-go{background:var(--bone-ink);color:#0B0B0D;border:none}
+/* hint — the only bottom line */
+#threshold .th-hint{position:absolute!important;z-index:3;bottom:7%;left:16px;right:16px;width:auto;max-width:none;
+  text-align:center;color:var(--bone-ink);opacity:1;font-size:15px;
+  text-shadow:0 1px 14px rgba(0,0,0,.95),0 0 2px rgba(0,0,0,.8)}
+#threshold .th-hint.thr-live{cursor:pointer;text-decoration:underline;
+  text-underline-offset:6px;text-decoration-color:rgba(243,237,225,.5)}
+/* footage: keep it visible, keep type readable */
+#threshold #heroVid{filter:brightness(.8) saturate(1.05) contrast(1.05)!important}
+.th-shade{background:
+  radial-gradient(90% 62% at 50% 42%,rgba(4,4,6,.38) 0%,rgba(4,4,6,.26) 55%,rgba(4,4,6,.14) 100%),
+  linear-gradient(180deg,rgba(4,4,6,.66) 0%,rgba(4,4,6,.22) 26%,rgba(4,4,6,.22) 62%,rgba(4,4,6,.78) 100%)!important}
+@media(max-width:640px){
+  .th-brand{right:14px;top:16px}
+  .tb-en{font-size:10.5px;letter-spacing:.1em}
+  .tb-fa{font-size:11px}
+  #threshold .th-input-wrap{right:5vw;left:5vw;width:auto;bottom:21%}
+  #threshold .th-hint{bottom:8%;font-size:13.5px}
+  .lang-switch{top:14px;left:12px}
+}
+</style>
 </body>
 </html>
