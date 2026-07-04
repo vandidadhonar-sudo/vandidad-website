@@ -750,10 +750,13 @@ body.light #caseBar .cb-brand{color:#23150a}
 <div class="nerve"></div>
 
 <div class="lang-switch" id="langSwitch">
-  <button class="lang-opt" data-lang="fa" onclick="pickLang('fa')">فا</button>
-  <button class="lang-opt" data-lang="en" onclick="pickLang('en')">EN</button>
-  <button class="lang-opt" data-lang="ar" onclick="pickLang('ar')">ع</button>
-  <button class="lang-opt" data-lang="tr" onclick="pickLang('tr')">TR</button>
+  <button class="lang-toggle" id="langToggle" aria-haspopup="true">Language</button>
+  <div class="lang-menu" id="langMenu">
+    <button class="lang-item" data-lang="fa">Persian</button>
+    <button class="lang-item" data-lang="en">English</button>
+    <button class="lang-item" data-lang="tr">Turkish</button>
+    <button class="lang-item" data-lang="ar">Arabic</button>
+  </div>
 </div>
 
 <!-- ════ THRESHOLD ════ -->
@@ -1096,6 +1099,25 @@ function applyReturningHint(){
 }
 window.addEventListener("DOMContentLoaded", applyReturningHint);
 
+// glass Language menu behavior
+(function(){
+  var t=document.getElementById("langToggle"), m=document.getElementById("langMenu");
+  if(!t||!m) return;
+  t.addEventListener("click", function(e){ e.stopPropagation(); m.classList.toggle("open"); });
+  document.addEventListener("click", function(){ m.classList.remove("open"); });
+  m.querySelectorAll(".lang-item").forEach(function(b){
+    b.addEventListener("click", function(e){
+      e.stopPropagation(); m.classList.remove("open");
+      m.querySelectorAll(".lang-item").forEach(function(x){ x.classList.remove("active"); });
+      b.classList.add("active");
+      pickLang(b.dataset.lang);
+    });
+  });
+})();
+// hint lives inside the chat-box block so it's always attached to it
+try{ var _hw=document.querySelector("#threshold .th-input-wrap"),
+        _hh=document.querySelector("#threshold .th-hint");
+     if(_hw&&_hh) _hw.appendChild(_hh); }catch(e){}
 $("thGo").onclick = () => { const v = $("thInput").value.trim(); if(v) enter(v); };
 $("thInput").addEventListener("keydown", e => { if(e.key==="Enter"){const v=$("thInput").value.trim(); if(v) enter(v);} });
 $("thSkip").onclick = () => enter("");
@@ -2160,6 +2182,22 @@ window.addEventListener("DOMContentLoaded", initLang);
 </script>
 
 <style>
+/* glass Language menu (top-left, matches the bone/glass page-one language) */
+.lang-switch{background:none!important;border:none!important;box-shadow:none!important;padding:0!important}
+.lang-toggle{font-family:var(--latin);font-size:12px;font-weight:600;letter-spacing:.12em;
+  color:#F3EDE1;background:rgba(255,255,255,.07);border:1px solid rgba(243,237,225,.35);
+  border-radius:100px;padding:9px 20px;cursor:pointer;backdrop-filter:blur(12px);
+  transition:all .25s;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+.lang-toggle:hover{border-color:#F3EDE1;background:rgba(255,255,255,.12)}
+.lang-menu{display:none;position:absolute;top:calc(100% + 8px);left:0;min-width:150px;
+  background:rgba(10,18,13,.82);border:1px solid rgba(243,237,225,.22);border-radius:14px;
+  padding:6px;backdrop-filter:blur(16px);box-shadow:0 20px 50px -18px rgba(0,0,0,.8)}
+.lang-menu.open{display:block;animation:lmIn .22s cubic-bezier(.2,.7,.2,1)}
+@keyframes lmIn{from{opacity:0;transform:translateY(-6px)}}
+.lang-item{display:block;width:100%;text-align:left;font-family:var(--latin);font-size:13px;
+  color:#E8E3D8;background:none;border:none;border-radius:9px;padding:10px 14px;cursor:pointer}
+.lang-item:hover{background:rgba(191,160,92,.16);color:#fff}
+.lang-item.active{color:#BFA05C;font-weight:700}
 /* ═══ PAGE ONE — owner's layout: lang top-left (existing), brand top-right,
    chat box lower-right, hint at the very bottom. Bone-white type only. ═══ */
 :root{
@@ -2187,8 +2225,9 @@ window.addEventListener("DOMContentLoaded", initLang);
 #threshold .th-input:focus{border-color:var(--bone-ink)}
 #threshold .th-go{background:var(--bone-ink);color:#0B0B0D;border:none}
 /* hint — the only bottom line */
-#threshold .th-hint{position:absolute!important;z-index:3;bottom:7%;left:16px;right:16px;width:auto;max-width:none;
-  text-align:center;color:var(--bone-ink);opacity:1;font-size:15px;
+#threshold .th-input-wrap{flex-wrap:wrap}
+#threshold .th-hint{position:static!important;order:3;width:100%;margin:13px 0 0;
+  text-align:center;color:var(--bone-ink);opacity:.95;font-size:14px;max-width:none;
   text-shadow:0 1px 14px rgba(0,0,0,.95),0 0 2px rgba(0,0,0,.8)}
 #threshold .th-hint.thr-live{cursor:pointer;text-decoration:underline;
   text-underline-offset:6px;text-decoration-color:rgba(243,237,225,.5)}
@@ -2199,11 +2238,12 @@ window.addEventListener("DOMContentLoaded", initLang);
   linear-gradient(180deg,rgba(4,4,6,.66) 0%,rgba(4,4,6,.22) 26%,rgba(4,4,6,.22) 62%,rgba(4,4,6,.78) 100%)!important}
 @media(max-width:640px){
   #threshold .th-brand{right:12px!important;top:12px!important;left:auto!important;
-    max-width:calc(100vw - 170px)!important;text-align:right}
+    max-width:calc(100vw - 150px)!important;text-align:right}
   .tb-en{font-size:9.5px;letter-spacing:.05em;white-space:normal;line-height:1.5}
-  .tb-fa{font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tb-fa{font-size:10.5px;white-space:normal;line-height:1.7}
+  .lang-toggle{font-size:10.5px;padding:8px 14px}
   #threshold .th-input-wrap{right:5vw;left:5vw;width:auto;bottom:21%}
-  #threshold .th-hint{bottom:8%;font-size:13.5px}
+  #threshold .th-hint{font-size:12.5px}
   .lang-switch{top:14px;left:12px}
 }
 </style>
