@@ -1114,10 +1114,20 @@ window.addEventListener("DOMContentLoaded", applyReturningHint);
     });
   });
 })();
-// hint lives inside the chat-box block so it's always attached to it
-try{ var _hw=document.querySelector("#threshold .th-input-wrap"),
-        _hh=document.querySelector("#threshold .th-hint");
-     if(_hw&&_hh) _hw.appendChild(_hh); }catch(e){}
+// hint lives inside the chat-box block; input+arrow get their own
+// positioned row so the arrow centers on the FIELD, not the whole block
+try{
+  var _hw=document.querySelector("#threshold .th-input-wrap"),
+      _hh=document.querySelector("#threshold .th-hint"),
+      _hi=document.querySelector("#threshold .th-input"),
+      _hg=document.querySelector("#threshold .th-go");
+  if(_hw&&_hi&&_hg){
+    var _row=document.createElement("div"); _row.className="th-row";
+    _row.appendChild(_hi); _row.appendChild(_hg);
+    _hw.insertBefore(_row, _hw.firstChild);
+  }
+  if(_hw&&_hh) _hw.appendChild(_hh);
+}catch(e){}
 $("thGo").onclick = () => { const v = $("thInput").value.trim(); if(v) enter(v); };
 $("thInput").addEventListener("keydown", e => { if(e.key==="Enter"){const v=$("thInput").value.trim(); if(v) enter(v);} });
 $("thSkip").onclick = () => enter("");
@@ -2226,6 +2236,7 @@ window.addEventListener("DOMContentLoaded", initLang);
 #threshold .th-go{background:var(--bone-ink);color:#0B0B0D;border:none}
 /* hint — the only bottom line */
 #threshold .th-input-wrap{flex-wrap:wrap}
+#threshold .th-row{position:relative;width:100%}
 #threshold .th-hint{position:static!important;order:3;width:100%;margin:13px 0 0;
   text-align:center;color:var(--bone-ink);opacity:.95;font-size:14px;max-width:none;
   text-shadow:0 1px 14px rgba(0,0,0,.95),0 0 2px rgba(0,0,0,.8)}
