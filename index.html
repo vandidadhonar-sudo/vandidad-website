@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" translate="no">
 <head>
 <meta charset="UTF-8">
+<meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="هادی بخت‌زاده — معمار سیستم‌های هوش مصنوعی. ذهنی که برای کسب‌وکار شما می‌اندیشد.">
 <meta name="theme-color" content="#0A0A0C">
@@ -2066,22 +2067,14 @@ function countryToLang(c){
   if (["SA","AE","EG","IQ","KW","QA","BH","OM","JO","LB","SY","YE","LY","DZ","MA","TN","SD","PS","MR"].indexOf(c)>=0) return "ar";
   return c ? "en" : "";
 }
-// Priority: saved choice → browser → country → fa
-function detectLang(){ return savedLang() || browserLang() || countryToLang(window.__CF_COUNTRY__) || "fa"; }
+// Priority: explicit saved choice → fa. Browser/country auto-detection removed:
+// an Iranian visitor with an English-UI Chrome (or a VPN exit abroad) was served
+// English, which flipped the whole product into machine-translated Persian.
+// Persian is the product; other languages are an explicit choice via the picker.
+function detectLang(){ return savedLang() || "fa"; }
 
 async function initLang(){
   setLang(detectLang());  // instant first paint
-  // Only when there is NO explicit/browser/injected signal, refine the country via
-  // Cloudflare's same-origin /cdn-cgi/trace (free on every CF site, independent of
-  // how the page is served). Keeps priority: saved → browser → country → fa.
-  if (savedLang() || browserLang() || countryToLang(window.__CF_COUNTRY__)) return;
-  try{
-    var r = await fetch("/cdn-cgi/trace", {cache:"no-store"});
-    if(!r.ok) return;
-    var m = (await r.text()).match(/(?:^|\n)loc=([A-Za-z]{2})/);
-    var lang = countryToLang(m && m[1]);
-    if (lang && !savedLang()) setLang(lang);
-  }catch(e){}
 }
 
 // Initialize on load
