@@ -751,7 +751,7 @@ body.light #caseBar .cb-brand{color:#23150a}
 <div class="nerve"></div>
 
 <div class="lang-switch" id="langSwitch">
-  <button class="lang-toggle" id="langToggle" aria-haspopup="true">Language</button>
+  <button class="lang-toggle" id="langToggle" aria-haspopup="true" data-i18n="langBtn">زبان</button>
   <div class="lang-menu" id="langMenu">
     <button class="lang-item" data-lang="fa">Persian</button>
     <button class="lang-item" data-lang="en">English</button>
@@ -875,7 +875,7 @@ body.light #caseBar .cb-brand{color:#23150a}
         </div>
         <div class="pf-actions">
           <button onclick="openBoardroom()" data-i18n="actBoard">حالت ارائه (Boardroom)</button>
-          <button onclick="makePlaque()" data-i18n="actPlaque">دریافت سند پرونده</button>
+          <button onclick="requestDossier()" data-i18n="actPlaque">دریافت سند پرونده</button>
         </div>
       </div>
       <div class="panel-trace">
@@ -1051,10 +1051,10 @@ function showMsgrSheet(){
     var cid = window._WEB_CID || "";
     var L = (typeof LANG !== "undefined" && LANG) || "fa";
     var TT = {
-      fa:{t:"گفتگو را هر جا خواستید ادامه دهید", s:"این ذهن شما را به‌خاطر می‌آورد — در هر پیام‌رسان دقیقاً از همین نقطه ادامه می‌دهید.", stay:"همین‌جا ادامه می‌دهم", wa:"سلام، گفتگو را از سایت ادامه می‌دهم"},
-      en:{t:"Continue anywhere you like", s:"This mind remembers you — pick any messenger and continue from this exact point.", stay:"I'll continue here", wa:"Hi, continuing our conversation from the website"},
-      ar:{t:"تابع الحوار أينما شئت", s:"هذا العقل يتذكرك — تابع من نفس النقطة في أي تطبيق.", stay:"سأتابع هنا", wa:"مرحباً، أتابع حوارنا من الموقع"},
-      tr:{t:"Sohbete dilediğiniz yerde devam edin", s:"Bu zihin sizi hatırlar — tam bu noktadan devam edersiniz.", stay:"Burada devam edeceğim", wa:"Merhaba, sohbetimize siteden devam ediyorum"}
+      fa:{t:"گفتگو را هر جا خواستید ادامه دهید", s:"این ذهن شما را به‌خاطر می‌آورد — در هر پیام‌رسان دقیقاً از همین نقطه ادامه می‌دهید.", stay:"همین‌جا ادامه می‌دهم", wa:"سلام، گفتگو را از سایت ادامه می‌دهم", lTg:"تلگرام", lBl:"بله", lWa:"واتساپ"},
+      en:{t:"Continue anywhere you like", s:"This mind remembers you — pick any messenger and continue from this exact point.", stay:"I'll continue here", wa:"Hi, continuing our conversation from the website", lTg:"Telegram", lBl:"Bale", lWa:"WhatsApp"},
+      ar:{t:"تابع الحوار أينما شئت", s:"هذا العقل يتذكرك — تابع من نفس النقطة في أي تطبيق.", stay:"سأتابع هنا", wa:"مرحباً، أتابع حوارنا من الموقع", lTg:"تيليجرام", lBl:"بله", lWa:"واتساب"},
+      tr:{t:"Sohbete dilediğiniz yerde devam edin", s:"Bu zihin sizi hatırlar — tam bu noktadan devam edersiniz.", stay:"Burada devam edeceğim", wa:"Merhaba, sohbetimize siteden devam ediyorum", lTg:"Telegram", lBl:"Bale", lWa:"WhatsApp"}
     }[L] || null;
     if(!TT) return;
     var code = cid ? " — کد: w_" + cid : "";
@@ -1064,9 +1064,9 @@ function showMsgrSheet(){
       + '<div class="ms-t">' + TT.t + '</div>'
       + '<div class="ms-s">' + TT.s + '</div>'
       + '<div class="ms-row">'
-      + '<a class="ms-btn" target="_blank" rel="noopener" href="https://t.me/aios_architects_bot' + (cid ? "?start=w_" + cid : "") + '">Telegram</a>'
-      + '<a class="ms-btn" target="_blank" rel="noopener" href="https://ble.ir/aios_bot' + (cid ? "?start=w_" + cid : "") + '">Bale</a>'
-      + '<a class="ms-btn" target="_blank" rel="noopener" href="https://wa.me/905521881819?text=' + encodeURIComponent(TT.wa + code) + '">WhatsApp</a>'
+      + '<a class="ms-btn" target="_blank" rel="noopener" href="https://t.me/aios_architects_bot' + (cid ? "?start=w_" + cid : "") + '">' + TT.lTg + '</a>'
+      + '<a class="ms-btn" target="_blank" rel="noopener" href="https://ble.ir/aios_bot' + (cid ? "?start=w_" + cid : "") + '">' + TT.lBl + '</a>'
+      + '<a class="ms-btn" target="_blank" rel="noopener" href="https://wa.me/905521881819?text=' + encodeURIComponent(TT.wa + code) + '">' + TT.lWa + '</a>'
       + '</div><button class="ms-stay">' + TT.stay + '</button></div>';
     document.body.appendChild(el);
     var close = function(){ el.classList.remove("open"); setTimeout(function(){ el.remove(); }, 300); };
@@ -1216,7 +1216,7 @@ async function runMirror(input) {
 $("ctaContinue").onclick = () => openConversation(false);
 $("ctaTeleg").onclick = () => window.open("https://t.me/aios_architects_bot?start=w_" + (window._WEB_CID||""), "_blank");
 $("ctaBale").onclick = () => window.open("https://ble.ir/aios_bot?start=w_" + (window._WEB_CID||""), "_blank");
-$("ctaWa").onclick = () => window.open("https://wa.me/905521881819?text=" + encodeURIComponent("درود. گفتگوی ما در سایت را ادامه می‌دهم."), "_blank");
+$("ctaWa").onclick = () => window.open("https://wa.me/905521881819?text=" + encodeURIComponent("درود. گفتگوی ما در سایت را ادامه می‌دهم." + (window._WEB_CID ? " کد پرونده: w_" + window._WEB_CID : "")), "_blank");
 
 // ── CONVERSATION ──
 function openConversation(fresh) {
@@ -1304,8 +1304,8 @@ function addWork() {
   startDeepWork();
 }
 let _dwTimer=null, _dwI=0;
-const _DW_MSGS_FA=["در حال تحلیل عمیق…","بررسی بازار و داده‌های واقعی…","شناسایی الگوهای پنهان…","ساختن بینش اختصاصی…"];
-const _DW_MSGS_EN=["Analyzing deeply…","Reviewing real market data…","Detecting hidden patterns…","Crafting a tailored insight…"];
+const _DW_MSGS_FA=["در حال تحلیل…","مرور دانش و تجربه‌های مشابه…","شناسایی الگوهای پنهان…","ساختن بینش اختصاصی…"];
+const _DW_MSGS_EN=["Analyzing…","Reviewing relevant knowledge…","Detecting hidden patterns…","Crafting a tailored insight…"];
 function startDeepWork(){
   window.orbState && orbState("think");
   var _os=$("orbStatus"); if(_os) _os.textContent=T("orbThink");
@@ -1360,6 +1360,7 @@ function addPdf(url, caseUrl) {
                : '<div class="dos-note">این تحلیل بر پایه‌ی گفته‌های خودِ شماست.</div>');
   $("convStream").appendChild(w); scrollConv();
   window.orbState && orbState("pulse");
+  mindTrace(T("trPdfArrived"));
 }
 function addCaseLink(caseUrl) {
   const w = document.createElement("div");
@@ -1559,6 +1560,10 @@ async function sendConv(opts) {
     if (data.pdf_url) addPdf(data.pdf_url, data.case_url || "");
     else if (data.case_url && !window._caseShown) { window._caseShown = true; addCaseLink(data.case_url); }
     saveProfile(data);
+    // One clock for everyone: render dates/times from the server epoch, not
+    // the visitor's device clock (wrong-VM-timezone displays, H2/H3).
+    if (data.server_epoch_ms) window._srvOffset = data.server_epoch_ms - Date.now();
+    if (data.report_pending) startPdfPoll();
     window._turnN = (window._turnN || 0) + 1;
     if (window._turnN === 1) setTimeout(showMsgrSheet, 1600);
     // reveal handoff ONLY when the twin signals readiness (stage close/booked, or explicit flag)
@@ -1580,7 +1585,15 @@ $("convField").addEventListener("input", function(){ this.style.height=""; this.
 $("handoffGo").onclick = () => {
   const phone = $("handoffPhone").value.trim().replace(/[^0-9]/g,"");
   if (phone.length < 8) { $("handoffPhone").focus(); return; }
-  const summary = encodeURIComponent("درود. گفتگوی ما در سایت را ادامه می‌دهم.");
+  // The typed number used to be DISCARDED — the "same memory on WhatsApp"
+  // promise never reached the server. Send it through the chat so the backend
+  // stores it and links the phone to this contact's memory.
+  try{
+    const f=$("convField");
+    if(f){ f.value="شماره‌ی من برای ادامه‌ی گفتگو در واتساپ: +"+phone; sendConv(); }
+  }catch(e){}
+  const summary = encodeURIComponent("درود. گفتگوی ما در سایت را ادامه می‌دهم."
+    + (window._WEB_CID ? " کد پرونده: w_" + window._WEB_CID : ""));
   window.open("https://wa.me/905521881819?text=" + summary, "_blank");
 };
 // ── Seamless continuity: same mind, same memory, on their messenger ──
@@ -1630,34 +1643,48 @@ function stripMarkers(t){
 })();
 var _trace=[], _slides=[], _brIdx=0, _filePieces=0, _caseNo=null, _brandShown="";
 
+/* ── One clock for the whole page ──
+   Time comes from the server epoch (set on every reply) + Tehran wall-clock,
+   never from the visitor's device clock/timezone. A wrong VM timezone used to
+   shift every displayed time and desync the page from the CloudWatch logs. */
+function nowSrv(){ return new Date(Date.now() + (window._srvOffset||0)); }
+function tehranHour(){
+  try{ return parseInt(new Intl.DateTimeFormat("en-GB",{hour:"2-digit",hour12:false,timeZone:"Asia/Tehran"}).format(nowSrv()),10); }
+  catch(e){ return nowSrv().getHours(); }
+}
+function clockStr(){
+  try{
+    var loc = LANG==="fa" ? "fa-IR" : LANG==="ar" ? "ar" : LANG==="tr" ? "tr-TR" : "en-GB";
+    return new Intl.DateTimeFormat(loc,{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"Asia/Tehran"}).format(nowSrv());
+  }catch(e){ return ""; }
+}
 function mindTrace(txt){
   var box=$("mindTrace"); if(!box) return;
   var d=document.createElement("div");
-  var t=new Date(); 
-  d.textContent=("0"+t.getHours()).slice(-2)+":"+("0"+t.getMinutes()).slice(-2)+" — "+txt;
+  d.textContent=clockStr()+" — "+txt;
   box.appendChild(d); _trace.push(txt);
   while(box.children.length>5) box.removeChild(box.firstChild);
 }
 function timeGreetingFa(){
-  var h=new Date().getHours();
+  var h=tehranHour();
   return h<5?"شب‌تان آرام":h<12?"صبح‌تان بخیر":h<15?"ظهرتان بخیر":h<19?"عصرتان بخیر":"شب‌تان بخیر";
 }
 function dualDateStr(){
   try{
-    var now=new Date(), hm=now.toTimeString().slice(0,5);
+    var now=nowSrv(), hm=clockStr();
     if(LANG==="fa"){
-      var fa=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{day:"numeric",month:"long",year:"numeric"}).format(now);
+      var fa=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{day:"numeric",month:"long",year:"numeric",timeZone:"Asia/Tehran"}).format(now);
       return fa+" · "+hm;
     }
     if(LANG==="ar"){
-      var ar=new Intl.DateTimeFormat("ar",{day:"numeric",month:"long",year:"numeric"}).format(now);
+      var ar=new Intl.DateTimeFormat("ar",{day:"numeric",month:"long",year:"numeric",timeZone:"Asia/Tehran"}).format(now);
       return ar+" · "+hm;
     }
     if(LANG==="tr"){
-      var tr=new Intl.DateTimeFormat("tr-TR",{day:"numeric",month:"long",year:"numeric"}).format(now);
+      var tr=new Intl.DateTimeFormat("tr-TR",{day:"numeric",month:"long",year:"numeric",timeZone:"Asia/Tehran"}).format(now);
       return tr+" · "+hm;
     }
-    var en=new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric"}).format(now);
+    var en=new Intl.DateTimeFormat("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"Asia/Tehran"}).format(now);
     return en+" · "+hm;
   }catch(e){return ""}
 }
@@ -1691,6 +1718,10 @@ function updateCaseFile(f){
   var brand=f.brand||f.name||"";
   if(brand){ $("cbBrand").textContent=brand;
     if(brand!==_brandShown){ _brandShown=brand; openCeremony(brand); }
+  } else if(f.project_title){
+    // Model-proposed working title — shown as a PROPOSAL, never as the
+    // captured brand (card and panel now read the same persisted source).
+    $("cbBrand").textContent=f.project_title+" "+T("propTag");
   }
 }
 function openCeremony(brand){
@@ -1720,36 +1751,43 @@ function brRender(){
 function brStep(dir){ _brIdx=Math.max(0,Math.min(_slides.length-1,_brIdx+dir)); brRender(); }
 function brClose(){ $("boardroom").style.display="none"; }
 
-/* ── Plaque (client-side PNG) ── */
-function makePlaque(){
-  var brand=_brandShown||"برند شما";
-  var cv=document.createElement("canvas"); cv.width=1000; cv.height=600;
-  var x=cv.getContext("2d");
-  var g=x.createLinearGradient(0,0,0,600); g.addColorStop(0,"#16151B"); g.addColorStop(1,"#0A0A0C");
-  x.fillStyle=g; x.fillRect(0,0,1000,600);
-  x.strokeStyle="#8E7434"; x.lineWidth=4; x.strokeRect(26,26,948,548);
-  x.strokeStyle="rgba(191,160,92,.35)"; x.lineWidth=1; x.strokeRect(40,40,920,520);
-  x.fillStyle="#8E7434"; x.font="26px Tahoma"; x.textAlign="center";
-  x.fillText("A I O S", 500, 110);
-  x.fillStyle="#F2EEE8"; x.font="bold 54px Tahoma";
-  x.fillText(brand, 500, 250);
-  x.strokeStyle="#BFA05C"; x.beginPath(); x.moveTo(380,285); x.lineTo(620,285); x.lineWidth=3; x.stroke();
-  x.fillStyle="#A8A29A"; x.font="22px Tahoma";
-  x.fillText(T("plaqueCaseNo",{y:new Date().getFullYear(),n:(_caseNo||"—")}), 500, 340);
-  x.fillText(dualDateStr(), 500, 385);
-  x.fillStyle="#BFA05C"; x.font="bold 24px Tahoma";
-  x.fillText(T("plaqueTitle"), 500, 470);
-  x.fillStyle="#A8A29A"; x.font="18px Tahoma";
-  x.fillText("vandidad.xyz", 500, 510);
-  var a=document.createElement("a"); a.download="aios-case-"+(_caseNo||"x")+".png";
-  a.href=cv.toDataURL("image/png"); a.click();
-  mindTrace(T("trPlaque"));
+/* ── Case document request (the old button drew a decorative PNG client-side
+      and logged "document issued" without ever contacting the server — the
+      classic success-log-without-delivery). Now it asks the mind for the real
+      dossier through the normal chat flow; the trace line only fires when a
+      PDF actually arrives (see addPdf). ── */
+function requestDossier(){
+  if(!history.length){ mindTrace(T("trNeedChat")); return; }
+  var f=$("convField"); if(!f) return;
+  f.value=T("reqDossier");
+  sendConv();
+}
+
+/* ── Same-session PDF delivery: after the server confirms a report is being
+      generated, poll until the presigned link lands, then render it. ── */
+function startPdfPoll(){
+  if(window._pdfPollTimer) return;
+  var tries=0;
+  window._pdfPollTimer=setInterval(function(){
+    tries++;
+    if(tries>25){ clearInterval(window._pdfPollTimer); window._pdfPollTimer=null; return; }
+    fetch(API + "/", {method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({action:"poll_pdf", session_id: SESSION})})
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if(d && d.pdf_url){
+          clearInterval(window._pdfPollTimer); window._pdfPollTimer=null;
+          addPdf(d.pdf_url, d.case_url||"");
+        }
+      }).catch(function(){});
+  }, 12000);
 }
 
 function mdLite(text){
   // Minimal safe markdown: bold, hr lines, bullets, line breaks
   let s = escapeHtml(text);
   s = s.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+  s = s.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, "$1<i>$2</i>");
   s = s.replace(/^[\u2500\u2501\u2014-]{4,}$/gm, '<hr style="border:none;border-top:1px solid rgba(255,255,255,.08);margin:10px 0">');
   s = s.replace(/^[\u2022\u00b7\u2013\u2014]\s?/gm, '<span style="color:#BFA05C;text-shadow:0 0 8px rgba(191,160,92,.5)">\u25cf</span>\u2009');
   s = s.replace(/\n/g, "<br>");
@@ -1806,7 +1844,8 @@ function toggleDrawer(){
 // ── Render artifact (━━━ blocks → styled cards) ──
 function mdInline(s){
   // Single-line markdown: bold + arrow, safe-escaped
-  return escapeHtml(s).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/\*\*/g, "");
+  return escapeHtml(s).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>")
+    .replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, "$1<i>$2</i>").replace(/\*\*/g, "");
 }
 function renderArtifact(text) {
   // Detect ━━━ delimited block
@@ -1884,23 +1923,26 @@ const I18N = {
     convPh: "بنویسید…", mirrorLabel: "آینه", traceTitle: "آینه — رد ذهن", traceEmpty: "در انتظار نخستین تحلیل…",
     orbIdle: "ذهن، آماده است", orbThink: "در حال تحلیل…",
     fileOpening: "پرونده در حال گشایش…", filePieces: "پرونده — {n} از ۷ قطعه",
-    actBoard: "حالت ارائه (Boardroom)", actPlaque: "دریافت سند پرونده",
+    actBoard: "حالت ارائه (اتاق مدیران)", actPlaque: "دریافت سند پرونده",
+    langBtn: "زبان", propTag: "(عنوان پیشنهادی)",
     cerLabel: "A I O S", cerNo: "پرونده شماره {y}/{n} گشوده شد",
-    trAnalyzeStart: "تحلیل عمیق آغاز شد", trAnalyzeDone: "تحلیل کامل شد",
+    trAnalyzeStart: "در حال تحلیل پیام شما…", trAnalyzeDone: "پاسخ کامل شد",
     trPiece: "قطعه‌ی {n} از ۷ پرونده ثبت شد", trCard: "کارت تحلیلی صادر شد",
-    trCeremony: "پرونده‌ی «{b}» گشوده شد", trPlaque: "سند پرونده صادر شد",
+    trCeremony: "پرونده‌ی «{b}» گشوده شد",
+    trPdfArrived: "سند پرونده رسید", trNeedChat: "برای صدور سند، اول کمی گفتگو لازم است",
+    reqDossier: "سند پرونده‌ی تحلیلی گفتگو را می‌خواهم.",
     greetDawn: "شب‌تان آرام", greetMorning: "صبح‌تان بخیر", greetNoon: "ظهرتان بخیر",
     greetEve: "عصرتان بخیر", greetNight: "شب‌تان بخیر",
     carryOver: "درود. پرونده‌تان نزد من محفوظ است — از همان نقطه ادامه می‌دهیم. بفرمایید.",
     boardEmpty: "هنوز محتوایی برای ارائه نیست", boardNext: "بعدی ‹", boardPrev: "› قبلی",
-    plaqueTitle: "تحلیل اختصاصی هادی بخت‌زاده", plaqueCaseNo: "پرونده شماره {y}/{n}",
+    
     connErr: "اتصال برقرار نشد. لطفاً دوباره تلاش کنید.",
     handoffT: "گفتگو را همراه خود ببرید", handoffS: "شماره‌تان را بنویسید تا همین گفتگو — با همین حافظه — در واتساپ ادامه پیدا کند.",
-    ctaWa: "ادامه در واتساپ", ctaTg: "ادامه در تلگرام", ctaBale: "ادامه در Bale", ctaHere: "همین‌جا ادامه می‌دهم", footBrand: "هادی <span>بخت‌زاده</span>",
+    ctaWa: "ادامه در واتساپ", ctaTg: "ادامه در تلگرام", ctaBale: "ادامه در بله", ctaHere: "همین‌جا ادامه می‌دهم", footBrand: "هادی <span>بخت‌زاده</span>",
     pmSectorK: "صنف", pmFocusK: "برند", pmStageK: "مرحله", stDiscover: "آشنایی", stThirst: "کشف فرصت", stQuestions: "بررسی", stClose: "جمع‌بندی", stBooked: "قرار",
     footRole: "معمار سیستم‌های هوش مصنوعی · ازمیر", linkWa: "واتساپ", linkTg: "تلگرام", linkMail: "ایمیل",
     senderName: "هادی بخت‌زاده",
-    dwAnalyze: "در حال تحلیل عمیق…", dwMarket: "بررسی بازار و داده‌های واقعی…", dwPattern: "شناسایی الگوهای پنهان…", dwInsight: "ساختن بینش اختصاصی…",
+    dwAnalyze: "در حال تحلیل…", dwMarket: "مرور دانش و تجربه‌های مشابه…", dwPattern: "شناسایی الگوهای پنهان…", dwInsight: "ساختن بینش اختصاصی…",
     acLabel: "تحلیل اختصاصی",
     greetHello: "درود", greetAsk: "نام و حوزه فعالیت‌تان را بفرمایید تا نقشه‌ی تحول کسب‌وکارتان با هوش مصنوعی را ترسیم کنیم."
   },
@@ -1915,21 +1957,22 @@ const I18N = {
     fileOpening: "Opening case file…", filePieces: "Case — {n} of 7 pieces",
     actBoard: "Presentation (Boardroom)", actPlaque: "Get case document",
     cerLabel: "A I O S", cerNo: "Case No. {y}/{n} opened",
-    trAnalyzeStart: "Deep analysis started", trAnalyzeDone: "Analysis complete",
+    trAnalyzeStart: "Analyzing your message…", trAnalyzeDone: "Reply complete", langBtn: "Language", propTag: "(proposed title)",
+    trPdfArrived: "Case document delivered", trNeedChat: "A short conversation is needed before the document", reqDossier: "I would like the analytical case document.",
     trPiece: "Piece {n} of 7 recorded", trCard: "Analysis card issued",
-    trCeremony: "Case \"{b}\" opened", trPlaque: "Case document issued",
+    trCeremony: "Case \"{b}\" opened",
     greetDawn: "Good night", greetMorning: "Good morning", greetNoon: "Good afternoon",
     greetEve: "Good evening", greetNight: "Good evening",
     carryOver: "Welcome back. Your case is saved with me — we'll continue right where we left off.",
     boardEmpty: "Nothing to present yet", boardNext: "Next ‹", boardPrev: "› Prev",
-    plaqueTitle: "Bespoke analysis by Hadi Bakhtzadeh", plaqueCaseNo: "Case No. {y}/{n}",
+    
     connErr: "Connection failed. Please try again.",
     handoffT: "Take the conversation with you", handoffS: "Enter your number to continue this same conversation — with full memory — on WhatsApp.",
     ctaWa: "Continue on WhatsApp", ctaTg: "Continue on Telegram", ctaBale: "Continue on Bale", ctaHere: "Continue here", footBrand: "Hadi <span>Bakhtzadeh</span>",
     pmSectorK: "Sector", pmFocusK: "Brand", pmStageK: "Stage", stDiscover: "Discovery", stThirst: "Opportunity", stQuestions: "Review", stClose: "Closing", stBooked: "Booked",
     footRole: "AI Systems Architect · Izmir", linkWa: "WhatsApp", linkTg: "Telegram", linkMail: "Email",
     senderName: "Hadi Bakhtzadeh",
-    dwAnalyze: "Analyzing deeply…", dwMarket: "Reviewing real market data…", dwPattern: "Detecting hidden patterns…", dwInsight: "Crafting a tailored insight…",
+    dwAnalyze: "Analyzing deeply…", dwMarket: "Reviewing relevant knowledge…", dwPattern: "Detecting hidden patterns…", dwInsight: "Crafting a tailored insight…",
     acLabel: "Bespoke analysis",
     greetHello: "Hello", greetAsk: "Tell me your name and field, and I\u2019ll map out how AI can transform your business."
   },
@@ -1944,21 +1987,22 @@ const I18N = {
     fileOpening: "جارٍ فتح الملف…", filePieces: "الملف — {n} من ٧ أجزاء",
     actBoard: "وضع العرض (Boardroom)", actPlaque: "استلام وثيقة الملف",
     cerLabel: "A I O S", cerNo: "تم فتح الملف رقم {y}/{n}",
-    trAnalyzeStart: "بدأ التحليل العميق", trAnalyzeDone: "اكتمل التحليل",
+    trAnalyzeStart: "جارٍ تحليل رسالتك…", trAnalyzeDone: "اكتمل الرد", langBtn: "اللغة", propTag: "(عنوان مقترح)",
+    trPdfArrived: "وصلت وثيقة الملف", trNeedChat: "يلزم حوار قصير قبل إصدار الوثيقة", reqDossier: "أريد وثيقة الملف التحليلية.",
     trPiece: "تم تسجيل الجزء {n} من ٧", trCard: "تم إصدار بطاقة التحليل",
-    trCeremony: "تم فتح ملف «{b}»", trPlaque: "تم إصدار وثيقة الملف",
+    trCeremony: "تم فتح ملف «{b}»",
     greetDawn: "ليلة هادئة", greetMorning: "صباح الخير", greetNoon: "نهارك سعيد",
     greetEve: "مساء الخير", greetNight: "مساء الخير",
     carryOver: "أهلاً بعودتك. ملفك محفوظ لديّ — سنكمل من حيث توقفنا.",
     boardEmpty: "لا يوجد محتوى للعرض بعد", boardNext: "التالي ‹", boardPrev: "› السابق",
-    plaqueTitle: "تحليل حصري بواسطة هادي بختزاده", plaqueCaseNo: "الملف رقم {y}/{n}",
+    
     connErr: "فشل الاتصال. يرجى المحاولة مرة أخرى.",
     handoffT: "خذ المحادثة معك", handoffS: "اكتب رقمك لمتابعة هذه المحادثة نفسها — بكامل الذاكرة — على واتساب.",
-    ctaWa: "المتابعة على واتساب", ctaTg: "المتابعة على تيليجرام", ctaBale: "المتابعة على Bale", ctaHere: "المتابعة هنا", footBrand: "هادي <span>بختزاده</span>",
+    ctaWa: "المتابعة على واتساب", ctaTg: "المتابعة على تيليجرام", ctaBale: "المتابعة على بله", ctaHere: "المتابعة هنا", footBrand: "هادي <span>بختزاده</span>",
     pmSectorK: "القطاع", pmFocusK: "العلامة", pmStageK: "المرحلة", stDiscover: "تعارف", stThirst: "اكتشاف الفرصة", stQuestions: "مراجعة", stClose: "ختام", stBooked: "موعد",
     footRole: "مهندس أنظمة الذكاء الاصطناعي · إزمير", linkWa: "واتساب", linkTg: "تيليجرام", linkMail: "البريد",
     senderName: "هادي بختزاده",
-    dwAnalyze: "تحليل عميق جارٍ…", dwMarket: "مراجعة بيانات السوق الحقيقية…", dwPattern: "اكتشاف الأنماط الخفية…", dwInsight: "صياغة رؤية مخصصة…",
+    dwAnalyze: "تحليل عميق جارٍ…", dwMarket: "مراجعة المعرفة ذات الصلة…", dwPattern: "اكتشاف الأنماط الخفية…", dwInsight: "صياغة رؤية مخصصة…",
     acLabel: "تحليل حصري",
     greetHello: "مرحباً", greetAsk: "أخبرني باسمك ومجال عملك، لأرسم لك خارطة تحويل عملك بالذكاء الاصطناعي."
   },
@@ -1973,21 +2017,22 @@ const I18N = {
     fileOpening: "Dosya açılıyor…", filePieces: "Dosya — 7 parçadan {n}",
     actBoard: "Sunum modu (Boardroom)", actPlaque: "Dosya belgesini al",
     cerLabel: "A I O S", cerNo: "{y}/{n} numaralı dosya açıldı",
-    trAnalyzeStart: "Derin analiz başladı", trAnalyzeDone: "Analiz tamamlandı",
+    trAnalyzeStart: "Mesajınız analiz ediliyor…", trAnalyzeDone: "Yanıt tamamlandı", langBtn: "Dil", propTag: "(önerilen başlık)",
+    trPdfArrived: "Dosya belgesi ulaştı", trNeedChat: "Belge için önce kısa bir sohbet gerekli", reqDossier: "Analitik dosya belgesini istiyorum.",
     trPiece: "7 parçadan {n}. parça kaydedildi", trCard: "Analiz kartı oluşturuldu",
-    trCeremony: "\"{b}\" dosyası açıldı", trPlaque: "Dosya belgesi oluşturuldu",
+    trCeremony: "\"{b}\" dosyası açıldı",
     greetDawn: "İyi geceler", greetMorning: "Günaydın", greetNoon: "İyi günler",
     greetEve: "İyi akşamlar", greetNight: "İyi akşamlar",
     carryOver: "Tekrar hoş geldiniz. Dosyanız bende saklı — kaldığımız yerden devam ediyoruz.",
     boardEmpty: "Henüz sunulacak içerik yok", boardNext: "İleri ‹", boardPrev: "› Geri",
-    plaqueTitle: "Hadi Bakhtzadeh tarafından özel analiz", plaqueCaseNo: "Dosya No. {y}/{n}",
+    
     connErr: "Bağlantı kurulamadı. Lütfen tekrar deneyin.",
     handoffT: "Sohbeti yanınızda taşıyın", handoffS: "Numaranızı yazın, bu sohbet — tüm hafızasıyla — WhatsApp'ta devam etsin.",
     ctaWa: "WhatsApp'ta devam et", ctaTg: "Telegram'da devam et", ctaBale: "Bale'de devam et", ctaHere: "Burada devam et", footBrand: "Hadi <span>Bakhtzadeh</span>",
     pmSectorK: "Sektör", pmFocusK: "Marka", pmStageK: "Aşama", stDiscover: "Tanışma", stThirst: "Fırsat", stQuestions: "İnceleme", stClose: "Kapanış", stBooked: "Randevu",
     footRole: "Yapay Zekâ Sistem Mimarı · İzmir", linkWa: "WhatsApp", linkTg: "Telegram", linkMail: "E-posta",
     senderName: "Hadi Bakhtzadeh",
-    dwAnalyze: "Derinlemesine analiz ediliyor…", dwMarket: "Gerçek pazar verileri inceleniyor…", dwPattern: "Gizli desenler tespit ediliyor…", dwInsight: "Size özel içgörü oluşturuluyor…",
+    dwAnalyze: "Derinlemesine analiz ediliyor…", dwMarket: "İlgili bilgi taranıyor…", dwPattern: "Gizli desenler tespit ediliyor…", dwInsight: "Size özel içgörü oluşturuluyor…",
     acLabel: "Özel analiz",
     greetHello: "Merhaba", greetAsk: "Adınızı ve alanınızı söyleyin, yapay zekânın işinizi nasıl dönüştüreceğinin haritasını çıkarayım."
   }
@@ -2046,7 +2091,7 @@ function T(key, vars){
   return t;
 }
 function timeGreeting(){
-  var h=new Date().getHours();
+  var h=(typeof tehranHour==="function")?tehranHour():new Date().getHours();
   var key = h<5?"greetDawn":h<12?"greetMorning":h<15?"greetNoon":h<19?"greetEve":"greetNight";
   return T(key);
 }
@@ -2104,7 +2149,7 @@ window.addEventListener("DOMContentLoaded", initLang);
   // ── three first-class messenger buttons → SAME deep-links as the core wiring ──
   function tg(){ return "https://t.me/aios_architects_bot?start=w_" + (window._WEB_CID||""); }
   function bale(){ return "https://ble.ir/aios_bot?start=w_" + (window._WEB_CID||""); }
-  function wa(){ return "https://wa.me/905521881819?text=" + encodeURIComponent("درود. گفتگوی ما در سایت را ادامه می‌دهم."); }
+  function wa(){ return "https://wa.me/905521881819?text=" + encodeURIComponent("درود. گفتگوی ما در سایت را ادامه می‌دهم." + (window._WEB_CID ? " کد پرونده: w_" + window._WEB_CID : "")); }
   function bind(el, href){
     if(!el) return;
     var go=function(e){ if(e){e.preventDefault();} window.open(href(), "_blank"); };
