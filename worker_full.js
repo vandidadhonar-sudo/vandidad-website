@@ -44,6 +44,24 @@ export default {
       return res;
     }
 
+    // Static /about company page — served from the repo, placed BEFORE the
+    // index catch-all below. Only this exact path (and its trailing-slash form)
+    // is handled here; every other path still falls through unchanged.
+    if (url.pathname === "/about" || url.pathname === "/about/") {
+      const up = await fetch(RAW + "/about.html", {
+        cf: { cacheTtl: 60, cacheEverything: true },
+        headers: { "Accept": "text/html" }
+      });
+      return new Response(up.body, {
+        status: up.status,
+        headers: {
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "public, max-age=60",
+          "X-Frame-Options": "DENY"
+        }
+      });
+    }
+
     const country =
       (request.cf && request.cf.country) ||
       request.headers.get("CF-IPCountry") ||
