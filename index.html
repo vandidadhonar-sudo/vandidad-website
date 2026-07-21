@@ -765,6 +765,7 @@ body.light #caseBar .cb-brand{color:#23150a}
   <div class="th-brand" aria-hidden="false">
     <div class="tb-en">HADI BAKHTZADEH &middot; AI OPERATING SYSTEM</div>
     <div class="tb-fa">هادی بخت‌زاده · معمار هوش مصنوعی</div>
+    <a class="tb-about" href="/about">About · EN</a>
   </div>
   <video id="heroVid" autoplay muted loop playsinline preload="auto"><source src="https://cdn.jsdelivr.net/gh/vandidadhonar-sudo/vandidad-website@9302f03db739b00623660358551e026e539eb976/hero.mp4" type="video/mp4"><source src="/hero.mp4?v=2" type="video/mp4"></video>
   <div class="th-shade" aria-hidden="true"></div>
@@ -2265,6 +2266,11 @@ window.addEventListener("DOMContentLoaded", initLang);
   color:var(--bone-ink);text-shadow:0 1px 10px rgba(0,0,0,.85)}
 .tb-fa{font-size:12.5px;color:var(--bone-ink);opacity:.92;margin-top:3px;
   text-shadow:0 1px 10px rgba(0,0,0,.85)}
+.tb-about{display:block;margin-top:5px;text-align:right;white-space:nowrap;
+  font-family:var(--latin);font-size:9.5px;font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--bone-ink);opacity:.5;text-decoration:none;
+  text-shadow:0 1px 10px rgba(0,0,0,.85);transition:opacity .2s}
+.tb-about:hover,.tb-about:focus-visible{opacity:1}
 /* chat box — lower, pulled toward the right on wide screens */
 #threshold .th-input-wrap{position:absolute!important;z-index:3;bottom:23%;right:7%;left:auto;
   width:min(600px,86vw);margin:0}
@@ -2291,6 +2297,7 @@ window.addEventListener("DOMContentLoaded", initLang);
     max-width:calc(100vw - 150px)!important;text-align:right}
   .tb-en{font-size:9.5px;letter-spacing:.05em;white-space:normal;line-height:1.5}
   .tb-fa{font-size:10.5px;white-space:normal;line-height:1.7}
+  .tb-about{font-size:8.5px;letter-spacing:.16em;margin-top:4px}
   .lang-toggle{font-size:10.5px;padding:8px 14px}
   #threshold .th-input-wrap{right:5vw;left:5vw;width:auto;bottom:21%}
   #threshold .th-hint{font-size:12.5px}
