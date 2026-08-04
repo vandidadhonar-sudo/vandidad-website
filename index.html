@@ -886,6 +886,9 @@ body.light #caseBar .cb-brand{color:#23150a}
     </aside>
     <div class="conv-right">
     <div class="conv-stream" id="convStream"></div>
+    <!-- Scroll room so a short reply's first line can sit under the header
+         while it is being written. Height is managed in fitTail(). -->
+    <div id="convTail" aria-hidden="true" style="height:0"></div>
     <div class="handoff" id="handoff">
       <div class="handoff-head">
         <div class="handoff-glyph" aria-hidden="true">
@@ -1295,14 +1298,18 @@ function addYou(text) {
   d.className = "bubble-you";
   d.innerHTML = '<div class="b-text"></div>';
   d.querySelector(".b-text").textContent = text;
+  // Drop the previous answer's tail room here and nowhere else: the forced
+  // scroll below hides the reflow, so the page never shifts under a reader
+  // mid-sentence.
+  const tail = $("convTail"); if (tail) tail.style.height = "0px";
   $("convStream").appendChild(d);
-  scrollConv();
+  scrollConv(true);   // your own message is always worth jumping to
 }
 function addWork() {
   const d = document.createElement("div");
   d.className = "bubble-twin"; d.id = "convWork";
   d.innerHTML = '<div class="b-from">هادی بخت‌زاده</div><div class="deep-work"><div class="dw-pulse"></div><div class="dw-text" id="dwText">در حال تحلیل عمیق…</div></div>';
-  $("convStream").appendChild(d); scrollConv();
+  $("convStream").appendChild(d); scrollConv(true);
   startDeepWork();
 }
 let _dwTimer=null, _dwI=0;
@@ -1495,6 +1502,7 @@ async function sendConv(opts) {
     d.innerHTML = '<div class="b-from">'+T("senderName")+'</div><div class="b-text"></div>';
     $("convStream").appendChild(d);
     sBubble = d; sText = d.querySelector(".b-text");
+    anchorTwin(d);   // park its first line under the header, then hold still
   };
   const handleEvt = (evt) => {
     if (evt.type === "chunk") {
@@ -1620,14 +1628,93 @@ $("handoffGo").onclick = () => {
 // ── helpers ──
 function escapeHtml(s){ return s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
 function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
-function scrollConv(){
+/* ── Reading-stable scrolling ─────────────────────────────────────────
+   The previous behaviour slammed the window to the document bottom on every
+   streamed chunk. On a phone that means the answer crawls upward while you
+   are still reading it, and you have to hunt back up for its first line.
+
+   Two rules replace it:
+     1. A new answer is anchored ONCE by its top, just under the header, and
+        then left alone — the text fills downward into a still viewport.
+     2. Automatic scrolling only happens while the reader is already parked at
+        the bottom. The moment they scroll up to re-read something, the page
+        stops moving under them until they choose to come back down.
+   Anything that must be seen regardless (the reader's own message, the
+   thinking indicator) passes force=true.                                   */
+const NEAR_BOTTOM_PX = 96;
+let autoFollow = true;
+
+function atPageBottom(){
+  return (window.innerHeight + window.scrollY)
+         >= (document.body.scrollHeight - NEAR_BOTTOM_PX);
+}
+// Intent is read from the finger, never from the "scroll" event: our own
+// smooth scrolls fire "scroll" too, and treating those as the reader's choice
+// makes the page chase its own tail straight back to the bottom.
+const SCROLL_KEYS = new Set(["PageUp","PageDown","Home","End","ArrowUp","ArrowDown"," "]);
+["wheel","touchmove"].forEach(evt =>
+  addEventListener(evt, () => { autoFollow = atPageBottom(); }, {passive:true}));
+addEventListener("keydown", (e) => {
+  // Typing a message is not a decision about the viewport. Only keys that
+  // actually move the page count, and not while the composer has focus.
+  const t = e.target && e.target.tagName;
+  if (t === "TEXTAREA" || t === "INPUT") return;
+  if (SCROLL_KEYS.has(e.key)) autoFollow = atPageBottom();
+}, {passive:true});
+
+function headerH(){
+  return parseInt(getComputedStyle(document.documentElement)
+                  .getPropertyValue("--header-h")) || 64;
+}
+
+// Give the page just enough tail room to lift a short answer's top under the
+// header — and none once the answer is tall enough to do that by itself, so
+// the page never ends in dead space.
+function fitTail(el){
+  const tail = $("convTail");
+  if (!tail) return;
+  const h = el ? el.getBoundingClientRect().height : 0;
+  tail.style.height = Math.max(0, window.innerHeight - h - 170) + "px";
+}
+
+// Every scroll request carries a generation. A newer request invalidates the
+// deferred passes of an older one — without this, the 160ms catch-up pass of a
+// "jump to bottom" lands AFTER an answer has been anchored and silently drags
+// the page back down, which is what made the first attempt at this fix worse
+// than the bug.
+let scrollGen = 0;
+
+function scrollConv(force){
+  if (!force && !autoFollow) return;
+  const gen = ++scrollGen;
   // A freshly-appended card's height isn't final on the first tick (entrance
   // animation / SVG / async render), so a single scroll under-shoots on mobile
   // and the card looks "stuck" above the fold. Re-run once layout settles.
-  const go = () => window.scrollTo({top:document.body.scrollHeight, behavior:"smooth"});
+  // "auto" rather than "smooth": during streaming, queued smooth scrolls fight
+  // each other and read as jitter.
+  const go = () => {
+    if (gen !== scrollGen) return;
+    window.scrollTo({top:document.body.scrollHeight, behavior:"auto"});
+  };
   go();
   requestAnimationFrame(go);
   setTimeout(go, 160);
+  autoFollow = true;
+}
+
+// Park the top of a just-created answer under the header and hand the viewport
+// to the reader for the rest of that answer.
+function anchorTwin(el){
+  if (!el) return;
+  scrollGen++;              // cancel any catch-up scroll still in flight
+  autoFollow = false;       // set before the frame, not inside it
+  fitTail(el);
+  const gen = scrollGen;
+  requestAnimationFrame(() => {
+    if (gen !== scrollGen) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - headerH() - 16;
+    window.scrollTo({top: Math.max(0, top), behavior:"smooth"});
+  });
 }
 function stripMarkers(t){
   // Remove server-side control markers that must never reach the eye
