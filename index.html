@@ -1221,7 +1221,7 @@ async function runMirror(input) {
 $("ctaContinue").onclick = () => openConversation(false);
 $("ctaTeleg").onclick = () => window.open("https://t.me/aios_architects_bot?start=w_" + (window._WEB_CID||""), "_blank");
 $("ctaBale").onclick = () => window.open("https://ble.ir/aios_bot?start=w_" + (window._WEB_CID||""), "_blank");
-$("ctaWa").onclick = () => window.open("https://wa.me/905521881819?text=" + encodeURIComponent("درود. گفتگوی ما در سایت را ادامه می‌دهم." + (window._WEB_CID ? " کد پرونده: w_" + window._WEB_CID : "")), "_blank");
+$("ctaWa").onclick = () => window.open("https://wa.me/905521881819?text=" + encodeURIComponent("سلام. گفتگومون در سایت رو اینجا ادامه می‌دم." + (window._WEB_CID ? " کد پرونده: w_" + window._WEB_CID : "")), "_blank");
 
 // ── CONVERSATION ──
 function openConversation(fresh) {
@@ -1602,7 +1602,7 @@ $("handoffGo").onclick = () => {
     const f=$("convField");
     if(f){ f.value="شماره‌ی من برای ادامه‌ی گفتگو در واتساپ: +"+phone; sendConv(); }
   }catch(e){}
-  const summary = encodeURIComponent("درود. گفتگوی ما در سایت را ادامه می‌دهم."
+  const summary = encodeURIComponent("سلام. گفتگومون در سایت رو اینجا ادامه می‌دم."
     + (window._WEB_CID ? " کد پرونده: w_" + window._WEB_CID : ""));
   window.open("https://wa.me/905521881819?text=" + summary, "_blank");
 };
@@ -1756,7 +1756,7 @@ function mindTrace(txt){
 }
 function timeGreetingFa(){
   var h=tehranHour();
-  return h<5?"شب‌تان آرام":h<12?"صبح‌تان بخیر":h<15?"ظهرتان بخیر":h<19?"عصرتان بخیر":"شب‌تان بخیر";
+  return h<5?"شبتون آروم":h<12?"صبحتون بخیر":h<15?"ظهرتون بخیر":h<19?"عصرتون بخیر":"شبتون بخیر";
 }
 function dualDateStr(){
   try{
@@ -2022,7 +2022,7 @@ const I18N = {
     reqDossier: "سند پرونده‌ی تحلیلی گفتگو را می‌خواهم.",
     greetDawn: "شب‌تان آرام", greetMorning: "صبح‌تان بخیر", greetNoon: "ظهرتان بخیر",
     greetEve: "عصرتان بخیر", greetNight: "شب‌تان بخیر",
-    carryOver: "درود. پرونده‌تان نزد من محفوظ است — از همان نقطه ادامه می‌دهیم. بفرمایید.",
+    carryOver: "خوش برگشتید. پرونده‌تون پیشِ منه، از همون‌جا ادامه می‌دیم. بفرمایید.",
     boardEmpty: "هنوز محتوایی برای ارائه نیست", boardNext: "بعدی ‹", boardPrev: "› قبلی",
     
     connErr: "اتصال برقرار نشد. لطفاً دوباره تلاش کنید.",
@@ -2033,7 +2033,7 @@ const I18N = {
     senderName: "هادی بخت‌زاده",
     dwAnalyze: "در حال تحلیل…", dwMarket: "مرور دانش و تجربه‌های مشابه…", dwPattern: "شناسایی الگوهای پنهان…", dwInsight: "ساختن بینش اختصاصی…",
     acLabel: "تحلیل اختصاصی",
-    greetHello: "درود", greetAsk: "نام و حوزه فعالیت‌تان را بفرمایید تا نقشه‌ی تحول کسب‌وکارتان با هوش مصنوعی را ترسیم کنیم."
+    greetHello: "سلام", greetAsk: "بگید کارتون چیه — یه جمله کافیه. معمولاً از همون یه جمله می‌شه فهمید کجای کار بی‌سروصدا دارد پول از دست می‌رود."
   },
   en: {
     thLine: "A mind, before it knows its name, asks:",
@@ -2238,7 +2238,7 @@ window.addEventListener("DOMContentLoaded", initLang);
   // ── three first-class messenger buttons → SAME deep-links as the core wiring ──
   function tg(){ return "https://t.me/aios_architects_bot?start=w_" + (window._WEB_CID||""); }
   function bale(){ return "https://ble.ir/aios_bot?start=w_" + (window._WEB_CID||""); }
-  function wa(){ return "https://wa.me/905521881819?text=" + encodeURIComponent("درود. گفتگوی ما در سایت را ادامه می‌دهم." + (window._WEB_CID ? " کد پرونده: w_" + window._WEB_CID : "")); }
+  function wa(){ return "https://wa.me/905521881819?text=" + encodeURIComponent("سلام. گفتگومون در سایت رو اینجا ادامه می‌دم." + (window._WEB_CID ? " کد پرونده: w_" + window._WEB_CID : "")); }
   function bind(el, href){
     if(!el) return;
     var go=function(e){ if(e){e.preventDefault();} window.open(href(), "_blank"); };
