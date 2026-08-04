@@ -1438,6 +1438,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const n = $("pcNew"); if (n) n.onclick = newCase;
 });
 
+// A dropped answer should cost a tap, not a retype. The question is kept and
+// resent verbatim; the notice removes itself so the thread stays clean.
+function addRetry(originalText){
+  const d = document.createElement("div");
+  d.className = "bubble-twin";
+  d.innerHTML = '<div class="b-text"></div>';
+  const t = d.querySelector(".b-text");
+  t.textContent = "ارتباط لحظه‌ای قطع شد — سؤالتان همین‌جاست. ";
+  const b = document.createElement("button");
+  b.className = "conv-btn";
+  b.style.marginTop = "10px";
+  b.textContent = "دوباره بفرست";
+  b.onclick = () => {
+    if (busy) return;
+    d.remove();
+    const f = $("convField");
+    f.value = originalText;
+    sendConv();
+  };
+  t.appendChild(document.createElement("br"));
+  t.appendChild(b);
+  $("convStream").appendChild(d);
+  scrollConv(true);
+}
+
 function addTwin(text) {
   const d = document.createElement("div");
   d.className = "bubble-twin";
@@ -1698,12 +1723,30 @@ async function sendConv(opts) {
     }
     // "typing" → keep the deep-work indicator as-is
   };
-  try {
-    const res = await fetch(API, {
+  // One silent retry before the reader ever sees a failure.
+  // Every request that reached AWS in the last day succeeded — zero 4xx, zero
+  // 5xx, zero model throttles — so a dropped answer is the connection between
+  // the phone and the edge, not the service. On a mobile network that recovers
+  // in about a second, and asking someone to retype their question because of
+  // a one-second gap is the wrong answer. Only retried while NOTHING has been
+  // streamed yet, so a half-written answer is never duplicated.
+  const openStream = async () => {
+    const r = await fetch(API, {
       method:"POST", headers:{"Content-Type":"application/json"},
       body: JSON.stringify({message:text, session_id:SESSION, lang:LANG, history:history.slice(-12), first:isFirst})
     });
-    if (!res.ok || !res.body) throw new Error("bad response " + (res && res.status));
+    if (!r.ok || !r.body) throw new Error("bad response " + (r && r.status));
+    return r;
+  };
+  try {
+    let res;
+    try {
+      res = await openStream();
+    } catch (netErr) {
+      if (gotChunk) throw netErr;
+      await sleep(1100);
+      res = await openStream();     // if this one fails too, it is a real outage
+    }
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
     let buf = "";
@@ -1744,7 +1787,7 @@ async function sendConv(opts) {
       if (reply.length > 120) collectSlide("text", reply);
       history.push({role:"assistant", content:reply});
     } else if (!gotChunk) {
-      addTwin("اتصال لحظه‌ای قطع شد. دوباره بفرمایید.");
+      addRetry(text);
     }
     if (data.buttons && data.buttons.length) setTimeout(()=>addButtons(data.buttons), 400);
     if (data.cards && data.cards.length) setTimeout(()=>addCards(data.cards), 250);
@@ -1764,7 +1807,7 @@ async function sendConv(opts) {
   } catch(e) {
     stopDeepWork(); $("convWork")?.remove();
     // Keep any partial streamed text; otherwise show a recoverable error.
-    if (!(sBubble && gotChunk)) addTwin("اتصال لحظه‌ای قطع شد. دوباره بفرمایید.");
+    if (!(sBubble && gotChunk)) addRetry(text);
   }
   busy = false; $("convSend").disabled = false; field.focus();
   loadCases();
