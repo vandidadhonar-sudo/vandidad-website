@@ -1106,8 +1106,7 @@ function enter(seed) {
 // bubble; the twin's first reply greets warmly + asks the sharp question) and
 // send it as the first turn so the backend activates its opening-turn behavior.
 function startConversationWith(text) {
-  $("mirror").style.display = "none";
-  $("converse").classList.add("active");
+  enterConversationScreen();
   $("convField").value = text;
   sendConv({first:true});
 }
@@ -1319,11 +1318,20 @@ $("ctaBale").onclick = () => window.open("https://ble.ir/aios_bot?start=w_" + (w
 $("ctaWa").onclick = () => window.open("https://wa.me/905521881819?text=" + encodeURIComponent("سلام. گفتگومون در سایت رو اینجا ادامه می‌دم." + (window._WEB_CID ? " کد پرونده: w_" + window._WEB_CID : "")), "_blank");
 
 // ── CONVERSATION ──
-function openConversation(fresh) {
-  $("mirror").style.display = "none";
+// There are two doors into the conversation — typing on the landing page, and
+// arriving from the mirror. Both must leave the visitor in the same room, so
+// neither opens it directly any more. The first version of the paper theme
+// only covered one door, which is why the screen stayed dark for anyone who
+// simply typed their trade and pressed send: the most common path of all.
+function enterConversationScreen() {
+  const m = $("mirror"); if (m) m.style.display = "none";
   $("converse").classList.add("active");
   document.body.classList.add("paper");
-  loadCases();          // fills the sidebar; hides itself when there is one file
+  loadCases();
+}
+
+function openConversation(fresh) {
+  enterConversationScreen();          // fills the sidebar; hides itself when there is one file
   const stream = $("convStream");
   // Idempotent: if the conversation already has content, never re-greet
   if (stream.children.length > 0) { setTimeout(()=>$("convField").focus(), 300); return; }
