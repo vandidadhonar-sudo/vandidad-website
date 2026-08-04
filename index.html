@@ -395,6 +395,80 @@ body.light .bubble-you .b-text{background:rgba(191,160,92,.08)}
 .conv-send:active{transform:translateY(0)}
 .conv-send svg{transform:scaleX(-1)}/* point the paper-plane toward RTL reading direction */
 
+/* ════ PAPER — the conversation screen ════
+   The entrance is theatre and keeps its dark, gold, cinematic identity. From
+   the moment a real conversation starts the screen becomes a tool instead, and
+   a tool should disappear: warm paper, near-black text, one accent colour, and
+   nothing on screen that is not the conversation or a way into it.
+   Scoped to body.paper so not a single landing-page rule is touched — the
+   class is added on entering the conversation and removed on the way back.  */
+body.paper{background:#F7F5F0;color:#1B1A17}
+body.paper::before,body.paper::after,body.paper #aurora,body.paper #roomGlow,body.paper .nerve{display:none!important}
+body.paper header{background:rgba(247,245,240,.88);border-bottom:1px solid rgba(27,26,23,.08);backdrop-filter:blur(10px)}
+body.paper header,body.paper header *{color:#1B1A17}
+body.paper .back-btn{background:rgba(255,255,255,.7);border-color:rgba(27,26,23,.12);color:#4A463E}
+body.paper .lang-switch{background:rgba(255,255,255,.7);border-color:rgba(27,26,23,.1)}
+
+/* Reading column: a line the eye can follow without losing its place. */
+body.paper #converse{max-width:1120px}
+body.paper .conv-layout{grid-template-columns:264px 1fr;gap:40px}
+body.paper .conv-right{max-width:720px}
+
+/* The answer is text on paper, not a card. Long analysis becomes readable the
+   moment it stops living inside a box. Only the reader's own words get a
+   bubble, so the thread still reads as a conversation. */
+body.paper .bubble-twin .b-text{background:none;border:none;box-shadow:none;backdrop-filter:none;
+  padding:0;max-width:none;font-size:16.5px;line-height:2.0;color:#1B1A17}
+body.paper .bubble-twin .b-text::before{display:none}
+body.paper .bubble-twin .b-from{color:#9C9689;font-size:9px}
+body.paper .bubble-twin .b-from::before{background:#8E7434;box-shadow:none}
+body.paper .bubble-twin .b-text strong{color:#1B1A17;font-weight:700}
+body.paper .bubble-twin .b-text li::before{background:#8E7434;box-shadow:none}
+body.paper .bubble-twin .b-text hr{border-top:1px solid rgba(27,26,23,.1)}
+body.paper .bubble-you{justify-content:flex-start}
+body.paper .bubble-you .b-text{background:#ECE8DF;border:1px solid rgba(27,26,23,.06);
+  color:#1B1A17;box-shadow:none;font-size:15.5px;line-height:1.85}
+body.paper .conv-stream{gap:34px}
+
+/* Composer: one quiet box. */
+body.paper .conv-input{background:linear-gradient(180deg,rgba(247,245,240,0),#F7F5F0 22%)}
+body.paper .conv-field{background:#fff;border:1px solid rgba(27,26,23,.14);color:#1B1A17;
+  box-shadow:0 1px 3px rgba(27,26,23,.05)}
+body.paper .conv-field::placeholder{color:#A8A296}
+body.paper .conv-field:focus{border-color:#8E7434;box-shadow:0 0 0 3px rgba(142,116,52,.13)}
+body.paper .conv-send{background:#8E7434;color:#fff;box-shadow:none;width:46px;height:46px}
+body.paper .conv-send:hover{background:#7A6229;transform:none;box-shadow:none}
+body.paper .conv-btn{background:#fff;border:1px solid rgba(27,26,23,.14);color:#4A463E}
+body.paper .conv-btn:hover{border-color:#8E7434;color:#7A6229;background:#FBFAF7}
+
+/* Sidebar: the list first and always; everything else folded out of the way. */
+body.paper .panel-cases{background:none;border:none;padding:0;margin-bottom:14px}
+body.paper .pc-item{color:#4A463E}
+body.paper .pc-item:hover{background:rgba(27,26,23,.05)}
+body.paper .pc-item[aria-current="true"]{background:#EBE6DA;border-color:transparent;color:#1B1A17;font-weight:600}
+body.paper .panel-more>summary{color:#8C8578}
+body.paper .panel-pulse,body.paper .panel-file,body.paper .panel-trace{background:#fff;
+  border:1px solid rgba(27,26,23,.08);box-shadow:none}
+body.paper .panel-pulse *,body.paper .panel-file *,body.paper .panel-trace *{color:#4A463E}
+body.paper .pf-title,body.paper .pm-val{color:#1B1A17}
+body.paper .pf-actions button{background:#fff;border:1px solid rgba(27,26,23,.14);color:#4A463E}
+body.paper .drawer-toggle{background:#fff;border-color:rgba(27,26,23,.14);color:#4A463E}
+
+.pc-newfull{width:100%;text-align:right;padding:10px 12px;border-radius:9px;
+  border:1px solid rgba(191,160,92,.35);background:none;color:#BFA05C;font:inherit;font-size:13.5px;
+  cursor:pointer;margin-bottom:10px;transition:background .2s}
+.pc-newfull::before{content:"+  ";font-weight:700}
+.pc-newfull:hover{background:rgba(191,160,92,.1)}
+body.paper .pc-newfull{border-color:rgba(27,26,23,.14);color:#4A463E}
+body.paper .pc-newfull:hover{background:rgba(27,26,23,.04);border-color:#8E7434;color:#7A6229}
+.panel-more{margin-top:4px}
+.panel-more>summary{cursor:pointer;font-size:12px;letter-spacing:.06em;color:var(--bone-dim);
+  padding:8px 2px;list-style:none;user-select:none}
+.panel-more>summary::-webkit-details-marker{display:none}
+.panel-more>summary::before{content:"› ";display:inline-block;transition:transform .2s}
+.panel-more[open]>summary::before{transform:rotate(90deg)}
+.panel-more[open]{display:flex;flex-direction:column;gap:16px}
+
 /* ── a11y focus rings + tactile press ── */
 .conv-send:focus-visible,.conv-field:focus-visible,.conv-btn:focus-visible,.lang-opt:focus-visible,
 .back-btn:focus-visible,.pf-actions button:focus-visible,#themeBtn:focus-visible,.btn:focus-visible,
@@ -870,13 +944,12 @@ body.light #caseBar .cb-brand{color:#23150a}
   <section id="converse">
 <div class="conv-layout">
     <aside class="conv-left">
-      <div class="panel-cases" id="casePanel" hidden>
-        <div class="pc-head">
-          <span data-i18n="casesTitle">پرونده‌ها</span>
-          <button class="pc-new" id="pcNew" title="موضوع تازه" aria-label="موضوع تازه">+</button>
-        </div>
+      <div class="panel-cases" id="casePanel">
+        <button class="pc-newfull" id="pcNew" data-i18n="newChat">گفتگوی تازه</button>
         <div class="pc-list" id="pcList"></div>
       </div>
+      <details class="panel-more">
+      <summary data-i18n="moreTools">پرونده و ابزارها</summary>
       <div class="panel-pulse">
         <div class="pp-ring"><span class="pp-dot"></span></div>
         <div class="po-status" id="orbStatus" data-i18n="orbIdle">ذهن، آماده است</div>
@@ -904,6 +977,7 @@ body.light #caseBar .cb-brand{color:#23150a}
         <div class="pt-head" data-i18n="traceTitle">آینه — رد ذهن</div>
         <div id="mindTrace" data-empty="در انتظار نخستین تحلیل…"></div>
       </div>
+      </details>
     </aside>
     <div class="conv-right">
     <div class="conv-stream" id="convStream"></div>
@@ -1248,6 +1322,7 @@ $("ctaWa").onclick = () => window.open("https://wa.me/905521881819?text=" + enco
 function openConversation(fresh) {
   $("mirror").style.display = "none";
   $("converse").classList.add("active");
+  document.body.classList.add("paper");
   loadCases();          // fills the sidebar; hides itself when there is one file
   const stream = $("convStream");
   // Idempotent: if the conversation already has content, never re-greet
@@ -1303,7 +1378,7 @@ function renderCases(data){
   const box = $("casePanel"), list = $("pcList");
   if (!box || !list) return;
   // One file is not a choice — showing a list of one is noise.
-  box.hidden = CASES.length < 2;
+  box.hidden = false;   // always visible: it is how a person learns they can have more than one
   list.innerHTML = "";
   CASES.forEach(c => {
     const b = document.createElement("button");
@@ -2004,6 +2079,7 @@ async function typeInto(el, text, speed) {
 
 // ── Back button ──
 function goBack() {
+  document.body.classList.remove("paper");
   // From conversation or mirror → back to threshold
   $("converse").classList.remove("active");
   $("mirror").style.display = "";
@@ -2146,7 +2222,7 @@ const I18N = {
     senderName: "هادی بخت‌زاده",
     dwAnalyze: "در حال تحلیل…", dwMarket: "مرور دانش و تجربه‌های مشابه…", dwPattern: "شناسایی الگوهای پنهان…", dwInsight: "ساختن بینش اختصاصی…",
     acLabel: "تحلیل اختصاصی",
-casesTitle: "پرونده‌ها",
+casesTitle: "پرونده‌ها", newChat: "گفتگوی تازه", moreTools: "پرونده و ابزارها",
     greetHello: "سلام", greetAsk: "بگید کارتون چیه — یه جمله کافیه. معمولاً از همون یه جمله می‌شه فهمید کجای کار بی‌سروصدا دارد پول از دست می‌رود."
   },
   en: {
@@ -2177,7 +2253,7 @@ casesTitle: "پرونده‌ها",
     senderName: "Hadi Bakhtzadeh",
     dwAnalyze: "Analyzing deeply…", dwMarket: "Reviewing relevant knowledge…", dwPattern: "Detecting hidden patterns…", dwInsight: "Crafting a tailored insight…",
     acLabel: "Bespoke analysis",
-casesTitle: "Cases",
+casesTitle: "Cases", newChat: "New chat", moreTools: "Case & tools",
     greetHello: "Hello", greetAsk: "Tell me your name and field, and I\u2019ll map out how AI can transform your business."
   },
   ar: {
@@ -2208,7 +2284,7 @@ casesTitle: "Cases",
     senderName: "هادي بختزاده",
     dwAnalyze: "تحليل عميق جارٍ…", dwMarket: "مراجعة المعرفة ذات الصلة…", dwPattern: "اكتشاف الأنماط الخفية…", dwInsight: "صياغة رؤية مخصصة…",
     acLabel: "تحليل حصري",
-casesTitle: "الملفات",
+casesTitle: "الملفات", newChat: "محادثة جديدة", moreTools: "الملف والأدوات",
     greetHello: "مرحباً", greetAsk: "أخبرني باسمك ومجال عملك، لأرسم لك خارطة تحويل عملك بالذكاء الاصطناعي."
   },
   tr: {
@@ -2561,6 +2637,37 @@ window.addEventListener("DOMContentLoaded", initLang);
 .conv-field::placeholder{color:rgba(210,228,218,.55)!important}
 .conv-field:focus{border-color:#1E9E66!important;
   box-shadow:0 0 0 3px rgba(30,158,102,.18)!important}
+
+/* ════ PAPER — final overrides ════
+   The emerald stage block above locks its colours with !important, and
+   !important beats specificity however the selector is written. So the paper
+   screen has to answer in the same currency, and last in the file. Only the
+   properties that block actually forces are repeated here — nothing more, so
+   the dark stage stays exactly as designed everywhere else.                 */
+body.paper #main.live{background:#F7F5F0!important}
+body.paper .bubble-you .b-text{background:#ECE8DF!important;
+  border:1px solid rgba(27,26,23,.07)!important;color:#1B1A17!important;box-shadow:none!important}
+body.paper .conv-input{background:linear-gradient(180deg,rgba(247,245,240,0),#F7F5F0 24%)!important}
+body.paper .conv-field{background:#fff!important;border:1px solid rgba(27,26,23,.14)!important;
+  color:#1B1A17!important;box-shadow:0 1px 3px rgba(27,26,23,.05)!important}
+body.paper .conv-field::placeholder{color:#A8A296!important}
+body.paper .conv-field:focus{border-color:#8E7434!important;
+  box-shadow:0 0 0 3px rgba(142,116,52,.13)!important}
+body.paper .conv-send{background:#8E7434!important;box-shadow:none!important}
+body.paper .aios-card,body.paper .artifact-card,body.paper .report-card{
+  background:#fff!important;border:1px solid rgba(27,26,23,.1)!important;color:#1B1A17!important}
+body.paper .aios-card *,body.paper .artifact-card *,body.paper .report-card *{color:#2A2822}
+/* The site footer belongs to the landing page. Inside a conversation it is
+   another thing between the reader and the answer. */
+body.paper footer{display:none!important}
+/* Opaque, not translucent: a fixed bar you can read the conversation through
+   makes both unreadable at the moment the answer scrolls past it. */
+body.paper header{background:#F7F5F0!important;backdrop-filter:none!important}
+body.paper .hdr-live{background:#EFEBE2!important;border:1px solid rgba(27,26,23,.08)!important;color:#4A463E!important}
+body.paper .hdr-dot{background:#1E9E66!important;box-shadow:none!important}
+/* One quiet border on the composer, not two. */
+body.paper .conv-field{box-shadow:none!important}
+body.paper .conv-field:focus{box-shadow:0 0 0 3px rgba(142,116,52,.13)!important}
 </style>
 </body>
 </html>
