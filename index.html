@@ -266,6 +266,20 @@ body.light .panel-orb{background:radial-gradient(120% 100% at 50% 0%,rgba(191,16
 .panel-orb canvas{position:absolute;inset:0;width:100%;height:100%}
 .panel-orb .po-status{position:absolute;bottom:14px;left:0;right:0;text-align:center;
   font-size:11px;letter-spacing:.22em;color:var(--copper-soft);text-transform:uppercase;opacity:.85}
+.panel-cases{padding:14px 16px;border-radius:var(--radius);background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.07);margin-bottom:16px}
+body.light .panel-cases{background:#fff;border-color:rgba(191,160,92,.22)}
+.pc-head{display:flex;align-items:center;justify-content:space-between;font-size:12px;letter-spacing:.08em;
+  color:var(--bone-dim);margin-bottom:10px}
+.pc-new{width:24px;height:24px;border-radius:6px;border:1px solid rgba(191,160,92,.35);background:none;
+  color:#BFA05C;cursor:pointer;font-size:16px;line-height:1;padding:0}
+.pc-new:hover{background:rgba(191,160,92,.12)}
+.pc-list{display:flex;flex-direction:column;gap:4px;max-height:38vh;overflow-y:auto}
+.pc-item{text-align:right;padding:8px 10px;border-radius:8px;border:1px solid transparent;background:none;
+  color:var(--bone);font:inherit;font-size:13px;cursor:pointer;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;transition:background .2s,border-color .2s}
+.pc-item:hover{background:rgba(255,255,255,.05)}
+.pc-item[aria-current="true"]{background:rgba(191,160,92,.14);border-color:rgba(191,160,92,.35);color:#BFA05C}
 .panel-pulse{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:var(--radius);
   background:radial-gradient(140% 120% at 0% 0%,rgba(191,160,92,.08),transparent 60%),var(--elev);
   border:1px solid var(--line);box-shadow:var(--shadow-soft);backdrop-filter:blur(8px)}
@@ -856,6 +870,13 @@ body.light #caseBar .cb-brand{color:#23150a}
   <section id="converse">
 <div class="conv-layout">
     <aside class="conv-left">
+      <div class="panel-cases" id="casePanel" hidden>
+        <div class="pc-head">
+          <span data-i18n="casesTitle">پرونده‌ها</span>
+          <button class="pc-new" id="pcNew" title="موضوع تازه" aria-label="موضوع تازه">+</button>
+        </div>
+        <div class="pc-list" id="pcList"></div>
+      </div>
       <div class="panel-pulse">
         <div class="pp-ring"><span class="pp-dot"></span></div>
         <div class="po-status" id="orbStatus" data-i18n="orbIdle">ذهن، آماده است</div>
@@ -1227,6 +1248,7 @@ $("ctaWa").onclick = () => window.open("https://wa.me/905521881819?text=" + enco
 function openConversation(fresh) {
   $("mirror").style.display = "none";
   $("converse").classList.add("active");
+  loadCases();          // fills the sidebar; hides itself when there is one file
   const stream = $("convStream");
   // Idempotent: if the conversation already has content, never re-greet
   if (stream.children.length > 0) { setTimeout(()=>$("convField").focus(), 300); return; }
@@ -1256,6 +1278,90 @@ function openConversation(fresh) {
   }
   setTimeout(()=>$("convField").focus(), 400);
 }
+
+/* ══════════ Case files — the topic list ══════════
+   Each case file is a separate business with its OWN message history on the
+   server, which is the whole point: two trades belonging to one person must
+   never bleed into each other. Switching here replaces what is on screen with
+   that file's messages rather than appending to the current thread.
+   The panel stays hidden until there is more than one file, so a first-time
+   visitor is never shown an empty filing cabinet.                            */
+let CASES = [];
+
+async function casesCall(body){
+  try{
+    const r = await fetch(API + "/", {method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify(Object.assign({session_id: SESSION}, body))});
+    return r.ok ? await r.json() : null;
+  }catch(e){ return null; }
+}
+
+function renderCases(data){
+  if (!data) return;
+  CASES = data.items || [];
+  const box = $("casePanel"), list = $("pcList");
+  if (!box || !list) return;
+  // One file is not a choice — showing a list of one is noise.
+  box.hidden = CASES.length < 2;
+  list.innerHTML = "";
+  CASES.forEach(c => {
+    const b = document.createElement("button");
+    b.className = "pc-item";
+    b.textContent = c.title;
+    b.setAttribute("aria-current", c.active ? "true" : "false");
+    b.onclick = () => openCase(c.id);
+    list.appendChild(b);
+  });
+}
+
+function paintHistory(msgs){
+  const stream = $("convStream");
+  if (!stream) return;
+  stream.innerHTML = "";
+  history.length = 0;
+  (msgs || []).forEach(m => {
+    const d = document.createElement("div");
+    if (m.role === "user") {
+      d.className = "bubble-you";
+      d.innerHTML = '<div class="b-text"></div>';
+      d.querySelector(".b-text").textContent = m.content;
+    } else {
+      d.className = "bubble-twin";
+      d.innerHTML = '<div class="b-from">'+T("senderName")+'</div><div class="b-text"></div>';
+      d.querySelector(".b-text").innerHTML = mdLite(stripMarkers(m.content));
+    }
+    stream.appendChild(d);
+    history.push({role: m.role, content: m.content});
+  });
+  const tail = $("convTail"); if (tail) tail.style.height = "0px";
+  scrollConv(true);
+}
+
+async function openCase(id){
+  if (busy) return;                       // never swap the ground mid-answer
+  const data = await casesCall({action:"workspace_switch", ws_id:id});
+  if (!data) return;
+  renderCases(data);
+  paintHistory(data.messages);
+  closeDrawer();
+}
+
+async function newCase(){
+  if (busy) return;
+  const data = await casesCall({action:"workspace_new"});
+  if (!data) return;
+  renderCases(data);
+  paintHistory([]);
+  $("convField") && $("convField").focus();
+  closeDrawer();
+}
+
+async function loadCases(){ renderCases(await casesCall({action:"workspaces"})); }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const n = $("pcNew"); if (n) n.onclick = newCase;
+});
 
 function addTwin(text) {
   const d = document.createElement("div");
@@ -1586,6 +1692,7 @@ async function sendConv(opts) {
     if (!(sBubble && gotChunk)) addTwin("اتصال لحظه‌ای قطع شد. دوباره بفرمایید.");
   }
   busy = false; $("convSend").disabled = false; field.focus();
+  loadCases();
 }
 
 $("convSend").onclick = sendConv;
@@ -1929,6 +2036,12 @@ function toggleDrawer(){
   var open=p.classList.toggle("open");
   if(b) b.classList.toggle("open", open);
 }
+// Picking a case file on a phone should get the drawer out of the way.
+function closeDrawer(){
+  var p=document.querySelector(".conv-left"), b=document.querySelector(".drawer-backdrop");
+  if(p) p.classList.remove("open");
+  if(b) b.classList.remove("open");
+}
 
 // ── Render artifact (━━━ blocks → styled cards) ──
 function mdInline(s){
@@ -2033,6 +2146,7 @@ const I18N = {
     senderName: "هادی بخت‌زاده",
     dwAnalyze: "در حال تحلیل…", dwMarket: "مرور دانش و تجربه‌های مشابه…", dwPattern: "شناسایی الگوهای پنهان…", dwInsight: "ساختن بینش اختصاصی…",
     acLabel: "تحلیل اختصاصی",
+casesTitle: "پرونده‌ها",
     greetHello: "سلام", greetAsk: "بگید کارتون چیه — یه جمله کافیه. معمولاً از همون یه جمله می‌شه فهمید کجای کار بی‌سروصدا دارد پول از دست می‌رود."
   },
   en: {
@@ -2063,6 +2177,7 @@ const I18N = {
     senderName: "Hadi Bakhtzadeh",
     dwAnalyze: "Analyzing deeply…", dwMarket: "Reviewing relevant knowledge…", dwPattern: "Detecting hidden patterns…", dwInsight: "Crafting a tailored insight…",
     acLabel: "Bespoke analysis",
+casesTitle: "Cases",
     greetHello: "Hello", greetAsk: "Tell me your name and field, and I\u2019ll map out how AI can transform your business."
   },
   ar: {
@@ -2093,6 +2208,7 @@ const I18N = {
     senderName: "هادي بختزاده",
     dwAnalyze: "تحليل عميق جارٍ…", dwMarket: "مراجعة المعرفة ذات الصلة…", dwPattern: "اكتشاف الأنماط الخفية…", dwInsight: "صياغة رؤية مخصصة…",
     acLabel: "تحليل حصري",
+casesTitle: "الملفات",
     greetHello: "مرحباً", greetAsk: "أخبرني باسمك ومجال عملك، لأرسم لك خارطة تحويل عملك بالذكاء الاصطناعي."
   },
   tr: {
