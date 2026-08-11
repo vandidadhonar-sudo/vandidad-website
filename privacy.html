@@ -90,7 +90,36 @@
 
 <section class="fa">
 <h2>ب — دستیارِ دایرکتِ اینستاگرام «همزاد»</h2>
-<p class="note">این بخش را تیمِ «همزاد» تکمیل می‌کند و پیش از ارسالِ درخواست به متا اینجا قرار می‌گیرد: چه داده‌ای از اینستاگرام جمع می‌شود، روی چه زیرساختی نگه‌داری می‌شود، با چه سرویس‌هایی پردازش می‌شود، و چقدر نگه داشته می‌شود.</p>
+<p>این سرویس روی زیرساختِ متفاوتی از بخشِ الف کار می‌کند، پس جدا توضیح داده شده است.</p>
+
+<h3>چه چیزی جمع می‌شود</h3>
+<table>
+<tr><th>داده</th><th>چرا</th></tr>
+<tr><td>متنِ پیامی که در دایرکت می‌فرستید</td><td>تا بتوانیم جواب بدهیم</td></tr>
+<tr><td>متنِ پاسخی که فرستاده شده</td><td>تا گفتگو معنا داشته باشد و تکراری نشود</td></tr>
+<tr><td>شناسه‌ی عددیِ فرستنده در اینستاگرام</td><td>تا بدانیم پیامِ بعدی از همان شخص است</td></tr>
+<tr><td>زمانِ پیام</td><td>برای ترتیبِ گفتگو</td></tr>
+</table>
+<p class="note">نام، شماره یا ایمیل جداگانه جمع نمی‌شود. اگر خودتان در متنِ پیام بنویسید، همان‌جا داخلِ متنِ گفتگو می‌ماند. <strong>عکس، ویدیو و پیامِ صوتیِ دایرکت پردازش و ذخیره نمی‌شود</strong> — این دستیار فقط متن را می‌خوانَد.</p>
+
+<h3>کجا نگه‌داری می‌شود</h3>
+<p>روی <strong>Cloudflare Workers KV</strong> در شبکه‌ی جهانیِ Cloudflare. تصاویرِ پست‌ها در <strong>Cloudflare R2</strong> نگه‌داری می‌شوند. هیچ بخشی از این سرویس روی زیرساختِ بخشِ الف نیست و این دو با هم داده‌ای رد و بدل نمی‌کنند.</p>
+
+<h3>با چه سرویس‌هایی پردازش می‌شود</h3>
+<ul>
+<li><strong>Google Gemini API</strong> — متنِ گفتگوی شما برای ساختِ پاسخ به گوگل فرستاده می‌شود. <strong>گوگل ممکن است محتوای فرستاده‌شده به این سرویس را برای بهبودِ مدل‌های خود به کار ببرد.</strong> اگر نمی‌خواهید متنی به گوگل برود، از این دستیار استفاده نکنید و مستقیم به <a href="mailto:ai@vandidad.xyz">ai@vandidad.xyz</a> بنویسید.</li>
+<li><strong>Cloudflare Workers AI</strong> — فقط وقتی سرویسِ بالا در دسترس نباشد.</li>
+<li><strong>متا (اینستاگرام)</strong> — پیام‌ها طبق قواعدِ خودِ اینستاگرام از سرورهای متا عبور می‌کنند.</li>
+</ul>
+
+<h3>چقدر نگه داشته می‌شود</h3>
+<p>همه‌چیز <strong>خودش</strong> پاک می‌شود، بدونِ اینکه کسی کاری بکند:</p>
+<ul>
+<li>تاریخچه‌ی گفتگو: <strong>۶۰ روز</strong> پس از آخرین پیام — و فقط ۱۴ پیامِ آخر نگه داشته می‌شود، نه بیشتر</li>
+<li>سابقه‌ی پیام‌ها برای بررسیِ کیفیت: <strong>۱۲۰ روز</strong></li>
+<li>دادهٔ خامِ دریافتی از اینستاگرام: <strong>۱ روز</strong></li>
+</ul>
+<p>اگر زودتر بخواهید، با یک ایمیل ظرفِ حداکثر ۷ روز پاک می‌شود — <a href="/data-deletion">صفحه‌ی حذف اطلاعات</a>.</p>
 </section>
 
 <section class="fa">
@@ -127,7 +156,11 @@
 <p><strong>We do not sell your data, do not use it for advertising, and place no advertising cookies or third-party trackers on this site.</strong></p>
 
 <h3>B — Instagram Direct assistant ("Hamzad")</h3>
-<p class="note">This section is completed by the Hamzad team and published here before submission to Meta: what is collected from Instagram, where it is stored, which services process it, and how long it is kept.</p>
+<p>This service runs on different infrastructure from section A and is therefore described separately. The two do not exchange data.</p>
+<p><strong>What we collect:</strong> the text of the direct message you send, the text of the reply, your numeric Instagram sender ID as provided by Meta, and the time of the message. No name, phone number or email address is collected separately — if you write one in a message it stays inside that message text. Photos, videos and voice notes sent in Direct are not processed or stored; this assistant reads text only.</p>
+<p><strong>Where it is stored:</strong> Cloudflare Workers KV, on Cloudflare's global network. Post images are held in Cloudflare R2.</p>
+<p><strong>Who processes it:</strong> the <strong>Google Gemini API</strong> generates the replies, so your message text is sent to Google — and <strong>Google may use content submitted to that service to improve its models</strong>. If you would prefer nothing be sent to Google, do not use this assistant; write to <a href="mailto:ai@vandidad.xyz">ai@vandidad.xyz</a> instead. <strong>Cloudflare Workers AI</strong> is used only when that service is unavailable. Messages also pass through Meta's servers under Instagram's own policies.</p>
+<p><strong>Retention:</strong> everything expires on its own. Conversation history is kept for 60 days after the last message, and only the most recent 14 messages are retained. Message records kept for quality review expire after 120 days. The raw payload received from Instagram expires after 1 day. Earlier deletion on request, within 7 days — see <a href="/data-deletion">Data Deletion</a>.</p>
 
 <h3>Your rights</h3>
 <p>You may ask what we hold about you, ask us to correct it, ask us to delete it entirely (see <a href="/data-deletion">Data Deletion</a>), or ask us to stop contacting you. One email to <a href="mailto:ai@vandidad.xyz">ai@vandidad.xyz</a> is enough; we respond within 7 days.</p>
