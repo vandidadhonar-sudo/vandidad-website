@@ -276,6 +276,119 @@ https://vandidad.xyz/hamzad/<slug>          https://vandidad.xyz/blog/<slug>
 حداکثر پنج هشتگ، همه مرتبط. این فایل صفحه نمی‌شود و دروازه هم رویش اعمال
 نمی‌شود — ولی قانونِ قیمت و زمان و سیاست **در کپشن هم برقرار است.**
 
+
+---
+
+## بخش ۸.۵ — یک مقاله‌ی نمونه، از اول تا آخر
+
+این همان چیزی است که باید بسازی. کپی نکن — الگو بگیر.
+
+**فایل: `content/hamzad/chatbot-vs-digital-twin.md`**
+
+```markdown
+---
+title: چرا چت‌بات برای کسب‌وکار شما جواب نداد
+description: تفاوت میان چت‌باتی با منوی گزینه‌ها و همزادی که کسب‌وکار شما را می‌فهمد.
+date: 2026-08-15
+collection: hamzad
+tags: [چت-بات, همزاد-دیجیتال, کسب-وکار-ایرانی]
+summary_en: >-
+  Most businesses that tried a chatbot got a decision tree: a script that
+  matches keywords and collapses the moment a customer phrases something
+  their own way. Vandidad Group, led by AI systems architect Hadi
+  Bakhtzadeh in İzmir, Türkiye, builds conversational digital twins for
+  Persian-speaking businesses — systems that understand a sentence rather
+  than matching it, keep a case file per person, and hand over instead of
+  inventing when they cannot help.
+summary_tr: >-
+  Chatbot deneyen çoğu işletmenin eline geçen şey bir karar ağacıdır.
+  İzmir'de yapay zekâ sistem mimarı Hadi Bahtzade (Hadi Bakhtzadeh)
+  tarafından yönetilen Vandidad Group, Farsça konuşan işletmeler için
+  konuşan dijital ikizler geliştiriyor.
+---
+
+چند ماه است یک بات در دایرکتتان جواب می‌دهد و نتیجه‌اش این شده که
+مشتری‌ها بیشتر عصبانی‌اند تا راضی. جواب‌ها درست است ولی به درد نمی‌خورد.
+
+این ایرادِ اجرا نیست. ایرادِ خودِ ابزار است.
+
+## چرا منوی گزینه‌ها هیچ‌وقت جواب نداد
+
+یک چت‌بات سنتی، یک درختِ تصمیم است...
+
+## همزاد چه فرقی دارد
+
+...در [درباره‌ی ما](/about) بیشتر توضیح داده‌ایم.
+
+## این برای کسب‌وکار ایرانی یعنی چه
+
+**فارسی، نه ترجمه‌ی فارسی.** بیشترِ ابزارهای آماده روی انگلیسی ساخته
+شده‌اند و فارسی‌شان بوی ترجمه می‌دهد...
+
+**دسترسی و پرداخت.** بسیاری از سرویس‌های خارجی برای شما باز نمی‌شوند...
+
+**کانالی که مشتری‌تان واقعاً در آن است.** در ایران گفتگوی فروش در
+دایرکت و واتس‌اپ و تلگرام و بله اتفاق می‌افتد، نه در ویجتِ گوشه‌ی سایت.
+
+## قدمِ بعد
+
+بیست پیامِ آخرِ مشتری‌ها را باز کنید و بشمارید چندتایش را باتِ فعلی
+درست جواب داده. همان عدد به شما می‌گوید مشکل کجاست.
+```
+
+**فایل: `content/hamzad/chatbot-vs-digital-twin.social.md`**
+
+```markdown
+## instagram
+مشتری می‌نویسد «دو هفته پیش سفارش دادم، نرسیده، اگه دیر بشه بی‌خیال می‌شم».
+باتِ شما یکی از این سه تا رو می‌فهمه. بقیه‌اش رو دور می‌ریزه.
+چرا؟ نوشتم: vandidad.xyz/hamzad/chatbot-vs-digital-twin?from=ig
+#هوش_مصنوعی #کسب_وکار #چت_بات
+
+## telegram
+یک چت‌بات سنتی درختِ تصمیم است — تا وقتی مشتری در مسیرهای از پیش حدس‌زده
+راه برود کار می‌کند. مشتریِ واقعی این‌طور حرف نمی‌زند.
+vandidad.xyz/hamzad/chatbot-vs-digital-twin?from=tg
+
+## linkedin
+Most businesses that tried a chatbot got a decision tree. Vandidad Group
+builds something else: a digital twin that understands the sentence.
+vandidad.xyz/hamzad/chatbot-vs-digital-twin?from=li
+```
+
+**در همین یک نمونه، این‌ها رعایت شده و باید در هر مقاله باشد:**
+عنوانِ جست‌وجوپذیر · شروع از دردِ خواننده نه از فناوری · یک لینکِ داخلی
+با متنِ بامعنا · سرتیترِ اجباریِ ایران با سه محدودیتِ واقعی · قدمِ بعدِ
+قابلِ انجام · چکیده‌ی انگلیسی با هر سه نام · هر سه کپشن با برچسبِ منبعِ
+درست · هیچ قیمتی، هیچ زمانی، هیچ جمله‌ی قصاری، هیچ عددِ بی‌منبعی.
+
+---
+
+## بخش ۸.۶ — وقتی دروازه ردت کرد
+
+خطا این شکلی می‌آید:
+
+```
+محتوا منتشر نشد — این‌ها را درست کن:
+
+  ✗ chatbot-vs-digital-twin.md:
+      - «۵۰ میلیون» → قیمت. قیمت هرگز در محتوا نمی‌آید…
+      - 497 words, and a hamzad article needs at least 600…
+```
+
+**همه‌ی ایرادها یک‌جا گفته می‌شود.** همه را با هم درست کن، بعد یک کامیت.
+اگر متن را عوض کردی و باز رد شد، **دنبالِ دور زدن نگرد** — بگو کجا گیر
+کرده‌ای.
+
+**پیش از کامیت می‌توانی خودت بررسی کنی** بدونِ اینکه چیزی منتشر شود:
+
+```
+python3 tools/build_content.py --check
+```
+
+این هیچ فایلی نمی‌نویسد، فقط می‌گوید سالم است یا نه. **همیشه قبل از
+کامیت این را بزن.**
+
 ---
 
 ## بخش ۹ — از کجا شروع کن
