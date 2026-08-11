@@ -863,7 +863,11 @@ body.light #caseBar .cb-brand{color:#23150a}
     <div class="tb-fa">هادی بخت‌زاده · معمار هوش مصنوعی</div>
     <a class="tb-about" href="/about">About · EN</a>
   </div>
-  <video id="heroVid" autoplay muted loop playsinline preload="auto"><source src="https://cdn.jsdelivr.net/gh/vandidadhonar-sudo/vandidad-website@9302f03db739b00623660358551e026e539eb976/hero.mp4" type="video/mp4"><source src="/hero.mp4?v=2" type="video/mp4"></video>
+  <!-- Served from our own domain, out of R2. This used to point at jsDelivr
+       first and fall back here, which meant a visitor in Iran waited for a CDN
+       that often does not answer before the real source was tried — on the very
+       first thing the page shows. -->
+  <video id="heroVid" autoplay muted loop playsinline preload="auto"><source src="/hero.mp4?v=2" type="video/mp4"></video>
   <div class="th-shade" aria-hidden="true"></div>
   <div class="th-eyebrow">AIOS · ARCHITECT OF INTELLIGENT SYSTEMS</div>
   <div class="th-pulse"></div>
