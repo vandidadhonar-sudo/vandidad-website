@@ -63,6 +63,13 @@ const FILES = {
   "/robots.txt": "text/plain; charset=utf-8",
   "/llms.txt": "text/plain; charset=utf-8",
   "/sitemap.xml": "application/xml; charset=utf-8",
+  // IndexNow proves we own the domain by serving this key back at its own
+  // name. It is a public verification file, not a secret. Without it the
+  // instant-indexing pings are rejected and new articles wait weeks for a
+  // crawler instead of hours — which matters because ChatGPT's live search
+  // reads Bing, and Bing is what IndexNow notifies.
+  "/e1f25c1e9599de7ac40a9f13dd647f7c7fa1f352213a90ca3c667c623d1f933e.txt":
+    "text/plain; charset=utf-8",
 };
 
 // Article collections. /blog/a-slug is content/blog/a-slug.html in the repo,

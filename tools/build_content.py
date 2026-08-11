@@ -61,6 +61,74 @@ FRONT_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n(.*)$", re.S)
 # stem so a writer's spacing or half-space does not fail a good article.
 IRAN_SECTION = re.compile(r"برای\s*کسب.?و.?کار\s*ایرانی")
 
+# The owner's standing rules, enforced rather than advised.
+#
+# These exist because the approval step was removed: articles publish straight
+# to main so he stops being the bottleneck. That is only safe if the things
+# that would actually damage him — a quoted price, a promised delivery date, a
+# political aside, a statistic with no source — cannot get through. A rule that
+# lives only in a brief gets forgotten on a tired week; a rule that fails the
+# build does not.
+#
+# Each entry is (name, pattern, what the writer should do instead).
+FORBIDDEN = [
+    (
+        "قیمت",
+        re.compile(
+            r"(?:^|[^\w])(?:\d[\d,،.]*\s*(?:تومان|ریال|میلیون|میلیارد|دلار|یورو|لیر)"
+            r"|(?:تومان|ریال|دلار|یورو|لیر)\s*\d"
+            r"|قیمت\s*(?:از|شروع|حدود|تقریب)"
+            r"|هزینه\s*(?:از|حدود|تقریب)\s*\d)",
+        ),
+        "قیمت هرگز در محتوا نمی‌آید — نه عدد، نه محدوده، نه «از … شروع می‌شود». "
+        "قیمت فقط در گفتگوی مستقیم مشخص می‌شود.",
+    ),
+    (
+        "زمانِ تحویل",
+        re.compile(
+            r"(?:ظرف|در\s*عرض|طی)\s*(?:\d+|یک|دو|سه|چند)\s*"
+            r"(?:روز|هفته|ماه)\s*(?:تحویل|آماده|راه‌?اندازی|می‌?سازیم|تمام)"
+            r"|(?:تحویل|راه‌?اندازی)\s*(?:در|ظرف)\s*(?:\d+|یک|دو|سه|چند)\s*(?:روز|هفته|ماه)"
+        ),
+        "زمانِ ساخت هم مثل قیمت است — هیچ تعهدِ زمانی در محتوا نوشته نمی‌شود.",
+    ),
+    (
+        "سیاست",
+        re.compile(
+            r"تحریم|رژیم|حکومت|دولت\s*(?:فعلی|قبلی)|انتخابات|براندازی|اصلاح‌?طلب|اصول‌?گرا"
+        ),
+        "سیاست ممنوع است. اگر محدودیتی فنی یا اقتصادی هست، خودِ محدودیت را "
+        "توصیف کن بدونِ اشاره‌ی سیاسی — مثلاً «دسترسی به این سرویس از ایران باز نیست».",
+    ),
+    (
+        "لینکِ بی‌معنا",
+        # The weak phrase can sit anywhere inside the link text — «اینجا کلیک
+        # کنید» is the common form, not a bare «اینجا».
+        re.compile(
+            r"\[[^\]]*(?:کلیک\s*کنید|اینجا|همین\s*جا|این\s*لینک"
+            r"|بیشتر\s*بخوانید|ادامه\s*مطلب|click\s*here)[^\]]*\]\("
+        ),
+        "متنِ لینک باید بگوید آن طرف چیست. «اینجا کلیک کنید» نه برای خواننده "
+        "معنا دارد نه برای موتور جست‌وجو.",
+    ),
+    (
+        "جمله‌ی قصار",
+        re.compile(
+            r"هوش\s*مصنوعی\s*آینده\s*است"
+            r"|داده\s*(?:نفتِ?|طلای)\s*جدید"
+            r"|یک\s*(?:انتخاب|گزینه)\s*نیست[،.]?\s*یک\s*ضرورت"
+            r"|قطارِ?\s*(?:پیشرفت|فناوری)"
+            r"|عقب\s*ماندن\s*از\s*قافله"
+        ),
+        "جمله‌ی قصار هیچ چیزی به کسی نمی‌گوید و خواننده را فراری می‌دهد. "
+        "به‌جایش یک واقعیتِ مشخص از کارِ خواننده بنویس.",
+    ),
+]
+
+# A number that reads like a statistic needs a source in the same paragraph.
+STAT = re.compile(r"(?:^|[^\w.])(\d{1,3}(?:[.,]\d+)?)\s*(?:٪|درصد|%)")
+SOURCE_NEAR = re.compile(r"\[[^\]]+\]\(https?://|طبق|بر\s*اساس|به\s*گزارش|منبع")
+
 COLLECTIONS = {
     "blog": {
         "fa": "بلاگ",
@@ -244,6 +312,25 @@ def validate(article: Article) -> None:
             "the Vandidad name to an unrelated construction company; without "
             "English text on the page, no model corrects that."
         )
+
+    haystack = f"{article.title}\n{article.description}\n{article.body_md}"
+    for name, pattern, remedy in FORBIDDEN:
+        hit = pattern.search(haystack)
+        if hit:
+            excerpt = hit.group(0).strip()
+            faults.append(f"«{excerpt}» → {name}. {remedy}")
+
+    # A percentage nobody can check is worse than no percentage: one unsourced
+    # figure makes a reader distrust the whole article.
+    for para in re.split(r"\n\s*\n", article.body_md):
+        stat = STAT.search(para)
+        if stat and not SOURCE_NEAR.search(para):
+            faults.append(
+                f"«{stat.group(0).strip()}» عددی است بدونِ منبع، در همان بند. "
+                "یا منبعش را با لینک بیاور، یا عدد را بردار."
+            )
+            break
+
     if faults:
         raise BuildError(
             f"{article.slug}.md:\n"
@@ -530,7 +617,13 @@ def main() -> int:
         folder = CONTENT / collection
         if not folder.exists():
             continue
+        # `<slug>.social.md` holds the captions that go out on Instagram,
+        # Telegram and LinkedIn. It lives next to its article on purpose — one
+        # place per subject — but it is not a page and must never be rendered
+        # or validated as one.
         for path in sorted(folder.glob("*.md")):
+            if path.name.endswith(".social.md"):
+                continue
             try:
                 article = parse(path)
                 validate(article)
