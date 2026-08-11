@@ -63,6 +63,7 @@ const FILES = {
   "/robots.txt": "text/plain; charset=utf-8",
   "/llms.txt": "text/plain; charset=utf-8",
   "/sitemap.xml": "application/xml; charset=utf-8",
+  "/feed.xml": "application/atom+xml; charset=utf-8",
   // IndexNow proves we own the domain by serving this key back at its own
   // name. It is a public verification file, not a secret. Without it the
   // instant-indexing pings are rejected and new articles wait weeks for a
