@@ -94,6 +94,12 @@ const HTML_HEADERS = {
   "Content-Type": "text/html; charset=utf-8",
   "Cache-Control": "public, max-age=60",
   "X-Frame-Options": "DENY",
+  // A browser that sniffs a served type can be talked into treating a page as
+  // something it is not; nosniff closes that. The referrer policy keeps the
+  // full path of a private case-file page out of the Referer header when a
+  // reader clicks an outbound link.
+  "X-Content-Type-Options": "nosniff",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
 };
 
 // Serve an object out of R2. Returns null — never throws — when R2 cannot
@@ -159,6 +165,7 @@ export default {
         headers: {
           "Content-Type": FILES[url.pathname],
           "Cache-Control": "public, max-age=300",
+          "X-Content-Type-Options": "nosniff",
         },
       });
     }
