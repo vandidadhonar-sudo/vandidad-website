@@ -1,0 +1,50 @@
+# Publishes the Cloudflare Worker whenever its code or configuration changes on
+# main. The owner does not write code, so the deployment must not depend on
+# anyone remembering to copy a file into a dashboard — that manual step is what
+# took the legal pages offline once already.
+#
+# Only the Worker's own files trigger this. index.html and the static pages are
+# read from the repository by the Worker at request time, so they are already
+# live the moment they land on main and must not cause a redeploy.
+
+name: Deploy Worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - cloudflare-worker.js
+      - wrangler.toml
+      - .github/workflows/deploy-worker.yml
+  workflow_dispatch: {}
+
+# A second deploy starting while the first is mid-flight could publish the older
+# of the two last. Queue them instead, and never cancel one in progress.
+concurrency:
+  group: deploy-worker
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      # A syntax error would otherwise be discovered by visitors rather than by
+      # this job: Wrangler is what actually bundles the Worker, so ask it to do
+      # the whole build and stop short of uploading.
+      #
+      # The version is pinned rather than floating on @4. A deploy that only
+      # happens when the Worker changes is rare enough that a surprise from a
+      # fresh Wrangler release would land on a day nobody is watching, and this
+      # exact version is the one the bundle was tested against.
+      - name: Check the Worker builds
+        run: npx --yes wrangler@4.110.0 deploy --dry-run --outdir /tmp/build
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          wranglerVersion: "4.110.0"

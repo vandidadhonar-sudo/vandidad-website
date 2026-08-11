@@ -1,7 +1,39 @@
+# vandidad.xyz — Worker configuration
+#
+# WHY THIS FILE EXISTS
+# --------------------
+# The Worker used to be maintained by pasting code into the Cloudflare
+# dashboard. That made the dashboard, not this repository, the real source of
+# truth — and it failed twice: once when the dashboard copy drifted ahead of the
+# repository, and once when an older draft in the editor was redeployed over the
+# current code and silently took the /privacy, /terms and /data-deletion pages
+# down. The owner does not write code and cannot be the one to notice that.
+#
+# With this file, `wrangler deploy` publishes exactly what is committed here, so
+# the repository is the truth again and a merge is the whole deployment.
+#
+# WHAT IS DELIBERATELY ABSENT
+# ---------------------------
+# `routes` is not set. Wrangler overwrites routes with whatever this file says,
+# so naming them here would put the live domain one typo away from being
+# detached. Leaving the key out means Wrangler does not touch routing at all —
+# vandidad.xyz keeps pointing where it already points. `workers_dev = false` is
+# required for that hands-off behaviour, and has the side benefit that the site
+# stops being reachable at a second .workers.dev address.
+#
+# `keep_vars = true` stops a deploy from wiping variables and secrets that were
+# set in the dashboard, so MEDIA_SEED_KEY survives every future deploy.
+
 name = "vandidad-website"
-# Self-fetching worker: serves the live index.html (single source of truth),
-# so a `wrangler deploy` can never publish a stale embedded copy. worker.js is
-# legacy (old embedded HTML) and is no longer referenced.
-main = "worker_full.js"
-compatibility_date = "2024-01-01"
-compatibility_flags = ["nodejs_compat"]
+main = "cloudflare-worker.js"
+compatibility_date = "2026-08-01"
+account_id = "48db27ab00625785134a70027e4efd0b"
+
+workers_dev = false
+keep_vars = true
+
+# The hero video and poster. The Worker falls back to the repository if this
+# bucket is empty, so the binding can exist before the objects do.
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "vandidad-media"
