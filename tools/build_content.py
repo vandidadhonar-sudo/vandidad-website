@@ -1,0 +1,605 @@
+#!/usr/bin/env python3
+"""Turns the Markdown a writer commits into the pages the site serves.
+
+WHY THIS EXISTS
+---------------
+Articles are written in one place and the site is built in another. If the
+writer produced HTML, every article would carry its own accidental markup and
+its own accidental idea of what an article looks like, and the pages would
+drift apart the way the Worker drifted from the repository. So the writer
+produces Markdown with front matter and nothing else, and this file is the only
+thing that decides what a page on this site is.
+
+WHY IT ALSO REFUSES
+-------------------
+The brief says a Hamzad article is at least 600 words and must end with a
+section on what the subject concretely means for an Iranian business. A brief
+that is only advice gets forgotten on a tired week. Here those rules fail the
+build, with a message naming the file and the fix, so the site never quietly
+fills up with the generic writing the owner already rejected once.
+
+WHY THE STRUCTURED DATA MATTERS MORE THAN llms.txt
+--------------------------------------------------
+Measurements of AI crawler traffic show the assistant crawlers overwhelmingly
+skip llms.txt and read HTML. So the facts that place this company and this
+person — and separate them from the unrelated Iranian construction firm of the
+same name that currently owns the search results — are written into every page
+as JSON-LD, where the crawlers actually look.
+
+Run: python3 tools/build_content.py [--check]
+  --check  validate and render without writing, for pull requests
+"""
+
+from __future__ import annotations
+
+import argparse
+import html
+import json
+import re
+import sys
+from dataclasses import dataclass, field
+from datetime import date, datetime
+from pathlib import Path
+
+try:
+    import markdown as md_lib
+except ImportError:  # pragma: no cover - the workflow installs it
+    sys.exit("missing dependency: pip install markdown pyyaml")
+try:
+    import yaml
+except ImportError:  # pragma: no cover
+    sys.exit("missing dependency: pip install markdown pyyaml")
+
+ROOT = Path(__file__).resolve().parent.parent
+CONTENT = ROOT / "content"
+SITE = "https://vandidad.xyz"
+
+SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+FRONT_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n(.*)$", re.S)
+
+# The section every Hamzad article has to end with. Matched loosely on the
+# stem so a writer's spacing or half-space does not fail a good article.
+IRAN_SECTION = re.compile(r"برای\s*کسب.?و.?کار\s*ایرانی")
+
+COLLECTIONS = {
+    "blog": {
+        "fa": "بلاگ",
+        "en": "Blog",
+        "lead": "نوشته‌های کوتاه درباره‌ی به‌کار بستنِ هوش مصنوعی در یک کسب‌وکارِ واقعی.",
+        "min_words": 0,
+        "require_iran_section": False,
+    },
+    "hamzad": {
+        "fa": "همزاد",
+        "en": "Hamzad",
+        "lead": "نوشته‌های بلندتر — هرکدام با یک بخشِ روشن درباره‌ی اینکه این موضوع برای کسب‌وکارِ ایرانی چه معنایی دارد.",
+        "min_words": 600,
+        "require_iran_section": True,
+    },
+}
+
+# One statement of who this is, reused in every page's structured data. The
+# sameAs list is what lets a model connect the site to the person rather than
+# guessing from a name that another company already owns.
+ORGANISATION = {
+    "@type": "Organization",
+    "@id": SITE + "/#organization",
+    "name": "Vandidad Group",
+    "alternateName": ["وندیداد گروپ", "AIOS"],
+    "url": SITE,
+    "email": "ai@vandidad.xyz",
+    "description": (
+        "Vandidad Group designs and builds bespoke AI systems — conversational "
+        "digital twins — for businesses, with a focus on Persian-speaking markets."
+    ),
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Konak, İzmir",
+        "addressCountry": "TR",
+    },
+    "founder": {"@id": SITE + "/#person"},
+}
+
+PERSON = {
+    "@type": "Person",
+    "@id": SITE + "/#person",
+    "name": "Hadi Bakhtzadeh",
+    "alternateName": ["هادی بخت‌زاده", "Hadi Bahtzade"],
+    "jobTitle": "Architect of Intelligent Systems",
+    "description": (
+        "AI systems architect based in İzmir, Türkiye. Designs the behaviour of "
+        "AI systems for businesses: what they understand, how they speak, and "
+        "where they must refuse."
+    ),
+    "worksFor": {"@id": SITE + "/#organization"},
+    "url": SITE + "/about",
+}
+
+
+class BuildError(Exception):
+    """A problem a writer can fix, phrased so they can fix it."""
+
+
+@dataclass
+class Article:
+    slug: str
+    collection: str
+    title: str
+    description: str
+    published: date
+    body_md: str
+    tags: list[str] = field(default_factory=list)
+    summary_en: str = ""
+    summary_tr: str = ""
+    updated: date | None = None
+
+    @property
+    def url(self) -> str:
+        return f"{SITE}/{self.collection}/{self.slug}"
+
+    @property
+    def words(self) -> int:
+        text = re.sub(r"[#*_`>\[\]()!-]", " ", self.body_md)
+        return len([w for w in text.split() if w.strip()])
+
+
+def _as_date(value, where: str) -> date:
+    if isinstance(value, date) and not isinstance(value, datetime):
+        return value
+    if isinstance(value, datetime):
+        return value.date()
+    if isinstance(value, str):
+        try:
+            return datetime.strptime(value.strip(), "%Y-%m-%d").date()
+        except ValueError:
+            pass
+    raise BuildError(f"{where}: date must be written as YYYY-MM-DD, got {value!r}")
+
+
+def parse(path: Path) -> Article:
+    raw = path.read_text(encoding="utf-8")
+    match = FRONT_RE.match(raw)
+    if not match:
+        raise BuildError(
+            f"{path.name}: the file must start with a --- front matter block. "
+            "See docs/CONTENT-BRIEF.md section 5."
+        )
+    try:
+        meta = yaml.safe_load(match.group(1)) or {}
+    except yaml.YAMLError as exc:
+        raise BuildError(f"{path.name}: the front matter is not valid YAML — {exc}")
+    if not isinstance(meta, dict):
+        raise BuildError(f"{path.name}: the front matter must be a list of key: value lines")
+
+    slug = path.stem
+    if not SLUG_RE.match(slug):
+        raise BuildError(
+            f"{path.name}: the file name is the URL, so it may only contain "
+            "lowercase english letters, digits and single hyphens — no Persian, "
+            "no spaces, no dots."
+        )
+
+    collection = path.parent.name
+    declared = str(meta.get("collection", collection)).strip()
+    if declared != collection:
+        raise BuildError(
+            f"{path.name}: collection says '{declared}' but the file is in "
+            f"content/{collection}/. Move the file or fix the line."
+        )
+
+    for key in ("title", "description", "date"):
+        if not meta.get(key):
+            raise BuildError(f"{path.name}: '{key}' is missing from the front matter.")
+
+    title = str(meta["title"]).strip()
+    description = str(meta["description"]).strip()
+    if len(description) > 165:
+        raise BuildError(
+            f"{path.name}: description is {len(description)} characters. Google "
+            "cuts it around 155 — say it shorter, and as a whole sentence."
+        )
+
+    body = match.group(2).strip()
+    if not body:
+        raise BuildError(f"{path.name}: there is front matter but no article.")
+
+    tags = meta.get("tags") or []
+    if isinstance(tags, str):
+        tags = [t.strip() for t in tags.split(",") if t.strip()]
+
+    return Article(
+        slug=slug,
+        collection=collection,
+        title=title,
+        description=description,
+        published=_as_date(meta["date"], path.name),
+        updated=_as_date(meta["updated"], path.name) if meta.get("updated") else None,
+        body_md=body,
+        tags=[str(t).strip() for t in tags],
+        summary_en=str(meta.get("summary_en", "")).strip(),
+        summary_tr=str(meta.get("summary_tr", "")).strip(),
+    )
+
+
+def validate(article: Article) -> None:
+    """Report everything wrong at once — a writer who is sent back three times
+    for three separate reasons stops reading the messages."""
+    rules = COLLECTIONS[article.collection]
+    faults: list[str] = []
+
+    if article.words < rules["min_words"]:
+        faults.append(
+            f"{article.words} words, and a {article.collection} article needs at "
+            f"least {rules['min_words']}. A short piece belongs in content/blog/."
+        )
+    if rules["require_iran_section"] and not IRAN_SECTION.search(article.body_md):
+        faults.append(
+            "the mandatory «این برای کسب‌وکار ایرانی یعنی چه» section is missing. "
+            "Without it the article is generic, which is the thing this whole "
+            "pipeline exists to prevent."
+        )
+    if not article.summary_en:
+        faults.append(
+            "summary_en is missing. The English-language web currently attaches "
+            "the Vandidad name to an unrelated construction company; without "
+            "English text on the page, no model corrects that."
+        )
+    if faults:
+        raise BuildError(
+            f"{article.slug}.md:\n"
+            + "\n".join("      - " + f for f in faults)
+        )
+
+
+PERSIAN_DIGITS = str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹")
+FA_MONTHS = [
+    "ژانویه", "فوریه", "مارس", "آوریل", "مه", "ژوئن",
+    "ژوئیه", "اوت", "سپتامبر", "اکتبر", "نوامبر", "دسامبر",
+]
+
+
+def fa_date(d: date) -> str:
+    return f"{str(d.day).translate(PERSIAN_DIGITS)} {FA_MONTHS[d.month - 1]} {str(d.year).translate(PERSIAN_DIGITS)}"
+
+
+STYLE = """
+  :root{--ink:#0b0a08;--gold:#e3c88a;--gold-dim:#a8945f;--paper:#ece7db;--muted:#8d8578;--rule:#26221a}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--ink);color:var(--paper);padding:0 24px 96px;
+    font:400 17px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:720px;margin:0 auto}
+  header{padding:56px 0 0}
+  .eyebrow{font:500 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--gold-dim);margin:0 0 18px}
+  .eyebrow a{color:inherit;text-decoration:none}
+  .eyebrow a:hover{color:var(--gold)}
+  h1{font:400 clamp(27px,4.6vw,40px)/1.28 "Iowan Old Style",Palatino,Georgia,serif;
+    color:var(--gold);margin:0 0 12px;letter-spacing:-.01em}
+  .meta{font:400 13px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);margin:0}
+  .lede{color:#c9c3b6;font-size:18px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
+  article{padding-top:8px}
+  article h2{font:600 20px/1.5 inherit;color:var(--gold);margin:38px 0 12px}
+  article h3{font:600 16px/1.5 inherit;color:var(--gold-dim);margin:28px 0 8px}
+  p,li{color:#c9c3b6;margin:0 0 16px}
+  ul,ol{padding-inline-start:22px;margin:0 0 16px}
+  a{color:var(--gold);text-underline-offset:3px}
+  blockquote{border-inline-start:2px solid var(--gold-dim);margin:0 0 18px;
+    padding-inline-start:16px;color:var(--muted)}
+  code{font:400 14px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--gold);
+    background:rgba(227,200,138,.07);padding:1px 5px;border-radius:3px}
+  pre{background:rgba(227,200,138,.05);border:1px solid var(--rule);border-radius:6px;
+    padding:14px 16px;overflow-x:auto;direction:ltr;text-align:left}
+  pre code{background:none;padding:0}
+  table{width:100%;border-collapse:collapse;margin:0 0 18px;font-size:15px;display:block;overflow-x:auto}
+  th,td{text-align:start;padding:9px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+  th{color:var(--gold-dim);font-weight:600}
+  img{max-width:100%;height:auto;border-radius:6px}
+  .tags{margin:34px 0 0;font:400 13px/1.9 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+  .summary{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
+  .summary h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold-dim);margin:0 0 12px}
+  .summary p{font-size:15.5px;color:var(--muted);margin:0}
+  .ltr{direction:ltr;text-align:left}
+  .cta{margin-top:44px;padding:24px;border:1px solid var(--rule);border-radius:8px}
+  .cta p{margin:0 0 10px;color:#c9c3b6}
+  .cta a{font-weight:600}
+  .index-item{padding:26px 0;border-bottom:1px solid var(--rule)}
+  .index-item h2{font:400 21px/1.45 "Iowan Old Style",Palatino,Georgia,serif;margin:0 0 6px}
+  .index-item h2 a{color:var(--gold);text-decoration:none}
+  .index-item h2 a:hover{text-decoration:underline}
+  .index-item p{margin:0 0 6px;font-size:15.5px}
+  .index-item .meta{font-size:12px}
+  footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--rule);
+    font:400 13px/1.9 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+  footer a{margin-inline-end:16px;color:var(--gold);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+"""
+
+FOOTER = """<footer>
+  <div><a href="/">صفحه‌ی اصلی</a><a href="/blog">بلاگ</a><a href="/hamzad">همزاد</a><a href="/about">درباره‌ی ما</a></div>
+  <div style="margin-top:10px"><a href="/privacy">حریم خصوصی</a><a href="/terms">شرایط استفاده</a><a href="/data-deletion">حذف اطلاعات</a></div>
+  <div style="margin-top:14px;opacity:.75">Vandidad Group · Konak, İzmir, Türkiye · <a href="mailto:ai@vandidad.xyz">ai@vandidad.xyz</a></div>
+</footer>"""
+
+
+def shell(*, title: str, description: str, canonical: str, body: str, jsonld: dict) -> str:
+    return f"""<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{html.escape(title)} — Vandidad Group</title>
+<meta name="description" content="{html.escape(description)}">
+<link rel="canonical" href="{canonical}">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:title" content="{html.escape(title)}">
+<meta property="og:description" content="{html.escape(description)}">
+<meta property="og:url" content="{canonical}">
+<meta property="og:site_name" content="Vandidad Group">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{json.dumps(jsonld, ensure_ascii=False, indent=1)}
+</script>
+<style>{STYLE}</style>
+</head>
+<body>
+<div class="wrap">
+{body}
+{FOOTER}
+</div>
+</body>
+</html>
+"""
+
+
+def render_article(a: Article) -> str:
+    body_html = md_lib.markdown(
+        a.body_md,
+        extensions=["extra", "sane_lists", "smarty"],
+        output_format="html5",
+    )
+
+    parts = [
+        '<header>',
+        f'<p class="eyebrow"><a href="/{a.collection}">{COLLECTIONS[a.collection]["fa"]}</a></p>',
+        f"<h1>{html.escape(a.title)}</h1>",
+        f'<p class="meta">{fa_date(a.published)}'
+        + (f" · به‌روزرسانی {fa_date(a.updated)}" if a.updated else "")
+        + "</p>",
+        f'<p class="lede">{html.escape(a.description)}</p>',
+        "</header>",
+        f"<article>{body_html}</article>",
+    ]
+
+    if a.tags:
+        parts.append('<p class="tags">' + " · ".join(html.escape(t) for t in a.tags) + "</p>")
+
+    if a.summary_en:
+        parts.append(
+            '<section class="summary ltr" lang="en" dir="ltr">'
+            "<h2>In English</h2>"
+            f"<p>{html.escape(a.summary_en)}</p></section>"
+        )
+    if a.summary_tr:
+        parts.append(
+            '<section class="summary ltr" lang="tr" dir="ltr">'
+            "<h2>Türkçe özet</h2>"
+            f"<p>{html.escape(a.summary_tr)}</p></section>"
+        )
+
+    parts.append(
+        '<div class="cta"><p>می‌خواهید ببینید این برای کارِ خودتان چه شکلی می‌شود؟</p>'
+        '<p><a href="/">همین‌جا با دستیار حرف بزنید</a> — یک جمله درباره‌ی کارتان کافی است.</p></div>'
+    )
+
+    jsonld = {
+        "@context": "https://schema.org",
+        "@graph": [
+            ORGANISATION,
+            PERSON,
+            {
+                "@type": "Article",
+                "@id": a.url + "#article",
+                "headline": a.title,
+                "description": a.description,
+                "inLanguage": "fa-IR",
+                "datePublished": a.published.isoformat(),
+                "dateModified": (a.updated or a.published).isoformat(),
+                "author": {"@id": SITE + "/#person"},
+                "publisher": {"@id": SITE + "/#organization"},
+                "mainEntityOfPage": {"@type": "WebPage", "@id": a.url},
+                "url": a.url,
+                "keywords": ", ".join(a.tags) if a.tags else None,
+                "abstract": a.summary_en or None,
+            },
+        ],
+    }
+    jsonld["@graph"][2] = {k: v for k, v in jsonld["@graph"][2].items() if v is not None}
+
+    return shell(
+        title=a.title,
+        description=a.description,
+        canonical=a.url,
+        body="\n".join(parts),
+        jsonld=jsonld,
+    )
+
+
+def render_index(collection: str, articles: list[Article]) -> str:
+    info = COLLECTIONS[collection]
+    url = f"{SITE}/{collection}"
+    items = []
+    for a in articles:
+        items.append(
+            '<div class="index-item">'
+            f'<h2><a href="/{a.collection}/{a.slug}">{html.escape(a.title)}</a></h2>'
+            f"<p>{html.escape(a.description)}</p>"
+            f'<p class="meta">{fa_date(a.published)}</p>'
+            "</div>"
+        )
+    if not items:
+        items.append('<p class="meta">هنوز نوشته‌ای منتشر نشده است.</p>')
+
+    jsonld = {
+        "@context": "https://schema.org",
+        "@graph": [
+            ORGANISATION,
+            PERSON,
+            {
+                "@type": "CollectionPage",
+                "@id": url,
+                "name": info["fa"],
+                "description": info["lead"],
+                "inLanguage": "fa-IR",
+                "url": url,
+                "isPartOf": {"@id": SITE + "/#organization"},
+                "hasPart": [
+                    {"@type": "Article", "headline": a.title, "url": a.url}
+                    for a in articles
+                ],
+            },
+        ],
+    }
+
+    body = (
+        "<header>"
+        '<p class="eyebrow">Vandidad Group</p>'
+        f'<h1>{info["fa"]}</h1>'
+        f'<p class="lede">{info["lead"]}</p>'
+        "</header>" + "".join(items)
+    )
+    return shell(
+        title=info["fa"],
+        description=info["lead"],
+        canonical=url,
+        body=body,
+        jsonld=jsonld,
+    )
+
+
+STATIC_URLS = [
+    ("/", "weekly", "1.0"),
+    ("/about", "monthly", "0.8"),
+    ("/blog", "weekly", "0.7"),
+    ("/hamzad", "weekly", "0.7"),
+    ("/privacy", "yearly", "0.3"),
+    ("/terms", "yearly", "0.3"),
+    ("/data-deletion", "yearly", "0.3"),
+]
+
+
+def render_sitemap(articles: list[Article]) -> str:
+    rows = [
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+        "<!-- Generated by tools/build_content.py. Do not edit by hand. -->",
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for path, freq, prio in STATIC_URLS:
+        rows += [
+            "  <url>",
+            f"    <loc>{SITE}{path}</loc>",
+            f"    <changefreq>{freq}</changefreq>",
+            f"    <priority>{prio}</priority>",
+            "  </url>",
+        ]
+    for a in sorted(articles, key=lambda x: x.published, reverse=True):
+        rows += [
+            "  <url>",
+            f"    <loc>{a.url}</loc>",
+            f"    <lastmod>{(a.updated or a.published).isoformat()}</lastmod>",
+            "    <changefreq>monthly</changefreq>",
+            "    <priority>0.6</priority>",
+            "  </url>",
+        ]
+    rows.append("</urlset>")
+    return "\n".join(rows) + "\n"
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--check", action="store_true", help="validate without writing")
+    args = ap.parse_args()
+
+    problems: list[str] = []
+    by_collection: dict[str, list[Article]] = {c: [] for c in COLLECTIONS}
+    seen_slugs: dict[str, str] = {}
+
+    for collection in COLLECTIONS:
+        folder = CONTENT / collection
+        if not folder.exists():
+            continue
+        for path in sorted(folder.glob("*.md")):
+            try:
+                article = parse(path)
+                validate(article)
+            except BuildError as exc:
+                problems.append(str(exc))
+                continue
+            if article.slug in seen_slugs:
+                problems.append(
+                    f"{article.slug}.md: this slug is already used in "
+                    f"{seen_slugs[article.slug]}. Two articles cannot share a URL."
+                )
+                continue
+            seen_slugs[article.slug] = collection
+            by_collection[collection].append(article)
+
+    if problems:
+        print("محتوا منتشر نشد — این‌ها را درست کن:\n", file=sys.stderr)
+        for p in problems:
+            print("  ✗ " + p + "\n", file=sys.stderr)
+        return 1
+
+    everything = [a for group in by_collection.values() for a in group]
+    written = 0
+
+    for collection, articles in by_collection.items():
+        articles.sort(key=lambda a: a.published, reverse=True)
+        folder = CONTENT / collection
+        if not articles and not folder.exists():
+            continue
+        folder.mkdir(parents=True, exist_ok=True)
+
+        wanted = {"index.html"}
+        for a in articles:
+            wanted.add(a.slug + ".html")
+            target = folder / (a.slug + ".html")
+            content = render_article(a)
+            if not args.check and (not target.exists() or target.read_text("utf-8") != content):
+                target.write_text(content, encoding="utf-8")
+                written += 1
+            print(f"  ✓ /{collection}/{a.slug}  ({a.words} کلمه)")
+
+        index = folder / "index.html"
+        content = render_index(collection, articles)
+        if not args.check and (not index.exists() or index.read_text("utf-8") != content):
+            index.write_text(content, encoding="utf-8")
+            written += 1
+
+        # A deleted .md must take its page with it, or the URL keeps serving an
+        # article nobody can find the source of.
+        for stale in folder.glob("*.html"):
+            if stale.name not in wanted:
+                print(f"  − حذف /{collection}/{stale.stem}")
+                if not args.check:
+                    stale.unlink()
+                    written += 1
+
+    sitemap = ROOT / "sitemap.xml"
+    content = render_sitemap(everything)
+    if not args.check and (not sitemap.exists() or sitemap.read_text("utf-8") != content):
+        sitemap.write_text(content, encoding="utf-8")
+        written += 1
+
+    total = len(everything)
+    if args.check:
+        print(f"\n{total} مقاله بررسی شد، همه سالم.")
+    else:
+        print(f"\n{total} مقاله · {written} فایل نوشته یا به‌روز شد.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
