@@ -588,6 +588,14 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;margin-top:40px;
 .foot-links{display:flex;gap:22px}
 .foot-links a{color:var(--bone-dim);font-size:13px;text-decoration:none;transition:color 0.3s}
 .foot-links a:hover{color:var(--copper)}
+/* The legal pages sit on their own line, quieter than the contact links. They
+   have to be findable — an app reviewer and a search crawler both look for
+   them in the footer — without competing with the one action that matters. */
+.foot-legal{flex-basis:100%;display:flex;gap:18px;flex-wrap:wrap;
+  padding-top:16px;border-top:1px solid var(--line-soft)}
+.foot-legal a{color:var(--bone-dim);opacity:.62;font-size:11.5px;
+  text-decoration:none;transition:opacity 0.3s,color 0.3s}
+.foot-legal a:hover{opacity:1;color:var(--copper)}
 
 
 
@@ -1047,6 +1055,11 @@ body.light #caseBar .cb-brand{color:#23150a}
       <a href="https://t.me/aios_architects_bot" target="_blank" data-i18n="linkTg">تلگرام</a>
       <a href="mailto:vandidadhonar@gmail.com" data-i18n="linkMail">ایمیل</a>
       <a href="/about" data-i18n="linkAbout">درباره ما</a>
+    </div>
+    <div class="foot-legal">
+      <a href="/privacy" data-i18n="linkPrivacy">حریم خصوصی</a>
+      <a href="/terms" data-i18n="linkTerms">شرایط استفاده</a>
+      <a href="/data-deletion" data-i18n="linkDeletion">حذف اطلاعات</a>
     </div>
   </footer>
 </main>

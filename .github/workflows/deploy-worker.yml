@@ -16,6 +16,8 @@ on:
       - cloudflare-worker.js
       - wrangler.toml
       - .github/workflows/deploy-worker.yml
+      - hero.mp4
+      - hero-poster.jpg
   workflow_dispatch: {}
 
 # A second deploy starting while the first is mid-flight could publish the older
@@ -48,3 +50,24 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           wranglerVersion: "4.110.0"
+
+      # The hero video is 2.7 MB on every first visit. Serving it from R2 rather
+      # than from raw.githubusercontent means it comes from storage built for
+      # it, over our own domain, with Range requests answered — and it stops the
+      # page depending on a third-party CDN that is unreliable from Iran.
+      #
+      # This runs after the deploy, and re-uploads on every run rather than
+      # trying to detect a change: the objects are small, the workflow is rare,
+      # and a skipped upload that should have happened is a broken video.
+      # --remote is required, or Wrangler writes to a local simulation and
+      # reports success without touching the bucket.
+      - name: Publish media to R2
+        run: |
+          set -euo pipefail
+          npx --yes wrangler@4.110.0 r2 object put vandidad-media/hero.mp4 \
+            --file hero.mp4 --content-type video/mp4 --remote
+          npx --yes wrangler@4.110.0 r2 object put vandidad-media/hero-poster.jpg \
+            --file hero-poster.jpg --content-type image/jpeg --remote
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 48db27ab00625785134a70027e4efd0b

@@ -23,14 +23,22 @@
  * disproportionate non-HTML content through the plan's CDN — with content
  * stored in R2 called out as the supported way to do it.
  *
- * The R2 bucket is reached through the `MEDIA` binding. If that binding is
- * missing, or the object has not been uploaded yet, this falls back to the old
+ * The R2 bucket is reached through the `MEDIA` binding, and the objects are put
+ * there by the same GitHub Action that deploys this file. If the binding is
+ * missing, or an object has not been uploaded yet, this falls back to the old
  * GitHub path — so the code can be deployed before the upload, or the upload
  * done before the deploy, in either order, without a moment where the video is
  * broken.
  *
  * Unlike the old path, R2 honours Range requests, so a viewer can seek in the
  * video and iOS Safari gets the 206 it insists on before it will play at all.
+ *
+ * ARTICLES
+ * --------
+ * /blog/<slug> and /hamzad/<slug> are served from content/ in the repository,
+ * so publishing an article is a commit and nothing else. The slug is checked
+ * against a strict pattern before it is put in a URL: without that, a crafted
+ * path could walk out of the content directory and serve any file in the repo.
  *
  * CACHING
  * -------
@@ -48,6 +56,22 @@ const PAGES = {
   "/terms": "/terms.html",
   "/data-deletion": "/data-deletion.html",
 };
+
+// Files that crawlers and language models look for by exact name. They are not
+// HTML, so they get their own content types rather than the HTML headers.
+const FILES = {
+  "/robots.txt": "text/plain; charset=utf-8",
+  "/llms.txt": "text/plain; charset=utf-8",
+  "/sitemap.xml": "application/xml; charset=utf-8",
+};
+
+// Article collections. /blog/a-slug is content/blog/a-slug.html in the repo,
+// and /blog on its own is that folder's index.
+const COLLECTIONS = { blog: "/content/blog", hamzad: "/content/hamzad" };
+
+// Lowercase letters, digits and single hyphens. Anything else — a dot, a
+// slash, an encoded one — is not a slug and never reaches a fetch.
+const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 // Route → object key in the R2 bucket, and the type to serve it as. The key is
 // the path without its leading slash, so the bucket mirrors the URL space.
@@ -117,36 +141,17 @@ export default {
       return new Response("ok", { headers: { "Content-Type": "text/plain" } });
     }
 
-    // Copies the files in MEDIA from the repository into the R2 bucket, so the
-    // owner never has to download a video and drag it into a dashboard: commit
-    // a new hero.mp4, open this once, done.
-    //
-    // Closed by default. It does nothing at all unless MEDIA_SEED_KEY is set as
-    // a Worker variable, and even then it only ever reads from this repository
-    // and only ever writes the two keys named in MEDIA — there is no path here
-    // that lets a caller choose what gets written or where it comes from.
-    if (url.pathname === "/__seed-media") {
-      const secret = env && env.MEDIA_SEED_KEY;
-      if (!secret || url.searchParams.get("key") !== secret) {
-        return new Response("Not found", { status: 404 });
-      }
-      if (!env.MEDIA) {
-        return new Response("no R2 binding named MEDIA on this Worker\n", { status: 500 });
-      }
-      const report = [];
-      for (const path of Object.keys(MEDIA)) {
-        const up = await fetch(RAW + path, { cf: { cacheEverything: false } });
-        if (!up.ok) {
-          report.push(`${path} — FAILED, repository answered ${up.status}`);
-          continue;
-        }
-        await env.MEDIA.put(path.slice(1), up.body, {
-          httpMetadata: { contentType: MEDIA[path] },
-        });
-        report.push(`${path} — stored (${up.headers.get("Content-Length") || "?"} bytes)`);
-      }
-      return new Response(report.join("\n") + "\n", {
-        headers: { "Content-Type": "text/plain; charset=utf-8" },
+    if (FILES[url.pathname]) {
+      const up = await fetch(RAW + url.pathname, {
+        cf: { cacheTtl: 300, cacheEverything: true },
+      });
+      if (!up.ok) return new Response("Not found", { status: 404 });
+      return new Response(up.body, {
+        status: 200,
+        headers: {
+          "Content-Type": FILES[url.pathname],
+          "Cache-Control": "public, max-age=300",
+        },
       });
     }
 
@@ -174,18 +179,31 @@ export default {
       return res;
     }
 
-    // Static pages — trailing slash tolerated, so /privacy/ works too.
+    // Static pages and articles — trailing slash tolerated, so /privacy/ works.
     const clean = url.pathname.replace(/\/+$/, "") || "/";
-    if (PAGES[clean]) {
-      const up = await fetch(RAW + PAGES[clean], {
+
+    let file = PAGES[clean];
+    if (!file) {
+      // /blog, /blog/a-slug, /hamzad, /hamzad/a-slug — and nothing deeper.
+      const parts = clean.split("/"); // ["", "blog", "a-slug"]
+      const dir = COLLECTIONS[parts[1]];
+      if (dir && parts.length === 2) file = dir + "/index.html";
+      else if (dir && parts.length === 3 && SLUG.test(parts[2])) {
+        file = dir + "/" + parts[2] + ".html";
+      }
+    }
+
+    if (file) {
+      const up = await fetch(RAW + file, {
         cf: { cacheTtl: 60, cacheEverything: true },
         headers: { Accept: "text/html" },
       });
       if (up.ok) {
         return new Response(up.body, { status: 200, headers: HTML_HEADERS });
       }
-      // A page listed but missing from the repo is a 404, never a silent
-      // fallback to the homepage — Meta's review follows these URLs literally.
+      // A page that is routed but missing from the repo is a 404, never a
+      // silent fallback to the homepage — Meta's review follows these URLs
+      // literally, and a search engine told 200 would index the wrong page.
       return new Response("Not found", { status: 404 });
     }
 
