@@ -899,6 +899,15 @@ body.light #caseBar .cb-brand{color:#23150a}
       <button class="thr-btn" id="thrGo" data-i18n="thrGo">ادامه‌ی گفتگو</button>
     </div>
   </div>
+  <!-- The footer lives under #main, which this screen covers, so these links
+       are unreachable until someone enters the conversation. An app reviewer
+       does not enter — they look for the policy links on the page they land
+       on, and not finding them is a rejection. Quiet, but present. -->
+  <div class="th-policy">
+    <a href="/privacy">حریم خصوصی</a>
+    <a href="/terms">شرایط استفاده</a>
+    <a href="/data-deletion">حذف اطلاعات</a>
+  </div>
 </div>
 
 <!-- ════ MAIN ════ -->
@@ -2543,6 +2552,19 @@ window.addEventListener("DOMContentLoaded", initLang);
 #threshold.asking .th-bottom{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;align-items:center;
   justify-content:space-between;gap:14px;padding:14px 22px;border-top:1px solid rgba(255,255,255,.10)}
 .th-legal{font-family:var(--latin);font-size:9px;letter-spacing:.26em;color:rgba(242,238,232,.42);text-transform:uppercase}
+/* Policy links on the opening screen. Sits at the very bottom, above the
+   video, dim enough to stay out of the way of the one question being asked —
+   and it steps aside entirely when the bottom bar appears. */
+/* Selector carries the id deliberately: a later `#threshold>*{position:relative}`
+   would otherwise win on order and drop this back into the flow, which puts the
+   links in the middle of the screen. */
+#threshold .th-policy{position:absolute;left:0;right:0;bottom:10px;z-index:4;
+  display:flex;justify-content:center;gap:16px;flex-wrap:wrap;padding:0 16px;
+  pointer-events:auto}
+.th-policy a{font-size:10.5px;color:rgba(242,238,232,.34);text-decoration:none;
+  transition:color .3s}
+.th-policy a:hover{color:rgba(242,238,232,.85)}
+#threshold.asking .th-policy{display:none}
 .th-bottom .th-skip{position:static;transform:none;animation:none;opacity:1;margin:0;
   border:1px solid rgba(255,255,255,.35);border-radius:100px;padding:9px 20px;color:#F2EEE8;background:transparent}
 .th-bottom .th-skip:hover{background:#F5F2EC;color:#0B0B0D;border-color:#F5F2EC}
