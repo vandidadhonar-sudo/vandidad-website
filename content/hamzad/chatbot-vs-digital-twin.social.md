@@ -1,23 +1,38 @@
 ## instagram
-مشتری می‌نویسه: «دو هفته پیش سفارش دادم، نرسیده، اگه باز دیر بشه بی‌خیالش می‌شم.»
+این پیامِ واقعیِ یه مشتریه:
 
-توی این یه جمله سه تا چیز هست — پیگیری، شکایت، و تهدیدِ نرمِ لغو. باتِ تو یکی‌شون رو می‌فهمه و دو تای دیگه رو دور می‌ریزه. مشتری حس می‌کنه حرفش شنیده نشده، چون واقعاً نشده.
+«دو هفته پیش سفارش دادم، هنوز نرسیده، اگه قراره باز دیر بشه بی‌خیالش می‌شم.»
 
-این ایرادِ اجرا نیست، ایرادِ خودِ ابزاره. نوشتم چرا:
+سه تا کنشِ جدا توش هست: پیگیری، نارضایتی، و اعلامِ شرطیِ انصراف. چت‌بات‌های مبتنی بر تشخیص نیت، دسته‌بندیِ تک‌برچسبی می‌کنن — یعنی فقط یکی‌شو برمی‌دارن و دو تای دیگه حذف می‌شه. توی لاگ هم دیده نمی‌شه، چون سیستم فکر می‌کنه موفق بوده.
+
+و اون دوتای حذف‌شده، مهم‌ترین بخشِ پیام بودن. سومی سیگنالِ ریزشه.
+
+تحلیل کامل سه مسئلهٔ مهندسی پشت این ماجرا رو نوشتم:
 vandidad.xyz/hamzad/chatbot-vs-digital-twin?from=ig
 
-#هوش_مصنوعی #چت_بات #کسب_وکار #دستیار_هوشمند #همزاد
+#هوش_مصنوعی #چت_بات #ایجنت_هوشمند #معماری_نرم_افزار #کسب_وکار
 
 ## telegram
-یک چت‌بات معمولی در اصل یک درختِ تصمیم است: کسی از قبل حدس زده مشتری چه می‌پرسد و برای هر حدس یک جواب گذاشته. تا وقتی مشتری داخل مسیرهای حدس‌زده راه برود کار می‌کند — و مشتریِ واقعی این‌طور حرف نمی‌زند.
+**چرا چت‌بات‌ها روی پیام واقعی مشتری شکست می‌خورند**
 
-در این مقاله سه رفتاری را نوشته‌ایم که یک همزادِ دیجیتال را از یک بات جدا می‌کند: پرونده نگه می‌دارد، وسط کار رها نمی‌کند، و چیزی را که انجام نداده ادعا نمی‌کند.
+تشخیصِ رایج این است که «مدل فارسی را خوب نمی‌فهمد». این تشخیص غلط است — و چون غلط است، انتخاب بعدی هم غلط می‌شود.
+
+سه مسئلهٔ مهندسیِ جدا در کار است:
+
+۱. دسته‌بندیِ تک‌برچسبی، جمله‌ای که چند نیت دارد را به یک نیت فرو می‌کاهد.
+۲. نبودِ مدلِ وضعیت — هویت، نشست و پرونده معمولاً یکی گرفته می‌شوند، در حالی که یک نفر می‌تواند هم‌زمان دو پروندهٔ باز داشته باشد.
+۳. تولید بدونِ راهِ امتناع — مدلی که همیشه باید چیزی بگوید، وقتی نداند، می‌سازد.
+
+هر سه در معماری حل می‌شوند، نه با عوض کردن مدل. تحلیل کامل:
 
 vandidad.xyz/hamzad/chatbot-vs-digital-twin?from=tg
 
 ## linkedin
-Most businesses that tried a chatbot ended up with a decision tree — a script that matches keywords and breaks the moment a customer phrases a request their own way.
+The common diagnosis for a failed chatbot is that the model does not handle Persian well. That diagnosis is wrong, and it leads to the wrong next decision.
 
-Vandidad Group builds something different for Persian-speaking businesses: a conversational digital twin that reads the whole sentence, keeps a separate case file per person, carries the same memory across channels, and hands over to a human instead of inventing an answer.
+Three separate engineering problems are at work: single-label intent classification collapsing multi-intent utterances, the absence of a state model that separates identity from session from case, and generation without a refusal path.
 
+None of them is a language problem. All three are resolved in architecture.
+
+Full technical analysis by Hadi Bakhtzadeh, AI systems architect at Vandidad Group:
 vandidad.xyz/hamzad/chatbot-vs-digital-twin?from=li
