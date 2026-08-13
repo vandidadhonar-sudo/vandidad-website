@@ -5,7 +5,16 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-08-13T00:00:00Z</updated>
+  <updated>2026-08-12T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>چرا چت‌بات برای کسب‌وکار شما جواب نداد</title>
+    <link href="https://vandidad.xyz/hamzad/chatbot-vs-digital-twin"/>
+    <id>https://vandidad.xyz/hamzad/chatbot-vs-digital-twin</id>
+    <published>2026-08-12T00:00:00Z</published>
+    <updated>2026-08-12T00:00:00Z</updated>
+    <summary>تحلیل فنی سه دلیلی که چت‌بات‌های مبتنی بر تشخیص نیت شکست می‌خورند، و اینکه یک همزاد دیجیتال چه چیزی را متفاوت حل می‌کند.</summary>
+    <category term="hamzad"/>
+  </entry>
 </feed>
