@@ -112,6 +112,27 @@ FORBIDDEN = [
         "معنا دارد نه برای موتور جست‌وجو.",
     ),
     (
+        "ادعای اثبات‌ناپذیر",
+        # A superlative is a claim a reader cannot check and a competitor can
+        # dispute. The brand is built on being the one that does not exaggerate,
+        # so this costs more than it buys.
+        re.compile(
+            r"(?:^|[^\w])(?:اولین|نخستین|تنها\s+(?:شرکت|سیستم|ابزار|راه)"
+            r"|بهترین|بی‌?نظیر|بی‌?رقیب|پیشرو|معجزه|صد\s*در\s*صد|۱۰۰\s*٪)"
+        ),
+        "«اولین»، «تنها»، «بهترین» را نمی‌شود ثابت کرد و رقیب می‌تواند ردش کند. "
+        "به‌جایش همان کارِ مشخصی را بنویس که سیستم انجام می‌دهد.",
+    ),
+    (
+        "لحنِ ساعت‌فروشی",
+        # "bespoke" and its Persian cousins frame the company as an hourly
+        # consultancy. AIOS is a platform the company owns; client systems are
+        # configured on it.
+        re.compile(r"bespoke|سفارشی‌?دوزی|از\s*صفر\s*(?:برای|ساخته)"),
+        "ما پلتفرم داریم و سیستمِ هر مشتری روی آن پیکربندی می‌شود — نه اینکه هر "
+        "پروژه از صفر ساخته شود. این تفاوتِ شرکتِ محصول با دفترِ مشاوره است.",
+    ),
+    (
         "جمله‌ی قصار",
         re.compile(
             r"هوش\s*مصنوعی\s*آینده\s*است"
@@ -157,8 +178,10 @@ ORGANISATION = {
     "url": SITE,
     "email": "ai@vandidad.xyz",
     "description": (
-        "Vandidad Group designs and builds bespoke AI systems — conversational "
-        "digital twins — for businesses, with a focus on Persian-speaking markets."
+        "Vandidad Group builds AIOS — an AI platform for business conversation — "
+        "and the systems that run on it. One reasoning core serves every channel a "
+        "business talks on, and each client system is configured for its industry "
+        "rather than rebuilt from scratch."
     ),
     "address": {
         "@type": "PostalAddress",
