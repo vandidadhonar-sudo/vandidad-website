@@ -188,6 +188,23 @@ ORGANISATION = {
         "addressLocality": "Konak, İzmir",
         "addressCountry": "TR",
     },
+    # An assistant asked "who builds AI sales systems for Persian-speaking
+    # businesses" has to resolve this name against an unrelated Iranian
+    # construction firm that currently owns the search results. A name and a
+    # description are not enough to separate them; the language served, the
+    # market served and the subject matter are the properties that do.
+    "knowsLanguage": ["fa", "en", "tr"],
+    "areaServed": [
+        {"@type": "Country", "name": "Iran"},
+        {"@type": "Country", "name": "Türkiye"},
+    ],
+    "knowsAbout": [
+        "conversational AI for business",
+        "Persian-language AI assistants",
+        "digital twin sales agents",
+        "customer follow-up automation",
+        "AI systems architecture",
+    ],
     "founder": {"@id": SITE + "/#person"},
 }
 
@@ -203,6 +220,12 @@ PERSON = {
         "where they must refuse."
     ),
     "worksFor": {"@id": SITE + "/#organization"},
+    "knowsLanguage": ["fa", "en", "tr"],
+    "knowsAbout": [
+        "AI systems architecture",
+        "Persian-language conversational design",
+        "sales conversation design",
+    ],
     "url": SITE + "/about",
 }
 

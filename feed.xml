@@ -5,7 +5,7 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-08-12T00:00:00Z</updated>
+  <updated>2026-09-03T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
   <entry>
@@ -13,8 +13,35 @@
     <link href="https://vandidad.xyz/hamzad/chatbot-vs-digital-twin"/>
     <id>https://vandidad.xyz/hamzad/chatbot-vs-digital-twin</id>
     <published>2026-08-12T00:00:00Z</published>
-    <updated>2026-08-12T00:00:00Z</updated>
+    <updated>2026-09-03T00:00:00Z</updated>
     <summary>تحلیل فنی سه دلیلی که چت‌بات‌های مبتنی بر تشخیص نیت شکست می‌خورند، و اینکه یک همزاد دیجیتال چه چیزی را متفاوت حل می‌کند.</summary>
+    <category term="hamzad"/>
+  </entry>
+  <entry>
+    <title>کار حسابدار کدام بخشش واقعاً حسابداری است</title>
+    <link href="https://vandidad.xyz/hamzad/daftar-hesabdari-va-karhaye-tekrari"/>
+    <id>https://vandidad.xyz/hamzad/daftar-hesabdari-va-karhaye-tekrari</id>
+    <published>2026-09-03T00:00:00Z</published>
+    <updated>2026-09-03T00:00:00Z</updated>
+    <summary>تفکیک کارهای یک دفتر حسابداری به آنچه به قضاوت حرفه‌ای نیاز دارد و آنچه فقط جابه‌جایی داده است، و اینکه کدام بخش قابل واگذاری است.</summary>
+    <category term="hamzad"/>
+  </entry>
+  <entry>
+    <title>استعلام می‌گیرید، سفارش نمی‌گیرید — مسئله کجاست</title>
+    <link href="https://vandidad.xyz/hamzad/estelam-ke-be-sefaresh-nemiresad"/>
+    <id>https://vandidad.xyz/hamzad/estelam-ke-be-sefaresh-nemiresad</id>
+    <published>2026-09-03T00:00:00Z</published>
+    <updated>2026-09-03T00:00:00Z</updated>
+    <summary>چرا در فروش صنعتی بیشتر استعلام‌ها بی‌جواب می‌مانند، و چه چیزی در فاصله‌ی میان استعلام تا سفارش قابل ثبت و قابل مدیریت است.</summary>
+    <category term="hamzad"/>
+  </entry>
+  <entry>
+    <title>خریدار آنلاین سبد را رها می‌کند چون نمی‌داند اندازه است یا نه</title>
+    <link href="https://vandidad.xyz/hamzad/kharidar-online-ke-tardid-mikonad"/>
+    <id>https://vandidad.xyz/hamzad/kharidar-online-ke-tardid-mikonad</id>
+    <published>2026-09-03T00:00:00Z</published>
+    <updated>2026-09-03T00:00:00Z</updated>
+    <summary>چرا در فروش آنلاین پوشاک بیشترین ریزش نه در جذب بلکه در لحظه‌ی تردید اتفاق می‌افتد، و چه چیزی آن تردید را قابل رفع می‌کند.</summary>
     <category term="hamzad"/>
   </entry>
 </feed>
