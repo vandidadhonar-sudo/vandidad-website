@@ -17,12 +17,12 @@ on:
     branches: [main]
     paths:
       - content/**/*.md
-      - tools/build_content.py
+      - tools/*.py
       - .github/workflows/publish-content.yml
   pull_request:
     paths:
       - content/**/*.md
-      - tools/build_content.py
+      - tools/*.py
   workflow_dispatch: {}
 
 concurrency:
@@ -43,6 +43,13 @@ jobs:
 
       - name: Install the renderer's dependencies
         run: pip install --quiet "markdown==3.7" "PyYAML==6.0.2"
+
+      # The pipeline's own tests, before anything is rendered or pushed. Most
+      # of what they cover runs unattended at 09:00 with nobody watching, so a
+      # break shows up as an article that quietly never published — the kind
+      # of failure that is noticed a week late.
+      - name: Test the pipeline
+        run: python3 tools/test_pipeline.py
 
       # On a pull request nothing is written: the job exists to tell the writer
       # what is wrong while it is still cheap to fix.
