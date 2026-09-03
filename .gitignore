@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Python bytecode — regenerated on every run, never part of the site
+__pycache__/
+*.pyc
