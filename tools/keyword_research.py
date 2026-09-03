@@ -83,9 +83,25 @@ class GateError(Exception):
     rejected project name; the body distinguishes them in one line."""
 
 
+# Cloudflare sits in front of the gateway and blocks requests whose signature
+# looks automated before the Worker's own code ever runs — the refusal comes
+# back as 403 with 'error code: 1010' in the body, which is easy to misread as
+# the key being wrong. urllib announces itself as Python-urllib/3.x, which is
+# exactly the signature that gets blocked. Presenting an ordinary browser's
+# headers is not a trick to get past someone else's protection: the gateway is
+# the owner's own Worker and this is the owner's own key.
+_HEADERS = {
+    "User-Agent": ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                   "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"),
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "fa-IR,fa;q=0.9,en;q=0.8",
+}
+
+
 def _get(url: str, timeout: int = 120) -> str:
+    req = urllib.request.Request(url, headers=_HEADERS)
     try:
-        with urllib.request.urlopen(url, timeout=timeout) as r:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
             return r.read().decode("utf-8", "replace")
     except urllib.error.HTTPError as e:
         body = ""
@@ -266,8 +282,16 @@ def main() -> int:
                          timeout=30)[:300])
         except Exception as e:                       # noqa: BLE001
             print(f"/usage رد شد → {e}", file=sys.stderr)
-            print("یعنی خودِ کلید پذیرفته نشد؛ ادامه بی‌فایده است.",
-                  file=sys.stderr)
+            # Name the two refusals apart. 1010 is Cloudflare's edge refusing
+            # the request's signature before the Worker runs, so it says
+            # nothing at all about the key; anything else came from the
+            # gateway itself, which did read the key.
+            if "1010" in str(e):
+                print("این پیامِ کلادفلر است، نه دروازه: درخواست پیش از "
+                      "رسیدن به کد ورکر بلوکه شده. کلید ربطی ندارد.",
+                      file=sys.stderr)
+            else:
+                print("یعنی خودِ دروازه کلید را نپذیرفت.", file=sys.stderr)
             return 1
 
     results = []
