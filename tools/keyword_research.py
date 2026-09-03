@@ -144,11 +144,25 @@ def via_gate(query: str, base: str, key: str) -> dict:
     url = (base.rstrip("/") + "/serp?"
            + urllib.parse.urlencode({"key": key, "p": PROJECT, "q": query}))
     data = json.loads(_get(url))
+    # A page of results is a few kilobytes; anything far larger is a payload
+    # nobody meant to commit, so keep its shape and drop its bulk.
+    raw = data if len(json.dumps(data)) <= 40000 else {
+        "_truncated": True,
+        "keys": sorted(data.keys()) if isinstance(data, dict) else str(type(data)),
+    }
     organic = [r for r in (_as_result(i) for i in
                            _first_list(data, "organic", "results", "rankers",
                                        "رتبه‌دارها")) if r]
     return {
         "source": "gate",
+        # The gateway's own answer, kept verbatim. The first successful run
+        # returned titles but no URLs and two empty result sets, which is not
+        # enough to tell a parser that missed a field from a gateway that
+        # returned nothing — and each guess costs a query against the daily
+        # ceiling. With the payload committed, the parser is fixed by reading
+        # a file instead of by spending quota. It is public search data and
+        # the key travels in the request, never in the response.
+        "raw": raw,
         "organic": organic[:20],
         "people_also_ask": [str(x)[:180] for x in
                             _first_list(data, "people_also_ask", "paa",
