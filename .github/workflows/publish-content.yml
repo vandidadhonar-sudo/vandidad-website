@@ -73,43 +73,12 @@ jobs:
           # commit of .html cannot start it again.
           git push
 
-      # Waiting for a crawler to notice a new article takes weeks. IndexNow
-      # tells the engines the moment it exists, and it is free and needs no
-      # account — the key file served at the domain root is the whole
-      # authentication. Bing is the one that matters most here: ChatGPT's live
-      # search reads Bing, so this is the shortest path from publishing an
-      # article to an assistant being able to cite it.
-      #
-      # Google does not participate in IndexNow and is reached through the
-      # sitemap instead. A failure here must never fail the build: the article
-      # is already published, and a search engine being slow is not a reason to
-      # mark the run red.
+      # Tells Bing and its partners the moment a page exists, instead of
+      # waiting weeks for a crawler. This was a heredoc inside a heredoc inside
+      # YAML, which could not be run or tested anywhere but on main; it is now
+      # tools/indexnow.py, which explains itself and has tests. It never fails
+      # the build — the article is already live by this point.
       - name: Tell the search engines
         if: github.event_name != 'pull_request'
         continue-on-error: true
-        run: |
-          set -uo pipefail
-          KEY=e1f25c1e9599de7ac40a9f13dd647f7c7fa1f352213a90ca3c667c623d1f933e
-          URLS=$(python3 - <<'PY'
-          import re, pathlib, json
-          xml = pathlib.Path("sitemap.xml").read_text(encoding="utf-8")
-          print(json.dumps(re.findall(r"<loc>(.*?)</loc>", xml)))
-          PY
-          )
-          echo "اعلام به موتورها: $(echo "$URLS" | python3 -c 'import sys,json;print(len(json.load(sys.stdin)))') آدرس"
-          BODY=$(python3 - <<PY
-          import json
-          print(json.dumps({
-            "host": "vandidad.xyz",
-            "key": "$KEY",
-            "keyLocation": "https://vandidad.xyz/$KEY.txt",
-            "urlList": json.loads('''$URLS'''),
-          }))
-          PY
-          )
-          code=$(curl -sS -o /tmp/indexnow.out -w '%{http_code}' \
-            -X POST "https://api.indexnow.org/IndexNow" \
-            -H "Content-Type: application/json; charset=utf-8" \
-            --data "$BODY" --max-time 30 || echo 000)
-          echo "پاسخ IndexNow: $code"
-          cat /tmp/indexnow.out || true
+        run: python3 tools/indexnow.py

@@ -1,0 +1,90 @@
+# Publishes one queued article every morning, with nobody present.
+#
+# WHAT RUNS WHERE
+# ---------------
+# Everything here runs on GitHub's servers. No laptop needs to be switched on,
+# and none is involved — this is the whole reason the pipeline lives in Actions
+# rather than in a script someone runs.
+#
+# WHY IT RELEASES RATHER THAN WRITES
+# ----------------------------------
+# Articles are written deliberately and parked in content/queue/ with the date
+# they should appear. This job moves the one that is due. Generating an article
+# a day with a model would be scaled content abuse under Google's March 2024
+# spam policy — grounds for action against the whole site — and would produce
+# pages worth reading to nobody. See tools/release_next.py.
+#
+# WHY THE JOB DOES THE RENDER ITSELF
+# ----------------------------------
+# Pushes made with GITHUB_TOKEN deliberately do not start other workflows, so
+# the render in publish-content.yml would never fire for a commit made here.
+# This job therefore renders and pings on its own rather than handing off.
+
+name: Daily article
+
+on:
+  schedule:
+    # 05:30 UTC — 09:00 in Tehran, so an article is up before the working day.
+    # Actions queues can run late; the article is dated the day it appears.
+    - cron: "30 5 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-content   # never render at the same time as publish-content.yml
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the renderer's dependencies
+        run: pip install --quiet "markdown==3.7" "PyYAML==6.0.2"
+
+      - name: Take the next article out of the queue
+        id: release
+        run: |
+          set -euo pipefail
+          python3 tools/release_next.py | tee /tmp/release.txt
+          if grep -q "^منتشر شد:" /tmp/release.txt; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "published=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The same gate every article passes. A queued article that no longer
+      # validates — a link that went stale, a rule added since it was written —
+      # stops here, and the move is discarded rather than committed half-done.
+      - name: Render the site
+        if: steps.release.outputs.published == 'true'
+        run: python3 tools/build_content.py
+
+      - name: Publish
+        if: steps.release.outputs.published == 'true'
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain content sitemap.xml feed.xml llms.txt)" ]; then
+            echo "هیچ تغییری نبود."
+            exit 0
+          fi
+          git config user.name "vandidad-content-bot"
+          git config user.email "ai@vandidad.xyz"
+          git add content sitemap.xml feed.xml llms.txt
+          git commit -m "content: release today's queued article
+
+          Moved out of content/queue/ by tools/release_next.py and rendered by
+          tools/build_content.py."
+          git push
+
+      - name: Tell the search engines
+        if: steps.release.outputs.published == 'true'
+        continue-on-error: true
+        run: python3 tools/indexnow.py

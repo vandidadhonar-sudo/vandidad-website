@@ -259,6 +259,11 @@ class Article:
     # One English line for llms.txt. Without it the file's article list has to
     # be maintained by hand, and it already fell a day behind.
     llms_line: str = ""
+    # The one search phrase this article is written to answer. Declared so the
+    # build can refuse two articles aimed at the same phrase: at a daily
+    # cadence nobody remembers what was covered three weeks ago, and two of
+    # our own pages competing for one phrase means neither wins it.
+    target_keyword: str = ""
 
     @property
     def url(self) -> str:
@@ -306,7 +311,12 @@ def parse(path: Path) -> Article:
             "no spaces, no dots."
         )
 
-    collection = path.parent.name
+    # A queued article lives in content/queue/ until the morning it is
+    # released, so its folder is not its collection yet. It is still parsed and
+    # validated from there — a queued article that fails the gate must be found
+    # the day it is written, not at 09:00 on the day it was due.
+    collection = (str(meta.get("collection", "")).strip()
+                  if path.parent.name == "queue" else path.parent.name)
     declared = str(meta.get("collection", collection)).strip()
     if declared != collection:
         raise BuildError(
@@ -375,6 +385,7 @@ def parse(path: Path) -> Article:
         faq=faq,
         about=[str(u).strip() for u in about],
         llms_line=str(meta.get("llms_line", "")).strip(),
+        target_keyword=str(meta.get("target_keyword", "")).strip(),
     )
 
 
@@ -791,6 +802,20 @@ def render_feed(articles: list[Article]) -> str:
     return "\n".join(rows) + "\n"
 
 
+def _norm_keyword(s: str) -> str:
+    """Compare phrases the way a search engine would, not byte for byte.
+
+    Persian is written with several characters that look identical and are
+    typed interchangeably — Arabic ي/ك against Persian ی/ک, and the zero-width
+    non-joiner that a keyboard may or may not insert. Without folding these,
+    «چت‌بات فارسی» and «چت بات فارسي» read as two different targets and the
+    duplicate check waves both through.
+    """
+    s = s.translate(str.maketrans("يكۀةٱأإآ", "یکهههااا"))
+    s = s.replace("‌", " ").replace("‏", "")
+    return " ".join(s.lower().split())
+
+
 LLMS_HEADING = "## Individual articles"
 
 
@@ -834,6 +859,7 @@ def main() -> int:
     problems: list[str] = []
     by_collection: dict[str, list[Article]] = {c: [] for c in COLLECTIONS}
     seen_slugs: dict[str, str] = {}
+    seen_keywords: dict[str, str] = {}
 
     for collection in COLLECTIONS:
         folder = CONTENT / collection
@@ -859,7 +885,52 @@ def main() -> int:
                 )
                 continue
             seen_slugs[article.slug] = collection
+            # Two pages aimed at one phrase is not twice the traffic; it is
+            # Google choosing one of them and discounting the other, and it is
+            # how a daily cadence quietly turns into repetition.
+            key = _norm_keyword(article.target_keyword)
+            if key:
+                if key in seen_keywords:
+                    problems.append(
+                        f"{article.slug}.md: target_keyword «{article.target_keyword}» "
+                        f"is already claimed by {seen_keywords[key]}.md. Pick a "
+                        "different phrase, or fold this into that article."
+                    )
+                    continue
+                seen_keywords[key] = article.slug
             by_collection[collection].append(article)
+
+    # Queued articles are validated but never rendered. They take part in the
+    # duplicate-keyword check for the obvious reason: the point of that check
+    # is to stop two articles chasing one phrase, and an article that is about
+    # to publish counts.
+    for path in sorted((CONTENT / "queue").glob("*.md")):
+        if path.name.endswith(".social.md"):
+            continue
+        try:
+            article = parse(path)
+            validate(article)
+        except BuildError as exc:
+            problems.append("در صف — " + str(exc))
+            continue
+        if article.slug in seen_slugs:
+            problems.append(
+                f"queue/{article.slug}.md: this slug is already published in "
+                f"content/{seen_slugs[article.slug]}/."
+            )
+            continue
+        seen_slugs[article.slug] = "queue"
+        key = _norm_keyword(article.target_keyword)
+        if key:
+            if key in seen_keywords:
+                problems.append(
+                    f"queue/{article.slug}.md: target_keyword "
+                    f"«{article.target_keyword}» is already claimed by "
+                    f"{seen_keywords[key]}.md."
+                )
+                continue
+            seen_keywords[key] = article.slug
+        print(f"  ⏳ در صف /{article.collection}/{article.slug}  ({article.words} کلمه)")
 
     if problems:
         print("محتوا منتشر نشد — این‌ها را درست کن:\n", file=sys.stderr)

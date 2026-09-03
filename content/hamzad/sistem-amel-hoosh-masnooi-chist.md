@@ -4,6 +4,7 @@ description: سه اصطلاحی که در فارسی به‌جای هم به ک
 date: 2026-09-03
 updated: 2026-09-03
 collection: hamzad
+target_keyword: سیستم عامل هوش مصنوعی
 tags: [سیستم-عامل-هوش-مصنوعی, هوش-مصنوعی-عاملی, ایجنت-هوش-مصنوعی, عامل-هوشمند, کسب-وکار-ایرانی]
 # Percent-encoded and each one checked to resolve — a structured-data entity
 # that 404s is worse than none, because it asserts a link that is not there.
