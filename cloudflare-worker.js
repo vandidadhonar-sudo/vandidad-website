@@ -155,6 +155,30 @@ export default {
       return new Response("ok", { headers: { "Content-Type": "text/plain" } });
     }
 
+    // Search Console and Bing verify ownership by asking for a file back at a
+    // name they choose, so the name cannot be known in advance and cannot live
+    // in FILES. The two patterns below are exactly what those two services
+    // issue — a strict shape, so this cannot be used to fetch anything else out
+    // of the repository. Drop the file the service gives you in the repo root
+    // and verification is a commit, with no DNS change and no dashboard paste.
+    const VERIFY = /^\/(google[0-9a-f]{16}\.html|BingSiteAuth\.xml|yandex_[0-9a-f]{16}\.html)$/;
+    if (VERIFY.test(url.pathname)) {
+      const up = await fetch(RAW + url.pathname, {
+        cf: { cacheTtl: 300, cacheEverything: true },
+      });
+      if (!up.ok) return new Response("Not found", { status: 404 });
+      return new Response(up.body, {
+        status: 200,
+        headers: {
+          "Content-Type": url.pathname.endsWith(".xml")
+            ? "application/xml; charset=utf-8"
+            : "text/html; charset=utf-8",
+          "Cache-Control": "public, max-age=300",
+          "X-Content-Type-Options": "nosniff",
+        },
+      });
+    }
+
     if (FILES[url.pathname]) {
       const up = await fetch(RAW + url.pathname, {
         cf: { cacheTtl: 300, cacheEverything: true },
