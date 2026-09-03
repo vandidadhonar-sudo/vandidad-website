@@ -16,11 +16,17 @@
 #
 # WHAT IT NEEDS
 # -------------
-# Either the owner's gateway — secret GATE_KEY plus variable GATE_URL — or,
-# failing that, secret BRIGHTDATA_API_KEY. The gateway is preferred: it
-# returns parsed results and enforces its own daily ceiling, so nothing here
-# has to know about zones or quotas. If neither is set the run stops with a
-# clear message instead of failing loudly every week.
+# Either the owner's gateway — GATE_KEY and GATE_URL — or, failing that,
+# BRIGHTDATA_API_KEY. The gateway is preferred: it returns parsed results and
+# enforces its own daily ceiling, so nothing here has to know about zones or
+# quotas.
+#
+# GATE_URL is read from repository variables OR repository secrets. It is not
+# a secret, so a variable is the right home for it — but the first run of this
+# workflow found nothing because it had been entered on the other tab, and a
+# workflow that only works if you picked the right tab is a workflow with a
+# trap in it. Both are accepted; the diagnostic step below names which one it
+# found, so a missing value is one glance rather than a guess.
 #
 # WHAT IT WRITES
 # --------------
@@ -63,18 +69,34 @@ jobs:
 
       - name: Check a credential is present
         id: guard
+        env:
+          GATE_URL_VAR: ${{ vars.GATE_URL }}
+          GATE_URL_SECRET: ${{ secrets.GATE_URL }}
+          GATE_KEY: ${{ secrets.GATE_KEY }}
+          GATE_KEY_VAR: ${{ vars.GATE_KEY }}
+          BD_KEY: ${{ secrets.BRIGHTDATA_API_KEY }}
         run: |
-          if [ -n "${{ secrets.GATE_KEY }}" ] && [ -n "${{ vars.GATE_URL }}" ]; then
+          # Report what was found by NAME and LENGTH only. Never echo a value:
+          # GitHub masks known secrets in logs, but a value pasted into the
+          # wrong field is not a known secret and would print in the clear.
+          GATE_URL="${GATE_URL_VAR:-$GATE_URL_SECRET}"
+          KEY="${GATE_KEY:-$GATE_KEY_VAR}"
+          echo "GATE_URL  — variable: ${#GATE_URL_VAR} chars, secret: ${#GATE_URL_SECRET} chars"
+          echo "GATE_KEY  — secret: ${#GATE_KEY} chars, variable: ${#GATE_KEY_VAR} chars"
+          echo "BRIGHTDATA_API_KEY — secret: ${#BD_KEY} chars"
+          if [ -n "$KEY" ] && [ -n "$GATE_URL" ]; then
             echo "route: gateway"
+            echo "gate_url=$GATE_URL" >> "$GITHUB_OUTPUT"
             echo "ok=true" >> "$GITHUB_OUTPUT"
-          elif [ -n "${{ secrets.BRIGHTDATA_API_KEY }}" ]; then
+          elif [ -n "$BD_KEY" ]; then
             echo "route: bright data"
             echo "ok=true" >> "$GITHUB_OUTPUT"
           else
-            echo "No research credential on this repository."
-            echo "Add secret GATE_KEY and variable GATE_URL (preferred),"
-            echo "or secret BRIGHTDATA_API_KEY, under Settings →"
-            echo "Secrets and variables → Actions."
+            echo "::error::No research credential visible to this workflow."
+            echo "Every count above is 0, so nothing reached the run. Check that"
+            echo "they were added to THIS repository (vandidad-website) under"
+            echo "Settings → Secrets and variables → Actions — the Repository"
+            echo "tab, not Environment, not Dependabot, not Codespaces."
             echo "ok=false" >> "$GITHUB_OUTPUT"
           fi
 
@@ -86,8 +108,8 @@ jobs:
       - name: Look the queries up
         if: steps.guard.outputs.ok == 'true'
         env:
-          GATE_URL: ${{ vars.GATE_URL }}
-          GATE_KEY: ${{ secrets.GATE_KEY }}
+          GATE_URL: ${{ steps.guard.outputs.gate_url }}
+          GATE_KEY: ${{ secrets.GATE_KEY || vars.GATE_KEY }}
           GATE_PROJECT: ${{ vars.GATE_PROJECT || 'vandidad-site' }}
           BRIGHTDATA_API_KEY: ${{ secrets.BRIGHTDATA_API_KEY }}
           BRIGHTDATA_ZONE: ${{ vars.BRIGHTDATA_ZONE || 'cli_unlocker' }}
