@@ -77,9 +77,24 @@ def _clean(s: str) -> str:
     return html.unescape(re.sub(r"<[^>]+>", "", s)).strip()
 
 
+class GateError(Exception):
+    """Carries what the gateway said, not just that it said no. A bare
+    'HTTP 403' sends you guessing between a wrong key, a spent quota and a
+    rejected project name; the body distinguishes them in one line."""
+
+
 def _get(url: str, timeout: int = 120) -> str:
-    with urllib.request.urlopen(url, timeout=timeout) as r:
-        return r.read().decode("utf-8", "replace")
+    try:
+        with urllib.request.urlopen(url, timeout=timeout) as r:
+            return r.read().decode("utf-8", "replace")
+    except urllib.error.HTTPError as e:
+        body = ""
+        try:
+            body = e.read().decode("utf-8", "replace").strip()[:300]
+        except Exception:
+            pass
+        raise GateError(f"HTTP {e.code}" + (f" — {body}" if body else
+                                            " (no message in the response)")) from None
 
 
 # ── route 1: the owner's gateway ─────────────────────────────────
@@ -240,6 +255,21 @@ def main() -> int:
         return 1
     print(f"مسیر: {route} · پروژه: {PROJECT}")
 
+    # Preflight. /usage needs only the key, so if this succeeds the key is
+    # accepted and any later refusal is about the query, the project or the
+    # quota — not the credential.
+    if route == "gate":
+        try:
+            print("بررسی کلید از راه /usage: "
+                  + _get(gate_url.rstrip("/") + "/usage?"
+                         + urllib.parse.urlencode({"key": gate_key}),
+                         timeout=30)[:300])
+        except Exception as e:                       # noqa: BLE001
+            print(f"/usage رد شد → {e}", file=sys.stderr)
+            print("یعنی خودِ کلید پذیرفته نشد؛ ادامه بی‌فایده است.",
+                  file=sys.stderr)
+            return 1
+
     results = []
     for q in queries_from_env():
         record: dict = {"query": q}
@@ -248,6 +278,9 @@ def main() -> int:
                           else via_brightdata(q, bd_key, bd_zone))
             print(f"✓ {q} — {len(record.get('organic', []))} نتیجه، "
                   f"{len(record.get('people_also_ask', []))} پرسش")
+        except GateError as e:
+            record["error"] = str(e)
+            print(f"✗ {q} — {e}", file=sys.stderr)
         except urllib.error.HTTPError as e:
             record["error"] = f"HTTP {e.code}"
             print(f"✗ {q} — HTTP {e.code}", file=sys.stderr)
