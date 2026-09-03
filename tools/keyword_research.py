@@ -140,10 +140,14 @@ def _as_result(item) -> dict | None:
     return {"title": title[:160], "url": url[:300], "site": site}
 
 
-def via_gate(query: str, base: str, key: str) -> dict:
-    url = (base.rstrip("/") + "/serp?"
-           + urllib.parse.urlencode({"key": key, "p": PROJECT, "q": query}))
-    data = json.loads(_get(url))
+def parse_gate(data: dict) -> dict:
+    """Turn one gateway answer into the shape the report is written from.
+
+    The gateway names its fields in Persian — رتبه‌دارها, میپرسند, مرتبط — and
+    returns bare title strings rather than objects, so it carries no URLs at
+    all. The English names are kept alongside in case that ever changes; the
+    first name present wins.
+    """
     # A page of results is a few kilobytes; anything far larger is a payload
     # nobody meant to commit, so keep its shape and drop its bulk.
     raw = data if len(json.dumps(data)) <= 40000 else {
@@ -151,26 +155,32 @@ def via_gate(query: str, base: str, key: str) -> dict:
         "keys": sorted(data.keys()) if isinstance(data, dict) else str(type(data)),
     }
     organic = [r for r in (_as_result(i) for i in
-                           _first_list(data, "organic", "results", "rankers",
-                                       "رتبه‌دارها")) if r]
+                           _first_list(data, "رتبه‌دارها", "organic", "results",
+                                       "rankers")) if r]
     return {
         "source": "gate",
-        # The gateway's own answer, kept verbatim. The first successful run
-        # returned titles but no URLs and two empty result sets, which is not
-        # enough to tell a parser that missed a field from a gateway that
-        # returned nothing — and each guess costs a query against the daily
-        # ceiling. With the payload committed, the parser is fixed by reading
-        # a file instead of by spending quota. It is public search data and
-        # the key travels in the request, never in the response.
+        # The gateway's own answer, kept verbatim. Titles arrived but no URLs,
+        # and two of five queries came back empty — two facts that cannot tell
+        # a parser which missed a field name from a gateway that found
+        # nothing, while every guess at the difference spends a query against
+        # the daily ceiling. With the payload committed the parser is fixed by
+        # reading a file. It is public search data; the key travels in the
+        # request, never in the response.
         "raw": raw,
         "organic": organic[:20],
         "people_also_ask": [str(x)[:180] for x in
-                            _first_list(data, "people_also_ask", "paa",
-                                        "questions")][:12],
+                            _first_list(data, "میپرسند", "people_also_ask",
+                                        "paa", "questions")][:12],
         "related": [str(x)[:120] for x in
-                    _first_list(data, "related", "related_searches",
+                    _first_list(data, "مرتبط", "related", "related_searches",
                                 "searches")][:20],
     }
+
+
+def via_gate(query: str, base: str, key: str) -> dict:
+    url = (base.rstrip("/") + "/serp?"
+           + urllib.parse.urlencode({"key": key, "p": PROJECT, "q": query}))
+    return parse_gate(json.loads(_get(url)))
 
 
 # ── route 2: Bright Data directly ────────────────────────────────
@@ -237,9 +247,12 @@ def related(page: str) -> list[str]:
 
 # ── report ───────────────────────────────────────────────────────
 
-def write_report(results: list[dict], usage: str | None) -> None:
+def write_report(results: list[dict], usage: str | None,
+                 stamp: str | None = None) -> None:
+    # A re-parse must keep the day the data was fetched on, or a snapshot
+    # re-read next month would be filed under next month's date.
     OUT_DIR.mkdir(exist_ok=True)
-    stamp = date.today().isoformat()
+    stamp = stamp or date.today().isoformat()
     (OUT_DIR / f"serp-{stamp}.json").write_text(json.dumps({
         "fetched_at": datetime.now(timezone.utc).isoformat(),
         "market": "gl=ir, hl=fa",
@@ -270,7 +283,35 @@ def write_report(results: list[dict], usage: str | None) -> None:
     (OUT_DIR / "latest.md").write_text("\n".join(lines), encoding="utf-8")
 
 
+def reparse_newest() -> int:
+    """Rebuild the report from the newest committed snapshot, no network.
+
+    The parser will be wrong again — Google's fields move and the gateway's
+    may too. Without this, every correction costs five live queries to see
+    whether it worked. With it, the raw payloads already in the repository are
+    re-read and the report rewritten for nothing.
+    """
+    snaps = sorted(OUT_DIR.glob("serp-*.json"))
+    if not snaps:
+        print("هیچ عکس فوری‌ای در research/ نیست.", file=sys.stderr)
+        return 1
+    doc = json.loads(snaps[-1].read_text(encoding="utf-8"))
+    results = []
+    for rec in doc.get("results", []):
+        raw = rec.get("raw")
+        if isinstance(raw, dict) and not raw.get("_truncated"):
+            rec = {"query": rec["query"], **parse_gate(raw)}
+        results.append(rec)
+    write_report(results, doc.get("usage_after_run"),
+                 stamp=snaps[-1].stem.removeprefix("serp-"))
+    print(f"دوباره تحلیل شد از {snaps[-1].name} — {len(results)} پرس‌وجو")
+    return 0
+
+
 def main() -> int:
+    if "--reparse" in sys.argv:
+        return reparse_newest()
+
     gate_url = (os.environ.get("GATE_URL") or "").strip()
     gate_key = (os.environ.get("GATE_KEY") or "").strip()
     bd_key = (os.environ.get("BRIGHTDATA_API_KEY") or "").strip()
