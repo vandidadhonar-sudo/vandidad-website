@@ -246,6 +246,19 @@ class Article:
     summary_en: str = ""
     summary_tr: str = ""
     updated: date | None = None
+    # Questions Google itself prints for this subject, answered on the page.
+    # They are rendered visibly AND as FAQPage structured data — a model
+    # answering a question in Persian gets a matched question and answer
+    # instead of having to infer one out of prose.
+    faq: list[dict] = field(default_factory=list)
+    # Wikipedia or Wikidata URLs for the things this article is about. A name
+    # is ambiguous — "Vandidad" already belongs to a construction company in
+    # the English-language web — but an entity URL is not, so this is what
+    # ties the page to the right concept rather than a similar-sounding one.
+    about: list[str] = field(default_factory=list)
+    # One English line for llms.txt. Without it the file's article list has to
+    # be maintained by hand, and it already fell a day behind.
+    llms_line: str = ""
 
     @property
     def url(self) -> str:
@@ -321,6 +334,33 @@ def parse(path: Path) -> Article:
     if isinstance(tags, str):
         tags = [t.strip() for t in tags.split(",") if t.strip()]
 
+    faq = []
+    for i, entry in enumerate(meta.get("faq") or [], 1):
+        if not isinstance(entry, dict):
+            raise BuildError(
+                f"{path.name}: faq entry {i} must be two lines, «q:» and «a:»."
+            )
+        q = str(entry.get("q", "")).strip()
+        a = str(entry.get("a", "")).strip()
+        if not q or not a:
+            raise BuildError(
+                f"{path.name}: faq entry {i} is missing its question or its "
+                "answer. A question with no answer is worse than no question: "
+                "Google treats unanswered FAQ markup as a violation."
+            )
+        faq.append({"q": q, "a": a})
+
+    about = meta.get("about") or []
+    if isinstance(about, str):
+        about = [about]
+    for u in about:
+        if not str(u).startswith("http"):
+            raise BuildError(
+                f"{path.name}: «about» takes Wikipedia or Wikidata addresses, "
+                f"one per line — got {u!r}. A bare name is ambiguous; an "
+                "address is not."
+            )
+
     return Article(
         slug=slug,
         collection=collection,
@@ -332,6 +372,9 @@ def parse(path: Path) -> Article:
         tags=[str(t).strip() for t in tags],
         summary_en=str(meta.get("summary_en", "")).strip(),
         summary_tr=str(meta.get("summary_tr", "")).strip(),
+        faq=faq,
+        about=[str(u).strip() for u in about],
+        llms_line=str(meta.get("llms_line", "")).strip(),
     )
 
 
@@ -429,6 +472,10 @@ STYLE = """
   th{color:var(--gold-dim);font-weight:600}
   img{max-width:100%;height:auto;border-radius:6px}
   .tags{margin:34px 0 0;font:400 13px/1.9 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+  .faq{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
+  .faq h2{font-size:20px;margin:0 0 18px}
+  .faq dt{font-weight:600;color:var(--gold);margin-top:20px}
+  .faq dd{margin:8px 0 0;color:#c9c3b6}
   .summary{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
   .summary h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.2em;
     text-transform:uppercase;color:var(--gold-dim);margin:0 0 12px}
@@ -513,6 +560,18 @@ def render_article(a: Article) -> str:
     if a.tags:
         parts.append('<p class="tags">' + " · ".join(html.escape(t) for t in a.tags) + "</p>")
 
+    # The FAQ is rendered before the summaries and inside the readable body,
+    # not tucked at the end of the source. Google requires FAQ markup to match
+    # text a visitor can actually see, and an answer no reader ever reaches is
+    # exactly the kind of markup that gets a site's rich results withdrawn.
+    if a.faq:
+        block = ['<section class="faq"><h2>پرسش‌های پرتکرار</h2><dl>']
+        for item in a.faq:
+            block.append(f"<dt>{html.escape(item['q'])}</dt>")
+            block.append(f"<dd>{html.escape(item['a'])}</dd>")
+        block.append("</dl></section>")
+        parts.append("".join(block))
+
     if a.summary_en:
         parts.append(
             '<section class="summary ltr" lang="en" dir="ltr">'
@@ -551,10 +610,44 @@ def render_article(a: Article) -> str:
                 "image": SITE + "/hero-poster.jpg",
                 "keywords": ", ".join(a.tags) if a.tags else None,
                 "abstract": a.summary_en or None,
+                "articleSection": COLLECTIONS[a.collection]["en"],
+                "wordCount": a.words,
+                # Nothing here is behind a login or a payment. Saying so
+                # explicitly is what lets an assistant quote the page instead
+                # of treating it as a paywalled source it may only link to.
+                "isAccessibleForFree": True,
+                "about": [{"@id": u} for u in a.about] or None,
+            },
+            {
+                "@type": "BreadcrumbList",
+                "@id": a.url + "#breadcrumb",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": "Vandidad Group",
+                     "item": SITE},
+                    {"@type": "ListItem", "position": 2,
+                     "name": COLLECTIONS[a.collection]["fa"],
+                     "item": f"{SITE}/{a.collection}"},
+                    {"@type": "ListItem", "position": 3, "name": a.title},
+                ],
             },
         ],
     }
     jsonld["@graph"][2] = {k: v for k, v in jsonld["@graph"][2].items() if v is not None}
+
+    if a.faq:
+        jsonld["@graph"].append({
+            "@type": "FAQPage",
+            "@id": a.url + "#faq",
+            "inLanguage": "fa-IR",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": item["q"],
+                    "acceptedAnswer": {"@type": "Answer", "text": item["a"]},
+                }
+                for item in a.faq
+            ],
+        })
 
     return shell(
         title=a.title,
@@ -698,6 +791,41 @@ def render_feed(articles: list[Article]) -> str:
     return "\n".join(rows) + "\n"
 
 
+LLMS_HEADING = "## Individual articles"
+
+
+def render_llms(existing: str, articles: list[Article]) -> str:
+    """Rewrite only the per-article section of llms.txt, keeping the rest.
+
+    The prose in that file is a considered statement about the company and is
+    not something to generate. The article list is the opposite: it goes stale
+    the moment anything is published, and it already had. So the file stays
+    hand-written except for one section, which is replaced between its heading
+    and the next one.
+    """
+    lines = existing.splitlines()
+    try:
+        start = lines.index(LLMS_HEADING)
+    except ValueError:
+        return existing  # No such section: leave the file completely alone.
+    end = next((i for i in range(start + 1, len(lines))
+                if lines[i].startswith("## ")), len(lines))
+
+    block = [
+        LLMS_HEADING,
+        "",
+        "Every article, newest first, so a model answering a specific question",
+        "can cite the page that answers it rather than the index.",
+        "",
+    ]
+    for a in sorted(articles, key=lambda x: x.published, reverse=True):
+        line = a.llms_line or (a.summary_en.split(". ")[0] if a.summary_en else a.title)
+        block.append(f"- [{a.title}]({a.url}) — published {a.published.isoformat()}.")
+        block.append(f"  {line.rstrip('.')}.")
+    block.append("")
+    return "\n".join(lines[:start] + block + lines[end:]) + "\n"
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true", help="validate without writing")
@@ -774,10 +902,17 @@ def main() -> int:
                     stale.unlink()
                     written += 1
 
-    for name, body in (
+    llms = ROOT / "llms.txt"
+    outputs = [
         ("sitemap.xml", render_sitemap(everything)),
         ("feed.xml", render_feed(everything)),
-    ):
+    ]
+    if llms.exists():
+        outputs.append(
+            ("llms.txt", render_llms(llms.read_text("utf-8"), everything))
+        )
+
+    for name, body in outputs:
         target = ROOT / name
         if not args.check and (not target.exists() or target.read_text("utf-8") != body):
             target.write_text(body, encoding="utf-8")

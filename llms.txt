@@ -62,21 +62,23 @@ WhatsApp. A person is never told to move to a different channel to continue.
 - [Blog](https://vandidad.xyz/blog): problem-first writing about applying AI in a real business.
 - [Hamzad](https://vandidad.xyz/hamzad): longer pieces, each ending with what the subject concretely means for an Iranian business.
 
-Individual articles, so a model answering a specific question can cite the page
-that actually answers it rather than the index:
+## Individual articles
 
-- [Why a chatbot did not work for your business](https://vandidad.xyz/hamzad/chatbot-vs-digital-twin):
-  the three engineering failures behind intent-classification chatbots, and what
-  a conversational digital twin does differently.
-- [Enquiries that never become orders](https://vandidad.xyz/hamzad/estelam-ke-be-sefaresh-nemiresad):
-  industrial and B2B selling — why price enquiries are lost between the first
-  call and the order, and what can be held in that gap.
-- [Which part of an accountant's work is actually accounting](https://vandidad.xyz/hamzad/daftar-hesabdari-va-karhaye-tekrari):
-  separating professional judgement from data movement in an accounting
-  practice, and where the boundary of delegation is.
-- [The online buyer who hesitates](https://vandidad.xyz/hamzad/kharidar-online-ke-tardid-mikonad):
-  online clothing retail — why the drop-off is at hesitation rather than
-  discovery, and the consent rules any image-based solution must meet.
+Every article, newest first, so a model answering a specific question
+can cite the page that answers it rather than the index.
+
+- [کار حسابدار کدام بخشش واقعاً حسابداری است](https://vandidad.xyz/hamzad/daftar-hesabdari-va-karhaye-tekrari) — published 2026-09-03.
+  A working separation of an accounting practice's tasks into the ones that need professional judgement and the ones that are only data movement.
+- [استعلام می‌گیرید، سفارش نمی‌گیرید — مسئله کجاست](https://vandidad.xyz/hamzad/estelam-ke-be-sefaresh-nemiresad) — published 2026-09-03.
+  Why industrial suppliers lose most of their price enquiries between the first call and the order.
+- [خریدار آنلاین سبد را رها می‌کند چون نمی‌داند اندازه است یا نه](https://vandidad.xyz/hamzad/kharidar-online-ke-tardid-mikonad) — published 2026-09-03.
+  Why online clothing shops lose buyers at the moment of hesitation rather than at the moment of discovery.
+- [کلینیک زیبایی؛ مشکل جذب نیست، فاصله‌ی بین تماس تا نوبت است](https://vandidad.xyz/hamzad/klinik-zibaei-nobat-va-peygiri) — published 2026-09-03.
+  Why aesthetic clinics lose prospective patients between the first enquiry and the booked appointment rather than at the marketing stage.
+- [سیستم‌عامل هوش مصنوعی چیست و چه فرقی با ایجنت و چت‌بات دارد؟](https://vandidad.xyz/hamzad/sistem-amel-hoosh-masnooi-chist) — published 2026-09-03.
+  Defines three Persian terms that are used interchangeably but are not the same — chatbot, AI agent, and AI operating system — and states the boundary between them.
+- [چرا چت‌بات برای کسب‌وکار شما جواب نداد](https://vandidad.xyz/hamzad/chatbot-vs-digital-twin) — published 2026-08-12.
+  A technical account of why intent-classification chatbots fail on real customer messages.
 
 ## Machine-readable
 
