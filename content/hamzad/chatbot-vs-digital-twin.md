@@ -90,4 +90,4 @@ summary_tr: >-
 
 نسبتِ این دو عدد، دقیق‌تر از هر معیارِ دیگری به شما می‌گوید مشکل کجاست — و آیا اصلاً مسئلهٔ شما زبان بوده یا معماری.
 
-اگر می‌خواهید همین بحث را در یک صنفِ مشخص ببینید، سه نوشتهٔ دیگر همین مسئله را در سه بازار دنبال می‌کنند: [استعلامی که به سفارش نمی‌رسد](/hamzad/estelam-ke-be-sefaresh-nemiresad) در فروشِ صنعتی، [کارِ تکراری در دفترِ حسابداری](/hamzad/daftar-hesabdari-va-karhaye-tekrari)، و [تردیدِ خریدارِ آنلاین](/hamzad/kharidar-online-ke-tardid-mikonad) در فروشِ پوشاک.
+اگر می‌خواهید همین بحث را در یک صنفِ مشخص ببینید، سه نوشتهٔ دیگر همین مسئله را در سه بازار دنبال می‌کنند: [استعلامی که به سفارش نمی‌رسد](/hamzad/estelam-ke-be-sefaresh-nemiresad) در فروشِ صنعتی، [کارِ تکراری در دفترِ حسابداری](/hamzad/daftar-hesabdari-va-karhaye-tekrari)، [تردیدِ خریدارِ آنلاین](/hamzad/kharidar-online-ke-tardid-mikonad) در فروشِ پوشاک، و [فاصلهٔ تماس تا نوبت](/hamzad/klinik-zibaei-nobat-va-peygiri) در کلینیکِ زیبایی.
