@@ -1,0 +1,97 @@
+# Keyword research — runs the SERP lookups the writing depends on.
+#
+# WHY THIS IS A WORKFLOW AND NOT A SCRIPT SOMEONE RUNS
+# ----------------------------------------------------
+# Article topics were being chosen from what a search felt like it returned.
+# That is guessing with extra steps. This fetches the actual Iranian Google
+# result page for a list of queries and commits what it found, so topic
+# selection argues from a file in the repository that anyone can open and
+# check months later.
+#
+# It also exists because of a network fact: the environment the articles are
+# written in cannot reach api.brightdata.com — the egress gateway answers 403
+# to the CONNECT, so no credential fixes it. A GitHub runner has open
+# internet, so the lookup happens here and the result travels back as a
+# commit.
+#
+# WHAT IT NEEDS
+# -------------
+# One repository secret: BRIGHTDATA_API_KEY (Settings → Secrets and variables
+# → Actions → New repository secret). Nothing else. If the secret is absent
+# the run stops with a clear message instead of failing loudly every week.
+#
+# WHAT IT WRITES
+# --------------
+# research/serp-<date>.json  — the parsed results, one object per query
+# research/latest.md         — the same thing readable, newest run wins
+#
+# Neither is served by the Worker; they are working notes for choosing what
+# to write, not pages.
+
+name: Keyword research
+
+on:
+  workflow_dispatch:
+    inputs:
+      queries:
+        description: "Queries to look up, separated by a semicolon"
+        required: false
+        default: >-
+          هوش مصنوعی برای کسب و کار ایرانی;
+          چت بات فارسی برای فروش;
+          پیگیری خودکار مشتری;
+          دستیار هوش مصنوعی واتساپ فارسی;
+          هوش مصنوعی برای کلینیک زیبایی
+  schedule:
+    # Sundays 06:00 UTC — before the week's writing starts.
+    - cron: "0 6 * * 0"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: keyword-research
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the credential is present
+        id: guard
+        run: |
+          if [ -z "${{ secrets.BRIGHTDATA_API_KEY }}" ]; then
+            echo "BRIGHTDATA_API_KEY is not set on this repository."
+            echo "Add it under Settings → Secrets and variables → Actions."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-python@v5
+        if: steps.guard.outputs.ok == 'true'
+        with:
+          python-version: "3.12"
+
+      - name: Look the queries up
+        if: steps.guard.outputs.ok == 'true'
+        env:
+          BRIGHTDATA_API_KEY: ${{ secrets.BRIGHTDATA_API_KEY }}
+          BRIGHTDATA_ZONE: ${{ vars.BRIGHTDATA_ZONE || 'cli_unlocker' }}
+          QUERIES: ${{ github.event.inputs.queries }}
+        run: python3 tools/keyword_research.py
+
+      - name: Commit what it found
+        if: steps.guard.outputs.ok == 'true'
+        run: |
+          if [ -z "$(git status --porcelain research)" ]; then
+            echo "nothing changed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research
+          git commit -m "research: SERP snapshot $(date -u +%Y-%m-%d)"
+          git push
