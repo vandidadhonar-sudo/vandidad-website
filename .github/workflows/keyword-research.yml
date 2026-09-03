@@ -16,9 +16,11 @@
 #
 # WHAT IT NEEDS
 # -------------
-# One repository secret: BRIGHTDATA_API_KEY (Settings → Secrets and variables
-# → Actions → New repository secret). Nothing else. If the secret is absent
-# the run stops with a clear message instead of failing loudly every week.
+# Either the owner's gateway — secret GATE_KEY plus variable GATE_URL — or,
+# failing that, secret BRIGHTDATA_API_KEY. The gateway is preferred: it
+# returns parsed results and enforces its own daily ceiling, so nothing here
+# has to know about zones or quotas. If neither is set the run stops with a
+# clear message instead of failing loudly every week.
 #
 # WHAT IT WRITES
 # --------------
@@ -59,15 +61,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check the credential is present
+      - name: Check a credential is present
         id: guard
         run: |
-          if [ -z "${{ secrets.BRIGHTDATA_API_KEY }}" ]; then
-            echo "BRIGHTDATA_API_KEY is not set on this repository."
-            echo "Add it under Settings → Secrets and variables → Actions."
-            echo "ok=false" >> "$GITHUB_OUTPUT"
-          else
+          if [ -n "${{ secrets.GATE_KEY }}" ] && [ -n "${{ vars.GATE_URL }}" ]; then
+            echo "route: gateway"
             echo "ok=true" >> "$GITHUB_OUTPUT"
+          elif [ -n "${{ secrets.BRIGHTDATA_API_KEY }}" ]; then
+            echo "route: bright data"
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No research credential on this repository."
+            echo "Add secret GATE_KEY and variable GATE_URL (preferred),"
+            echo "or secret BRIGHTDATA_API_KEY, under Settings →"
+            echo "Secrets and variables → Actions."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
           fi
 
       - uses: actions/setup-python@v5
@@ -78,6 +86,9 @@ jobs:
       - name: Look the queries up
         if: steps.guard.outputs.ok == 'true'
         env:
+          GATE_URL: ${{ vars.GATE_URL }}
+          GATE_KEY: ${{ secrets.GATE_KEY }}
+          GATE_PROJECT: ${{ vars.GATE_PROJECT || 'vandidad-site' }}
           BRIGHTDATA_API_KEY: ${{ secrets.BRIGHTDATA_API_KEY }}
           BRIGHTDATA_ZONE: ${{ vars.BRIGHTDATA_ZONE || 'cli_unlocker' }}
           QUERIES: ${{ github.event.inputs.queries }}

@@ -1,22 +1,36 @@
 #!/usr/bin/env python3
-"""Fetches the Iranian Google result page for a list of queries.
+"""Fetches what Iranian Google actually returns for a list of queries.
 
 WHY IT EXISTS
 -------------
-Topics were being picked from an impression of what search returns. This
-records what search actually returns — the pages already ranking, the
-questions Google itself lists, and the related searches — so a topic can be
-chosen against evidence and the evidence stays in the repository.
+Article topics were being chosen from an impression of what search returns.
+This records what search really returns — who already ranks, the questions
+Google prints itself, and the related searches — and commits it, so a topic
+is argued from a file anyone can open and re-check months later.
 
-WHY IT PARSES HTML RATHER THAN CALLING A TIDY API
--------------------------------------------------
-The SERP is fetched through Bright Data's unlocker, which returns the page as
-the browser would see it. Google's markup is not a contract, so every
-extractor here is written to return nothing rather than raise: a query whose
-shape changed produces an empty list next to a saved html_bytes count, which
-is enough to see that the parser slipped rather than the query being empty.
+WHY IT RUNS IN CI RATHER THAN WHERE THE ARTICLES ARE WRITTEN
+------------------------------------------------------------
+The writing environment's egress gateway answers 403 to the CONNECT for
+every research host — the owner's own gateway Worker, api.brightdata.com and
+google.com alike. No credential changes that; the route does not exist. A
+GitHub runner has open internet, so the lookup happens here and the answer
+travels back as a commit.
 
-Run by .github/workflows/keyword-research.yml. Needs BRIGHTDATA_API_KEY.
+TWO WAYS IN, PREFERRED IN THIS ORDER
+------------------------------------
+1. The owner's gateway Worker (GATE_URL + GATE_KEY). It already returns
+   parsed results and enforces its own daily ceiling, so nothing here has to
+   know about zones or quotas.
+2. Bright Data's request API directly (BRIGHTDATA_API_KEY), which returns the
+   raw result page for this file to parse.
+
+Both are normalised to the same record shape, so the committed file looks the
+same whichever route produced it and the writing never has to care.
+
+Google's markup is not a contract, so every extractor returns nothing rather
+than raising: a query whose shape changed shows up as an empty list beside a
+large html_bytes count, which reads as "the parser slipped", not "nobody
+ranks for this".
 """
 
 from __future__ import annotations
@@ -35,12 +49,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "research"
-ENDPOINT = "https://api.brightdata.com/request"
+PROJECT = os.environ.get("GATE_PROJECT", "vandidad-site")
 
-# Iran, Persian, one page deep. num=20 gives enough of a picture without
-# paging; anything past the first twenty is not what a topic competes with.
-SERP = ("https://www.google.com/search"
-        "?q={q}&gl=ir&hl=fa&num=20&pws=0")
+BRIGHTDATA_ENDPOINT = "https://api.brightdata.com/request"
+SERP_URL = "https://www.google.com/search?q={q}&gl=ir&hl=fa&num=20&pws=0"
 
 DEFAULT_QUERIES = [
     "هوش مصنوعی برای کسب و کار ایرانی",
@@ -55,36 +67,95 @@ def queries_from_env() -> list[str]:
     raw = (os.environ.get("QUERIES") or "").strip()
     if not raw:
         return DEFAULT_QUERIES
-    out = [q.strip() for q in raw.split(";")]
-    return [q for q in out if q] or DEFAULT_QUERIES
+    out = [q.strip() for q in raw.split(";") if q.strip()]
+    return out or DEFAULT_QUERIES
 
 
-def fetch(query: str, key: str, zone: str) -> str:
-    body = json.dumps({
-        "zone": zone,
-        "url": SERP.format(q=urllib.parse.quote_plus(query)),
-        "format": "raw",
-    }).encode()
-    req = urllib.request.Request(
-        ENDPOINT, data=body, method="POST",
-        headers={"Authorization": f"Bearer {key}",
-                 "Content-Type": "application/json"},
-    )
-    with urllib.request.urlopen(req, timeout=120) as r:
+# ── shared helpers ───────────────────────────────────────────────
+
+def _clean(s: str) -> str:
+    return html.unescape(re.sub(r"<[^>]+>", "", s)).strip()
+
+
+def _get(url: str, timeout: int = 120) -> str:
+    with urllib.request.urlopen(url, timeout=timeout) as r:
         return r.read().decode("utf-8", "replace")
 
 
-def _clean(s: str) -> str:
-    s = re.sub(r"<[^>]+>", "", s)
-    return html.unescape(s).strip()
+# ── route 1: the owner's gateway ─────────────────────────────────
+
+def _first_list(obj, *names) -> list:
+    """Pull the first present key out of a dict, tolerating naming drift —
+    the gateway's field names are its own business, not this file's."""
+    if not isinstance(obj, dict):
+        return []
+    for n in names:
+        v = obj.get(n)
+        if isinstance(v, list):
+            return v
+    return []
 
 
-def organic(page: str) -> list[dict]:
-    """Result titles and the site they point at, in order."""
+def _as_result(item) -> dict | None:
+    if isinstance(item, str):
+        return {"title": item[:160], "url": "", "site": ""}
+    if not isinstance(item, dict):
+        return None
+    title = str(item.get("title") or item.get("name") or "").strip()
+    url = str(item.get("url") or item.get("link") or "").strip()
+    if not title and not url:
+        return None
+    site = urllib.parse.urlparse(url).netloc.lower() if url else ""
+    return {"title": title[:160], "url": url[:300], "site": site}
+
+
+def via_gate(query: str, base: str, key: str) -> dict:
+    url = (base.rstrip("/") + "/serp?"
+           + urllib.parse.urlencode({"key": key, "p": PROJECT, "q": query}))
+    data = json.loads(_get(url))
+    organic = [r for r in (_as_result(i) for i in
+                           _first_list(data, "organic", "results", "rankers",
+                                       "رتبه‌دارها")) if r]
+    return {
+        "source": "gate",
+        "organic": organic[:20],
+        "people_also_ask": [str(x)[:180] for x in
+                            _first_list(data, "people_also_ask", "paa",
+                                        "questions")][:12],
+        "related": [str(x)[:120] for x in
+                    _first_list(data, "related", "related_searches",
+                                "searches")][:20],
+    }
+
+
+# ── route 2: Bright Data directly ────────────────────────────────
+
+def via_brightdata(query: str, key: str, zone: str) -> dict:
+    body = json.dumps({
+        "zone": zone,
+        "url": SERP_URL.format(q=urllib.parse.quote_plus(query)),
+        "format": "raw",
+    }).encode()
+    req = urllib.request.Request(
+        BRIGHTDATA_ENDPOINT, data=body, method="POST",
+        headers={"Authorization": f"Bearer {key}",
+                 "Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=120) as r:
+        page = r.read().decode("utf-8", "replace")
+    return {
+        "source": "brightdata",
+        "html_bytes": len(page),
+        "organic": organic_from_html(page),
+        "people_also_ask": people_also_ask(page),
+        "related": related(page),
+    }
+
+
+def organic_from_html(page: str) -> list[dict]:
     out, seen = [], set()
-    # An <a href="/url?q=..."> or a direct https href wrapping an <h3>.
-    for m in re.finditer(r'<a[^>]+href="(https?://[^"]+)"[^>]*>.*?<h3[^>]*>(.*?)</h3>',
-                         page, re.S):
+    for m in re.finditer(
+            r'<a[^>]+href="(https?://[^"]+)"[^>]*>.*?<h3[^>]*>(.*?)</h3>',
+            page, re.S):
         url, title = m.group(1), _clean(m.group(2))
         host = urllib.parse.urlparse(url).netloc.lower()
         if not title or "google." in host or host in seen:
@@ -97,8 +168,6 @@ def organic(page: str) -> list[dict]:
 
 
 def people_also_ask(page: str) -> list[str]:
-    """The questions Google prints itself — each one is a heading someone
-    should be able to answer in a single section."""
     found, seen = [], set()
     for m in re.finditer(r'data-q="([^"]{8,180})"', page):
         q = html.unescape(m.group(1)).strip()
@@ -109,9 +178,9 @@ def people_also_ask(page: str) -> list[str]:
 
 
 def related(page: str) -> list[str]:
+    # q= may be the first parameter or a later one; requiring a preceding &
+    # matched nothing at all.
     out, seen = [], set()
-    # q= may be the first parameter or a later one; the old form required a
-    # preceding & and so matched nothing at all.
     for m in re.finditer(r'/search\?(?:[^"]*?&)?q=([^"&]{4,120})', page):
         term = urllib.parse.unquote_plus(m.group(1)).strip()
         if (len(term) > 3 and term not in seen
@@ -121,26 +190,64 @@ def related(page: str) -> list[str]:
     return out[:20]
 
 
+# ── report ───────────────────────────────────────────────────────
+
+def write_report(results: list[dict], usage: str | None) -> None:
+    OUT_DIR.mkdir(exist_ok=True)
+    stamp = date.today().isoformat()
+    (OUT_DIR / f"serp-{stamp}.json").write_text(json.dumps({
+        "fetched_at": datetime.now(timezone.utc).isoformat(),
+        "market": "gl=ir, hl=fa",
+        "project": PROJECT,
+        "usage_after_run": usage,
+        "results": results,
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    lines = [f"# عکس فوری نتایج جستجو — {stamp}", "",
+             "برداشته‌شده از گوگل ایران (فارسی). این فایل برای انتخاب موضوع است، نه صفحه‌ی سایت.", ""]
+    for r in results:
+        lines.append(f"## {r['query']}")
+        if r.get("error"):
+            lines += [f"خطا: {r['error']}", ""]
+            continue
+        lines += ["", "**چه کسانی رتبه دارند**"]
+        for i, o in enumerate(r.get("organic", [])[:10], 1):
+            site = f" — `{o['site']}`" if o.get("site") else ""
+            lines.append(f"{i}. {o['title']}{site}")
+        if r.get("people_also_ask"):
+            lines += ["", "**پرسش‌هایی که خود گوگل فهرست می‌کند** (هرکدام یک سرتیتر آماده)"]
+            lines += [f"- {q}" for q in r["people_also_ask"]]
+        if r.get("related"):
+            lines += ["", "**جستجوهای مرتبط**", "، ".join(r["related"][:12])]
+        lines.append("")
+    if usage:
+        lines += ["---", f"مصرف پس از این اجرا: {usage}"]
+    (OUT_DIR / "latest.md").write_text("\n".join(lines), encoding="utf-8")
+
+
 def main() -> int:
-    key = os.environ.get("BRIGHTDATA_API_KEY", "").strip()
-    if not key:
-        print("BRIGHTDATA_API_KEY missing", file=sys.stderr)
+    gate_url = (os.environ.get("GATE_URL") or "").strip()
+    gate_key = (os.environ.get("GATE_KEY") or "").strip()
+    bd_key = (os.environ.get("BRIGHTDATA_API_KEY") or "").strip()
+    bd_zone = (os.environ.get("BRIGHTDATA_ZONE") or "cli_unlocker").strip()
+
+    if gate_url and gate_key:
+        route = "gate"
+    elif bd_key:
+        route = "brightdata"
+    else:
+        print("Set GATE_URL + GATE_KEY, or BRIGHTDATA_API_KEY.", file=sys.stderr)
         return 1
-    zone = os.environ.get("BRIGHTDATA_ZONE", "cli_unlocker").strip() or "cli_unlocker"
+    print(f"مسیر: {route} · پروژه: {PROJECT}")
 
     results = []
     for q in queries_from_env():
         record: dict = {"query": q}
         try:
-            page = fetch(q, key, zone)
-            record.update({
-                "html_bytes": len(page),
-                "organic": organic(page),
-                "people_also_ask": people_also_ask(page),
-                "related": related(page),
-            })
-            print(f"✓ {q} — {len(record['organic'])} نتیجه، "
-                  f"{len(record['people_also_ask'])} پرسش")
+            record.update(via_gate(q, gate_url, gate_key) if route == "gate"
+                          else via_brightdata(q, bd_key, bd_zone))
+            print(f"✓ {q} — {len(record.get('organic', []))} نتیجه، "
+                  f"{len(record.get('people_also_ask', []))} پرسش")
         except urllib.error.HTTPError as e:
             record["error"] = f"HTTP {e.code}"
             print(f"✗ {q} — HTTP {e.code}", file=sys.stderr)
@@ -148,43 +255,22 @@ def main() -> int:
             record["error"] = type(e).__name__
             print(f"✗ {q} — {type(e).__name__}", file=sys.stderr)
         results.append(record)
-        time.sleep(2)   # courteous spacing between lookups
+        time.sleep(2)
 
-    OUT_DIR.mkdir(exist_ok=True)
-    stamp = date.today().isoformat()
-    payload = {
-        "fetched_at": datetime.now(timezone.utc).isoformat(),
-        "market": "gl=ir, hl=fa",
-        "results": results,
-    }
-    (OUT_DIR / f"serp-{stamp}.json").write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    usage = None
+    if route == "gate":
+        try:
+            usage = _get(gate_url.rstrip("/") + "/usage?"
+                         + urllib.parse.urlencode({"key": gate_key}),
+                         timeout=30)[:300]
+            print(f"مصرف: {usage}")
+        except Exception:
+            pass
 
-    lines = [f"# عکس فوری نتایج جستجو — {stamp}", "",
-             "برداشته‌شده از گوگل ایران (فارسی). این فایل برای انتخاب موضوع است، نه یک صفحه‌ی سایت.", ""]
-    for r in results:
-        lines.append(f"## {r['query']}")
-        if r.get("error"):
-            lines.append(f"خطا: {r['error']}")
-            lines.append("")
-            continue
-        lines.append("")
-        lines.append("**چه کسانی رتبه دارند**")
-        for i, o in enumerate(r.get("organic", [])[:10], 1):
-            lines.append(f"{i}. {o['title']} — `{o['site']}`")
-        if r.get("people_also_ask"):
-            lines.append("")
-            lines.append("**پرسش‌هایی که خود گوگل فهرست می‌کند**")
-            for q in r["people_also_ask"]:
-                lines.append(f"- {q}")
-        if r.get("related"):
-            lines.append("")
-            lines.append("**جستجوهای مرتبط**")
-            lines.append("، ".join(r["related"][:12]))
-        lines.append("")
-    (OUT_DIR / "latest.md").write_text("\n".join(lines), encoding="utf-8")
-    print(f"نوشته شد: research/serp-{stamp}.json و research/latest.md")
-    return 0
+    write_report(results, usage)
+    ok = sum(1 for r in results if not r.get("error"))
+    print(f"نوشته شد: research/latest.md — {ok} از {len(results)} پرس‌وجو موفق")
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":
