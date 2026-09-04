@@ -440,6 +440,12 @@ def validate(article: Article) -> None:
             "Without it the article is generic, which is the thing this whole "
             "pipeline exists to prevent."
         )
+    if len(article.title) > TITLE_LIMIT:
+        faults.append(
+            f"the title is {len(article.title)} characters and the limit is "
+            f"{TITLE_LIMIT}. Search engines truncate past that, and what they "
+            "cut is the end — where the point usually is."
+        )
     if not article.summary_en:
         faults.append(
             "summary_en is missing. The English-language web currently attaches "
@@ -617,13 +623,34 @@ FOOTER = """<footer>
 </footer>"""
 
 
+BRAND_SUFFIX = " — Vandidad Group"
+TITLE_LIMIT = 70
+
+
+def page_title(title: str) -> str:
+    """The <title>, with the brand appended only when it still fits.
+
+    Bing's site scan flagged three pages for titles over 70 characters, and in
+    every case the article's own title was well under — the 17-character brand
+    suffix pushed it over. A search engine truncates what does not fit, and
+    what it truncates is the end, which is exactly where the suffix sits: the
+    cost of keeping it on a long title is losing the words that describe the
+    page, to gain a brand name nobody was searching for.
+
+    So the suffix is a bonus, not a fixture. A title long enough to need the
+    whole budget keeps the whole budget.
+    """
+    full = title + BRAND_SUFFIX
+    return full if len(full) <= TITLE_LIMIT else title
+
+
 def shell(*, title: str, description: str, canonical: str, body: str, jsonld: dict) -> str:
     return f"""<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{html.escape(title)} — Vandidad Group</title>
+<title>{html.escape(page_title(title))}</title>
 <meta name="description" content="{html.escape(description)}">
 <link rel="canonical" href="{canonical}">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">

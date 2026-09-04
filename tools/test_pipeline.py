@@ -239,6 +239,33 @@ class WordFloor(unittest.TestCase):
                 f"{slug} is long enough now — remove it from LEGACY_SHORT")
 
 
+class TitleLength(unittest.TestCase):
+    """Bing's site scan flagged three pages as "Title too long". None of the
+    article titles were over on their own — the brand suffix pushed them over.
+    So the suffix is conditional, and the gate guards the bare title."""
+
+    def test_the_brand_is_appended_when_it_fits(self):
+        self.assertEqual(bc.page_title("عنوان کوتاه"),
+                         "عنوان کوتاه" + bc.BRAND_SUFFIX)
+
+    def test_the_brand_is_dropped_rather_than_truncating_the_title(self):
+        long = "ب" * (bc.TITLE_LIMIT - 5)
+        self.assertEqual(bc.page_title(long), long)
+
+    def test_the_rendered_title_never_passes_the_limit(self):
+        for n in range(1, bc.TITLE_LIMIT + 1):
+            self.assertLessEqual(len(bc.page_title("ب" * n)), bc.TITLE_LIMIT)
+
+    def test_a_title_over_the_limit_is_refused(self):
+        a = bc.Article(slug="s", collection="hamzad",
+                       title="ب" * (bc.TITLE_LIMIT + 1), description="د",
+                       published=date(2026, 9, 4),
+                       body_md="کلمه " * 1500 + "برای کسب‌وکار ایرانی یعنی چه",
+                       summary_en="An English summary.")
+        with self.assertRaises(bc.BuildError):
+            bc.validate(a)
+
+
 class Llms(unittest.TestCase):
     def test_it_replaces_only_its_own_section(self):
         existing = ("intro\n\n## Individual articles\n\nold list\n\n"
