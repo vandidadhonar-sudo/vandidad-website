@@ -185,12 +185,13 @@ COLLECTIONS = {
 # These six are listed rather than exempted quietly, so the debt is visible in
 # the file that enforces the rule instead of living in someone's memory. Each
 # one leaves this list by being expanded, not by being forgotten.
-LEGACY_SHORT = {
-    "estelam-ke-be-sefaresh-nemiresad",
-    "daftar-hesabdari-va-karhaye-tekrari",
-    "kharidar-online-ke-tardid-mikonad",
-    "klinik-zibaei-nobat-va-peygiri",
-}
+# Empty, and that is the point: every article on it was expanded past the
+# floor rather than exempted forever. Kept because the mechanism is what
+# makes raising a rule survivable — the next time a floor moves, the
+# articles that fall short go here with a date, and a test in
+# tools/test_pipeline.py fails if one of them has quietly grown long enough
+# to leave. An empty list means no debt, not no rule.
+LEGACY_SHORT: set[str] = set()
 
 # One statement of who this is, reused in every page's structured data. The
 # sameAs list is what lets a model connect the site to the person rather than

@@ -98,16 +98,24 @@
 - **امضای نویسنده** بالای هر مقاله دیده می‌شود: «نویسنده: هادی بخت‌زاده» با
   لینک به `/about`. هم برای خواننده، هم برای ارزیابی کیفیت گوگل.
 
-### بدهی: شش مقاله‌ای که پیش از قانون ۱۵۰۰ نوشته شدند
+### بدهی ۱۵۰۰ کلمه — تسویه شد ✅ (۲۰۲۶-۰۹-۰۴)
 
-این‌ها در `LEGACY_SHORT` در `tools/build_content.py` فهرست شده‌اند تا بدهی
-دیده شود، نه اینکه بی‌سروصدا معاف شوند. هرکدام با **گسترش** از آن فهرست
-بیرون می‌آید، نه با فراموش شدن:
+شش مقاله‌ای که پیش از قانون ۱۵۰۰ نوشته شده بودند، همه گسترش یافتند و
+`LEGACY_SHORT` خالی است. هیچ‌کدام با پرکردن بلند نشدند؛ هر کدام بخشی گرفتند
+که خواننده می‌تواند اجرایش کند.
 
-`chatbot-vs-digital-twin` (۱۰۰۴) · `estelam-ke-be-sefaresh-nemiresad` (۷۸۷) ·
-`kharidar-online-ke-tardid-mikonad` (۷۳۸) · `klinik-zibaei-nobat-va-peygiri`
-(۷۳۶) · `daftar-hesabdari-va-karhaye-tekrari` (۷۲۵) ·
-`sistem-amel-hoosh-masnooi-chist` (۶۸۸)
+| مقاله | از | به |
+|---|---|---|
+| `chatbot-vs-digital-twin` | ۱۰۰۴ | ۱۵۷۹ |
+| `sistem-amel-hoosh-masnooi-chist` | ۶۸۸ | ۱۵۰۵ |
+| `klinik-zibaei-nobat-va-peygiri` | ۷۳۶ | ۱۵۵۳ |
+| `daftar-hesabdari-va-karhaye-tekrari` | ۷۲۵ | ۱۵۳۵ |
+| `estelam-ke-be-sefaresh-nemiresad` | ۷۸۷ | ۱۵۱۵ |
+| `kharidar-online-ke-tardid-mikonad` | ۷۳۸ | ۱۵۱۳ |
+
+سازوکارش سر جایش می‌ماند: اگر روزی قاعده‌ای سخت‌تر شود، مقاله‌های عقب‌مانده
+در همان فهرست ثبت می‌شوند و تستی جلوی معافیت دائمی را می‌گیرد.
+
 - `summary_en` اجباری است — وب انگلیسی نام Vandidad را به یک شرکت ساختمانی
   وصل کرده و بدون متن انگلیسی هیچ مدلی این را اصلاح نمی‌کند.
 
