@@ -1,0 +1,100 @@
+# Fetches the Persian webfont into the repository, once.
+#
+# WHY A WORKFLOW AND NOT A COMMIT
+# -------------------------------
+# The environment the site is written in cannot reach any CDN — the egress
+# gateway answers 403 to the CONNECT for every one of them — so the font
+# cannot be downloaded there and committed by hand. A GitHub runner has open
+# internet, so the download happens here and the file travels back as a commit.
+#
+# WHY THE FONT IS SELF-HOSTED AT ALL
+# ----------------------------------
+# Google Fonts is unreliable from Iran, and a page that waits on a blocked
+# stylesheet shows nothing at all. Vazirmatn is under the SIL Open Font
+# License, which permits redistribution provided the licence travels with it —
+# so OFL.txt is fetched alongside and committed too.
+#
+# Run it from the Actions tab. It is not on a schedule: a font does not change.
+
+name: Fetch fonts
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Vazirmatn version on npm"
+        required: false
+        default: "33.0.3"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download and verify
+        env:
+          V: ${{ github.event.inputs.version || '33.0.3' }}
+        run: |
+          set -euo pipefail
+          mkdir -p fonts
+          base="https://cdn.jsdelivr.net/npm/vazirmatn@${V}"
+
+          get() {   # get <url> <destination>
+            echo "→ $1"
+            curl -fsSL --max-time 60 -o "$2" "$1"
+          }
+
+          # A CDN answers 200 with an HTML error page as readily as with a
+          # font. woff2 files start with the four bytes wOF2, so check that
+          # rather than trusting the status code — a committed error page
+          # would break every article's typography silently.
+          check_woff2() {
+            local f="$1"
+            local magic
+            magic=$(head -c 4 "$f")
+            if [ "$magic" != "wOF2" ]; then
+              echo "::error::$f is not a woff2 file (starts with '$magic')"
+              exit 1
+            fi
+            local size
+            size=$(stat -c%s "$f")
+            if [ "$size" -lt 20000 ] || [ "$size" -gt 400000 ]; then
+              echo "::error::$f is $size bytes, which is not a plausible font"
+              exit 1
+            fi
+            echo "   ok — $size bytes"
+          }
+
+          get "$base/fonts/webfonts/Vazirmatn-Regular.woff2" fonts/vazirmatn-regular.woff2
+          get "$base/fonts/webfonts/Vazirmatn-Bold.woff2"    fonts/vazirmatn-bold.woff2
+          check_woff2 fonts/vazirmatn-regular.woff2
+          check_woff2 fonts/vazirmatn-bold.woff2
+
+          # The SIL Open Font Licence requires the licence to accompany the
+          # font wherever it is redistributed.
+          get "$base/OFL.txt" fonts/OFL.txt
+          grep -qi "SIL OPEN FONT LICENSE" fonts/OFL.txt || {
+            echo "::error::OFL.txt does not look like the licence"; exit 1; }
+
+          echo "Vazirmatn ${V}" > fonts/VERSION.txt
+
+      - name: Commit
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain fonts)" ]; then
+            echo "fonts unchanged"
+            exit 0
+          fi
+          git config user.name "vandidad-content-bot"
+          git config user.email "ai@vandidad.xyz"
+          git add fonts
+          git commit -m "fonts: self-host Vazirmatn $(cat fonts/VERSION.txt)
+
+          Downloaded and checked by .github/workflows/fetch-fonts.yml. Google
+          Fonts is unreliable from Iran; this is served from our own domain.
+          SIL Open Font Licence, included as fonts/OFL.txt."
+          git push

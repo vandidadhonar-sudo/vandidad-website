@@ -18,6 +18,9 @@ on:
       - .github/workflows/deploy-worker.yml
       - hero.mp4
       - hero-poster.jpg
+      # A new font file has to reach the bucket, and only this workflow puts
+      # anything there.
+      - fonts/**
   workflow_dispatch: {}
 
 # A second deploy starting while the first is mid-flight could publish the older
@@ -45,6 +48,13 @@ jobs:
       - name: Check the Worker builds
         run: npx --yes wrangler@4.110.0 deploy --dry-run --outdir /tmp/build
 
+      # A dry run proves the file parses, and nothing more — a route that
+      # returns the wrong thing parses perfectly. The Worker is the whole
+      # site, so a mistake in it does not degrade a page, it takes the domain
+      # down. These exercise the routing against stubs before it goes live.
+      - name: Check the Worker routes correctly
+        run: node tools/test_worker.mjs
+
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
@@ -68,6 +78,19 @@ jobs:
             --file hero.mp4 --content-type video/mp4 --remote
           npx --yes wrangler@4.110.0 r2 object put vandidad-media/hero-poster.jpg \
             --file hero-poster.jpg --content-type image/jpeg --remote
+          # The fonts ride the same path as the video. They are only present
+          # after fetch-fonts.yml has run, and the Worker falls back to the
+          # GitHub origin for an object that is not in the bucket, so a missing
+          # file here is not a broken page — but it should not fail the deploy
+          # of the Worker either.
+          for f in vazirmatn-regular vazirmatn-bold; do
+            if [ -f "fonts/$f.woff2" ]; then
+              npx --yes wrangler@4.110.0 r2 object put "vandidad-media/fonts/$f.woff2" \
+                --file "fonts/$f.woff2" --content-type font/woff2 --remote
+            else
+              echo "::warning::fonts/$f.woff2 not in the repo yet — run Fetch fonts"
+            fi
+          done
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: 48db27ab00625785134a70027e4efd0b

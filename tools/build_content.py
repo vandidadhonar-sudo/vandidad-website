@@ -481,6 +481,15 @@ def fa_date(d: date) -> str:
 
 
 STYLE = """
+  /* Vazirmatn, served from our own domain rather than from Google Fonts,
+     which is unreliable from Iran. font-display:swap means the article is
+     readable in the fallback face from the first paint and re-sets when the
+     font arrives — a reader never waits on it, and if the file is missing
+     entirely the page is exactly what it was before. */
+  @font-face{font-family:Vazirmatn;font-style:normal;font-weight:400;
+    font-display:swap;src:url(/fonts/vazirmatn-regular.woff2) format("woff2")}
+  @font-face{font-family:Vazirmatn;font-style:normal;font-weight:700;
+    font-display:swap;src:url(/fonts/vazirmatn-bold.woff2) format("woff2")}
   :root{--ink:#0b0a08;--gold:#e3c88a;--gold-dim:#a8945f;--paper:#ece7db;--muted:#8d8578;--rule:#26221a}
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}

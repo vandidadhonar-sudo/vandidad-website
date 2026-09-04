@@ -83,7 +83,20 @@ const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 // Route → object key in the R2 bucket, and the type to serve it as. The key is
 // the path without its leading slash, so the bucket mirrors the URL space.
-const MEDIA = { "/hero.mp4": "video/mp4", "/hero-poster.jpg": "image/jpeg" };
+//
+// The fonts are here rather than on a new route because this path already
+// does everything a font needs and is already deployed: R2 first, GitHub as
+// the fallback if an object has not been uploaded yet, a year of immutable
+// caching, and Range support. Serving Vazirmatn ourselves rather than from
+// Google Fonts is not a preference — Google Fonts is unreliable from Iran,
+// and a page waiting on a blocked font shows nothing at all. Same origin, so
+// no CORS header is needed.
+const MEDIA = {
+  "/hero.mp4": "video/mp4",
+  "/hero-poster.jpg": "image/jpeg",
+  "/fonts/vazirmatn-regular.woff2": "font/woff2",
+  "/fonts/vazirmatn-bold.woff2": "font/woff2",
+};
 
 const MEDIA_HEADERS = {
   "Cache-Control": "public, max-age=31536000, immutable",
