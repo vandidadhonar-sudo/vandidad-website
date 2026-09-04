@@ -186,12 +186,10 @@ COLLECTIONS = {
 # the file that enforces the rule instead of living in someone's memory. Each
 # one leaves this list by being expanded, not by being forgotten.
 LEGACY_SHORT = {
-    "chatbot-vs-digital-twin",
     "estelam-ke-be-sefaresh-nemiresad",
     "daftar-hesabdari-va-karhaye-tekrari",
     "kharidar-online-ke-tardid-mikonad",
     "klinik-zibaei-nobat-va-peygiri",
-    "sistem-amel-hoosh-masnooi-chist",
 }
 
 # One statement of who this is, reused in every page's structured data. The

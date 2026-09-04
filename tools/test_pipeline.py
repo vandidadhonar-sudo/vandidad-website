@@ -11,6 +11,7 @@ Run: python3 tools/test_pipeline.py
 from __future__ import annotations
 
 import json
+import pathlib
 import shutil
 import sys
 import tempfile
@@ -213,14 +214,29 @@ class WordFloor(unittest.TestCase):
         with self.assertRaises(bc.BuildError):
             bc.validate(a)
 
-    def test_the_six_articles_written_before_the_rule_still_build(self):
-        # Listed, not exempted quietly: each leaves LEGACY_SHORT by being
-        # expanded. A test guards that the list is what lets them through.
-        a = bc.Article(slug="chatbot-vs-digital-twin", collection="hamzad",
+    def test_an_article_still_on_the_debt_list_builds(self):
+        # LEGACY_SHORT shrinks as each short article is expanded, so naming one
+        # here would break the test the day that article is fixed — which is
+        # exactly what happened. Take whichever entries remain, and when the
+        # list is finally empty the debt is paid and there is nothing to guard.
+        if not bc.LEGACY_SHORT:
+            self.skipTest("no short articles left — the debt is paid")
+        a = bc.Article(slug=sorted(bc.LEGACY_SHORT)[0], collection="hamzad",
                        title="ت", description="د", published=date(2026, 8, 12),
                        body_md="کلمه " * 200 + "برای کسب‌وکار ایرانی یعنی چه",
                        summary_en="An English summary.")
         bc.validate(a)
+
+    def test_an_expanded_article_is_off_the_debt_list(self):
+        # The list is a record of debt, not a permanent exemption: once an
+        # article passes the floor on its own, its name must not still be in it.
+        for slug in bc.LEGACY_SHORT:
+            path = pathlib.Path("content/hamzad") / f"{slug}.md"
+            if not path.exists():
+                continue
+            self.assertLess(
+                bc.parse(path).words, 1500,
+                f"{slug} is long enough now — remove it from LEGACY_SHORT")
 
 
 class Llms(unittest.TestCase):
