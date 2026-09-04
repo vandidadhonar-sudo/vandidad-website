@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-03T00:00:00Z</updated>
+  <updated>2026-09-04T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>هوش مصنوعی عاملی چیست و کجا نباید به آن اختیار داد</title>
+    <link href="https://vandidad.xyz/hamzad/hoosh-masnooi-ameli-chist"/>
+    <id>https://vandidad.xyz/hamzad/hoosh-masnooi-ameli-chist</id>
+    <published>2026-09-04T00:00:00Z</published>
+    <updated>2026-09-04T00:00:00Z</updated>
+    <summary>تفاوت هوش مصنوعی عاملی با یک مدل زبانی معمولی، و سه جایی که دادن اختیار به سیستم برای یک کسب‌وکار گران تمام می‌شود.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>چرا چت‌بات برای کسب‌وکار شما جواب نداد</title>
     <link href="https://vandidad.xyz/hamzad/chatbot-vs-digital-twin"/>
