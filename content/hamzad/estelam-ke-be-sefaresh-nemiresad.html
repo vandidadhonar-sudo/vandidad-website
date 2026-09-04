@@ -220,6 +220,38 @@
     font:400 13px/1.9 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
   footer a{margin-inline-end:16px;color:var(--gold);text-decoration:none}
   footer a:hover{text-decoration:underline}
+
+  /* Phones. There were no media queries here at all, which meant the layout
+     had never been checked at a phone width — it happened to survive because
+     it is a single fluid column, but the byline now carries four facts and
+     ran off the line, and 24px of padding on each side is a lot of a 360px
+     screen. Nothing is hidden on a small screen: a reader on a phone gets the
+     same article, set to fit. */
+  @media (max-width: 560px) {
+    body{padding:0 18px 72px;font-size:17.5px}
+    header{padding:36px 0 0}
+    /* The byline is four separate facts. On a narrow screen it should wrap as
+       four lines rather than break mid-fact. */
+    .meta{line-height:2.1}
+    .meta .readtime{display:inline-block}
+    article h2{margin:30px 0 10px;font-size:19px}
+    .lede{font-size:18px}
+    .share{gap:10px}
+    .share a,.share button{padding:8px 12px}
+    .index-item{margin-top:26px}
+    /* Measured at 13-15px tall on a 360px screen — under the 24px WCAG 2.2
+       asks for, and well under a thumb. Padding on an inline link grows the
+       area a finger can hit without moving the text it sits on. */
+    .meta a,.eyebrow a{display:inline-block;padding:7px 0}
+    footer a{display:inline-block;padding:7px 0;margin-inline-end:20px}
+    .cta a{display:inline-block;padding:6px 0}
+  }
+
+  /* Someone who has asked for less motion should not get a bar sliding at
+     the top of every scroll. */
+  @media (prefers-reduced-motion: reduce) {
+    #progress{transition:none}
+  }
 </style>
 </head>
 <body>
@@ -228,7 +260,7 @@
 <header>
 <p class="eyebrow"><a href="/hamzad">مقالات</a></p>
 <h1>استعلام می‌گیرید، سفارش نمی‌گیرید — مسئله کجاست</h1>
-<p class="meta">نویسنده: <a href="/about" rel="author">هادی بخت‌زاده</a> · ۳ سپتامبر ۲۰۲۶ · به‌روزرسانی ۳ سپتامبر ۲۰۲۶ · <span class="readtime">حدود ۴ دقیقه</span></p>
+<p class="meta">نویسنده: <a href="/about" rel="author">هادی بخت‌زاده</a> · ۳ سپتامبر ۲۰۲۶ · به‌روزرسانی ۳ سپتامبر ۲۰۲۶ · <span class="readtime">زمان تخمینی مطالعه: ۴ دقیقه</span></p>
 <p class="lede">چرا در فروش صنعتی بیشتر استعلام‌ها بی‌جواب می‌مانند، و چه چیزی در فاصله‌ی میان استعلام تا سفارش قابل ثبت و قابل مدیریت است.</p>
 </header>
 <article><p>یک سازنده‌ی سوله‌ی صنعتی که با او صحبت کردم، وضعیتش را در یک جمله گفت: «از هر ده
