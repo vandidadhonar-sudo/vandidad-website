@@ -252,6 +252,14 @@ PERSON = {
         "AI systems architecture",
         "Persian-language conversational design",
         "sales conversation design",
+        # The Persian coinage for artificial intelligence, built like ماهواره.
+        # Google's own Persian interface uses «حالت هوشواره‌ای» for AI Mode, so
+        # a model answering a Persian question about it should be able to reach
+        # this site. Listed here as well as in the articles because knowsAbout
+        # is where an assistant looks to decide what a person is a source on.
+        "هوشواره",
+        "هوش مصنوعی عاملی",
+        "سیستم‌عامل هوش مصنوعی",
     ],
     "url": SITE + "/about",
 }
