@@ -162,9 +162,27 @@ COLLECTIONS = {
         "fa": "همزاد",
         "en": "Hamzad",
         "lead": "نوشته‌های بلندتر — هرکدام با یک بخشِ روشن درباره‌ی اینکه این موضوع برای کسب‌وکارِ ایرانی چه معنایی دارد.",
-        "min_words": 600,
+        "min_words": 1500,
         "require_iran_section": True,
     },
+}
+
+# Articles written before the floor was raised from 600 to 1500 words. Google
+# publishes no word count and none is being claimed here: the number is ours,
+# chosen because the pages already ranking for these phrases in Persian run
+# well past a thousand words, and a short page loses to them on coverage
+# rather than on quality.
+#
+# These six are listed rather than exempted quietly, so the debt is visible in
+# the file that enforces the rule instead of living in someone's memory. Each
+# one leaves this list by being expanded, not by being forgotten.
+LEGACY_SHORT = {
+    "chatbot-vs-digital-twin",
+    "estelam-ke-be-sefaresh-nemiresad",
+    "daftar-hesabdari-va-karhaye-tekrari",
+    "kharidar-online-ke-tardid-mikonad",
+    "klinik-zibaei-nobat-va-peygiri",
+    "sistem-amel-hoosh-masnooi-chist",
 }
 
 # One statement of who this is, reused in every page's structured data. The
@@ -395,7 +413,7 @@ def validate(article: Article) -> None:
     rules = COLLECTIONS[article.collection]
     faults: list[str] = []
 
-    if article.words < rules["min_words"]:
+    if article.words < rules["min_words"] and article.slug not in LEGACY_SHORT:
         faults.append(
             f"{article.words} words, and a {article.collection} article needs at "
             f"least {rules['min_words']}. A short piece belongs in content/blog/."
@@ -560,7 +578,14 @@ def render_article(a: Article) -> str:
         '<header>',
         f'<p class="eyebrow"><a href="/{a.collection}">{COLLECTIONS[a.collection]["fa"]}</a></p>',
         f"<h1>{html.escape(a.title)}</h1>",
-        f'<p class="meta">{fa_date(a.published)}'
+        # A visible byline, not only the one in the structured data. Google's
+        # guidance on assessing content quality asks who wrote a page and
+        # whether a reader can tell; an author that exists only in JSON-LD
+        # answers the crawler and not the person. «نویسنده» is the word a
+        # Persian reader expects in this position.
+        '<p class="meta">نویسنده: '
+        f'<a href="/about" rel="author">{html.escape(PERSON["alternateName"][0])}</a>'
+        f' · {fa_date(a.published)}'
         + (f" · به‌روزرسانی {fa_date(a.updated)}" if a.updated else "")
         + "</p>",
         f'<p class="lede">{html.escape(a.description)}</p>',

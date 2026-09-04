@@ -182,6 +182,47 @@ class Faq(unittest.TestCase):
         self.assertEqual(a.about, ["https://fa.wikipedia.org/wiki/X"])
 
 
+class Byline(unittest.TestCase):
+    """An author that exists only in JSON-LD answers the crawler and not the
+    reader, and Google's quality guidance asks whether a person can tell who
+    wrote a page."""
+
+    def _render(self):
+        a = bc.Article(slug="s", collection="hamzad", title="ت",
+                       description="د", published=date(2026, 1, 1),
+                       body_md="متن.", summary_en="An English summary.")
+        return bc.render_article(a)
+
+    def test_the_authors_persian_name_is_visible_on_the_page(self):
+        self.assertIn("نویسنده:", self._render())
+        self.assertIn("هادی بخت‌زاده", self._render())
+
+    def test_the_byline_links_to_the_page_that_identifies_him(self):
+        self.assertIn('href="/about" rel="author"', self._render())
+
+    def test_the_structured_data_still_names_the_same_person(self):
+        self.assertIn('"@id": "https://vandidad.xyz/#person"', self._render())
+
+
+class WordFloor(unittest.TestCase):
+    def test_a_new_short_article_is_refused(self):
+        a = bc.Article(slug="brand-new", collection="hamzad", title="ت",
+                       description="د", published=date(2026, 9, 4),
+                       body_md="کلمه " * 200 + "برای کسب‌وکار ایرانی یعنی چه",
+                       summary_en="An English summary.")
+        with self.assertRaises(bc.BuildError):
+            bc.validate(a)
+
+    def test_the_six_articles_written_before_the_rule_still_build(self):
+        # Listed, not exempted quietly: each leaves LEGACY_SHORT by being
+        # expanded. A test guards that the list is what lets them through.
+        a = bc.Article(slug="chatbot-vs-digital-twin", collection="hamzad",
+                       title="ت", description="د", published=date(2026, 8, 12),
+                       body_md="کلمه " * 200 + "برای کسب‌وکار ایرانی یعنی چه",
+                       summary_en="An English summary.")
+        bc.validate(a)
+
+
 class Llms(unittest.TestCase):
     def test_it_replaces_only_its_own_section(self):
         existing = ("intro\n\n## Individual articles\n\nold list\n\n"
