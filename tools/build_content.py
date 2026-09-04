@@ -37,6 +37,7 @@ import html
 import json
 import re
 import sys
+import urllib.parse
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from pathlib import Path
@@ -159,9 +160,17 @@ COLLECTIONS = {
         "require_iran_section": False,
     },
     "hamzad": {
-        "fa": "همزاد",
-        "en": "Hamzad",
-        "lead": "نوشته‌های بلندتر — هرکدام با یک بخشِ روشن درباره‌ی اینکه این موضوع برای کسب‌وکارِ ایرانی چه معنایی دارد.",
+        # The path stays /hamzad. Five articles are already in the sitemap and
+        # have been announced to the engines under it, and renaming a URL to
+        # improve a heading throws away the little indexing that exists. What
+        # a reader sees is a separate question from what the address says.
+        "fa": "مقالات",
+        "en": "Articles",
+        # The old line — «نوشته‌های بلندتر» — described our filing system: it
+        # told a reader that these pieces are longer than some other pieces
+        # they had never seen. A lead has one job, which is to say what the
+        # reader gets.
+        "lead": "دربارهٔ اینکه هوش مصنوعی در یک کسب‌وکار واقعی کجا کار می‌کند و کجا نه — با مثال از کارِ ایرانی، بدون شعار و بدون فروش.",
         "min_words": 1500,
         "require_iran_section": True,
     },
@@ -463,6 +472,10 @@ FA_MONTHS = [
 ]
 
 
+def to_fa(n) -> str:
+    return str(n).translate(PERSIAN_DIGITS)
+
+
 def fa_date(d: date) -> str:
     return f"{str(d.day).translate(PERSIAN_DIGITS)} {FA_MONTHS[d.month - 1]} {str(d.year).translate(PERSIAN_DIGITS)}"
 
@@ -471,9 +484,26 @@ STYLE = """
   :root{--ink:#0b0a08;--gold:#e3c88a;--gold-dim:#a8945f;--paper:#ece7db;--muted:#8d8578;--rule:#26221a}
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
+  /* A Persian reading stack, not the Latin system stack that was here. The
+     old list started at -apple-system and reached Tahoma only as a fallback,
+     which is what most Iranian readers were actually served — a font drawn
+     for interface labels, not for a thousand words in a row.
+     Vazirmatn first (installed on many machines, and the face we intend to
+     self-host), then the sans faces common on Iranian systems, then Tahoma.
+     No webfont is fetched: Google Fonts is unreliable from Iran, and a page
+     that waits on a blocked font shows nothing at all. */
   body{margin:0;background:var(--ink);color:var(--paper);padding:0 24px 96px;
-    font:400 17px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Roboto,Helvetica,Arial,sans-serif}
+    font:400 18.5px/2.0 Vazirmatn,"Vazir","IRANSans","IRANYekan",Sahel,Shabnam,
+      "Segoe UI",Tahoma,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif}
+  /* Persian sits lower on the line and carries marks above it, so the same
+     leading that reads comfortably in Latin looks cramped here. */
   .wrap{max-width:720px;margin:0 auto}
+  /* How far through the article the reader is. Purely decorative: if the
+     script does not run, the bar stays at zero width and nothing else on the
+     page depends on it. */
+  #progress{position:fixed;top:0;inset-inline-start:0;height:2px;width:0;
+    background:var(--gold);z-index:9;transition:width .1s linear}
+  .readtime{color:var(--gold-dim)}
   header{padding:56px 0 0}
   .eyebrow{font:500 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.22em;
     text-transform:uppercase;color:var(--gold-dim);margin:0 0 18px}
@@ -482,11 +512,11 @@ STYLE = """
   h1{font:400 clamp(27px,4.6vw,40px)/1.28 "Iowan Old Style",Palatino,Georgia,serif;
     color:var(--gold);margin:0 0 12px;letter-spacing:-.01em}
   .meta{font:400 13px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);margin:0}
-  .lede{color:#c9c3b6;font-size:18px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
+  .lede{color:#ded8cb;font-size:19.5px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
   article{padding-top:8px}
   article h2{font:600 20px/1.5 inherit;color:var(--gold);margin:38px 0 12px}
   article h3{font:600 16px/1.5 inherit;color:var(--gold-dim);margin:28px 0 8px}
-  p,li{color:#c9c3b6;margin:0 0 16px}
+  p,li{color:#ded8cb;margin:0 0 18px}
   ul,ol{padding-inline-start:22px;margin:0 0 16px}
   a{color:var(--gold);text-underline-offset:3px}
   blockquote{border-inline-start:2px solid var(--gold-dim);margin:0 0 18px;
@@ -504,12 +534,19 @@ STYLE = """
   .faq{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
   .faq h2{font-size:20px;margin:0 0 18px}
   .faq dt{font-weight:600;color:var(--gold);margin-top:20px}
-  .faq dd{margin:8px 0 0;color:#c9c3b6}
+  .faq dd{margin:8px 0 0;color:#ded8cb}
   .summary{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
   .summary h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.2em;
     text-transform:uppercase;color:var(--gold-dim);margin:0 0 12px}
   .summary p{font-size:15.5px;color:var(--muted);margin:0}
   .ltr{direction:ltr;text-align:left}
+  .share{margin-top:40px;padding-top:22px;border-top:1px solid var(--rule);
+    display:flex;flex-wrap:wrap;align-items:center;gap:14px;font-size:14px}
+  .share span{color:var(--muted)}
+  .share a,.share button{color:var(--gold);text-decoration:none;font:inherit;
+    background:none;border:1px solid var(--rule);border-radius:6px;
+    padding:6px 14px;cursor:pointer;transition:border-color .3s}
+  .share a:hover,.share button:hover{border-color:var(--gold-dim)}
   .cta{margin-top:44px;padding:24px;border:1px solid var(--rule);border-radius:8px}
   .cta p{margin:0 0 10px;color:#c9c3b6}
   .cta a{font-weight:600}
@@ -526,7 +563,7 @@ STYLE = """
 """
 
 FOOTER = """<footer>
-  <div><a href="/">صفحه‌ی اصلی</a><a href="/blog">بلاگ</a><a href="/hamzad">همزاد</a><a href="/about">درباره‌ی ما</a></div>
+  <div><a href="/">صفحه‌ی اصلی</a><a href="/hamzad">مقالات</a><a href="/about">درباره‌ی ما</a></div>
   <div style="margin-top:10px"><a href="/privacy">حریم خصوصی</a><a href="/terms">شرایط استفاده</a><a href="/data-deletion">حذف اطلاعات</a></div>
   <div style="margin-top:14px;opacity:.75">Vandidad Group · Konak, İzmir, Türkiye · <a href="mailto:ai@vandidad.xyz">ai@vandidad.xyz</a></div>
 </footer>"""
@@ -558,10 +595,53 @@ def shell(*, title: str, description: str, canonical: str, body: str, jsonld: di
 <style>{STYLE}</style>
 </head>
 <body>
+<div id="progress"></div>
 <div class="wrap">
 {body}
 {FOOTER}
 </div>
+<script>
+/* A reading-progress line. It is the whole of this site's article JavaScript,
+   and it is written so that failing changes nothing: the bar starts at zero
+   width, and if this never runs the page is exactly what it was. */
+(function () {{
+  var bar = document.getElementById("progress");
+  if (!bar) return;
+  function draw() {{
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? Math.min(100, (window.scrollY / h) * 100) : 0) + "%";
+  }}
+  addEventListener("scroll", draw, {{ passive: true }});
+  addEventListener("resize", draw);
+  draw();
+}})();
+
+/* Copy the address. navigator.clipboard exists only on a secure origin and
+   only with permission, so the older selection trick is kept as the fallback
+   rather than leaving the button dead for whoever lands in that case. */
+(function () {{
+  var b = document.querySelector(".share .copy");
+  if (!b) return;
+  b.addEventListener("click", function () {{
+    var url = b.getAttribute("data-url"), done = function () {{
+      var was = b.textContent;
+      b.textContent = "کپی شد";
+      setTimeout(function () {{ b.textContent = was; }}, 1800);
+    }};
+    if (navigator.clipboard && navigator.clipboard.writeText) {{
+      navigator.clipboard.writeText(url).then(done, fallback);
+    }} else {{ fallback(); }}
+    function fallback() {{
+      var f = document.createElement("input");
+      f.value = url;
+      document.body.appendChild(f);
+      f.select();
+      try {{ document.execCommand("copy"); done(); }} catch (e) {{}}
+      document.body.removeChild(f);
+    }}
+  }});
+}})();
+</script>
 </body>
 </html>
 """
@@ -587,6 +667,11 @@ def render_article(a: Article) -> str:
         f'<a href="/about" rel="author">{html.escape(PERSON["alternateName"][0])}</a>'
         f' · {fa_date(a.published)}'
         + (f" · به‌روزرسانی {fa_date(a.updated)}" if a.updated else "")
+        # Telling a reader how long this will take removes the one question
+        # that makes people leave a long page before starting it. 200 words a
+        # minute is the ordinary silent-reading figure; it is an estimate and
+        # is written as one.
+        + f' · <span class="readtime">حدود {to_fa(max(1, round(a.words / 200)))} دقیقه</span>'
         + "</p>",
         f'<p class="lede">{html.escape(a.description)}</p>',
         "</header>",
@@ -620,6 +705,22 @@ def render_article(a: Article) -> str:
             "<h2>Türkçe özet</h2>"
             f"<p>{html.escape(a.summary_tr)}</p></section>"
         )
+
+    # Sharing. Telegram and WhatsApp are plain links — no script, no tracker,
+    # nothing loaded from either company, so nothing here can slow the page or
+    # watch the reader. Bale has no documented web share endpoint, so it is not
+    # guessed at; the copy button covers it and every other app.
+    share_url = urllib.parse.quote(a.url, safe="")
+    share_text = urllib.parse.quote(a.title, safe="")
+    parts.append(
+        '<div class="share"><span>این را برای کسی بفرستید:</span>'
+        f'<a href="https://t.me/share/url?url={share_url}&text={share_text}"'
+        ' target="_blank" rel="noopener">تلگرام</a>'
+        f'<a href="https://api.whatsapp.com/send?text={share_text}%20{share_url}"'
+        ' target="_blank" rel="noopener">واتساپ</a>'
+        f'<button type="button" class="copy" data-url="{html.escape(a.url)}">کپی نشانی</button>'
+        "</div>"
+    )
 
     parts.append(
         '<div class="cta"><p>می‌خواهید ببینید این برای کارِ خودتان چه شکلی می‌شود؟</p>'

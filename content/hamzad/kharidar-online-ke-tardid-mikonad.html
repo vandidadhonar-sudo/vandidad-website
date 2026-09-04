@@ -110,7 +110,7 @@
    "image": "https://vandidad.xyz/hero-poster.jpg",
    "keywords": "فروش-آنلاین, پوشاک, نرخ-تبدیل, پرو-مجازی, کسب-وکار-ایرانی",
    "abstract": "Why online clothing shops lose buyers at the moment of hesitation rather than at the moment of discovery. Written by Hadi Bakhtzadeh, AI systems architect at Vandidad Group in İzmir, Türkiye, the article explains that a garment photographed on a studio model answers a question the buyer is not asking, examines what generative imaging and a conversational assistant can each resolve about fit and drape before purchase, and sets out the consent and privacy rules such a system has to satisfy for Persian-speaking customers, particularly for modest wear.",
-   "articleSection": "Hamzad",
+   "articleSection": "Articles",
    "wordCount": 738,
    "isAccessibleForFree": true
   },
@@ -127,7 +127,7 @@
     {
      "@type": "ListItem",
      "position": 2,
-     "name": "همزاد",
+     "name": "مقالات",
      "item": "https://vandidad.xyz/hamzad"
     },
     {
@@ -144,9 +144,26 @@
   :root{--ink:#0b0a08;--gold:#e3c88a;--gold-dim:#a8945f;--paper:#ece7db;--muted:#8d8578;--rule:#26221a}
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
+  /* A Persian reading stack, not the Latin system stack that was here. The
+     old list started at -apple-system and reached Tahoma only as a fallback,
+     which is what most Iranian readers were actually served — a font drawn
+     for interface labels, not for a thousand words in a row.
+     Vazirmatn first (installed on many machines, and the face we intend to
+     self-host), then the sans faces common on Iranian systems, then Tahoma.
+     No webfont is fetched: Google Fonts is unreliable from Iran, and a page
+     that waits on a blocked font shows nothing at all. */
   body{margin:0;background:var(--ink);color:var(--paper);padding:0 24px 96px;
-    font:400 17px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Roboto,Helvetica,Arial,sans-serif}
+    font:400 18.5px/2.0 Vazirmatn,"Vazir","IRANSans","IRANYekan",Sahel,Shabnam,
+      "Segoe UI",Tahoma,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif}
+  /* Persian sits lower on the line and carries marks above it, so the same
+     leading that reads comfortably in Latin looks cramped here. */
   .wrap{max-width:720px;margin:0 auto}
+  /* How far through the article the reader is. Purely decorative: if the
+     script does not run, the bar stays at zero width and nothing else on the
+     page depends on it. */
+  #progress{position:fixed;top:0;inset-inline-start:0;height:2px;width:0;
+    background:var(--gold);z-index:9;transition:width .1s linear}
+  .readtime{color:var(--gold-dim)}
   header{padding:56px 0 0}
   .eyebrow{font:500 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.22em;
     text-transform:uppercase;color:var(--gold-dim);margin:0 0 18px}
@@ -155,11 +172,11 @@
   h1{font:400 clamp(27px,4.6vw,40px)/1.28 "Iowan Old Style",Palatino,Georgia,serif;
     color:var(--gold);margin:0 0 12px;letter-spacing:-.01em}
   .meta{font:400 13px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);margin:0}
-  .lede{color:#c9c3b6;font-size:18px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
+  .lede{color:#ded8cb;font-size:19.5px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
   article{padding-top:8px}
   article h2{font:600 20px/1.5 inherit;color:var(--gold);margin:38px 0 12px}
   article h3{font:600 16px/1.5 inherit;color:var(--gold-dim);margin:28px 0 8px}
-  p,li{color:#c9c3b6;margin:0 0 16px}
+  p,li{color:#ded8cb;margin:0 0 18px}
   ul,ol{padding-inline-start:22px;margin:0 0 16px}
   a{color:var(--gold);text-underline-offset:3px}
   blockquote{border-inline-start:2px solid var(--gold-dim);margin:0 0 18px;
@@ -177,12 +194,19 @@
   .faq{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
   .faq h2{font-size:20px;margin:0 0 18px}
   .faq dt{font-weight:600;color:var(--gold);margin-top:20px}
-  .faq dd{margin:8px 0 0;color:#c9c3b6}
+  .faq dd{margin:8px 0 0;color:#ded8cb}
   .summary{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
   .summary h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.2em;
     text-transform:uppercase;color:var(--gold-dim);margin:0 0 12px}
   .summary p{font-size:15.5px;color:var(--muted);margin:0}
   .ltr{direction:ltr;text-align:left}
+  .share{margin-top:40px;padding-top:22px;border-top:1px solid var(--rule);
+    display:flex;flex-wrap:wrap;align-items:center;gap:14px;font-size:14px}
+  .share span{color:var(--muted)}
+  .share a,.share button{color:var(--gold);text-decoration:none;font:inherit;
+    background:none;border:1px solid var(--rule);border-radius:6px;
+    padding:6px 14px;cursor:pointer;transition:border-color .3s}
+  .share a:hover,.share button:hover{border-color:var(--gold-dim)}
   .cta{margin-top:44px;padding:24px;border:1px solid var(--rule);border-radius:8px}
   .cta p{margin:0 0 10px;color:#c9c3b6}
   .cta a{font-weight:600}
@@ -199,11 +223,12 @@
 </style>
 </head>
 <body>
+<div id="progress"></div>
 <div class="wrap">
 <header>
-<p class="eyebrow"><a href="/hamzad">همزاد</a></p>
+<p class="eyebrow"><a href="/hamzad">مقالات</a></p>
 <h1>خریدار آنلاین سبد را رها می‌کند چون نمی‌داند اندازه است یا نه</h1>
-<p class="meta">نویسنده: <a href="/about" rel="author">هادی بخت‌زاده</a> · ۳ سپتامبر ۲۰۲۶ · به‌روزرسانی ۳ سپتامبر ۲۰۲۶</p>
+<p class="meta">نویسنده: <a href="/about" rel="author">هادی بخت‌زاده</a> · ۳ سپتامبر ۲۰۲۶ · به‌روزرسانی ۳ سپتامبر ۲۰۲۶ · <span class="readtime">حدود ۴ دقیقه</span></p>
 <p class="lede">چرا در فروش آنلاین پوشاک بیشترین ریزش نه در جذب بلکه در لحظه‌ی تردید اتفاق می‌افتد، و چه چیزی آن تردید را قابل رفع می‌کند.</p>
 </header>
 <article><p>صاحب یک فروشگاه آنلاین چادر لینک سایتش را فرستاد و یک جمله نوشت: «صفر تا صد برای
@@ -269,12 +294,55 @@
 <p class="tags">فروش-آنلاین · پوشاک · نرخ-تبدیل · پرو-مجازی · کسب-وکار-ایرانی</p>
 <section class="summary ltr" lang="en" dir="ltr"><h2>In English</h2><p>Why online clothing shops lose buyers at the moment of hesitation rather than at the moment of discovery. Written by Hadi Bakhtzadeh, AI systems architect at Vandidad Group in İzmir, Türkiye, the article explains that a garment photographed on a studio model answers a question the buyer is not asking, examines what generative imaging and a conversational assistant can each resolve about fit and drape before purchase, and sets out the consent and privacy rules such a system has to satisfy for Persian-speaking customers, particularly for modest wear.</p></section>
 <section class="summary ltr" lang="tr" dir="ltr"><h2>Türkçe özet</h2><p>Çevrimiçi giyim satıcılarının alıcıyı keşif anında değil tereddüt anında neden kaybettiğine dair bir inceleme. İzmir&#x27;de Vandidad Group&#x27;un yapay zekâ sistem mimarı Hadi Bahtzade (Hadi Bakhtzadeh) tarafından yazılmıştır. Metin, stüdyo mankeni üzerinde çekilen bir fotoğrafın alıcının sormadığı bir soruyu yanıtladığını açıklar ve böyle bir sistemin karşılaması gereken rıza ve gizlilik kurallarını ortaya koyar.</p></section>
+<div class="share"><span>این را برای کسی بفرستید:</span><a href="https://t.me/share/url?url=https%3A%2F%2Fvandidad.xyz%2Fhamzad%2Fkharidar-online-ke-tardid-mikonad&text=%D8%AE%D8%B1%DB%8C%D8%AF%D8%A7%D8%B1%20%D8%A2%D9%86%D9%84%D8%A7%DB%8C%D9%86%20%D8%B3%D8%A8%D8%AF%20%D8%B1%D8%A7%20%D8%B1%D9%87%D8%A7%20%D9%85%DB%8C%E2%80%8C%DA%A9%D9%86%D8%AF%20%DA%86%D9%88%D9%86%20%D9%86%D9%85%DB%8C%E2%80%8C%D8%AF%D8%A7%D9%86%D8%AF%20%D8%A7%D9%86%D8%AF%D8%A7%D8%B2%D9%87%20%D8%A7%D8%B3%D8%AA%20%DB%8C%D8%A7%20%D9%86%D9%87" target="_blank" rel="noopener">تلگرام</a><a href="https://api.whatsapp.com/send?text=%D8%AE%D8%B1%DB%8C%D8%AF%D8%A7%D8%B1%20%D8%A2%D9%86%D9%84%D8%A7%DB%8C%D9%86%20%D8%B3%D8%A8%D8%AF%20%D8%B1%D8%A7%20%D8%B1%D9%87%D8%A7%20%D9%85%DB%8C%E2%80%8C%DA%A9%D9%86%D8%AF%20%DA%86%D9%88%D9%86%20%D9%86%D9%85%DB%8C%E2%80%8C%D8%AF%D8%A7%D9%86%D8%AF%20%D8%A7%D9%86%D8%AF%D8%A7%D8%B2%D9%87%20%D8%A7%D8%B3%D8%AA%20%DB%8C%D8%A7%20%D9%86%D9%87%20https%3A%2F%2Fvandidad.xyz%2Fhamzad%2Fkharidar-online-ke-tardid-mikonad" target="_blank" rel="noopener">واتساپ</a><button type="button" class="copy" data-url="https://vandidad.xyz/hamzad/kharidar-online-ke-tardid-mikonad">کپی نشانی</button></div>
 <div class="cta"><p>می‌خواهید ببینید این برای کارِ خودتان چه شکلی می‌شود؟</p><p><a href="/">همین‌جا با دستیار حرف بزنید</a> — یک جمله درباره‌ی کارتان کافی است.</p></div>
 <footer>
-  <div><a href="/">صفحه‌ی اصلی</a><a href="/blog">بلاگ</a><a href="/hamzad">همزاد</a><a href="/about">درباره‌ی ما</a></div>
+  <div><a href="/">صفحه‌ی اصلی</a><a href="/hamzad">مقالات</a><a href="/about">درباره‌ی ما</a></div>
   <div style="margin-top:10px"><a href="/privacy">حریم خصوصی</a><a href="/terms">شرایط استفاده</a><a href="/data-deletion">حذف اطلاعات</a></div>
   <div style="margin-top:14px;opacity:.75">Vandidad Group · Konak, İzmir, Türkiye · <a href="mailto:ai@vandidad.xyz">ai@vandidad.xyz</a></div>
 </footer>
 </div>
+<script>
+/* A reading-progress line. It is the whole of this site's article JavaScript,
+   and it is written so that failing changes nothing: the bar starts at zero
+   width, and if this never runs the page is exactly what it was. */
+(function () {
+  var bar = document.getElementById("progress");
+  if (!bar) return;
+  function draw() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? Math.min(100, (window.scrollY / h) * 100) : 0) + "%";
+  }
+  addEventListener("scroll", draw, { passive: true });
+  addEventListener("resize", draw);
+  draw();
+})();
+
+/* Copy the address. navigator.clipboard exists only on a secure origin and
+   only with permission, so the older selection trick is kept as the fallback
+   rather than leaving the button dead for whoever lands in that case. */
+(function () {
+  var b = document.querySelector(".share .copy");
+  if (!b) return;
+  b.addEventListener("click", function () {
+    var url = b.getAttribute("data-url"), done = function () {
+      var was = b.textContent;
+      b.textContent = "کپی شد";
+      setTimeout(function () { b.textContent = was; }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, fallback);
+    } else { fallback(); }
+    function fallback() {
+      var f = document.createElement("input");
+      f.value = url;
+      document.body.appendChild(f);
+      f.select();
+      try { document.execCommand("copy"); done(); } catch (e) {}
+      document.body.removeChild(f);
+    }
+  });
+})();
+</script>
 </body>
 </html>

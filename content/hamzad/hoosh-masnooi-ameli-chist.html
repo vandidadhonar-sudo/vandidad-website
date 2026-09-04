@@ -110,7 +110,7 @@
    "image": "https://vandidad.xyz/hero-poster.jpg",
    "keywords": "هوش-مصنوعی-عاملی, ایجنت-هوش-مصنوعی, خودمختاری, حد-اختیار, کسب-وکار-ایرانی",
    "abstract": "Agentic AI is usually explained as a smarter model. It is not: the difference is permission, not intelligence. Written by Hadi Bakhtzadeh, AI systems architect at Vandidad Group in İzmir, Türkiye, this article describes what changes when a system is allowed to act rather than only answer — it can now be wrong in ways that cost money — and sets out the three decisions that matter more than model choice: what the system may promise, what it may spend, and what it must hand to a person. It argues that autonomy is a dial rather than a switch, and that the useful question when buying such a system is not what it can do but what it is forbidden to do.",
-   "articleSection": "Hamzad",
+   "articleSection": "Articles",
    "wordCount": 1694,
    "isAccessibleForFree": true,
    "about": [
@@ -135,7 +135,7 @@
     {
      "@type": "ListItem",
      "position": 2,
-     "name": "همزاد",
+     "name": "مقالات",
      "item": "https://vandidad.xyz/hamzad"
     },
     {
@@ -191,9 +191,26 @@
   :root{--ink:#0b0a08;--gold:#e3c88a;--gold-dim:#a8945f;--paper:#ece7db;--muted:#8d8578;--rule:#26221a}
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
+  /* A Persian reading stack, not the Latin system stack that was here. The
+     old list started at -apple-system and reached Tahoma only as a fallback,
+     which is what most Iranian readers were actually served — a font drawn
+     for interface labels, not for a thousand words in a row.
+     Vazirmatn first (installed on many machines, and the face we intend to
+     self-host), then the sans faces common on Iranian systems, then Tahoma.
+     No webfont is fetched: Google Fonts is unreliable from Iran, and a page
+     that waits on a blocked font shows nothing at all. */
   body{margin:0;background:var(--ink);color:var(--paper);padding:0 24px 96px;
-    font:400 17px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Roboto,Helvetica,Arial,sans-serif}
+    font:400 18.5px/2.0 Vazirmatn,"Vazir","IRANSans","IRANYekan",Sahel,Shabnam,
+      "Segoe UI",Tahoma,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif}
+  /* Persian sits lower on the line and carries marks above it, so the same
+     leading that reads comfortably in Latin looks cramped here. */
   .wrap{max-width:720px;margin:0 auto}
+  /* How far through the article the reader is. Purely decorative: if the
+     script does not run, the bar stays at zero width and nothing else on the
+     page depends on it. */
+  #progress{position:fixed;top:0;inset-inline-start:0;height:2px;width:0;
+    background:var(--gold);z-index:9;transition:width .1s linear}
+  .readtime{color:var(--gold-dim)}
   header{padding:56px 0 0}
   .eyebrow{font:500 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.22em;
     text-transform:uppercase;color:var(--gold-dim);margin:0 0 18px}
@@ -202,11 +219,11 @@
   h1{font:400 clamp(27px,4.6vw,40px)/1.28 "Iowan Old Style",Palatino,Georgia,serif;
     color:var(--gold);margin:0 0 12px;letter-spacing:-.01em}
   .meta{font:400 13px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);margin:0}
-  .lede{color:#c9c3b6;font-size:18px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
+  .lede{color:#ded8cb;font-size:19.5px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
   article{padding-top:8px}
   article h2{font:600 20px/1.5 inherit;color:var(--gold);margin:38px 0 12px}
   article h3{font:600 16px/1.5 inherit;color:var(--gold-dim);margin:28px 0 8px}
-  p,li{color:#c9c3b6;margin:0 0 16px}
+  p,li{color:#ded8cb;margin:0 0 18px}
   ul,ol{padding-inline-start:22px;margin:0 0 16px}
   a{color:var(--gold);text-underline-offset:3px}
   blockquote{border-inline-start:2px solid var(--gold-dim);margin:0 0 18px;
@@ -224,12 +241,19 @@
   .faq{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
   .faq h2{font-size:20px;margin:0 0 18px}
   .faq dt{font-weight:600;color:var(--gold);margin-top:20px}
-  .faq dd{margin:8px 0 0;color:#c9c3b6}
+  .faq dd{margin:8px 0 0;color:#ded8cb}
   .summary{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
   .summary h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.2em;
     text-transform:uppercase;color:var(--gold-dim);margin:0 0 12px}
   .summary p{font-size:15.5px;color:var(--muted);margin:0}
   .ltr{direction:ltr;text-align:left}
+  .share{margin-top:40px;padding-top:22px;border-top:1px solid var(--rule);
+    display:flex;flex-wrap:wrap;align-items:center;gap:14px;font-size:14px}
+  .share span{color:var(--muted)}
+  .share a,.share button{color:var(--gold);text-decoration:none;font:inherit;
+    background:none;border:1px solid var(--rule);border-radius:6px;
+    padding:6px 14px;cursor:pointer;transition:border-color .3s}
+  .share a:hover,.share button:hover{border-color:var(--gold-dim)}
   .cta{margin-top:44px;padding:24px;border:1px solid var(--rule);border-radius:8px}
   .cta p{margin:0 0 10px;color:#c9c3b6}
   .cta a{font-weight:600}
@@ -246,11 +270,12 @@
 </style>
 </head>
 <body>
+<div id="progress"></div>
 <div class="wrap">
 <header>
-<p class="eyebrow"><a href="/hamzad">همزاد</a></p>
+<p class="eyebrow"><a href="/hamzad">مقالات</a></p>
 <h1>هوش مصنوعی عاملی چیست و کجا نباید به آن اختیار داد</h1>
-<p class="meta">نویسنده: <a href="/about" rel="author">هادی بخت‌زاده</a> · ۴ سپتامبر ۲۰۲۶ · به‌روزرسانی ۴ سپتامبر ۲۰۲۶</p>
+<p class="meta">نویسنده: <a href="/about" rel="author">هادی بخت‌زاده</a> · ۴ سپتامبر ۲۰۲۶ · به‌روزرسانی ۴ سپتامبر ۲۰۲۶ · <span class="readtime">حدود ۸ دقیقه</span></p>
 <p class="lede">تفاوت هوش مصنوعی عاملی با یک مدل زبانی معمولی، و سه جایی که دادن اختیار به سیستم برای یک کسب‌وکار گران تمام می‌شود.</p>
 </header>
 <article><p>«هوش مصنوعی عاملی» را معمولاً این‌طور توضیح می‌دهند: نسل بعدی، باهوش‌تر، خودمختار. این توضیح دقیق نیست و به همین دلیل هم گمراه‌کننده است. تفاوت در هوش نیست؛ در <strong>اجازه</strong> است.</p>
@@ -318,12 +343,55 @@
 <section class="faq"><h2>پرسش‌های پرتکرار</h2><dl><dt>هوش مصنوعی عاملی با چت‌جی‌پی‌تی چه فرقی دارد؟</dt><dd>یک مدل زبانی معمولی به پرسش شما پاسخ می‌دهد و همان‌جا تمام می‌شود. هوش مصنوعی عاملی یک هدف می‌گیرد و برای رسیدن به آن چند قدم برمی‌دارد: تصمیم می‌گیرد چه چیزی را باید بداند، آن را پیدا می‌کند، کاری انجام می‌دهد و نتیجه را بررسی می‌کند. فرق در اجازهٔ عمل است، نه در باهوش‌تر بودن.</dd><dt>خودمختاری در هوش مصنوعی به چه معناست؟</dt><dd>یعنی سیستم بدون پرسیدن از آدم تصمیم بگیرد و عمل کند. این یک کلید صفر و یک نیست بلکه یک درجه است: می‌شود اجازه داد سیستم خودش پاسخ بدهد، ولی اجازهٔ قیمت‌دادن یا تعهد تحویل نداشته باشد.</dd><dt>آیا هوش مصنوعی عاملی برای کسب‌وکار کوچک هم معنا دارد؟</dt><dd>بله، ولی نه به این شکل که همه‌کاره باشد. برای کسب‌وکار کوچک، سیستمی که فقط پیام‌های ساعت دو بامداد را جواب بدهد و اطلاعات لازم را بگیرد و بگذارد صبح آدم تصمیم بگیرد، ارزش بیشتری دارد تا سیستمی که خودش تا آخر معامله می‌رود.</dd><dt>بزرگ‌ترین خطر ایجنت هوش مصنوعی چیست؟</dt><dd>اینکه چیزی را قول بدهد که کسب‌وکار نمی‌تواند پایش بایستد — قیمتی که نداریم، زمان تحویلی که نمی‌رسد، یا قراری که کسی سرش نیست. این خطر با انتخاب مدل بهتر برطرف نمی‌شود؛ با تعریف حد اختیار برطرف می‌شود.</dd></dl></section>
 <section class="summary ltr" lang="en" dir="ltr"><h2>In English</h2><p>Agentic AI is usually explained as a smarter model. It is not: the difference is permission, not intelligence. Written by Hadi Bakhtzadeh, AI systems architect at Vandidad Group in İzmir, Türkiye, this article describes what changes when a system is allowed to act rather than only answer — it can now be wrong in ways that cost money — and sets out the three decisions that matter more than model choice: what the system may promise, what it may spend, and what it must hand to a person. It argues that autonomy is a dial rather than a switch, and that the useful question when buying such a system is not what it can do but what it is forbidden to do.</p></section>
 <section class="summary ltr" lang="tr" dir="ltr"><h2>Türkçe özet</h2><p>Etmen tabanlı yapay zekâ genellikle daha akıllı bir model olarak anlatılır; oysa fark zekâda değil, izindedir. İzmir&#x27;de Vandidad Group&#x27;un yapay zekâ sistem mimarı Hadi Bahtzade tarafından yazılmıştır. Metin, bir sistemin yalnız yanıt vermek yerine eylemde bulunmasına izin verildiğinde neyin değiştiğini ve model seçiminden daha önemli olan üç kararı ortaya koyar: sistem ne söz verebilir, ne harcayabilir ve neyi bir insana devretmek zorundadır.</p></section>
+<div class="share"><span>این را برای کسی بفرستید:</span><a href="https://t.me/share/url?url=https%3A%2F%2Fvandidad.xyz%2Fhamzad%2Fhoosh-masnooi-ameli-chist&text=%D9%87%D9%88%D8%B4%20%D9%85%D8%B5%D9%86%D9%88%D8%B9%DB%8C%20%D8%B9%D8%A7%D9%85%D9%84%DB%8C%20%DA%86%DB%8C%D8%B3%D8%AA%20%D9%88%20%DA%A9%D8%AC%D8%A7%20%D9%86%D8%A8%D8%A7%DB%8C%D8%AF%20%D8%A8%D9%87%20%D8%A2%D9%86%20%D8%A7%D8%AE%D8%AA%DB%8C%D8%A7%D8%B1%20%D8%AF%D8%A7%D8%AF" target="_blank" rel="noopener">تلگرام</a><a href="https://api.whatsapp.com/send?text=%D9%87%D9%88%D8%B4%20%D9%85%D8%B5%D9%86%D9%88%D8%B9%DB%8C%20%D8%B9%D8%A7%D9%85%D9%84%DB%8C%20%DA%86%DB%8C%D8%B3%D8%AA%20%D9%88%20%DA%A9%D8%AC%D8%A7%20%D9%86%D8%A8%D8%A7%DB%8C%D8%AF%20%D8%A8%D9%87%20%D8%A2%D9%86%20%D8%A7%D8%AE%D8%AA%DB%8C%D8%A7%D8%B1%20%D8%AF%D8%A7%D8%AF%20https%3A%2F%2Fvandidad.xyz%2Fhamzad%2Fhoosh-masnooi-ameli-chist" target="_blank" rel="noopener">واتساپ</a><button type="button" class="copy" data-url="https://vandidad.xyz/hamzad/hoosh-masnooi-ameli-chist">کپی نشانی</button></div>
 <div class="cta"><p>می‌خواهید ببینید این برای کارِ خودتان چه شکلی می‌شود؟</p><p><a href="/">همین‌جا با دستیار حرف بزنید</a> — یک جمله درباره‌ی کارتان کافی است.</p></div>
 <footer>
-  <div><a href="/">صفحه‌ی اصلی</a><a href="/blog">بلاگ</a><a href="/hamzad">همزاد</a><a href="/about">درباره‌ی ما</a></div>
+  <div><a href="/">صفحه‌ی اصلی</a><a href="/hamzad">مقالات</a><a href="/about">درباره‌ی ما</a></div>
   <div style="margin-top:10px"><a href="/privacy">حریم خصوصی</a><a href="/terms">شرایط استفاده</a><a href="/data-deletion">حذف اطلاعات</a></div>
   <div style="margin-top:14px;opacity:.75">Vandidad Group · Konak, İzmir, Türkiye · <a href="mailto:ai@vandidad.xyz">ai@vandidad.xyz</a></div>
 </footer>
 </div>
+<script>
+/* A reading-progress line. It is the whole of this site's article JavaScript,
+   and it is written so that failing changes nothing: the bar starts at zero
+   width, and if this never runs the page is exactly what it was. */
+(function () {
+  var bar = document.getElementById("progress");
+  if (!bar) return;
+  function draw() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? Math.min(100, (window.scrollY / h) * 100) : 0) + "%";
+  }
+  addEventListener("scroll", draw, { passive: true });
+  addEventListener("resize", draw);
+  draw();
+})();
+
+/* Copy the address. navigator.clipboard exists only on a secure origin and
+   only with permission, so the older selection trick is kept as the fallback
+   rather than leaving the button dead for whoever lands in that case. */
+(function () {
+  var b = document.querySelector(".share .copy");
+  if (!b) return;
+  b.addEventListener("click", function () {
+    var url = b.getAttribute("data-url"), done = function () {
+      var was = b.textContent;
+      b.textContent = "کپی شد";
+      setTimeout(function () { b.textContent = was; }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, fallback);
+    } else { fallback(); }
+    function fallback() {
+      var f = document.createElement("input");
+      f.value = url;
+      document.body.appendChild(f);
+      f.select();
+      try { document.execCommand("copy"); done(); } catch (e) {}
+      document.body.removeChild(f);
+    }
+  });
+})();
+</script>
 </body>
 </html>
