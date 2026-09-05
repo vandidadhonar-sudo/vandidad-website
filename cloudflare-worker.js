@@ -52,6 +52,7 @@ const INDEX_URL = RAW + "/index.html";
 // Route → file in the repository. One line per page, forever.
 const PAGES = {
   "/about": "/about.html",
+  "/hadi-bakhtzadeh": "/hadi-bakhtzadeh.html",
   "/privacy": "/privacy.html",
   "/terms": "/terms.html",
   "/data-deletion": "/data-deletion.html",

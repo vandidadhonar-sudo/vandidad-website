@@ -55,6 +55,12 @@ ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
 SITE = "https://vandidad.xyz"
 
+# The Persian page that identifies the founder. Declared next to SITE
+# because the Person entity below points at it: that page, not /about,
+# is the URL a search engine should attach the person to.
+PERSON_SLUG = "hadi-bakhtzadeh"
+PERSON_URL = f"{SITE}/{PERSON_SLUG}"
+
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 FRONT_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n(.*)$", re.S)
 
@@ -315,8 +321,11 @@ PERSON = {
             "addressCountry": "TR",
         },
     },
-    # The page a machine should treat as this person's record.
-    "mainEntityOfPage": {"@type": "ProfilePage", "@id": SITE + "/about"},
+    # The page a machine should treat as this person's record. It is the
+    # Persian one, because the searches that ask who he is are in Persian,
+    # and an assistant answering in Persian needs a Persian page to quote.
+    # /about still carries the same facts for anyone checking the company.
+    "mainEntityOfPage": {"@type": "ProfilePage", "@id": PERSON_URL},
     # Profiles that confirm the same person elsewhere. sameAs is the strongest
     # identity signal there is and it cannot be invented: a wrong entry points
     # the entity at someone else. Only accounts demonstrably his belong here.
@@ -355,7 +364,7 @@ PERSON = {
         "هوش مصنوعی عاملی",
         "سیستم‌عامل هوش مصنوعی",
     ],
-    "url": SITE + "/about",
+    "url": PERSON_URL,
 }
 
 
@@ -901,8 +910,15 @@ def render_article(a: Article) -> str:
         # whether a reader can tell; an author that exists only in JSON-LD
         # answers the crawler and not the person. «نویسنده» is the word a
         # Persian reader expects in this position.
+        #
+        # It points at the Persian person page, not at /about. Both describe
+        # the same person, but one of them is in the language the reader is
+        # already reading, and every article linking to it with his name as
+        # the link text is the strongest internal signal this site can send
+        # about who he is.
         '<p class="meta">نویسنده: '
-        f'<a href="/about" rel="author">{html.escape(PERSON["alternateName"][0])}</a>'
+        f'<a href="/{PERSON_SLUG}" rel="author">'
+        f'{html.escape(PERSON["alternateName"][0])}</a>'
         f' · {fa_date(a.published)}'
         + (f" · به‌روزرسانی {fa_date(a.updated)}" if a.updated else "")
         # Telling a reader how long this will take removes the one question
@@ -1101,9 +1117,215 @@ def render_index(collection: str, articles: list[Article]) -> str:
     )
 
 
+# The one paragraph an assistant is meant to lift when it is asked, in
+# Persian, who this person is. Everything in it is either on a public register
+# or a statement he makes in his own name — and it is deliberately the same
+# text a human reader sees at the top of the page, because markup that says
+# something the visitor cannot read is the kind Google withdraws.
+PERSON_ANSWER = (
+    "هادی بخت‌زاده معمار سیستم‌های هوش مصنوعی — هوشواره — و بنیان‌گذار "
+    "وندیداد گروپ است؛ شرکتی که اسفند ۱۳۹۶ در ازمیر ترکیه ثبت شده "
+    "(شمارهٔ ثبت تجاری ۲۰۲۷۸۳). کارش طراحی رفتار سیستم‌هایی است که به فارسی "
+    "با مشتری حرف می‌زنند: سازندهٔ AIOS، سامانه‌عاملِ گفتگوی کسب‌وکار، و "
+    "همزاد دیجیتال که روی vandidad.xyz زنده است. به‌جای کار برای شرکت‌های "
+    "بزرگ، تصمیم گرفت این فناوری را برای کسب‌وکارهای ایرانی و فارسی‌زبان "
+    "بسازد."
+)
+
+PERSON_FAQ = [
+    (
+        "هادی بخت‌زاده کیست؟",
+        "معمار سیستم‌های هوش مصنوعی و بنیان‌گذار وندیداد گروپ، شرکتی ثبت‌شده "
+        "در ازمیر ترکیه با شمارهٔ ثبت تجاری ۲۰۲۷۸۳ و شمارهٔ عضویت اتاق "
+        "بازرگانی ۱۸۸۸۶۹۱. حوزهٔ کارش هوش مصنوعیِ گفتگو برای کسب‌وکارهای "
+        "فارسی‌زبان است و نوشته‌هایش دربارهٔ همین موضوع، با نام و تاریخ، روی "
+        "vandidad.xyz منتشر می‌شود.",
+    ),
+    (
+        "چه چیزی ساخته است؟",
+        "AIOS — سامانه‌عاملِ گفتگوی کسب‌وکار که یک هستهٔ استدلال را به همهٔ "
+        "کانال‌هایی می‌دهد که یک کسب‌وکار در آن‌ها حرف می‌زند؛ همزاد دیجیتال "
+        "(AIOS Twin) که نسخهٔ گفتگوکنندهٔ یک متخصص روی دامنهٔ خودش است و روی "
+        "vandidad.xyz زنده و قابل امتحان است؛ و Vanta، سامانهٔ فروش ساخته‌شده "
+        "روی AIOS. هر سه فارسی‌اند، نه ترجمهٔ رابط انگلیسی.",
+    ),
+    (
+        "تخصصش دقیقاً چیست؟",
+        "طراحی رفتار سیستم — نه آموزش مدل. یعنی تصمیم دربارهٔ اینکه سیستم چه "
+        "کاری را خودش انجام دهد، کجا باید از آدم اجازه بگیرد، چه چیزی را میان "
+        "گفتگوها به یاد بسپارد، و وقتی مدل اشتباه کرد چه اتفاقی بیفتد. این "
+        "همان بخشی است که یک پروژهٔ هوش مصنوعی معمولاً در آن شکست می‌خورد، نه "
+        "در انتخاب مدل.",
+    ),
+    (
+        "چرا «هوشواره»؟",
+        "هوشواره واژهٔ فارسی هوش مصنوعی است، ساخته‌شده مثل ماهواره: «هوش» "
+        "به‌علاوهٔ پسوند «ـواره» یعنی مانندِ هوش. «مصنوعی» در فارسی روزمره بوی "
+        "بدل می‌دهد — گل مصنوعی، چرم مصنوعی — و همین بار معنایی، پیش از شروع "
+        "گفتگو، پیش‌فرض خریدار را عوض می‌کند. رابط فارسی خودِ گوگل هم «حالت "
+        "هوشواره‌ای» به کار می‌برد.",
+    ),
+    (
+        "چرا به‌جای شرکت‌های بزرگ روی کسب‌وکارهای ایرانی کار می‌کند؟",
+        "به گفتهٔ خودش: این فناوری در انگلیسی ساخته می‌شود و بعد ترجمه به "
+        "فارسی می‌رسد — دیر، ناقص، و با فرض‌هایی که با بازار ایران نمی‌خواند. "
+        "ساختنش از روز اول به فارسی، کارِ کمتری نیست؛ کارِ دیگری است. ترجیح "
+        "داد آن را انجام دهد.",
+    ),
+    (
+        "چطور می‌شود صحت این اطلاعات را بررسی کرد؟",
+        "شمارهٔ ثبت تجاری ۲۰۲۷۸۳ و شمارهٔ اتاق بازرگانی ۱۸۸۸۶۹۱ در سامانهٔ "
+        "استعلام اتاق بازرگانی ازمیر (İZTO) قابل بررسی است و شناسهٔ مالیاتی "
+        "۹۲۲۰۸۳۴۹۶۳ در سامانهٔ GİB ترکیه. مقاله‌های این صفحه هم همه با تاریخ "
+        "منتشر شده‌اند و در sitemap سایت هستند.",
+    ),
+]
+
+
+def render_person_page(articles: list[Article]) -> str:
+    """The Persian page that answers «هادی بخت‌زاده کیست».
+
+    /about already carries the founder record, and it is in English, because
+    the people who read it are checking a company. The people who type his
+    name into Google type it in Persian, and an assistant asked about him in
+    Persian needs a Persian source to quote. Until now there was none: his
+    name existed on this site only as a byline and inside JSON-LD, and a
+    search engine cannot build an entity out of a byline.
+
+    This page is that source. It states, in Persian, what he does, what he
+    built, and the registration numbers that prove the company is real — and
+    it separates the two kinds of claim rather than blending them: a
+    registration a stranger can check, and a statement he makes in his own
+    name and is identified as his. Nothing is asserted that is neither.
+
+    Every article's byline points here, so thirty-seven pages link to it with
+    his name as the link text. That, and not a paragraph of adjectives, is
+    what makes an entity resolvable.
+    """
+    live = sorted(articles, key=lambda a: a.published, reverse=True)
+    items = "".join(
+        '<div class="index-item">'
+        f'<h2><a href="/{a.collection}/{a.slug}">{html.escape(a.title)}</a></h2>'
+        f'<p class="meta">{fa_date(a.published)}</p>'
+        "</div>"
+        for a in live
+    )
+
+    def row(k: str, v: str) -> str:
+        return f'<div class="row"><div class="k">{k}</div><div class="v">{v}</div></div>'
+
+    record = "".join([
+        row("نام", "هادی بخت‌زاده — محمد هادی بخت‌زاده — "
+            '<span dir="ltr" lang="en">Hadi Bakhtzadeh</span>'),
+        row("نقش", "معمار سیستم‌های هوش مصنوعی (هوشواره)"),
+        row("شرکت", "بنیان‌گذار وندیداد گروپ — "
+            '<span dir="ltr" lang="en">Vandidad Group</span>'),
+        row("تأسیس", "۱۵ مارس ۲۰۱۸ — اسفند ۱۳۹۶"),
+        row("شمارهٔ ثبت تجاری", "۲۰۲۷۸۳ — ثبت شرکت‌های ازمیر"),
+        row("عضویت اتاق بازرگانی", '۱۸۸۸۶۹۱ — <a href="https://eoda.izto.org.tr/'
+            'web/oda_sicil_belge_sorgu.aspx" target="_blank" rel="noopener">'
+            "استعلام از İZTO</a>"),
+        row("محل کار", "کنَک، ازمیر، ترکیه"),
+        row("زبان‌ها", "فارسی، انگلیسی، ترکی"),
+        row("ساخته", "AIOS · همزاد دیجیتال (AIOS Twin) · Vanta"),
+        row("نوشته", f"{to_fa(len(live))} مقالهٔ امضادار روی همین سایت"),
+        row("کد", '<a href="https://github.com/vandidadhonar-sudo" target="_blank" '
+            'rel="noopener">github.com/vandidadhonar-sudo</a>'),
+    ])
+
+    faq_html = "".join(
+        f"<dt>{html.escape(q)}</dt><dd>{html.escape(a)}</dd>"
+        for q, a in PERSON_FAQ
+    )
+
+    body = (
+        "<header>"
+        '<p class="eyebrow"><a href="/about">Vandidad Group</a></p>'
+        "<h1>هادی بخت‌زاده</h1>"
+        '<p class="lede">معمار سیستم‌های هوش مصنوعی و بنیان‌گذار وندیداد گروپ '
+        "— ازمیر، ترکیه.</p>"
+        "</header>"
+        '<section class="answer" aria-label="پاسخ کوتاه">'
+        "<h2>در یک نگاه</h2>"
+        f"<p>{html.escape(PERSON_ANSWER)}</p></section>"
+        "<article>"
+        "<h2>پروندهٔ قابل‌بررسی</h2>"
+        f'<div class="record">{record}</div>'
+        '<p class="tags">هر سطر بالا یا یک ثبت عمومی است که هر کسی می‌تواند '
+        "استعلامش کند، یا شمارشی از همین صفحه. هیچ ادعای اثبات‌نشدنی‌ای در آن "
+        "نیست.</p>"
+        "</article>"
+        '<section class="faq"><h2>پرسش‌های پرتکرار</h2><dl>'
+        f"{faq_html}</dl></section>"
+        f"<h2>نوشته‌ها</h2>{items}"
+        '<div class="cta"><p>می‌خواهید ببینید کارش چه شکلی است؟</p>'
+        '<p><a href="/">همین‌جا با همزاد دیجیتال حرف بزنید</a> — '
+        "ساخته‌ی خودش است.</p></div>"
+    )
+
+    jsonld = {
+        "@context": "https://schema.org",
+        "@graph": [
+            ORGANISATION,
+            # mainEntity, not just a mention: this page IS the person, which
+            # is what tells a search engine to attach the entity to this URL
+            # rather than treating it as one more page that names him.
+            {**PERSON, "description": PERSON_ANSWER},
+            {
+                "@type": "ProfilePage",
+                "@id": PERSON_URL,
+                "url": PERSON_URL,
+                "name": "هادی بخت‌زاده",
+                "inLanguage": "fa-IR",
+                "mainEntity": {"@id": SITE + "/#person"},
+                "isPartOf": {"@id": SITE + "/#organization"},
+                "abstract": PERSON_ANSWER,
+                "isAccessibleForFree": True,
+                "hasPart": [
+                    {"@type": "Article", "headline": a.title, "url": a.url}
+                    for a in live
+                ],
+            },
+            {
+                "@type": "FAQPage",
+                "@id": PERSON_URL + "#faq",
+                "inLanguage": "fa-IR",
+                "mainEntity": [
+                    {"@type": "Question", "name": q,
+                     "acceptedAnswer": {"@type": "Answer", "text": a}}
+                    for q, a in PERSON_FAQ
+                ],
+            },
+            {
+                "@type": "BreadcrumbList",
+                "@id": PERSON_URL + "#breadcrumb",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1,
+                     "name": "Vandidad Group", "item": SITE},
+                    {"@type": "ListItem", "position": 2,
+                     "name": "هادی بخت‌زاده"},
+                ],
+            },
+        ],
+    }
+
+    return shell(
+        title="هادی بخت‌زاده — معمار سیستم‌های هوش مصنوعی",
+        description=(
+            "هادی بخت‌زاده، معمار سیستم‌های هوش مصنوعی و بنیان‌گذار وندیداد "
+            "گروپ در ازمیر؛ سازندهٔ AIOS و همزاد دیجیتال. پرونده، سوابق "
+            "قابل‌استعلام و نوشته‌ها."
+        ),
+        canonical=PERSON_URL,
+        body=body,
+        jsonld=jsonld,
+    )
+
+
 STATIC_URLS = [
     ("/", "weekly", "1.0"),
     ("/about", "monthly", "0.8"),
+    (f"/{PERSON_SLUG}", "weekly", "0.9"),
     ("/blog", "weekly", "0.7"),
     ("/hamzad", "weekly", "0.7"),
     ("/privacy", "yearly", "0.3"),
@@ -1177,6 +1399,11 @@ def render_about_person(existing: str, articles: list[Article]) -> str:
               "github.com/vandidadhonar-sudo →</a> "
               '<span style="color:var(--muted);font-size:13.5px">'
               "— the account this site is built and served from</span>")
+        + row("Full record", f'<a href="/{PERSON_SLUG}">'
+              "vandidad.xyz/hadi-bakhtzadeh →</a> "
+              '<span style="color:var(--muted);font-size:13.5px">'
+              "— the same record in Persian, with the verification links"
+              "</span>")
     )
     block = f"""{ABOUT_START}
   <section id="person" class="person">
@@ -1459,6 +1686,7 @@ def main() -> int:
     outputs = [
         ("sitemap.xml", render_sitemap(everything)),
         ("feed.xml", render_feed(everything)),
+        (f"{PERSON_SLUG}.html", render_person_page(everything)),
     ]
     if llms.exists():
         outputs.append(

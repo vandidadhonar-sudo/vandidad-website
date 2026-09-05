@@ -208,7 +208,10 @@ class Byline(unittest.TestCase):
         self.assertIn("هادی بخت‌زاده", self._render())
 
     def test_the_byline_links_to_the_page_that_identifies_him(self):
-        self.assertIn('href="/about" rel="author"', self._render())
+        # The Persian person page, not /about. Someone reading a Persian
+        # article who wants to know who wrote it should not be handed an
+        # English company page.
+        self.assertIn('href="/hadi-bakhtzadeh" rel="author"', self._render())
 
     def test_the_structured_data_still_names_the_same_person(self):
         self.assertIn('"@id": "https://vandidad.xyz/#person"', self._render())
@@ -341,8 +344,21 @@ class PersonEntity(unittest.TestCase):
     def test_the_person_has_one_identity(self):
         self.assertEqual(bc.PERSON["@id"], bc.SITE + "/#person")
 
-    def test_the_about_page_is_declared_as_his_record(self):
-        self.assertEqual(bc.PERSON["mainEntityOfPage"]["@id"], bc.SITE + "/about")
+    def test_one_page_is_declared_as_his_record(self):
+        # The Persian person page. Whatever it is, mainEntityOfPage and url
+        # must name the same page: two answers to "which page is this person"
+        # is the same defect as no answer.
+        self.assertEqual(bc.PERSON["mainEntityOfPage"]["@id"], bc.PERSON_URL)
+        self.assertEqual(bc.PERSON["url"], bc.PERSON_URL)
+
+    def test_the_person_page_answers_the_question_in_persian(self):
+        page = bc.render_person_page([])
+        for must in ("هادی بخت‌زاده کیست؟", "هوشواره", "۲۰۲۷۸۳",
+                     '<html lang="fa"', "ProfilePage", "FAQPage"):
+            self.assertIn(must, page)
+
+    def test_the_person_page_is_in_the_sitemap(self):
+        self.assertIn(bc.PERSON_URL, bc.render_sitemap([]))
 
     def test_sameAs_is_present_even_when_empty(self):
         # The field must exist so adding a real profile is one line, and it
