@@ -242,17 +242,64 @@ ORGANISATION = {
     "founder": {"@id": SITE + "/#person"},
 }
 
+# One person, one identity, every spelling.
+#
+# Searching the owner's name in Persian returned, from Google's own AI
+# overview, "no detailed biography published on the web" — and for one
+# spelling, "not registered in official sources". Two defects caused that.
+#
+# First, the name was written four ways across this site — Hadi Bakhtzadeh,
+# Hadi Bahtzade, هادی بخت‌زاده, Mohammadhadi Bakhtzadeh — and the form he
+# actually searched, محمد هادی بخت‌زاده, appeared nowhere. Second, the founder
+# named on /about carried a bare Person object with no @id, so nothing tied
+# it to the author of the articles. To a search engine those are two people,
+# each with almost no record.
+#
+# Every spelling now sits in alternateName on a single @id that /about and
+# every article share. A model resolving any one of them arrives at the same
+# entity, and that entity has the articles attached to it.
 PERSON = {
     "@type": "Person",
     "@id": SITE + "/#person",
     "name": "Hadi Bakhtzadeh",
-    "alternateName": ["هادی بخت‌زاده", "Hadi Bahtzade"],
+    "alternateName": [
+        "هادی بخت‌زاده",
+        "محمد هادی بخت‌زاده",
+        "هادی بخت زاده",
+        "محمدهادی بخت‌زاده",
+        "Mohammadhadi Bakhtzadeh",
+        "Mohammad Hadi Bakhtzadeh",
+        "Hadi Bahtzade",
+        "M. Hadi Bakhtzadeh",
+    ],
+    "givenName": "Hadi",
+    "familyName": "Bakhtzadeh",
     "jobTitle": "Architect of Intelligent Systems",
     "description": (
-        "AI systems architect based in İzmir, Türkiye. Designs the behaviour of "
-        "AI systems for businesses: what they understand, how they speak, and "
-        "where they must refuse."
+        "AI systems architect and founder of Vandidad Group, a technology "
+        "company registered in İzmir, Türkiye (İzmir Trade Registry 202783, "
+        "founded March 2018). Designs the behaviour of AI systems for "
+        "businesses that sell in Persian: what they understand, how they "
+        "speak, what they remember between conversations, and where they must "
+        "refuse. Writes on AI systems architecture, agentic AI and "
+        "conversational design in Persian."
     ),
+    "nationality": {"@type": "Country", "name": "Iran"},
+    "workLocation": {
+        "@type": "Place",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Konak, İzmir",
+            "addressCountry": "TR",
+        },
+    },
+    # The page a machine should treat as this person's record.
+    "mainEntityOfPage": {"@type": "ProfilePage", "@id": SITE + "/about"},
+    # Profiles that confirm the same person elsewhere. sameAs is the strongest
+    # identity signal there is, and it cannot be invented — every entry has to
+    # be a real profile the owner controls. Empty until he supplies them.
+    "sameAs": [],
+    "founder": {"@id": SITE + "/#organization"},
     "worksFor": {"@id": SITE + "/#organization"},
     "knowsLanguage": ["fa", "en", "tr"],
     "knowsAbout": [
@@ -1025,6 +1072,83 @@ STATIC_URLS = [
 ]
 
 
+ABOUT_START = "<!-- PERSON:START -->"
+ABOUT_END = "<!-- PERSON:END -->"
+
+
+def render_about_person(existing: str, articles: list[Article]) -> str:
+    """Rewrite the person section of about.html from the articles themselves.
+
+    Searching the owner's name returns, from Google's own AI overview, that no
+    detailed biography is published. That is accurate: /about described the
+    company in verifiable detail — registry number, tax ID, links to the
+    Turkish government portals that confirm both — and described the person in
+    one sentence.
+
+    The company record works because every claim on it can be checked. The
+    person record is built the same way, out of things that are true and
+    demonstrable rather than adjectives: he founded a company whose
+    registration anyone can verify, and he has signed and dated a body of
+    published writing on one subject. The article list is generated here, from
+    the articles, so the claim and the evidence cannot drift apart — and so it
+    grows on its own as the queue publishes.
+
+    What is deliberately absent is anything unverifiable. No years of
+    experience, no client names, no degrees. Inventing those is what Google's
+    quality guidance is written against, and it would also be a lie.
+    """
+    if ABOUT_START not in existing or ABOUT_END not in existing:
+        return existing
+
+    live = sorted(articles, key=lambda a: a.published, reverse=True)
+    items = "".join(
+        f'<li><a href="{a.url}">{html.escape(a.title)}</a>'
+        f'<span class="d">{a.published.isoformat()}</span></li>'
+        for a in live
+    )
+    fa_name = PERSON["alternateName"][0]
+    block = f"""{ABOUT_START}
+  <section id="person" class="person">
+    <h2>Founder</h2>
+
+    <p class="pname">{html.escape(PERSON["name"])}
+      <span dir="rtl" lang="fa">{fa_name}</span></p>
+    <p class="prole">{html.escape(PERSON["jobTitle"])} ·
+      Founder, Vandidad Group · İzmir, Türkiye</p>
+
+    <p>Hadi Bakhtzadeh — also written Mohammadhadi Bakhtzadeh, and
+      <span dir="rtl" lang="fa">هادی بخت‌زاده</span> or
+      <span dir="rtl" lang="fa">محمد هادی بخت‌زاده</span> in Persian — founded
+      Vandidad Group in İzmir in March 2018. The company's registration can be
+      confirmed through the Turkish trade registry and tax portals linked in
+      the record above.</p>
+
+    <p>His work is the design of AI systems for businesses that sell in
+      Persian: deciding what a system may do on its own, where it must ask a
+      person, what it remembers about a customer between conversations, and
+      how it behaves when the model is wrong. He writes about that subject in
+      Persian, and the articles below are signed and dated.</p>
+
+    <div dir="rtl" lang="fa" class="fa">
+      <p><strong>هادی بخت‌زاده</strong> — معمار سیستم‌های هوش مصنوعی و
+        بنیان‌گذار وندیداد گروپ در ازمیر ترکیه. کارش طراحی رفتار سیستم‌های
+        هوش مصنوعی برای کسب‌وکارهایی است که به فارسی می‌فروشند: اینکه سیستم
+        چه کاری را خودش انجام دهد، کجا از آدم اجازه بگیرد، چه چیزی را میان
+        گفتگوها به یاد بسپارد، و وقتی مدل اشتباه کرد چه اتفاقی بیفتد.</p>
+      <p>نوشته‌هایش دربارهٔ همین موضوع است — سیستم‌عامل هوش مصنوعی، هوش
+        مصنوعی عاملی، ایجنت، و طراحی گفتگو به فارسی — و همه با نام و تاریخ
+        منتشر شده‌اند.</p>
+    </div>
+
+    <h3>Published writing <span class="n">{len(live)} articles</span></h3>
+    <ul class="works">{items}</ul>
+  </section>
+{ABOUT_END}"""
+    head, _, rest = existing.partition(ABOUT_START)
+    _, _, tail = rest.partition(ABOUT_END)
+    return head + block + tail
+
+
 def render_sitemap(articles: list[Article]) -> str:
     # A collection page with nothing on it is thin content. It stays reachable
     # from the footer, but it is not offered to a crawler until it has
@@ -1292,6 +1416,12 @@ def main() -> int:
     if llms.exists():
         outputs.append(
             ("llms.txt", render_llms(llms.read_text("utf-8"), everything))
+        )
+    about = ROOT / "about.html"
+    if about.exists():
+        outputs.append(
+            ("about.html",
+             render_about_person(about.read_text("utf-8"), everything))
         )
 
     for name, body in outputs:

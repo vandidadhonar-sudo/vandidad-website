@@ -326,6 +326,44 @@ class AnswerBlock(unittest.TestCase):
         self.assertFalse(bc._phrase_in("یک ایجنت فروش", "ایجنت پشتیبانی"))
 
 
+class PersonEntity(unittest.TestCase):
+    """Searching the owner's name returned "no detailed biography published"
+    and, for one spelling, "not registered in official sources". The cause was
+    four spellings across the site and a founder object with no @id tying it
+    to the author of the articles. These lock the repair shut."""
+
+    def test_every_spelling_he_might_be_searched_by_is_declared(self):
+        names = set(bc.PERSON["alternateName"]) | {bc.PERSON["name"]}
+        for spelling in ("هادی بخت‌زاده", "محمد هادی بخت‌زاده",
+                         "Mohammadhadi Bakhtzadeh", "Hadi Bakhtzadeh"):
+            self.assertIn(spelling, names)
+
+    def test_the_person_has_one_identity(self):
+        self.assertEqual(bc.PERSON["@id"], bc.SITE + "/#person")
+
+    def test_the_about_page_is_declared_as_his_record(self):
+        self.assertEqual(bc.PERSON["mainEntityOfPage"]["@id"], bc.SITE + "/about")
+
+    def test_sameAs_is_present_even_when_empty(self):
+        # The field must exist so adding a real profile is one line, and it
+        # must never be filled with a guess: a wrong sameAs points the entity
+        # at someone else.
+        self.assertIsInstance(bc.PERSON["sameAs"], list)
+
+    def test_the_generated_section_lists_the_articles(self):
+        page = ("x" + bc.ABOUT_START + "old" + bc.ABOUT_END + "y")
+        a = bc.Article(slug="s", collection="hamzad", title="عنوان",
+                       description="د", published=date(2026, 1, 1), body_md="م")
+        out = bc.render_about_person(page, [a])
+        self.assertIn("عنوان", out)
+        self.assertIn("2026-01-01", out)
+        self.assertNotIn("old", out)
+        self.assertTrue(out.startswith("x") and out.endswith("y"))
+
+    def test_a_page_without_markers_is_left_alone(self):
+        self.assertEqual(bc.render_about_person("no markers", []), "no markers")
+
+
 class Llms(unittest.TestCase):
     def test_it_replaces_only_its_own_section(self):
         existing = ("intro\n\n## Individual articles\n\nold list\n\n"

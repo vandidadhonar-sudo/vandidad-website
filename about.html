@@ -30,9 +30,76 @@
     "addressLocality": "Konak, İzmir",
     "addressCountry": "TR"
   },
-  "founder": {
+  "founder": { "@id": "https://vandidad.xyz/#person" },
+  "@id": "https://vandidad.xyz/#organization"
+}
+</script>
+
+<!-- The same person object every article carries, on the page a machine is
+     told to treat as his record. Without a shared @id, the founder named here
+     and the author of the articles are two entities with no biography each —
+     which is what Google's AI overview reported. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": "https://vandidad.xyz/about#profile",
+  "url": "https://vandidad.xyz/about",
+  "mainEntity": {
     "@type": "Person",
-    "name": "Mohammadhadi Bakhtzadeh"
+    "@id": "https://vandidad.xyz/#person",
+    "name": "Hadi Bakhtzadeh",
+    "alternateName": [
+      "هادی بخت‌زاده",
+      "محمد هادی بخت‌زاده",
+      "هادی بخت زاده",
+      "محمدهادی بخت‌زاده",
+      "Mohammadhadi Bakhtzadeh",
+      "Mohammad Hadi Bakhtzadeh",
+      "Hadi Bahtzade",
+      "M. Hadi Bakhtzadeh"
+    ],
+    "givenName": "Hadi",
+    "familyName": "Bakhtzadeh",
+    "jobTitle": "Architect of Intelligent Systems",
+    "description": "AI systems architect and founder of Vandidad Group, a technology company registered in İzmir, Türkiye (İzmir Trade Registry 202783, founded March 2018). Designs the behaviour of AI systems for businesses that sell in Persian: what they understand, how they speak, what they remember between conversations, and where they must refuse. Writes on AI systems architecture, agentic AI and conversational design in Persian.",
+    "nationality": {
+      "@type": "Country",
+      "name": "Iran"
+    },
+    "workLocation": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Konak, İzmir",
+        "addressCountry": "TR"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "ProfilePage",
+      "@id": "https://vandidad.xyz/about"
+    },
+    "sameAs": [],
+    "founder": {
+      "@id": "https://vandidad.xyz/#organization"
+    },
+    "worksFor": {
+      "@id": "https://vandidad.xyz/#organization"
+    },
+    "knowsLanguage": [
+      "fa",
+      "en",
+      "tr"
+    ],
+    "knowsAbout": [
+      "AI systems architecture",
+      "Persian-language conversational design",
+      "sales conversation design",
+      "هوشواره",
+      "هوش مصنوعی عاملی",
+      "سیستم‌عامل هوش مصنوعی"
+    ],
+    "url": "https://vandidad.xyz/about"
   }
 }
 </script>
@@ -135,6 +202,28 @@
   }
   footer a{color:var(--gold-dim)}
   a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  /* --- founder --- */
+  .pname{font:400 26px/1.3 "Iowan Old Style",Palatino,Georgia,serif;
+    color:var(--gold);margin:0 0 4px}
+  .pname span{font-size:20px;color:var(--gold-dim);margin-inline-start:10px}
+  .prole{font:500 13px/1.6 ui-monospace,Menlo,Consolas,monospace;
+    color:var(--muted);margin:0 0 22px}
+  .person .fa{border-inline-start:2px solid var(--rule);padding-inline-start:18px;
+    margin:26px 0;font-family:Vazirmatn,"Segoe UI",Tahoma,sans-serif;
+    font-size:16px;line-height:2}
+  .person h3{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dim);
+    margin:34px 0 14px}
+  .person h3 .n{color:var(--muted);letter-spacing:.06em;margin-inline-start:8px}
+  .works{list-style:none;padding:0;margin:0}
+  .works li{padding:9px 0;border-bottom:1px solid var(--rule);
+    display:flex;gap:12px;justify-content:space-between;align-items:baseline}
+  .works li:last-child{border-bottom:0}
+  .works a{color:var(--paper);text-decoration:none;font-size:15.5px;
+    direction:rtl;text-align:right;flex:1 1 auto}
+  .works a:hover{color:var(--gold)}
+  .works .d{font:400 12px/1.6 ui-monospace,Menlo,Consolas,monospace;
+    color:var(--muted);flex:0 0 auto}
   @media (max-width:520px){ .k{flex-basis:100%} }
 </style>
 </head>
@@ -189,6 +278,44 @@
     </div>
     <p class="note">Turkish company records are held digitally. Both registrations above can be confirmed in real time through the official government portals linked here.</p>
   </section>
+
+<!-- PERSON:START -->
+  <section id="person" class="person">
+    <h2>Founder</h2>
+
+    <p class="pname">Hadi Bakhtzadeh
+      <span dir="rtl" lang="fa">هادی بخت‌زاده</span></p>
+    <p class="prole">Architect of Intelligent Systems ·
+      Founder, Vandidad Group · İzmir, Türkiye</p>
+
+    <p>Hadi Bakhtzadeh — also written Mohammadhadi Bakhtzadeh, and
+      <span dir="rtl" lang="fa">هادی بخت‌زاده</span> or
+      <span dir="rtl" lang="fa">محمد هادی بخت‌زاده</span> in Persian — founded
+      Vandidad Group in İzmir in March 2018. The company's registration can be
+      confirmed through the Turkish trade registry and tax portals linked in
+      the record above.</p>
+
+    <p>His work is the design of AI systems for businesses that sell in
+      Persian: deciding what a system may do on its own, where it must ask a
+      person, what it remembers about a customer between conversations, and
+      how it behaves when the model is wrong. He writes about that subject in
+      Persian, and the articles below are signed and dated.</p>
+
+    <div dir="rtl" lang="fa" class="fa">
+      <p><strong>هادی بخت‌زاده</strong> — معمار سیستم‌های هوش مصنوعی و
+        بنیان‌گذار وندیداد گروپ در ازمیر ترکیه. کارش طراحی رفتار سیستم‌های
+        هوش مصنوعی برای کسب‌وکارهایی است که به فارسی می‌فروشند: اینکه سیستم
+        چه کاری را خودش انجام دهد، کجا از آدم اجازه بگیرد، چه چیزی را میان
+        گفتگوها به یاد بسپارد، و وقتی مدل اشتباه کرد چه اتفاقی بیفتد.</p>
+      <p>نوشته‌هایش دربارهٔ همین موضوع است — سیستم‌عامل هوش مصنوعی، هوش
+        مصنوعی عاملی، ایجنت، و طراحی گفتگو به فارسی — و همه با نام و تاریخ
+        منتشر شده‌اند.</p>
+    </div>
+
+    <h3>Published writing <span class="n">8 articles</span></h3>
+    <ul class="works"><li><a href="https://vandidad.xyz/hamzad/ejent-forush-hoosh-masnooi">ایجنت فروش هوش مصنوعی؛ چه چیزی می‌خرید و از کجا بفهمید کار می‌کند</a><span class="d">2026-09-05</span></li><li><a href="https://vandidad.xyz/hamzad/hoosh-masnooi-ameli-chist">هوش مصنوعی عاملی چیست و کجا نباید به آن اختیار داد</a><span class="d">2026-09-04</span></li><li><a href="https://vandidad.xyz/hamzad/daftar-hesabdari-va-karhaye-tekrari">کار حسابدار کدام بخشش واقعاً حسابداری است</a><span class="d">2026-09-03</span></li><li><a href="https://vandidad.xyz/hamzad/estelam-ke-be-sefaresh-nemiresad">استعلام می‌گیرید، سفارش نمی‌گیرید — مسئله کجاست</a><span class="d">2026-09-03</span></li><li><a href="https://vandidad.xyz/hamzad/kharidar-online-ke-tardid-mikonad">خریدار آنلاین سبد را رها می‌کند چون نمی‌داند اندازه است یا نه</a><span class="d">2026-09-03</span></li><li><a href="https://vandidad.xyz/hamzad/klinik-zibaei-nobat-va-peygiri">کلینیک زیبایی؛ مشکل جذب نیست، فاصله‌ی بین تماس تا نوبت است</a><span class="d">2026-09-03</span></li><li><a href="https://vandidad.xyz/hamzad/sistem-amel-hoosh-masnooi-chist">سیستم‌عامل هوش مصنوعی چیست و چه فرقی با ایجنت و چت‌بات دارد؟</a><span class="d">2026-09-03</span></li><li><a href="https://vandidad.xyz/hamzad/chatbot-vs-digital-twin">چرا چت‌بات برای کسب‌وکار شما جواب نداد</a><span class="d">2026-08-12</span></li></ul>
+  </section>
+<!-- PERSON:END -->
 
   <section class="contact">
     <h2>Contact</h2>
