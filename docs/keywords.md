@@ -46,7 +46,7 @@ python3 tools/seo_report.py
 | ربات پاسخگوی مشتری فارسی | `/hamzad/robat-pasokhgoo-moshtari-farsi` | در صف | 1589 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 1 |
 | ساخت ایجنت هوش مصنوعی | `/hamzad/sakht-ejent-hoosh-masnooi` | در صف | 1561 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 3 |
 | مدل زبانی فارسی | `/hamzad/entekhab-model-zabani-farsi` | در صف | 1558 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 3 | 1 |
-| معمار هوش مصنوعی | `/hamzad/memar-hoosh-masnooi` | در صف | 1573 | 3 | 0.2٪ | ✓ | — | ✓ | 2 | 1 |
+| معمار هوش مصنوعی | `/hamzad/memar-hoosh-masnooi` | در صف | 1860 | 3 | 0.2٪ | ✓ | — | ✓ | 4 | 1 |
 | هوش مصنوعی برای آموزشگاه | `/hamzad/hoosh-masnooi-baraye-amoozeshgah` | در صف | 1639 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 4 | 1 |
 | هوش مصنوعی برای تلگرام | `/hamzad/hoosh-masnooi-baraye-telegram` | در صف | 1661 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 3 | 1 |
 | هوش مصنوعی برای مطب | `/hamzad/hoosh-masnooi-baraye-matab` | در صف | 1535 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 3 | 1 |
@@ -54,7 +54,7 @@ python3 tools/seo_report.py
 | هوش مصنوعی در رستوران | `/hamzad/hoosh-masnooi-restoran-cafe` | در صف | 1593 | 3 | 0.2٪ | ✓ | ✓ | ✓ | 4 | 1 |
 | هوش مصنوعی رایگان فارسی | `/hamzad/hoosh-masnooi-rayegan-farsi` | در صف | 1533 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 1 |
 | هوش مصنوعی چیست | `/hamzad/hoosh-masnooi-chist-zaban-sade` | در صف | 1534 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 3 | 2 |
-| هوشواره | `/hamzad/hooshvare-chist` | در صف | 1555 | 20 | 1.3٪ | ✓ | ✓ | ✓ | 2 | 1 |
+| هوشواره | `/hamzad/hooshvare-chist` | در صف | 1598 | 20 | 1.3٪ | ✓ | ✓ | ✓ | 4 | 1 |
 | پاسخ خودکار دایرکت اینستاگرام | `/hamzad/pasokhgooi-khodkar-instagram` | در صف | 1876 | 4 | 0.2٪ | ✓ | ✓ | ✓ | 3 | 2 |
 | پیاده سازی هوش مصنوعی در سازمان | `/hamzad/piadesazi-hoosh-masnooi-sazman` | در صف | 1632 | 2 | 0.1٪ | ✓ | — | ✓ | 3 | 2 |
 | پیگیری خودکار مشتری | `/hamzad/peygiri-khodkar-moshtari` | در صف | 1595 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 5 |
