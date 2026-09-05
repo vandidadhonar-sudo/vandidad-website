@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-04T00:00:00Z</updated>
+  <updated>2026-09-05T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>ایجنت فروش هوش مصنوعی؛ چه چیزی می‌خرید و از کجا بفهمید کار می‌کند</title>
+    <link href="https://vandidad.xyz/hamzad/ejent-forush-hoosh-masnooi"/>
+    <id>https://vandidad.xyz/hamzad/ejent-forush-hoosh-masnooi</id>
+    <published>2026-09-05T00:00:00Z</published>
+    <updated>2026-09-05T00:00:00Z</updated>
+    <summary>چهار پرسشی که پیش از خرید ایجنت فروش باید بپرسید، و معیاری که بعد از راه‌اندازی نشان می‌دهد جواب داده یا نه.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>هوش مصنوعی عاملی چیست و کجا نباید به آن اختیار داد</title>
     <link href="https://vandidad.xyz/hamzad/hoosh-masnooi-ameli-chist"/>

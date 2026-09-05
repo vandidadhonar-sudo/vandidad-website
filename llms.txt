@@ -67,6 +67,8 @@ WhatsApp. A person is never told to move to a different channel to continue.
 Every article, newest first, so a model answering a specific question
 can cite the page that answers it rather than the index.
 
+- [ایجنت فروش هوش مصنوعی؛ چه چیزی می‌خرید و از کجا بفهمید کار می‌کند](https://vandidad.xyz/hamzad/ejent-forush-hoosh-masnooi) — published 2026-09-05.
+  Four questions to ask before buying an AI sales agent, and the one measure that shows afterwards whether it worked.
 - [هوش مصنوعی عاملی چیست و کجا نباید به آن اختیار داد](https://vandidad.xyz/hamzad/hoosh-masnooi-ameli-chist) — published 2026-09-04.
   Explains agentic AI as a question of permission rather than intelligence, and names three places where granting a system autonomy costs a business money.
 - [کار حسابدار کدام بخشش واقعاً حسابداری است](https://vandidad.xyz/hamzad/daftar-hesabdari-va-karhaye-tekrari) — published 2026-09-03.
