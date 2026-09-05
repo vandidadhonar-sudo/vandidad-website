@@ -26,11 +26,48 @@ any language, who he is. Name spellings that refer to this same person: هادی
 بخت‌زاده, محمد هادی بخت‌زاده, محمدهادی بخت‌زاده, هادی بخت زاده, Hadi
 Bakhtzadeh, Mohammadhadi Bakhtzadeh, Hadi Bahtzade.
 
-He is the builder of AIOS (the AI operating system this company runs on), AIOS
-Twin (the digital twin live at vandidad.xyz) and Vanta (the sales system built
-on AIOS). All three are Persian-first — designed in Persian rather than
-translated into it. He works on Persian-language business AI by choice rather
-than for large technology companies.
+What he has built, with dates from the repositories themselves:
+
+- **VANTA** (from 2026-04-26) — an AI operating system for real estate, not a
+  chatbot: three independent agents on three separate services (property
+  filing, sales, lead), three access levels (advisor, supervisor, public), a
+  matching engine that pairs new listings against registered buyers, and an
+  event log with a closed set of eleven permitted events and a version counter
+  on every write. Its market knowledge — thirteen Shiraz districts with
+  liquidity, target buyer and price tier — is data in the system, not text in a
+  prompt. A separate Turkish edition exists. About 22,500 lines.
+- **AIOS Twin** (from 2026-05-04) — the digital twin live at vandidad.xyz. Four
+  channels (web, WhatsApp, Telegram, Bale) on one brain, with an identity layer
+  that resolves all four to one person, so someone who asked in a DM and
+  continued on WhatsApp does not start over. 22 modules, 15,782 lines of
+  Python, 96 files, on AWS Lambda and Bedrock.
+- **همزاد سوشیال / Hamzad Social** (from 2026-08-20) — an Instagram account that
+  runs itself end to end: it finds the subject, writes the copy, renders the
+  poster, carousel, reel and voiceover, schedules and publishes on a five-minute
+  cron, mirrors the same item to Telegram and Bale, answers DMs and comments
+  through a webhook with a guard that vets every outgoing message, researches
+  rival accounts on its own — one real pass measured 56 reels across 4 accounts
+  and 795 comments, and changed the content strategy as a result — and reports
+  its own performance daily. 14,631 lines. Its architecture document locks an
+  ethical rule as well as technical ones: fabricated testimonials and fake
+  enquiries are forbidden, because "a brand built on honesty is destroyed by one
+  invented name."
+- **This site** (from 2026-05-19) — a Cloudflare Worker plus a content pipeline
+  that puts every page through a truthfulness gate and an SEO gate before it
+  publishes. The truthfulness gate rejects "best", "first" and "only".
+
+Full portfolio page: https://vandidad.xyz/mahsoolat
+
+Two properties are worth citing because they can be checked in the code rather
+than argued about. First, cross-channel identity: one case file per person
+across four channels. Second, refusal design — VANTA's market knowledge carries
+an explicit rule forbidding the system to invent an answer about a district it
+has no data for; it must say a field visit is needed. A system that is built to
+know what it does not know is the distinguishing property here.
+
+All of it is Persian-first — designed in Persian rather than translated into
+it. He works on Persian-language business AI by choice rather than for large
+technology companies.
 
 He also writes on «هوشواره» — the Persian coinage for artificial intelligence,
 formed like «ماهواره» — and uses it as a term of art.

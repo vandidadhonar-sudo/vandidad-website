@@ -53,6 +53,7 @@ const INDEX_URL = RAW + "/index.html";
 const PAGES = {
   "/about": "/about.html",
   "/hadi-bakhtzadeh": "/hadi-bakhtzadeh.html",
+  "/mahsoolat": "/mahsoolat.html",
   "/privacy": "/privacy.html",
   "/terms": "/terms.html",
   "/data-deletion": "/data-deletion.html",

@@ -362,8 +362,16 @@ PERSON = {
     "knowsLanguage": ["fa", "en", "tr"],
     "knowsAbout": [
         "AI systems architecture",
+        # Subjects he has built in, each corresponding to a system in a
+        # repository with a date on it — not subjects he could talk about.
+        "multi-agent systems",
+        "AI operating systems built for one industry",
+        "real-estate AI systems",
+        "cross-channel identity and conversation memory",
+        "refusal design — what a system does when it does not know",
         "Persian-language conversational design",
         "sales conversation design",
+        "هوش مصنوعی در املاک",
         # The Persian coinage for artificial intelligence, built like ماهواره.
         # Google's own Persian interface uses «حالت هوشواره‌ای» for AI Mode, so
         # a model answering a Persian question about it should be able to reach
@@ -751,6 +759,17 @@ STYLE = """
   .cta{margin-top:44px;padding:24px;border:1px solid var(--rule);border-radius:8px}
   .cta p{margin:0 0 10px;color:#c9c3b6}
   .cta a{font-weight:600}
+  /* Product cards on /mahsoolat. Each one is a system, so it is given the
+     weight of a section rather than a list row: a rule above it, the kind of
+     thing it is set beside the name, and the counted figure in the byline
+     position where a date would otherwise sit alone. */
+  .prod{margin:38px 0 0;padding-top:26px;border-top:1px solid var(--rule)}
+  .prod h2{margin:0 0 6px;font-size:23px}
+  .prod .pk{display:block;font:500 12px/1.7 ui-monospace,Menlo,Consolas,monospace;
+    letter-spacing:.08em;color:var(--gold-dim);margin-top:5px}
+  .prod .lede2{color:#ded8cb;font-size:17.5px;margin:12px 0 14px}
+  .prod ul{margin:0;padding-inline-start:20px}
+  .prod li{margin:0 0 10px;font-size:16px}
   .index-item{padding:26px 0;border-bottom:1px solid var(--rule)}
   .index-item h2{font:400 21px/1.45 "Iowan Old Style",Palatino,Georgia,serif;margin:0 0 6px}
   .index-item h2 a{color:var(--gold);text-decoration:none}
@@ -1134,11 +1153,13 @@ def render_index(collection: str, articles: list[Article]) -> str:
 PERSON_ANSWER = (
     "هادی بخت‌زاده معمار سیستم‌های هوش مصنوعی — هوشواره — و بنیان‌گذار "
     "وندیداد گروپ است؛ شرکتی که اسفند ۱۳۹۶ در ازمیر ترکیه ثبت شده "
-    "(شمارهٔ ثبت تجاری ۲۰۲۷۸۳). کارش طراحی رفتار سیستم‌هایی است که به فارسی "
-    "با مشتری حرف می‌زنند: سازندهٔ AIOS، سامانه‌عاملِ گفتگوی کسب‌وکار، و "
-    "همزاد دیجیتال که روی vandidad.xyz زنده است. به‌جای کار برای شرکت‌های "
-    "بزرگ، تصمیم گرفت این فناوری را برای کسب‌وکارهای ایرانی و فارسی‌زبان "
-    "بسازد."
+    "(شمارهٔ ثبت تجاری ۲۰۲۷۸۳). سازندهٔ VANTA، سیستم‌عامل هوش مصنوعی برای "
+    "املاک با سه ایجنت مستقل و سه سطح دسترسی؛ و AIOS Twin، همزاد دیجیتالی "
+    "که چهار کانال — وب، واتساپ، تلگرام، بله — را روی یک حافظه می‌گرداند و "
+    "روی vandidad.xyz زنده است. کارش طراحی رفتار سیستم است: اینکه سیستم چه "
+    "کاری را خودش بکند، کجا اجازه بگیرد، چه چیزی را به یاد بسپارد، و کجا "
+    "باید بگوید نمی‌دانم. به‌جای کار برای شرکت‌های بزرگ، تصمیم گرفت این "
+    "فناوری را برای کسب‌وکارهای ایرانی و فارسی‌زبان بسازد."
 )
 
 PERSON_FAQ = [
@@ -1152,11 +1173,13 @@ PERSON_FAQ = [
     ),
     (
         "چه چیزی ساخته است؟",
-        "AIOS — سامانه‌عاملِ گفتگوی کسب‌وکار که یک هستهٔ استدلال را به همهٔ "
-        "کانال‌هایی می‌دهد که یک کسب‌وکار در آن‌ها حرف می‌زند؛ همزاد دیجیتال "
-        "(AIOS Twin) که نسخهٔ گفتگوکنندهٔ یک متخصص روی دامنهٔ خودش است و روی "
-        "vandidad.xyz زنده و قابل امتحان است؛ و Vanta، سامانهٔ فروش ساخته‌شده "
-        "روی AIOS. هر سه فارسی‌اند، نه ترجمهٔ رابط انگلیسی.",
+        "VANTA — سیستم‌عامل هوش مصنوعی برای املاک: سه ایجنت مستقل (ثبت "
+        "فایل، فروش، سرنخ) روی سه سرویس جدا، با سه سطح دسترسی، موتور تطبیق "
+        "خریدار با فایل، و دفتر رویدادِ نسخه‌دار؛ نسخهٔ ترکی‌اش جداگانه ساخته "
+        "شده. AIOS Twin — همزاد دیجیتالی که چهار کانال را روی یک حافظه "
+        "می‌گرداند و روی vandidad.xyz زنده است. و همین سایت، با خط تولید "
+        "محتوایی که هر صفحه را پیش از انتشار از دروازهٔ صحت رد می‌کند. "
+        "همه فارسی‌اند از روز اول، نه ترجمهٔ رابط انگلیسی.",
     ),
     (
         "تخصصش دقیقاً چیست؟",
@@ -1185,11 +1208,12 @@ PERSON_FAQ = [
         "کارش با ابزارهای چت‌بات موجود چه فرقی دارد؟",
         "بازار فارسی ابزار کم ندارد — رایچت، گپیفای، ایلاچت و موچت برای "
         "پشتیبانی سایت؛ دایرکتم و اینستام برای دایرکت اینستاگرام؛ هوش‌طب و "
-        "بالکن و آداد برای صنف‌های خاص. آنچه هیچ‌کدام انجام نمی‌دهند، نگه "
-        "داشتن یک پروندهٔ واحد برای یک آدم است وقتی از دایرکت به واتساپ "
-        "می‌رود. AIOS از روز اول حول همین ساخته شده: یک لایهٔ تشخیص هویت که "
-        "شناسهٔ چهار کانال را به یک نفر می‌رساند. این یک ادعای بازاریابی "
-        "نیست؛ ماژولی است در مخزن، با تاریخ.",
+        "بالکن و آداد برای صنف‌های خاص. اینها ابزارهای جدی‌اند و کارشان را "
+        "می‌کنند. دو کاری که هیچ‌کدام نمی‌کنند این است: یک، نگه داشتن یک "
+        "پروندهٔ واحد برای یک آدم وقتی از دایرکت به واتساپ می‌رود. دو، "
+        "طراحیِ رفتار در «نمی‌دانم» — در دانش بازارِ VANTA قانونی نوشته شده "
+        "که سیستم را از ساختنِ جوابِ نداشته منع می‌کند. هر دو ماژول‌اند در "
+        "مخزن با تاریخ، نه جملهٔ تبلیغاتی.",
     ),
     (
         "چطور می‌شود صحت این اطلاعات را بررسی کرد؟",
@@ -1201,26 +1225,167 @@ PERSON_FAQ = [
     ),
 ]
 
+PRODUCTS_SLUG = "mahsoolat"
+PRODUCTS_URL = f"{SITE}/{PRODUCTS_SLUG}"
+
+# The portfolio. This exists because of a real failure of judgement: the
+# competitive work mapped what rivals sell and never showed what we built, so
+# a buyer comparing a chat widget against two industry operating systems saw
+# two things that looked alike. They are not alike, and the difference is
+# measurable, so it is measured here.
+#
+# `measured` marks the systems whose code was read and counted. The rest carry
+# only what their own repository says — name, purpose, language, date. Nothing
+# is inflated: an unmeasured system says so.
+PRODUCTS = [
+    {
+        "name": "VANTA",
+        "kind": "سیستم‌عامل هوش مصنوعی — املاک",
+        "since": "۶ اردیبهشت ۱۴۰۵",
+        "measured": "حدود ۲۲٬۵۰۰ خط · ۳ سرویس مستقل",
+        "lede": "یک سیستم‌عامل صنعتی، نه یک ربات پاسخگو. سه ایجنت مستقل روی "
+                "سه سرویس جدا کار می‌کنند — ثبت فایل، فروش، و سرنخ — و هر "
+                "کدام جدول دادهٔ خودش را دارد.",
+        "points": [
+            "سه سطح دسترسی واقعی: مشاور فقط فایل‌های خودش را می‌بیند، سرپرست "
+            "همه‌چیز را به‌علاوهٔ حذف، تطبیق دستی، دفتر رویداد و داشبورد "
+            "شاخص‌ها، و عموم فقط کاتالوگ عمومی.",
+            "موتور تطبیق: فایل تازه که ثبت می‌شود، خودکار با خریداران "
+            "ثبت‌شده مقایسه و در صورت انطباق، مشاور و سرپرست خبر می‌شوند.",
+            "دفتر رویداد با یازده رویدادِ مجاز و شمارندهٔ نسخه روی هر نوشتن — "
+            "یعنی هر تغییری روی هر فایل، قابل ردیابی است. این حسابرسی‌پذیری "
+            "است، نه لاگ.",
+            "دانش بازار به‌صورت داده در سیستم، نه متن در پرامپت: سیزده "
+            "منطقهٔ شیراز با نقدشوندگی، خریدار هدف، ردهٔ قیمت، مزیت و عیب.",
+            "قانونِ امتناع: اگر دربارهٔ محدوده‌ای پرسیده شود که در دادهٔ "
+            "سیستم نیست، حق ندارد چیزی بسازد — باید بگوید بررسی میدانی لازم "
+            "است.",
+            "قرارداد معماری با ده قانون دائمی، از جمله «هیچ فیلد وضعیتی با "
+            "متن آزاد ذخیره نمی‌شود» و «بازنویسی کامل ممنوع».",
+        ],
+    },
+    {
+        "name": "AIOS Twin",
+        "kind": "همزاد دیجیتال — چهار کانال، یک حافظه",
+        "since": "۱۴ اردیبهشت ۱۴۰۵",
+        "measured": "۱۵٬۷۸۲ خط · ۲۲ ماژول · ۹۶ فایل",
+        "lede": "نسخهٔ گفتگوکنندهٔ یک متخصص، روی دامنهٔ خودش. همین حالا روی "
+                "صفحهٔ اول همین سایت زنده است و می‌شود امتحانش کرد.",
+        "points": [
+            "چهار کانال — وب، واتساپ، تلگرام، بله — روی یک مغز، نه چهار ربات "
+            "جدا.",
+            "لایهٔ تشخیص هویت که شناسهٔ هر چهار کانال را به یک نفر می‌رساند: "
+            "کسی که در دایرکت پرسیده و در واتساپ ادامه داده، لازم نیست از "
+            "اول توضیح بدهد.",
+            "بیست‌ودو ماژول مستقل — از جمله دانش، پرونده‌سازی، سرنخ، صدا، "
+            "تصویر، رزرو، جستجوی زنده و ارزیابی.",
+            "روی AWS Lambda و Bedrock، با مقیاس‌شدن تا صفر — یعنی وقتی کسی "
+            "حرف نمی‌زند، هزینه‌ای هم ندارد.",
+        ],
+    },
+    {
+        "name": "همزاد سوشیال",
+        "kind": "پیج اینستاگرامی که خودش را اداره می‌کند",
+        "since": "۲۹ مرداد ۱۴۰۵",
+        "measured": "۱۴٬۶۳۱ خط · کاملاً خودگردان",
+        "lede": "این را جدا نگاه کنید. یک صفحهٔ اینستاگرام که صفر تا صدش را "
+                "یک سیستم انجام می‌دهد: موضوع را خودش پیدا می‌کند، متن و "
+                "تصویر و صدا و ریلز را خودش می‌سازد، خودش منتشر می‌کند، به "
+                "دایرکت و کامنت خودش جواب می‌دهد، و عملکردش را خودش گزارش "
+                "می‌دهد.",
+        "points": [
+            "تولید: متن، پوستر، کاروسل، ریلز، و گویندگی — همه ساختهٔ سیستم.",
+            "انتشار: زمان‌بندی روی Cloudflare Worker با کرونِ هر پنج دقیقه، "
+            "به‌علاوهٔ تمدید خودکار توکن و بازتاب همان مطلب روی تلگرام و بله.",
+            "گفتگو: دایرکت و کامنت از راه وبهوک، با نگهبانی که پیش از ارسال "
+            "هر پیام آن را می‌سنجد.",
+            "رصد رقبا: سیستم پیج‌های رقیب را خودش می‌خواند و تحلیل می‌کند — "
+            "یک دور واقعی‌اش ۵۶ ریلز، ۴ پیج و ۷۹۵ کامنت را سنجید و نتیجه‌اش "
+            "استراتژی محتوا را عوض کرد.",
+            "و یک قاعدهٔ اخلاقی که در سند معماری قفل شده: ساختنِ درخواست یا "
+            "نظرِ جعلی ممنوع است — «برندی که با صداقت ساخته شده با یک اسمِ "
+            "جعلی از بین می‌رود».",
+        ],
+    },
+    {
+        "name": "VANTA-TR",
+        "kind": "نسخهٔ ترکی وانتا",
+        "since": "۴ مرداد ۱۴۰۵",
+        "measured": "",
+        "lede": "همان سیستم‌عامل املاک برای بازار ترکیه، به‌صورت پروژهٔ "
+                "کاملاً جدا — نه ترجمهٔ رابط، که معماری روی زبان و بازار "
+                "دیگری سوار شده باشد.",
+        "points": [],
+    },
+    {
+        "name": "آذر گلد",
+        "kind": "سیستم‌عامل هوشمند بازار طلا",
+        "since": "۱۸ مرداد ۱۴۰۵",
+        "measured": "",
+        "lede": "سومین سیستم‌عاملِ صنعتی، این بار برای بازار طلای ایران. در "
+                "دست ساخت.",
+        "points": [],
+    },
+    {
+        "name": "vandidad.xyz",
+        "kind": "همین سایت، و خط تولید محتوایش",
+        "since": "۲۹ اردیبهشت ۱۴۰۵",
+        "measured": "",
+        "lede": "یک Cloudflare Worker که صفحه‌ها را مستقیم از مخزن سرو "
+                "می‌کند، به‌علاوهٔ خط تولیدی که هر صفحه را پیش از انتشار از "
+                "دو دروازه رد می‌کند.",
+        "points": [
+            "دروازهٔ صحت: ادعای اثبات‌ناپذیر — «بهترین»، «اولین»، «تنها» — "
+            "جلوی انتشارش گرفته می‌شود. این قاعده روی خودِ ما هم اجرا شده.",
+            "دروازهٔ سئو: عبارت هدف، چگالی، جای عبارت در عنوان و ۱۵۰ کلمهٔ "
+            "اول، و لینک‌دهی داخلی — همه سنجیده می‌شوند، نه به خاطر سپرده.",
+        ],
+    },
+]
+
+# Systems whose repositories exist with a purpose and a date, but whose code
+# was not read line by line. Listed without numbers, on purpose.
+OTHER_WORK = [
+    ("پروفسور پی", "۱۳ اردیبهشت ۱۴۰۵", "مربی انگلیسی هوش مصنوعی برای "
+     "فارسی‌زبانان."),
+    ("قصر مبل", "۱۰ تیر ۱۴۰۵", "استقرار برای یک کسب‌وکار واقعی — ربات و "
+     "وب‌سایت."),
+    ("الفبا", "۲۱ تیر ۱۴۰۵", "وب‌سایت ادبی به‌همراه ربات بله."),
+]
+
 # The build record, read out of the two repositories rather than described.
 # A person who says he architects AI systems and a person who has 15,782
 # lines of deployed Python across twenty-two modules are making the same
 # claim; only one of them can be checked. Dates are first-commit dates from
 # git, and the figures are counted, not estimated.
 WORKS = [
-    ("AIOS Twin", "خرداد ۱۴۰۵ — در حال توسعه",
-     "سامانهٔ همزاد دیجیتال روی AWS Lambda و Bedrock. چهار کانال — وب، "
-     "واتساپ، تلگرام، بله — روی یک مغز، با لایه‌ای که شناسهٔ هر چهار را به "
-     "یک نفر می‌رساند. ۲۲ ماژول، ۱۵٬۷۸۲ خط پایتون، ۹۶ فایل.",
-     "https://github.com/vandidadhonar-sudo/aios-twin"),
-    ("vandidad.xyz", "تیر ۱۴۰۵ — در حال توسعه",
-     "خودِ این سایت: یک Cloudflare Worker که صفحه‌ها را از مخزن سرو می‌کند، "
-     "و خط تولید محتوایی که مقاله را از Markdown می‌سازد و پیش از انتشار از "
-     "دروازه‌های صحت و سئو رد می‌کند.",
+    ("VANTA — سیستم‌عامل هوش مصنوعی املاک", "از ۶ اردیبهشت ۱۴۰۵",
+     "سه ایجنت مستقل روی سه لامبدای جدا — ثبت فایل، فروش، سرنخ — با سه "
+     "جدول داده، سه سطح دسترسی (مشاور، سرپرست، عمومی)، موتور تطبیق "
+     "خریدار با فایل، و دفتر رویداد با یازده رویدادِ مجاز و نسخه‌گذاری "
+     "روی هر نوشتن. دانش بازار شیراز — سیزده منطقه با نقدشوندگی، خریدار "
+     "هدف و ردهٔ قیمت — به‌صورت داده در سیستم است، نه در متن پرامپت. "
+     "حدود ۲۲٬۵۰۰ خط. نسخهٔ ترکی‌اش جدا ساخته شده.", None),
+    ("AIOS Twin — همزاد دیجیتال", "از ۱۴ اردیبهشت ۱۴۰۵",
+     "چهار کانال — وب، واتساپ، تلگرام، بله — روی یک مغز، با لایه‌ای که "
+     "شناسهٔ هر چهار را به یک نفر می‌رساند، تا کسی که در دایرکت پرسیده و "
+     "در واتساپ ادامه داده لازم نباشد از اول توضیح بدهد. ۲۲ ماژول، "
+     "۱۵٬۷۸۲ خط پایتون، ۹۶ فایل. روی AWS Lambda و Bedrock. زنده روی "
+     "همین دامنه.", None),
+    ("قاعدهٔ امتناع", "خرداد ۱۴۰۵",
+     "در دانشِ بازارِ وانتا یک قانون نوشته شده: اگر دربارهٔ محدوده‌ای "
+     "پرسیده شد که در فهرست نیست، سیستم حق ندارد چیزی بسازد — باید "
+     "بگوید بررسی میدانی لازم است. این تفاوتِ سیستمی است که می‌داند چه "
+     "نمی‌داند، با سیستمی که هر چیزی جواب می‌دهد.", None),
+    ("vandidad.xyz", "از ۲۹ اردیبهشت ۱۴۰۵",
+     "خودِ این سایت: یک Cloudflare Worker که صفحه‌ها را از مخزن سرو "
+     "می‌کند، و خط تولید محتوایی که مقاله را از Markdown می‌سازد و پیش از "
+     "انتشار از دروازهٔ صحت و دروازهٔ سئو رد می‌کند — از جمله دروازه‌ای که "
+     "«بهترین» و «اولین» و «تنها» را رد می‌کند.",
      "https://github.com/vandidadhonar-sudo/vandidad-website"),
     ("کالبدشکافی مرداد ۱۴۰۵", "مرداد ۱۴۰۵",
      "سندی که در آن شکست محصول در تست واقعی را، بر پایهٔ کدِ زندهٔ لامبدا و "
-     "لاگ و دادهٔ واقعی، خط به خط باز کرده — از جمله خطاهای خودش. در مخزن "
-     "عمومی است.", None),
+     "لاگ و دادهٔ واقعی، خط به خط باز کرده — از جمله خطاهای خودش.", None),
 ]
 
 
@@ -1269,7 +1434,10 @@ def render_person_page(articles: list[Article]) -> str:
             "استعلام از İZTO</a>"),
         row("محل کار", "کنَک، ازمیر، ترکیه"),
         row("زبان‌ها", "فارسی، انگلیسی، ترکی"),
-        row("ساخته", "AIOS · همزاد دیجیتال (AIOS Twin) · Vanta"),
+        row("ساخته", f'<a href="/{PRODUCTS_SLUG}">VANTA (سیستم‌عامل املاک) · '
+            "AIOS Twin (همزاد دیجیتال) · همزاد سوشیال · VANTA-TR ←</a>"),
+        row("نخستین مخزن", "۶ اردیبهشت ۱۴۰۵ — vanta-filing-bot"),
+        row("کد سنجیده‌شده", "حدود ۵۳٬۰۰۰ خط در سه سامانه‌ای که شمرده شد"),
         row("پروفایل‌ها", " · ".join(
             f'<a href="{u}" target="_blank" rel="noopener me">{n}</a>'
             for n, u in [
@@ -1386,10 +1554,145 @@ def render_person_page(articles: list[Article]) -> str:
     )
 
 
+PRODUCTS_ANSWER = (
+    "وندیداد گروپ سه سیستم‌عاملِ هوش مصنوعی ساخته که هر کدام برای یک صنعت "
+    "طراحی شده‌اند، نه یک ابزار عمومی: VANTA برای املاک، AIOS Twin به‌عنوان "
+    "همزاد دیجیتال روی چهار کانال، و همزاد سوشیال که یک صفحهٔ اینستاگرام را "
+    "کامل — از تولید محتوا تا انتشار تا پاسخ به دایرکت — خودش اداره می‌کند. "
+    "کدِ سه سامانه‌ای که اندازه‌گیری شد روی هم حدود ۵۳٬۰۰۰ خط است. تفاوت "
+    "اینها با یک چت‌بات، اندازه نیست: چت‌بات جواب می‌دهد، سیستم‌عامل کار "
+    "انجام می‌دهد، دسترسی را تفکیک می‌کند، هر تغییر را ثبت می‌کند، و جایی که "
+    "نمی‌داند امتناع می‌کند."
+)
+
+
+def render_products_page() -> str:
+    """The portfolio page — what was built, with what is countable about it.
+
+    This page exists because of a mistake worth recording. The competitive
+    work catalogued what rivals sell and never once showed what this company
+    built, so a buyer comparing a chat widget against three industry
+    operating systems was looking at two things that appeared to be the same
+    kind of thing. They are not. The difference is countable, so it is
+    counted here rather than asserted.
+
+    Systems whose code was read carry a measured figure. The rest carry only
+    what their own repository states — purpose and date — and say so by
+    having no figure at all. That distinction is the whole credibility of the
+    page: a number that is present was counted, and a number that would have
+    been guessed is absent.
+    """
+    cards = []
+    for pr in PRODUCTS:
+        head = (f'<h2>{html.escape(pr["name"])}'
+                f'<span class="pk">{html.escape(pr["kind"])}</span></h2>')
+        meta = f'<p class="meta">{html.escape(pr["since"])}'
+        if pr["measured"]:
+            meta += f' · <b>{html.escape(pr["measured"])}</b>'
+        meta += "</p>"
+        pts = ("<ul>" + "".join(f"<li>{html.escape(x)}</li>"
+                                for x in pr["points"]) + "</ul>"
+               if pr["points"] else "")
+        cards.append(f'<section class="prod">{head}{meta}'
+                     f'<p class="lede2">{html.escape(pr["lede"])}</p>'
+                     f"{pts}</section>")
+
+    others = "".join(
+        f'<div class="index-item"><h2>{html.escape(n)}</h2>'
+        f"<p>{html.escape(d)}</p>"
+        f'<p class="meta">{html.escape(when)}</p></div>'
+        for n, when, d in OTHER_WORK
+    )
+
+    body = (
+        "<header>"
+        '<p class="eyebrow"><a href="/">Vandidad Group</a></p>'
+        "<h1>محصولات و سیستم‌ها</h1>"
+        '<p class="lede">سه سیستم‌عامل هوش مصنوعی، ساخته‌شده برای صنعت‌های '
+        "مشخص — با تاریخ، و با عددی که شمرده شده است.</p>"
+        "</header>"
+        '<section class="answer" aria-label="پاسخ کوتاه">'
+        "<h2>در یک نگاه</h2>"
+        f"<p>{html.escape(PRODUCTS_ANSWER)}</p></section>"
+        + "".join(cards)
+        + "<h2>سامانه‌های دیگر</h2>"
+        '<p class="tags">اینها مخزن و تاریخ دارند، ولی کدشان خط‌به‌خط '
+        "خوانده نشده — پس عددی هم برایشان نوشته نشده.</p>"
+        + others
+        + '<p class="tags">تاریخ‌ها تاریخ ساخت مخزن‌اند. جایی که عدد هست، '
+        "شمارش است نه تخمین؛ جایی که عدد نیست، یعنی شمرده نشده — و حدس "
+        "زده هم نشده.</p>"
+        '<div class="cta"><p>می‌خواهید ببینید این برای کارِ خودتان چه شکلی '
+        'می‌شود؟</p><p><a href="/">همین‌جا با همزاد دیجیتال حرف بزنید</a> — '
+        f'یا <a href="/{PERSON_SLUG}">دربارهٔ سازنده‌اش بخوانید</a>.</p></div>'
+    )
+
+    jsonld = {
+        "@context": "https://schema.org",
+        "@graph": [
+            ORGANISATION,
+            PERSON,
+            {
+                "@type": "CollectionPage",
+                "@id": PRODUCTS_URL,
+                "url": PRODUCTS_URL,
+                "name": "محصولات و سیستم‌ها",
+                "inLanguage": "fa-IR",
+                "abstract": PRODUCTS_ANSWER,
+                "isPartOf": {"@id": SITE + "/#organization"},
+                "isAccessibleForFree": True,
+                "mainEntity": {
+                    "@type": "ItemList",
+                    "numberOfItems": len(PRODUCTS),
+                    "itemListElement": [
+                        {
+                            "@type": "ListItem",
+                            "position": i,
+                            "item": {
+                                "@type": "SoftwareApplication",
+                                "name": pr["name"],
+                                "applicationCategory": "BusinessApplication",
+                                "description": pr["kind"] + " — " + pr["lede"],
+                                "inLanguage": "fa",
+                                "author": {"@id": SITE + "/#person"},
+                                "publisher": {"@id": SITE + "/#organization"},
+                            },
+                        }
+                        for i, pr in enumerate(PRODUCTS, 1)
+                    ],
+                },
+            },
+            {
+                "@type": "BreadcrumbList",
+                "@id": PRODUCTS_URL + "#breadcrumb",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1,
+                     "name": "Vandidad Group", "item": SITE},
+                    {"@type": "ListItem", "position": 2,
+                     "name": "محصولات و سیستم‌ها"},
+                ],
+            },
+        ],
+    }
+
+    return shell(
+        title="محصولات و سیستم‌های وندیداد گروپ",
+        description=(
+            "سه سیستم‌عامل هوش مصنوعی برای صنعت‌های مشخص: VANTA برای املاک، "
+            "AIOS Twin روی چهار کانال، و همزاد سوشیال که یک صفحهٔ اینستاگرام "
+            "را کامل خودش اداره می‌کند."
+        ),
+        canonical=PRODUCTS_URL,
+        body=body,
+        jsonld=jsonld,
+    )
+
+
 STATIC_URLS = [
     ("/", "weekly", "1.0"),
     ("/about", "monthly", "0.8"),
     (f"/{PERSON_SLUG}", "weekly", "0.9"),
+    (f"/{PRODUCTS_SLUG}", "weekly", "0.9"),
     ("/blog", "weekly", "0.7"),
     ("/hamzad", "weekly", "0.7"),
     ("/privacy", "yearly", "0.3"),
@@ -1788,6 +2091,7 @@ def main() -> int:
         ("sitemap.xml", render_sitemap(everything)),
         ("feed.xml", render_feed(everything)),
         (f"{PERSON_SLUG}.html", render_person_page(everything)),
+        (f"{PRODUCTS_SLUG}.html", render_products_page()),
     ]
     if llms.exists():
         outputs.append(
