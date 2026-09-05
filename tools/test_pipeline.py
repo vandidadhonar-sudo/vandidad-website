@@ -126,6 +126,15 @@ class Keywords(unittest.TestCase):
         self.assertEqual(bc._norm_keyword("  AI   Agent "),
                          bc._norm_keyword("ai agent"))
 
+    def test_the_two_spellings_of_kasbokar_are_one_phrase(self):
+        # «کسب‌وکار» and «کسب و کار» are the same word to a reader and to a
+        # search engine. Folding the half-space to a plain space alone left
+        # «کسب وکار», which matched neither — found when a target keyword was
+        # rewritten into the form people actually type.
+        self.assertEqual(bc._norm_keyword("چت‌بات برای کسب‌وکار"),
+                         bc._norm_keyword("چت بات برای کسب و کار"))
+        self.assertEqual(bc._norm_keyword("گفت‌وگو"), bc._norm_keyword("گفت و گو"))
+
     def test_different_phrases_stay_different(self):
         self.assertNotEqual(bc._norm_keyword("ایجنت فروش"),
                             bc._norm_keyword("ایجنت پشتیبانی"))

@@ -1083,6 +1083,12 @@ def _norm_keyword(s: str) -> str:
     duplicate check waves both through.
     """
     s = s.translate(str.maketrans("يكۀةٱأإآ", "یکهههااا"))
+    # «کسب‌وکار» and «کسب و کار» are one word to a reader and to a search
+    # engine, but folding the zero-width non-joiner to a plain space turns the
+    # first into «کسب وکار» — the «و» sticks to what follows and the two stop
+    # matching. Separating the joined «و» first fixes that, and the same
+    # pattern covers «گفت‌وگو» and «جست‌وجو».
+    s = s.replace("\u200cو", " و ")
     s = s.replace("‌", " ").replace("‏", "")
     return " ".join(s.lower().split())
 
