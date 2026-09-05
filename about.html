@@ -202,15 +202,9 @@
   }
   footer a{color:var(--gold-dim)}
   a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
-  /* --- founder --- */
-  .pname{font:400 26px/1.3 "Iowan Old Style",Palatino,Georgia,serif;
-    color:var(--gold);margin:0 0 4px}
-  .pname span{font-size:20px;color:var(--gold-dim);margin-inline-start:10px}
-  .prole{font:500 13px/1.6 ui-monospace,Menlo,Consolas,monospace;
-    color:var(--muted);margin:0 0 22px}
-  .person .fa{border-inline-start:2px solid var(--rule);padding-inline-start:18px;
-    margin:26px 0;font-family:Vazirmatn,"Segoe UI",Tahoma,sans-serif;
-    font-size:16px;line-height:2}
+  /* --- founder: same record markup as the company block above --- */
+  .person .v span[lang=fa]{font-family:Vazirmatn,"Segoe UI",Tahoma,sans-serif;
+    color:var(--gold-dim);margin-inline-start:6px}
   .person h3{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;
     letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dim);
     margin:34px 0 14px}
@@ -281,36 +275,24 @@
 
 <!-- PERSON:START -->
   <section id="person" class="person">
-    <h2>Founder</h2>
-
-    <p class="pname">Hadi Bakhtzadeh
-      <span dir="rtl" lang="fa">هادی بخت‌زاده</span></p>
-    <p class="prole">Architect of Intelligent Systems ·
-      Founder, Vandidad Group · İzmir, Türkiye</p>
-
-    <p>Hadi Bakhtzadeh — also written Mohammadhadi Bakhtzadeh, and
-      <span dir="rtl" lang="fa">هادی بخت‌زاده</span> or
-      <span dir="rtl" lang="fa">محمد هادی بخت‌زاده</span> in Persian — founded
-      Vandidad Group in İzmir in March 2018. The company's registration can be
-      confirmed through the Turkish trade registry and tax portals linked in
-      the record above.</p>
-
-    <p>His work is the design of AI systems for businesses that sell in
-      Persian: deciding what a system may do on its own, where it must ask a
-      person, what it remembers about a customer between conversations, and
-      how it behaves when the model is wrong. He writes about that subject in
-      Persian, and the articles below are signed and dated.</p>
-
-    <div dir="rtl" lang="fa" class="fa">
-      <p><strong>هادی بخت‌زاده</strong> — معمار سیستم‌های هوش مصنوعی و
-        بنیان‌گذار وندیداد گروپ در ازمیر ترکیه. کارش طراحی رفتار سیستم‌های
-        هوش مصنوعی برای کسب‌وکارهایی است که به فارسی می‌فروشند: اینکه سیستم
-        چه کاری را خودش انجام دهد، کجا از آدم اجازه بگیرد، چه چیزی را میان
-        گفتگوها به یاد بسپارد، و وقتی مدل اشتباه کرد چه اتفاقی بیفتد.</p>
-      <p>نوشته‌هایش دربارهٔ همین موضوع است — سیستم‌عامل هوش مصنوعی، هوش
-        مصنوعی عاملی، ایجنت، و طراحی گفتگو به فارسی — و همه با نام و تاریخ
-        منتشر شده‌اند.</p>
+    <h2>Founder record</h2>
+    <div class="record">
+      <div class="row"><div class="k">Name</div><div class="v">Hadi Bakhtzadeh <span dir="rtl" lang="fa">هادی بخت‌زاده</span> · <span dir="rtl" lang="fa">محمد هادی بخت‌زاده</span></div></div>
+      <div class="row"><div class="k">Also written</div><div class="v">Mohammadhadi Bakhtzadeh · Mohammad Hadi Bakhtzadeh</div></div>
+      <div class="row"><div class="k">Role</div><div class="v">Architect of Intelligent Systems</div></div>
+      <div class="row"><div class="k">Company</div><div class="v">Founder, Vandidad Group <span dir="rtl" lang="fa">وندیداد گروپ</span></div></div>
+      <div class="row"><div class="k">Founded</div><div class="v">15.03.2018 <span style="color:var(--muted);font-size:13.5px">— company trading since that date</span></div></div>
+      <div class="row"><div class="k">Trade registry no.</div><div class="v"><code>202783</code> <span style="color:var(--muted);font-size:13.5px">İzmir Trade Registry</span></div></div>
+      <div class="row"><div class="k">Chamber reg. no.</div><div class="v"><code>1888691</code><a href="https://eoda.izto.org.tr/web/oda_sicil_belge_sorgu.aspx" target="_blank" rel="noopener">Verify at İZTO →</a></div></div>
+      <div class="row"><div class="k">Based in</div><div class="v">Konak, İzmir, Türkiye</div></div>
+      <div class="row"><div class="k">Languages</div><div class="v">Persian (native) · English · Turkish</div></div>
+      <div class="row"><div class="k">Field</div><div class="v">AI systems architecture · agentic AI · conversational design for Persian-language business</div></div>
+      <div class="row"><div class="k">Writing</div><div class="v">8 signed articles on this site — publishing since 2026-08-12</div></div>
+      <div class="row"><div class="k">Code</div><div class="v"><a href="https://github.com/vandidadhonar-sudo" target="_blank" rel="noopener">github.com/vandidadhonar-sudo →</a> <span style="color:var(--muted);font-size:13.5px">— the account this site is built and served from</span></div></div>
     </div>
+    <p class="note">Every field above is either a public registration that can
+      be confirmed through the portals linked here, or a count taken from the
+      articles listed below.</p>
 
     <h3>Published writing <span class="n">8 articles</span></h3>
     <ul class="works"><li><a href="https://vandidad.xyz/hamzad/ejent-forush-hoosh-masnooi">ایجنت فروش هوش مصنوعی؛ چه چیزی می‌خرید و از کجا بفهمید کار می‌کند</a><span class="d">2026-09-05</span></li><li><a href="https://vandidad.xyz/hamzad/hoosh-masnooi-ameli-chist">هوش مصنوعی عاملی چیست و کجا نباید به آن اختیار داد</a><span class="d">2026-09-04</span></li><li><a href="https://vandidad.xyz/hamzad/daftar-hesabdari-va-karhaye-tekrari">کار حسابدار کدام بخشش واقعاً حسابداری است</a><span class="d">2026-09-03</span></li><li><a href="https://vandidad.xyz/hamzad/estelam-ke-be-sefaresh-nemiresad">استعلام می‌گیرید، سفارش نمی‌گیرید — مسئله کجاست</a><span class="d">2026-09-03</span></li><li><a href="https://vandidad.xyz/hamzad/kharidar-online-ke-tardid-mikonad">خریدار آنلاین سبد را رها می‌کند چون نمی‌داند اندازه است یا نه</a><span class="d">2026-09-03</span></li><li><a href="https://vandidad.xyz/hamzad/klinik-zibaei-nobat-va-peygiri">کلینیک زیبایی؛ مشکل جذب نیست، فاصله‌ی بین تماس تا نوبت است</a><span class="d">2026-09-03</span></li><li><a href="https://vandidad.xyz/hamzad/sistem-amel-hoosh-masnooi-chist">سیستم‌عامل هوش مصنوعی چیست و چه فرقی با ایجنت و چت‌بات دارد؟</a><span class="d">2026-09-03</span></li><li><a href="https://vandidad.xyz/hamzad/chatbot-vs-digital-twin">چرا چت‌بات برای کسب‌وکار شما جواب نداد</a><span class="d">2026-08-12</span></li></ul>

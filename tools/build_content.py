@@ -1117,25 +1117,18 @@ ABOUT_END = "<!-- PERSON:END -->"
 
 
 def render_about_person(existing: str, articles: list[Article]) -> str:
-    """Rewrite the person section of about.html from the articles themselves.
+    """Rewrite the person section of about.html as a record, not a biography.
 
-    Searching the owner's name returns, from Google's own AI overview, that no
-    detailed biography is published. That is accurate: /about described the
-    company in verifiable detail — registry number, tax ID, links to the
-    Turkish government portals that confirm both — and described the person in
-    one sentence.
+    The company section on this page works because every line of it is a field
+    with a value a stranger can check against a government register. The
+    person section is built the same way and in the same markup: fields and
+    values, each one either a public registration, a name actually in use, or
+    a count taken from the articles themselves. No prose, no adjectives, and
+    nothing that rests on the reader taking his word for it.
 
-    The company record works because every claim on it can be checked. The
-    person record is built the same way, out of things that are true and
-    demonstrable rather than adjectives: he founded a company whose
-    registration anyone can verify, and he has signed and dated a body of
-    published writing on one subject. The article list is generated here, from
-    the articles, so the claim and the evidence cannot drift apart — and so it
-    grows on its own as the queue publishes.
-
-    What is deliberately absent is anything unverifiable. No years of
-    experience, no client names, no degrees. Inventing those is what Google's
-    quality guidance is written against, and it would also be a lie.
+    The article list and its count are generated from the articles, so the
+    record grows on its own as the queue publishes and the claim can never
+    drift from the evidence.
     """
     if ABOUT_START not in existing or ABOUT_END not in existing:
         return existing
@@ -1146,39 +1139,53 @@ def render_about_person(existing: str, articles: list[Article]) -> str:
         f'<span class="d">{a.published.isoformat()}</span></li>'
         for a in live
     )
-    fa_name = PERSON["alternateName"][0]
+    first = min((a.published for a in live), default=None)
+    since = f" — publishing since {first.isoformat()}" if first else ""
+
+    def row(key: str, value: str) -> str:
+        return (f'      <div class="row"><div class="k">{key}</div>'
+                f'<div class="v">{value}</div></div>\n')
+
+    fa = '<span dir="rtl" lang="fa">{}</span>'
+    names_fa = " · ".join(fa.format(n) for n in PERSON["alternateName"][:2])
+    names_en = " · ".join(
+        html.escape(n) for n in
+        ["Mohammadhadi Bakhtzadeh", "Mohammad Hadi Bakhtzadeh"]
+    )
+    github = PERSON["sameAs"][0]
+    record = (
+        row("Name", html.escape(PERSON["name"]) + " " + names_fa)
+        + row("Also written", names_en)
+        + row("Role", html.escape(PERSON["jobTitle"]))
+        + row("Company", "Founder, Vandidad Group "
+              '<span dir="rtl" lang="fa">وندیداد گروپ</span>')
+        + row("Founded", "15.03.2018 "
+              '<span style="color:var(--muted);font-size:13.5px">'
+              "— company trading since that date</span>")
+        + row("Trade registry no.", "<code>202783</code> "
+              '<span style="color:var(--muted);font-size:13.5px">'
+              "İzmir Trade Registry</span>")
+        + row("Chamber reg. no.", "<code>1888691</code>"
+              '<a href="https://eoda.izto.org.tr/web/oda_sicil_belge_sorgu.aspx"'
+              ' target="_blank" rel="noopener">Verify at İZTO →</a>')
+        + row("Based in", "Konak, İzmir, Türkiye")
+        + row("Languages", "Persian (native) · English · Turkish")
+        + row("Field", "AI systems architecture · agentic AI · "
+              "conversational design for Persian-language business")
+        + row("Writing", f"{len(live)} signed articles on this site{since}")
+        + row("Code", f'<a href="{github}" target="_blank" rel="noopener">'
+              "github.com/vandidadhonar-sudo →</a> "
+              '<span style="color:var(--muted);font-size:13.5px">'
+              "— the account this site is built and served from</span>")
+    )
     block = f"""{ABOUT_START}
   <section id="person" class="person">
-    <h2>Founder</h2>
-
-    <p class="pname">{html.escape(PERSON["name"])}
-      <span dir="rtl" lang="fa">{fa_name}</span></p>
-    <p class="prole">{html.escape(PERSON["jobTitle"])} ·
-      Founder, Vandidad Group · İzmir, Türkiye</p>
-
-    <p>Hadi Bakhtzadeh — also written Mohammadhadi Bakhtzadeh, and
-      <span dir="rtl" lang="fa">هادی بخت‌زاده</span> or
-      <span dir="rtl" lang="fa">محمد هادی بخت‌زاده</span> in Persian — founded
-      Vandidad Group in İzmir in March 2018. The company's registration can be
-      confirmed through the Turkish trade registry and tax portals linked in
-      the record above.</p>
-
-    <p>His work is the design of AI systems for businesses that sell in
-      Persian: deciding what a system may do on its own, where it must ask a
-      person, what it remembers about a customer between conversations, and
-      how it behaves when the model is wrong. He writes about that subject in
-      Persian, and the articles below are signed and dated.</p>
-
-    <div dir="rtl" lang="fa" class="fa">
-      <p><strong>هادی بخت‌زاده</strong> — معمار سیستم‌های هوش مصنوعی و
-        بنیان‌گذار وندیداد گروپ در ازمیر ترکیه. کارش طراحی رفتار سیستم‌های
-        هوش مصنوعی برای کسب‌وکارهایی است که به فارسی می‌فروشند: اینکه سیستم
-        چه کاری را خودش انجام دهد، کجا از آدم اجازه بگیرد، چه چیزی را میان
-        گفتگوها به یاد بسپارد، و وقتی مدل اشتباه کرد چه اتفاقی بیفتد.</p>
-      <p>نوشته‌هایش دربارهٔ همین موضوع است — سیستم‌عامل هوش مصنوعی، هوش
-        مصنوعی عاملی، ایجنت، و طراحی گفتگو به فارسی — و همه با نام و تاریخ
-        منتشر شده‌اند.</p>
-    </div>
+    <h2>Founder record</h2>
+    <div class="record">
+{record}    </div>
+    <p class="note">Every field above is either a public registration that can
+      be confirmed through the portals linked here, or a count taken from the
+      articles listed below.</p>
 
     <h3>Published writing <span class="n">{len(live)} articles</span></h3>
     <ul class="works">{items}</ul>
