@@ -364,6 +364,33 @@ class PersonEntity(unittest.TestCase):
         self.assertEqual(bc.render_about_person("no markers", []), "no markers")
 
 
+class CanonicalHost(unittest.TestCase):
+    """The Worker 301s www to the apex domain. A canonical or og:url on www
+    therefore points at a URL that immediately redirects, while the sitemap
+    lists the apex — two contradictory instructions about which URL is real.
+    /about carried exactly that, on the page meant to be the founder's record."""
+
+    def _pages(self):
+        root = Path(__file__).resolve().parent.parent
+        for name in ("index.html", "about.html", "privacy.html",
+                     "terms.html", "data-deletion.html"):
+            f = root / name
+            if f.exists():
+                yield name, f.read_text(encoding="utf-8")
+
+    def test_no_page_declares_itself_canonical_on_www(self):
+        for name, body in self._pages():
+            self.assertNotIn("www.vandidad.xyz", body,
+                             f"{name} points at www, which the Worker redirects")
+
+    def test_every_page_has_one_canonical_on_the_apex_host(self):
+        import re
+        for name, body in self._pages():
+            hits = re.findall(r'rel="canonical" href="(https://[^"]+)"', body)
+            self.assertEqual(len(hits), 1, f"{name} has {len(hits)} canonicals")
+            self.assertTrue(hits[0].startswith("https://vandidad.xyz"), hits[0])
+
+
 class Llms(unittest.TestCase):
     def test_it_replaces_only_its_own_section(self):
         existing = ("intro\n\n## Individual articles\n\nold list\n\n"

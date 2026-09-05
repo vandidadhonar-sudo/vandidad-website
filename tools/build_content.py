@@ -240,6 +240,28 @@ ORGANISATION = {
         "AI systems architecture",
     ],
     "founder": {"@id": SITE + "/#person"},
+    # Everything below can be checked by a stranger against a government
+    # register, which is the only kind of credential worth putting in
+    # structured data. The numbers and the verification portals are already
+    # printed on /about; this is the machine-readable form of the same claim.
+    "foundingDate": "2018-03-15",
+    "taxID": "9220834963",
+    "identifier": [
+        {"@type": "PropertyValue", "name": "İzmir Trade Registry",
+         "value": "202783"},
+        {"@type": "PropertyValue", "name": "İzmir Chamber of Commerce",
+         "value": "1888691"},
+    ],
+    "memberOf": {
+        "@type": "Organization",
+        "name": "İzmir Chamber of Commerce",
+        "alternateName": "İzmir Ticaret Odası",
+        "url": "https://www.izto.org.tr",
+    },
+    "legalName": (
+        "Vandidad Group Gayrimenkul Danışmanlık Hizmetleri İthalat İhracat "
+        "Ticaret Limited Şirketi"
+    ),
 }
 
 # One person, one identity, every spelling.
@@ -296,9 +318,27 @@ PERSON = {
     # The page a machine should treat as this person's record.
     "mainEntityOfPage": {"@type": "ProfilePage", "@id": SITE + "/about"},
     # Profiles that confirm the same person elsewhere. sameAs is the strongest
-    # identity signal there is, and it cannot be invented — every entry has to
-    # be a real profile the owner controls. Empty until he supplies them.
-    "sameAs": [],
+    # identity signal there is and it cannot be invented: a wrong entry points
+    # the entity at someone else. Only accounts demonstrably his belong here.
+    # The GitHub account is the one that owns the repository this site is
+    # built and served from, which is checkable by anyone who looks.
+    "sameAs": [
+        "https://github.com/vandidadhonar-sudo",
+    ],
+    # A role with a start date, tied to an organisation whose registration is
+    # public record. This is the part of his standing that does not rest on
+    # anyone taking his word for it.
+    "hasOccupation": {
+        "@type": "Occupation",
+        "name": "AI Systems Architect",
+        "occupationalCategory": "15-1252 Software Developers",
+        "responsibilities": (
+            "Designing the behaviour of AI systems for business conversation: "
+            "scope of autonomous action, escalation points, what persists "
+            "between conversations, and behaviour under model failure."
+        ),
+    },
+    "memberOf": {"@id": SITE + "/#organization"},
     "founder": {"@id": SITE + "/#organization"},
     "worksFor": {"@id": SITE + "/#organization"},
     "knowsLanguage": ["fa", "en", "tr"],
