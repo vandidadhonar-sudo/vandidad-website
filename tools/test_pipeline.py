@@ -427,3 +427,28 @@ class Llms(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class AboutProfileIsGenerated(unittest.TestCase):
+    """The /about ProfilePage block must come from PERSON, not from a copy.
+
+    It was hand-written and had drifted to `sameAs: []` while every other
+    page carried real profiles — one entity, two contradictory descriptions.
+    """
+
+    def _about(self):
+        return (pathlib.Path(bc.__file__).resolve().parent.parent
+                / "about.html").read_text("utf-8")
+
+    def test_the_block_is_between_the_markers(self):
+        about = self._about()
+        self.assertIn(bc.PROFILE_START, about)
+        self.assertIn(bc.PROFILE_END, about)
+
+    def test_it_carries_the_same_profiles_as_the_person(self):
+        rendered = bc.render_about_profile(self._about())
+        for link in bc.PERSON["sameAs"]:
+            self.assertIn(link, rendered)
+
+    def test_it_points_at_the_persian_page_as_his_record(self):
+        self.assertIn(bc.PERSON_URL, bc.render_about_profile(self._about()))
