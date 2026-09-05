@@ -5,6 +5,7 @@ date: 2026-09-08
 updated: 2026-09-08
 publish_on: 2026-09-08
 collection: hamzad
+tier: میانی
 target_keyword: ساخت ایجنت هوش مصنوعی
 answer: >-
   ساخت ایجنت هوش مصنوعی با آموزش n8n واقعاً در یک بعدازظهر ممکن است و ارزش

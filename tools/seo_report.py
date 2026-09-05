@@ -105,6 +105,9 @@ class Report:
         self.early = occurrences(early, self.kw) > 0
         self.links_out = [m.group(2) for m in LINK_RE.finditer(body)]
         self.links_in: list[str] = []
+        self.tier = article.tier
+        # Filled in by collect(): does this article link up to a pillar?
+        self.links_to_pillar = True
 
     @property
     def path(self) -> str:
@@ -139,6 +142,17 @@ class Report:
             out.append(
                 f"{len(self.links_out)} لینک داخلی دارد و کف {MIN_LINKS_OUT} است. "
                 "لینک داخلی هم مسیر خواننده است هم مسیر خزنده."
+            )
+        # A trade-specific article that links to nothing above it is a leaf on
+        # no tree: it brings a little traffic on a narrow phrase and adds
+        # nothing to the site's standing on the subject the company actually
+        # works in. Linking up is what turns a pile of articles into a
+        # position on a topic.
+        if self.tier == "صنفی" and not self.links_to_pillar:
+            out.append(
+                "مقالهٔ صنفی است و به هیچ مقالهٔ ستونی لینک نداده. صنف‌ها باید "
+                "به ستون وصل شوند وگرنه ترافیک پراکنده می‌آورند و جایگاهی "
+                "نمی‌سازند."
             )
         return out
 
@@ -182,6 +196,13 @@ def collect() -> list[Report]:
             dest = by_path.get(target.rstrip("/"))
             if dest is not None and dest is not r:
                 dest.links_in.append(r.path)
+    for r in reports:
+        if r.tier == "صنفی":
+            r.links_to_pillar = any(
+                (by_path.get(t.rstrip("/")) or r).tier == "ستون"
+                for t in r.links_out
+                if by_path.get(t.rstrip("/")) is not None
+            )
     return reports
 
 
@@ -228,6 +249,26 @@ def render(reports: list[Report]) -> str:
             f"{r.density:.1f}٪ | {tick[r.in_title]} | {tick[r.in_desc]} | "
             f"{tick[r.early]} | {len(r.links_out)} | {len(r.links_in)} |"
         )
+
+    # The balance between levels, reported every build. Drifting into
+    # trade-specific pieces is easy — each one is concrete and pleasant to
+    # write — and it is invisible until the site is thirty narrow articles
+    # with no position on anything.
+    counts = {tier: sum(1 for r in reports if r.tier == tier)
+              for tier in ("ستون", "میانی", "صنفی")}
+    total = len(reports) or 1
+    lines += ["", "## توازن سطح‌ها", "",
+              "| سطح | تعداد | سهم |", "|---|---|---|"]
+    for tier, n in counts.items():
+        lines.append(f"| {tier} | {n} | {n / total * 100:.0f}٪ |")
+    lines += ["", "**ستون** عبارتی است که خودِ کارِ ما را توصیف می‌کند؛ "
+              "**میانی** مفهوم یا تصمیمی است که به ستون خدمت می‌کند؛ "
+              "**صنفی** یک صنف یا یک کانال است و باید به ستونش لینک بدهد.", ""]
+    if counts["صنفی"] > counts["ستون"] * 3:
+        lines.append(
+            f"⚠️ نسبت صنفی به ستون {counts['صنفی']}:{counts['ستون']} است. "
+            "هر مقالهٔ صنفی ترافیک باریکی می‌آورد؛ جایگاه را ستون‌ها می‌سازند. "
+            "نوبت بعدی، ستون بنویس نه صنف.")
 
     orphans = [r for r in reports if not r.links_in]
     lines += ["", "## صفحه‌های بی‌لینکِ ورودی", ""]

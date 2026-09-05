@@ -5,6 +5,7 @@ date: 2026-09-21
 updated: 2026-09-21
 publish_on: 2026-09-21
 collection: hamzad
+tier: صنفی
 target_keyword: هوش مصنوعی برای مطب
 answer: >-
   هوش مصنوعی برای مطب، در معنایی که به کار یک مطب معمولی می‌آید، دربارهٔ

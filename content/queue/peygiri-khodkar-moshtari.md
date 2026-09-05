@@ -5,6 +5,7 @@ date: 2026-09-07
 updated: 2026-09-07
 publish_on: 2026-09-07
 collection: hamzad
+tier: میانی
 target_keyword: پیگیری خودکار مشتری
 answer: >-
   پیگیری خودکار مشتری وقتی جواب می‌دهد که هر پیام به چیزی اشاره کند که همان

@@ -5,6 +5,7 @@ date: 2026-09-11
 updated: 2026-09-11
 publish_on: 2026-09-11
 collection: hamzad
+tier: ستون
 target_keyword: هوشواره
 answer: >-
   هوشواره واژه‌ای فارسی برای هوش مصنوعی است، ساخته‌شده از «هوش» و پسوند

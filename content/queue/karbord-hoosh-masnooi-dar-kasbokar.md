@@ -5,6 +5,7 @@ date: 2026-09-24
 updated: 2026-09-24
 publish_on: 2026-09-24
 collection: hamzad
+tier: ستون
 target_keyword: کاربرد هوش مصنوعی در کسب و کار
 answer: >-
   کاربرد هوش مصنوعی در کسب و کار را باید از سمت کار پیدا کرد، نه از سمت

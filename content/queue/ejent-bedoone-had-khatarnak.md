@@ -5,6 +5,7 @@ date: 2026-09-10
 updated: 2026-09-10
 publish_on: 2026-09-10
 collection: hamzad
+tier: میانی
 target_keyword: خطرات ایجنت هوش مصنوعی
 answer: >-
   خطرات ایجنت هوش مصنوعی در عمل فرضی نیست و شکل مشخصی دارد: پاسخ به زبان

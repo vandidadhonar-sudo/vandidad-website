@@ -5,6 +5,7 @@ date: 2026-09-22
 updated: 2026-09-22
 publish_on: 2026-09-22
 collection: hamzad
+tier: میانی
 target_keyword: هوش مصنوعی رایگان فارسی
 answer: >-
   هوش مصنوعی رایگان فارسی واقعاً هست و کم هم نیست — گپ‌جی‌پی‌تی، هوشنگ و

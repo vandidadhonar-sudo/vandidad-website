@@ -67,6 +67,9 @@ IRAN_SECTION = re.compile(r"برای\s*کسب.?و.?کار\s*ایرانی")
 ANSWER_MIN = 180
 ANSWER_MAX = 420
 
+# The three levels an article can sit at. See Article.tier.
+TIERS = ("ستون", "میانی", "صنفی")
+
 # The owner's standing rules, enforced rather than advised.
 #
 # These exist because the approval step was removed: articles publish straight
@@ -314,6 +317,17 @@ class Article:
     # structured data, because markup that does not match visible text is the
     # kind that gets a site's rich results withdrawn.
     answer: str = ""
+    # Where this article sits in the site's structure. Flat sites of equal
+    # articles do not build authority on a subject; a small number of pillar
+    # pages on the terms that describe what the company does, with everything
+    # else linking up to them, does. Declared rather than inferred, because a
+    # writer choosing a trade-specific subject has to decide, in the moment,
+    # which pillar it belongs under — and if it belongs under none, that is
+    # the signal the subject is off the company's level.
+    #   ستون  — a head term describing the work itself
+    #   میانی — a concept or decision that serves a pillar
+    #   صنفی  — one trade or one channel; must link up to a pillar
+    tier: str = "میانی"
 
     @property
     def url(self) -> str:
@@ -437,6 +451,7 @@ def parse(path: Path) -> Article:
         llms_line=str(meta.get("llms_line", "")).strip(),
         target_keyword=str(meta.get("target_keyword", "")).strip(),
         answer=" ".join(str(meta.get("answer", "")).split()),
+        tier=str(meta.get("tier", "")).strip() or "میانی",
     )
 
 
@@ -487,6 +502,13 @@ def validate(article: Article) -> None:
                     f"«{article.target_keyword}» در «answer» نیامده. کسی که این "
                     "عبارت را پرسیده، باید همان را در پاسخ ببیند."
                 )
+
+    if rules["require_iran_section"] and article.tier not in TIERS:
+        faults.append(
+            f"«tier» باید یکی از {'، '.join(TIERS)} باشد و «{article.tier}» است. "
+            "این تعیین می‌کند مقاله ستون است، میانی است، یا صنفی — و صنفی باید "
+            "به ستونش لینک بدهد."
+        )
 
     if not article.summary_en:
         faults.append(

@@ -5,6 +5,7 @@ date: 2026-09-30
 updated: 2026-09-30
 publish_on: 2026-09-30
 collection: hamzad
+tier: میانی
 target_keyword: خطای هوش مصنوعی
 answer: >-
   خطای هوش مصنوعی که به آن «توهم» می‌گویند، خرابی یک محصول خاص نیست؛ نتیجهٔ

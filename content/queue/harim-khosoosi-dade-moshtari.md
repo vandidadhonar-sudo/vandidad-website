@@ -5,6 +5,7 @@ date: 2026-09-28
 updated: 2026-09-28
 publish_on: 2026-09-28
 collection: hamzad
+tier: میانی
 target_keyword: حریم خصوصی داده مشتری
 answer: >-
   حریم خصوصی داده مشتری در پروژه‌های هوش مصنوعی سه پرسش دارد که باید پیش از

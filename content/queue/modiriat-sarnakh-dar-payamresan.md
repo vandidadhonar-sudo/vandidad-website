@@ -5,6 +5,7 @@ date: 2026-09-19
 updated: 2026-09-19
 publish_on: 2026-09-19
 collection: hamzad
+tier: میانی
 target_keyword: مدیریت سرنخ فروش
 answer: >-
   همهٔ محتوای موجود دربارهٔ مدیریت سرنخ فروش فرض می‌کند سرنخ از فرم سایت

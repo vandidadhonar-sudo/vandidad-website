@@ -5,6 +5,7 @@ date: 2026-09-23
 updated: 2026-09-23
 publish_on: 2026-09-23
 collection: hamzad
+tier: میانی
 target_keyword: چت بات هوش مصنوعی ایرانی
 answer: >-
   بازار چت بات هوش مصنوعی ایرانی چند بازیگر جدی دارد و فهرست امکاناتشان

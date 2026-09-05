@@ -5,6 +5,7 @@ date: 2026-09-15
 updated: 2026-09-15
 publish_on: 2026-09-15
 collection: hamzad
+tier: صنفی
 target_keyword: ربات پاسخگو واتساپ
 answer: >-
   ربات پاسخگو واتساپ در بازار ایران کم نیست — چند ابزار جاافتاده همین کار

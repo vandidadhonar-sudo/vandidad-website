@@ -5,6 +5,7 @@ date: 2026-09-26
 updated: 2026-09-26
 publish_on: 2026-09-26
 collection: hamzad
+tier: ستون
 target_keyword: هوش مصنوعی چیست
 answer: >-
   هوش مصنوعی چیست؟ به ساده‌ترین بیان، برنامه‌ای که از روی نمونه‌های بسیار

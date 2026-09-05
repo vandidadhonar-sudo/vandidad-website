@@ -5,6 +5,7 @@ date: 2026-09-14
 updated: 2026-09-14
 publish_on: 2026-09-14
 collection: hamzad
+tier: ستون
 target_keyword: معمار هوش مصنوعی
 answer: >-
   معمار هوش مصنوعی کسی نیست که مدل می‌سازد یا ابزار می‌فروشد. کسی است که
