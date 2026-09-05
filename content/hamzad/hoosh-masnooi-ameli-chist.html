@@ -112,9 +112,9 @@
    "url": "https://vandidad.xyz/hamzad/hoosh-masnooi-ameli-chist",
    "image": "https://vandidad.xyz/hero-poster.jpg",
    "keywords": "هوش-مصنوعی-عاملی, ایجنت-هوش-مصنوعی, خودمختاری, حد-اختیار, کسب-وکار-ایرانی",
-   "abstract": "Agentic AI is usually explained as a smarter model. It is not: the difference is permission, not intelligence. Written by Hadi Bakhtzadeh, AI systems architect at Vandidad Group in İzmir, Türkiye, this article describes what changes when a system is allowed to act rather than only answer — it can now be wrong in ways that cost money — and sets out the three decisions that matter more than model choice: what the system may promise, what it may spend, and what it must hand to a person. It argues that autonomy is a dial rather than a switch, and that the useful question when buying such a system is not what it can do but what it is forbidden to do.",
+   "abstract": "هوش مصنوعی عاملی یعنی سیستمی که فقط جواب نمی‌دهد، بلکه کاری انجام می‌دهد — فرم پر می‌کند، نوبت ثبت می‌کند، پیام می‌فرستد. تفاوتش با چت‌بات در هوش نیست، در اجازه است. برای همین تصمیم اصلی انتخاب مدل نیست؛ این است که این اجازه تا کجا باشد، چه کسی حدش را نوشته، و وقتی سیستم به مرز می‌رسد چه می‌کند.",
    "articleSection": "Articles",
-   "wordCount": 1716,
+   "wordCount": 1737,
    "isAccessibleForFree": true,
    "about": [
     {
@@ -232,6 +232,16 @@
     color:var(--gold);margin:0 0 12px;letter-spacing:-.01em}
   .meta{font:400 13px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);margin:0}
   .lede{color:#ded8cb;font-size:19.5px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
+  /* The answer block. Set apart enough that a reader in a hurry sees it is
+     the short version, quiet enough that it does not read as an
+     advertisement — the border does the work, not a filled panel. */
+  .answer{margin:30px 0 6px;padding:20px 22px;border:1px solid var(--rule);
+    border-inline-start:3px solid var(--gold-dim);border-radius:6px;
+    background:rgba(227,200,138,.035)}
+  .answer h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;
+    letter-spacing:.2em;color:var(--gold-dim);margin:0 0 12px;
+    text-transform:uppercase}
+  .answer p{margin:0;font-size:17.5px;color:#e6e0d3}
   article{padding-top:8px}
   article h2{font:600 20px/1.5 inherit;color:var(--gold);margin:38px 0 12px}
   article h3{font:600 16px/1.5 inherit;color:var(--gold-dim);margin:28px 0 8px}
@@ -295,6 +305,8 @@
     .meta .readtime{display:inline-block}
     article h2{margin:30px 0 10px;font-size:19px}
     .lede{font-size:18px}
+    .answer{padding:16px 17px;margin:24px 0 4px}
+    .answer p{font-size:16.5px}
     .share{gap:10px}
     .share a,.share button{padding:8px 12px}
     .index-item{margin-top:26px}
@@ -322,6 +334,7 @@
 <p class="meta">نویسنده: <a href="/about" rel="author">هادی بخت‌زاده</a> · ۴ سپتامبر ۲۰۲۶ · به‌روزرسانی ۴ سپتامبر ۲۰۲۶ · <span class="readtime">زمان تخمینی مطالعه: ۹ دقیقه</span></p>
 <p class="lede">تفاوت هوش مصنوعی عاملی با یک مدل زبانی معمولی، و سه جایی که دادن اختیار به سیستم برای یک کسب‌وکار گران تمام می‌شود.</p>
 </header>
+<section class="answer" aria-label="پاسخ کوتاه"><h2>پاسخ کوتاه</h2><p>هوش مصنوعی عاملی یعنی سیستمی که فقط جواب نمی‌دهد، بلکه کاری انجام می‌دهد — فرم پر می‌کند، نوبت ثبت می‌کند، پیام می‌فرستد. تفاوتش با چت‌بات در هوش نیست، در اجازه است. برای همین تصمیم اصلی انتخاب مدل نیست؛ این است که این اجازه تا کجا باشد، چه کسی حدش را نوشته، و وقتی سیستم به مرز می‌رسد چه می‌کند.</p></section>
 <article><p>هر جا دربارهٔ «هوش مصنوعی عاملی» می‌خوانید، یک توضیح تکرار می‌شود: نسل بعدی، باهوش‌تر، خودمختار.</p>
 <p>من فکر می‌کنم این توضیح نه‌فقط ناقص، که گمراه‌کننده است — و چون گمراه‌کننده است، آدم‌ها را سراغ پرسش‌های اشتباه می‌فرستد.</p>
 <p>تفاوت اصلی در هوش نیست. در <strong>اجازه</strong> است. بگذارید نشان بدهم چرا.</p>
@@ -384,7 +397,7 @@
 <h2>جمع‌بندی</h2>
 <p>هوش مصنوعی عاملی نه نسل بعدی مدل‌هاست و نه چیز مرموزی. تفاوتش با آنچه تا حالا داشته‌ایم در یک کلمه است: اجازه. سیستمی که اجازهٔ عمل دارد می‌تواند کارهایی بکند که یک پاسخ‌دهندهٔ ساده نمی‌تواند — و دقیقاً به همان اندازه می‌تواند خراب کند.</p>
 <p>پس تصمیم اصلی، انتخاب مدل نیست. تصمیم اصلی این است که این اجازه تا کجا باشد، چه کسی حدش را نوشته، و وقتی سیستم به مرز می‌رسد چه کاری می‌کند. کسب‌وکاری که این سه را روشن کرده باشد، از سیستمی متوسط نتیجهٔ خوب می‌گیرد. کسب‌وکاری که روشن نکرده باشد، از توانمندترین مدل دنیا هم دردسر می‌گیرد.</p>
-<p>مرز میان چت‌بات، ایجنت و لایه‌ای که این حدود را نگه می‌دارد در نوشتهٔ <a href="https://vandidad.xyz/hamzad/sistem-amel-hoosh-masnooi-chist">سیستم‌عامل هوش مصنوعی چیست و چه فرقی با ایجنت و چت‌بات دارد</a> توضیح داده شده.</p></article>
+<p>مرز میان چت‌بات، ایجنت و لایه‌ای که این حدود را نگه می‌دارد در نوشتهٔ <a href="https://vandidad.xyz/hamzad/sistem-amel-hoosh-masnooi-chist">سیستم‌عامل هوش مصنوعی چیست و چه فرقی با ایجنت و چت‌بات دارد</a> توضیح داده شده، و <a href="/hamzad/chatbot-vs-digital-twin">چرا چت‌بات برای کسب‌وکار جواب نداد</a> نشان می‌دهد نبودِ همین حدود در عمل چه شکلی است.</p></article>
 <p class="tags">هوش-مصنوعی-عاملی · ایجنت-هوش-مصنوعی · خودمختاری · حد-اختیار · کسب-وکار-ایرانی</p>
 <section class="faq"><h2>پرسش‌های پرتکرار</h2><dl><dt>هوش مصنوعی عاملی با چت‌جی‌پی‌تی چه فرقی دارد؟</dt><dd>یک مدل زبانی معمولی به پرسش شما پاسخ می‌دهد و همان‌جا تمام می‌شود. هوش مصنوعی عاملی یک هدف می‌گیرد و برای رسیدن به آن چند قدم برمی‌دارد: تصمیم می‌گیرد چه چیزی را باید بداند، آن را پیدا می‌کند، کاری انجام می‌دهد و نتیجه را بررسی می‌کند. فرق در اجازهٔ عمل است، نه در باهوش‌تر بودن.</dd><dt>خودمختاری در هوش مصنوعی به چه معناست؟</dt><dd>یعنی سیستم بدون پرسیدن از آدم تصمیم بگیرد و عمل کند. این یک کلید صفر و یک نیست بلکه یک درجه است: می‌شود اجازه داد سیستم خودش پاسخ بدهد، ولی اجازهٔ قیمت‌دادن یا تعهد تحویل نداشته باشد.</dd><dt>آیا هوش مصنوعی عاملی برای کسب‌وکار کوچک هم معنا دارد؟</dt><dd>بله، ولی نه به این شکل که همه‌کاره باشد. برای کسب‌وکار کوچک، سیستمی که فقط پیام‌های ساعت دو بامداد را جواب بدهد و اطلاعات لازم را بگیرد و بگذارد صبح آدم تصمیم بگیرد، ارزش بیشتری دارد تا سیستمی که خودش تا آخر معامله می‌رود.</dd><dt>بزرگ‌ترین خطر ایجنت هوش مصنوعی چیست؟</dt><dd>اینکه چیزی را قول بدهد که کسب‌وکار نمی‌تواند پایش بایستد — قیمتی که نداریم، زمان تحویلی که نمی‌رسد، یا قراری که کسی سرش نیست. این خطر با انتخاب مدل بهتر برطرف نمی‌شود؛ با تعریف حد اختیار برطرف می‌شود.</dd></dl></section>
 <section class="summary ltr" lang="en" dir="ltr"><h2>In English</h2><p>Agentic AI is usually explained as a smarter model. It is not: the difference is permission, not intelligence. Written by Hadi Bakhtzadeh, AI systems architect at Vandidad Group in İzmir, Türkiye, this article describes what changes when a system is allowed to act rather than only answer — it can now be wrong in ways that cost money — and sets out the three decisions that matter more than model choice: what the system may promise, what it may spend, and what it must hand to a person. It argues that autonomy is a dial rather than a switch, and that the useful question when buying such a system is not what it can do but what it is forbidden to do.</p></section>

@@ -266,6 +266,57 @@ class TitleLength(unittest.TestCase):
             bc.validate(a)
 
 
+class AnswerBlock(unittest.TestCase):
+    """The paragraph a model quotes and a hurried reader reads. It has to
+    exist, contain the phrase that was searched, and be short enough to lift
+    in one piece."""
+
+    def _article(self, **kw):
+        base = dict(slug="s", collection="hamzad", title="ت", description="د",
+                    published=date(2026, 9, 4),
+                    body_md="کلمه " * 1500 + "برای کسب‌وکار ایرانی یعنی چه",
+                    summary_en="An English summary.",
+                    target_keyword="ایجنت فروش",
+                    answer="ایجنت فروش " + "پاسخ " * 60)
+        base.update(kw)
+        return bc.Article(**base)
+
+    def test_an_article_without_one_is_refused(self):
+        with self.assertRaises(bc.BuildError):
+            bc.validate(self._article(answer=""))
+
+    def test_one_too_short_to_say_anything_is_refused(self):
+        with self.assertRaises(bc.BuildError):
+            bc.validate(self._article(answer="ایجنت فروش خوب است."))
+
+    def test_one_too_long_to_quote_is_refused(self):
+        with self.assertRaises(bc.BuildError):
+            bc.validate(self._article(answer="ایجنت فروش " + "کلمه " * 200))
+
+    def test_it_must_contain_the_phrase_the_reader_searched(self):
+        with self.assertRaises(bc.BuildError):
+            bc.validate(self._article(answer="پاسخی " * 60))
+
+    def test_a_good_one_passes(self):
+        bc.validate(self._article())
+
+    def test_it_is_rendered_above_the_article_not_below(self):
+        html = bc.render_article(self._article())
+        self.assertIn("پاسخ کوتاه", html)
+        self.assertLess(html.index('class="answer"'), html.index("<article>"))
+
+    def test_the_structured_data_repeats_the_visible_answer(self):
+        a = self._article(answer="ایجنت فروش " + "متنِ یکتا " * 30)
+        html = bc.render_article(a)
+        # Markup that does not match visible text is what gets rich results
+        # withdrawn, so the abstract must be the same sentence the reader sees.
+        self.assertEqual(html.count("متنِ یکتا"), 60)
+
+    def test_the_phrase_check_sees_through_persian_spelling(self):
+        self.assertTrue(bc._phrase_in("یک چت‌بات فارسی", "چت بات فارسي"))
+        self.assertFalse(bc._phrase_in("یک ایجنت فروش", "ایجنت پشتیبانی"))
+
+
 class Llms(unittest.TestCase):
     def test_it_replaces_only_its_own_section(self):
         existing = ("intro\n\n## Individual articles\n\nold list\n\n"

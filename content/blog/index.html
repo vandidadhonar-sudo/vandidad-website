@@ -148,6 +148,16 @@
     color:var(--gold);margin:0 0 12px;letter-spacing:-.01em}
   .meta{font:400 13px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);margin:0}
   .lede{color:#ded8cb;font-size:19.5px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
+  /* The answer block. Set apart enough that a reader in a hurry sees it is
+     the short version, quiet enough that it does not read as an
+     advertisement — the border does the work, not a filled panel. */
+  .answer{margin:30px 0 6px;padding:20px 22px;border:1px solid var(--rule);
+    border-inline-start:3px solid var(--gold-dim);border-radius:6px;
+    background:rgba(227,200,138,.035)}
+  .answer h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;
+    letter-spacing:.2em;color:var(--gold-dim);margin:0 0 12px;
+    text-transform:uppercase}
+  .answer p{margin:0;font-size:17.5px;color:#e6e0d3}
   article{padding-top:8px}
   article h2{font:600 20px/1.5 inherit;color:var(--gold);margin:38px 0 12px}
   article h3{font:600 16px/1.5 inherit;color:var(--gold-dim);margin:28px 0 8px}
@@ -211,6 +221,8 @@
     .meta .readtime{display:inline-block}
     article h2{margin:30px 0 10px;font-size:19px}
     .lede{font-size:18px}
+    .answer{padding:16px 17px;margin:24px 0 4px}
+    .answer p{font-size:16.5px}
     .share{gap:10px}
     .share a,.share button{padding:8px 12px}
     .index-item{margin-top:26px}

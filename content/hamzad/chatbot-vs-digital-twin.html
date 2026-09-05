@@ -98,7 +98,7 @@
    "description": "تحلیل فنی سه دلیلی که چت‌بات‌های مبتنی بر تشخیص نیت شکست می‌خورند، و اینکه یک همزاد دیجیتال چه چیزی را متفاوت حل می‌کند.",
    "inLanguage": "fa-IR",
    "datePublished": "2026-08-12",
-   "dateModified": "2026-09-03",
+   "dateModified": "2026-09-04",
    "author": {
     "@id": "https://vandidad.xyz/#person"
    },
@@ -112,9 +112,9 @@
    "url": "https://vandidad.xyz/hamzad/chatbot-vs-digital-twin",
    "image": "https://vandidad.xyz/hero-poster.jpg",
    "keywords": "چت-بات, ایجنت-هوش-مصنوعی, همزاد-دیجیتال, معماری-سیستم, کسب-وکار-ایرانی",
-   "abstract": "A technical account of why intent-classification chatbots fail on real customer messages. Written by Hadi Bakhtzadeh, AI systems architect at Vandidad Group in İzmir, Türkiye, it examines three distinct engineering problems: single-label classification collapsing multi-intent utterances, the absence of a state model that separates identity from case, and generation without a refusal path. The article argues that conversational digital twins for Persian-speaking businesses are an orchestration problem rather than a language problem, and describes how AIOS resolves each of the three on production infrastructure.",
+   "abstract": "چت‌بات برای کسب‌وکار معمولاً به‌خاطر ضعف زبانی شکست نمی‌خورد، به‌خاطر معماری شکست می‌خورد. سه مسئله پشت سر هم می‌آید: یک پیام چند نیت دارد و دسته‌بند فقط یکی را برمی‌دارد؛ سیستم وضعیت مشتری را بین گفتگوها نگه نمی‌دارد؛ و راهی برای گفتن «نمی‌دانم» ندارد، پس حدس می‌زند. هر سه در طراحی حل می‌شوند، نه با مدل بهتر.",
    "articleSection": "Articles",
-   "wordCount": 1579,
+   "wordCount": 1597,
    "isAccessibleForFree": true
   },
   {
@@ -185,6 +185,16 @@
     color:var(--gold);margin:0 0 12px;letter-spacing:-.01em}
   .meta{font:400 13px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);margin:0}
   .lede{color:#ded8cb;font-size:19.5px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
+  /* The answer block. Set apart enough that a reader in a hurry sees it is
+     the short version, quiet enough that it does not read as an
+     advertisement — the border does the work, not a filled panel. */
+  .answer{margin:30px 0 6px;padding:20px 22px;border:1px solid var(--rule);
+    border-inline-start:3px solid var(--gold-dim);border-radius:6px;
+    background:rgba(227,200,138,.035)}
+  .answer h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;
+    letter-spacing:.2em;color:var(--gold-dim);margin:0 0 12px;
+    text-transform:uppercase}
+  .answer p{margin:0;font-size:17.5px;color:#e6e0d3}
   article{padding-top:8px}
   article h2{font:600 20px/1.5 inherit;color:var(--gold);margin:38px 0 12px}
   article h3{font:600 16px/1.5 inherit;color:var(--gold-dim);margin:28px 0 8px}
@@ -248,6 +258,8 @@
     .meta .readtime{display:inline-block}
     article h2{margin:30px 0 10px;font-size:19px}
     .lede{font-size:18px}
+    .answer{padding:16px 17px;margin:24px 0 4px}
+    .answer p{font-size:16.5px}
     .share{gap:10px}
     .share a,.share button{padding:8px 12px}
     .index-item{margin-top:26px}
@@ -272,10 +284,11 @@
 <header>
 <p class="eyebrow"><a href="/hamzad">مقالات</a></p>
 <h1>چرا چت‌بات برای کسب‌وکار شما جواب نداد</h1>
-<p class="meta">نویسنده: <a href="/about" rel="author">هادی بخت‌زاده</a> · ۱۲ اوت ۲۰۲۶ · به‌روزرسانی ۳ سپتامبر ۲۰۲۶ · <span class="readtime">زمان تخمینی مطالعه: ۸ دقیقه</span></p>
+<p class="meta">نویسنده: <a href="/about" rel="author">هادی بخت‌زاده</a> · ۱۲ اوت ۲۰۲۶ · به‌روزرسانی ۴ سپتامبر ۲۰۲۶ · <span class="readtime">زمان تخمینی مطالعه: ۸ دقیقه</span></p>
 <p class="lede">تحلیل فنی سه دلیلی که چت‌بات‌های مبتنی بر تشخیص نیت شکست می‌خورند، و اینکه یک همزاد دیجیتال چه چیزی را متفاوت حل می‌کند.</p>
 </header>
-<article><p>بیشترِ کسب‌وکارهایی که با من تماس می‌گیرند، قبلاً یک چت‌بات را امتحان کرده‌اند و رهایش کرده‌اند. تشخیصشان معمولاً این است که «هوش مصنوعی هنوز فارسی را خوب نمی‌فهمد».</p>
+<section class="answer" aria-label="پاسخ کوتاه"><h2>پاسخ کوتاه</h2><p>چت‌بات برای کسب‌وکار معمولاً به‌خاطر ضعف زبانی شکست نمی‌خورد، به‌خاطر معماری شکست می‌خورد. سه مسئله پشت سر هم می‌آید: یک پیام چند نیت دارد و دسته‌بند فقط یکی را برمی‌دارد؛ سیستم وضعیت مشتری را بین گفتگوها نگه نمی‌دارد؛ و راهی برای گفتن «نمی‌دانم» ندارد، پس حدس می‌زند. هر سه در طراحی حل می‌شوند، نه با مدل بهتر.</p></section>
+<article><p>بیشترِ کسب‌وکارهایی که با من تماس می‌گیرند، قبلاً یک چت‌بات برای کسب‌وکارشان راه انداخته‌اند و رهایش کرده‌اند. تشخیصشان معمولاً این است که «هوش مصنوعی هنوز فارسی را خوب نمی‌فهمد».</p>
 <p>این تشخیص غلط است، و چون غلط است، انتخابِ بعدی‌شان هم غلط می‌شود. مسئله زبان نیست. سه مسئلهٔ مهندسیِ جداست که هر سه در معماری حل می‌شوند، نه در مدل.</p>
 <h2>مسئلهٔ اول: یک جمله، چند نیت</h2>
 <p>معماریِ رایجِ چت‌بات بر پایهٔ <strong>تشخیص نیت</strong> کار می‌کند. پیام ورودی به یک دسته‌بند داده می‌شود، دسته‌بند از میان چند ده نیتِ از پیش تعریف‌شده یکی را انتخاب می‌کند، و پاسخِ متناظر برگردانده می‌شود.</p>
@@ -323,7 +336,7 @@
 <p><strong>نمایش پرسش‌های خطرناک ندارد.</strong> فروشنده «چقدر تخفیف می‌دهید؟» نمی‌پرسد.</p>
 <p><strong>نمایش یک کانال دارد.</strong> معمولاً همان که بهتر کار می‌کند.</p>
 <p><strong>نمایش کوتاه است.</strong> ده دقیقه، با ترافیک کم. سرویس مدل در آن ده دقیقه خطا نمی‌دهد.</p>
-<p>این بدجنسی فروشنده نیست؛ ماهیت نمایش است. برای همین است که آزمون واقعی را باید خودتان اجرا کنید، با پیام‌های واقعی خودتان — و همان چیزی است که در بخش بعد آمده.</p>
+<p>این بدجنسی فروشنده نیست؛ ماهیت نمایش است. هر چت‌بات برای کسب‌وکار در نمایش خوب کار می‌کند، چون نمایش همان چیزهایی را ندارد که آن را می‌شکنند. برای همین آزمون واقعی را باید خودتان اجرا کنید، با پیام‌های واقعی خودتان — و همان چیزی است که در بخش بعد آمده.</p>
 <h2>چرا این یک مسئلهٔ ارکستراسیون است، نه یک مسئلهٔ زبانی</h2>
 <p>وقتی هر سه را کنار هم بگذارید، معلوم می‌شود آنچه لازم است یک بات نیست، یک <strong>لایهٔ هماهنگ‌کننده</strong> است: مسیریابیِ گفتگو میان چند ایجنتِ متخصص، نگهداریِ وضعیت میان نشست‌ها و کانال‌ها، و اتصال به منابعِ واقعیِ داده.</p>
 <p>دلیلِ تفکیکِ ایجنت‌ها هم عملی است: هر ایجنت دستورالعملِ باریک‌تری دارد، پس فضای خطایش کوچک‌تر است. یک پرامپتِ غول‌پیکر که قرار است همه‌کار بکند، در عمل در همه‌کار متوسط است.</p>

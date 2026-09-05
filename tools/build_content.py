@@ -62,6 +62,11 @@ FRONT_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n(.*)$", re.S)
 # stem so a writer's spacing or half-space does not fail a good article.
 IRAN_SECTION = re.compile(r"برای\s*کسب.?و.?کار\s*ایرانی")
 
+# A quotable answer, sized. Under the floor it says nothing; over the ceiling
+# no snippet and no assistant lifts it in one piece.
+ANSWER_MIN = 180
+ANSWER_MAX = 420
+
 # The owner's standing rules, enforced rather than advised.
 #
 # These exist because the approval step was removed: articles publish straight
@@ -298,6 +303,17 @@ class Article:
     # cadence nobody remembers what was covered three weeks ago, and two of
     # our own pages competing for one phrase means neither wins it.
     target_keyword: str = ""
+    # The question answered in one quotable paragraph, before the article
+    # starts. Two different readers need this and neither reads the whole
+    # page: a person deciding in four seconds whether to stay, and a language
+    # model deciding what to quote. A model asked a question in Persian lifts
+    # a passage, not a page — so the passage has to exist, has to contain the
+    # phrase that was asked, and has to be true standing alone, away from the
+    # article that qualifies it. It is also what a featured snippet is made
+    # of. Rendered visibly at the top AND as the Article's description in
+    # structured data, because markup that does not match visible text is the
+    # kind that gets a site's rich results withdrawn.
+    answer: str = ""
 
     @property
     def url(self) -> str:
@@ -420,6 +436,7 @@ def parse(path: Path) -> Article:
         about=[str(u).strip() for u in about],
         llms_line=str(meta.get("llms_line", "")).strip(),
         target_keyword=str(meta.get("target_keyword", "")).strip(),
+        answer=" ".join(str(meta.get("answer", "")).split()),
     )
 
 
@@ -446,6 +463,31 @@ def validate(article: Article) -> None:
             f"{TITLE_LIMIT}. Search engines truncate past that, and what they "
             "cut is the end — where the point usually is."
         )
+    # The answer block is where a model finds something to quote and where a
+    # reader decides to stay. It is required, it has to contain the phrase the
+    # reader searched for, and it has to be short enough to lift whole.
+    if rules["require_iran_section"]:
+        if not article.answer:
+            faults.append(
+                "«answer» در front matter نیست. این همان بندی است که هوش مصنوعی "
+                "نقلش می‌کند و خواننده در چهار ثانیه می‌خواندش. بدونش صفحه فقط "
+                "برای کسی مفید است که تا آخر بخواند."
+            )
+        else:
+            n = len(article.answer)
+            if not (ANSWER_MIN <= n <= ANSWER_MAX):
+                faults.append(
+                    f"«answer» {n} نویسه است و باید بین {ANSWER_MIN} و "
+                    f"{ANSWER_MAX} باشد. کوتاه‌تر چیزی نمی‌گوید، بلندتر را "
+                    "کسی یکجا نقل نمی‌کند."
+                )
+            if article.target_keyword and not _phrase_in(
+                    article.answer, article.target_keyword):
+                faults.append(
+                    f"«{article.target_keyword}» در «answer» نیامده. کسی که این "
+                    "عبارت را پرسیده، باید همان را در پاسخ ببیند."
+                )
+
     if not article.summary_en:
         faults.append(
             "summary_en is missing. The English-language web currently attaches "
@@ -535,6 +577,16 @@ STYLE = """
     color:var(--gold);margin:0 0 12px;letter-spacing:-.01em}
   .meta{font:400 13px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);margin:0}
   .lede{color:#ded8cb;font-size:19.5px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
+  /* The answer block. Set apart enough that a reader in a hurry sees it is
+     the short version, quiet enough that it does not read as an
+     advertisement — the border does the work, not a filled panel. */
+  .answer{margin:30px 0 6px;padding:20px 22px;border:1px solid var(--rule);
+    border-inline-start:3px solid var(--gold-dim);border-radius:6px;
+    background:rgba(227,200,138,.035)}
+  .answer h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;
+    letter-spacing:.2em;color:var(--gold-dim);margin:0 0 12px;
+    text-transform:uppercase}
+  .answer p{margin:0;font-size:17.5px;color:#e6e0d3}
   article{padding-top:8px}
   article h2{font:600 20px/1.5 inherit;color:var(--gold);margin:38px 0 12px}
   article h3{font:600 16px/1.5 inherit;color:var(--gold-dim);margin:28px 0 8px}
@@ -598,6 +650,8 @@ STYLE = """
     .meta .readtime{display:inline-block}
     article h2{margin:30px 0 10px;font-size:19px}
     .lede{font-size:18px}
+    .answer{padding:16px 17px;margin:24px 0 4px}
+    .answer p{font-size:16.5px}
     .share{gap:10px}
     .share a,.share button{padding:8px 12px}
     .index-item{margin-top:26px}
@@ -750,8 +804,19 @@ def render_article(a: Article) -> str:
         + "</p>",
         f'<p class="lede">{html.escape(a.description)}</p>',
         "</header>",
-        f"<article>{body_html}</article>",
     ]
+
+    # Before the article, not after it. A reader who bounces has still been
+    # answered, and a model that reads only the opening has still read
+    # something true.
+    if a.answer:
+        parts.append(
+            '<section class="answer" aria-label="پاسخ کوتاه">'
+            "<h2>پاسخ کوتاه</h2>"
+            f"<p>{html.escape(a.answer)}</p></section>"
+        )
+
+    parts.append(f"<article>{body_html}</article>")
 
     if a.tags:
         parts.append('<p class="tags">' + " · ".join(html.escape(t) for t in a.tags) + "</p>")
@@ -821,7 +886,12 @@ def render_article(a: Article) -> str:
                 "url": a.url,
                 "image": SITE + "/hero-poster.jpg",
                 "keywords": ", ".join(a.tags) if a.tags else None,
-                "abstract": a.summary_en or None,
+                # The Persian answer, not the English summary. An assistant
+                # answering a Persian question wants the passage in the
+                # language it was asked in, and this one matches text the
+                # visitor can see on the page — which is the condition for
+                # using it at all.
+                "abstract": a.answer or a.summary_en or None,
                 "articleSection": COLLECTIONS[a.collection]["en"],
                 "wordCount": a.words,
                 # Nothing here is behind a login or a payment. Saying so
@@ -1015,6 +1085,18 @@ def _norm_keyword(s: str) -> str:
     s = s.translate(str.maketrans("يكۀةٱأإآ", "یکهههااا"))
     s = s.replace("‌", " ").replace("‏", "")
     return " ".join(s.lower().split())
+
+
+def _phrase_in(haystack: str, phrase: str) -> bool:
+    """Is the phrase present, judged the way a reader hears it?
+
+    Same folding as the duplicate check, so «چت‌بات» and «چت بات» count as one
+    phrase here exactly as they do there. Anything else would let an article
+    claim a keyword it spells a second way.
+    """
+    if not phrase:
+        return False
+    return _norm_keyword(phrase) in _norm_keyword(haystack)
 
 
 LLMS_HEADING = "## Individual articles"

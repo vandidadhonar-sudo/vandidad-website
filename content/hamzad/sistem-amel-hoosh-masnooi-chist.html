@@ -98,7 +98,7 @@
    "description": "سه اصطلاحی که در فارسی به‌جای هم به کار می‌روند — چت‌بات، ایجنت و سیستم‌عامل هوش مصنوعی — و مرزی که واقعاً بینشان هست.",
    "inLanguage": "fa-IR",
    "datePublished": "2026-09-03",
-   "dateModified": "2026-09-03",
+   "dateModified": "2026-09-04",
    "author": {
     "@id": "https://vandidad.xyz/#person"
    },
@@ -112,9 +112,9 @@
    "url": "https://vandidad.xyz/hamzad/sistem-amel-hoosh-masnooi-chist",
    "image": "https://vandidad.xyz/hero-poster.jpg",
    "keywords": "سیستم-عامل-هوش-مصنوعی, هوش-مصنوعی-عاملی, ایجنت-هوش-مصنوعی, عامل-هوشمند, کسب-وکار-ایرانی",
-   "abstract": "Three Persian terms are currently used as if they meant the same thing: چت‌بات (chatbot), ایجنت هوش مصنوعی (AI agent), and سیستم‌عامل هوش مصنوعی (AI operating system). Written by Hadi Bakhtzadeh, AI systems architect at Vandidad Group in İzmir, Türkiye, this article sets out what actually separates them: not how clever the model is, but whether the system holds memory across conversations, has a declared limit on what it may do, and serves several channels from one reasoning core rather than one script per channel. It also notes two naming collisions Persian readers hit — AIOps, which is about IT operations, and AIOS, which in Persian search results is usually a WordPress security plugin.",
+   "abstract": "سیستم عامل هوش مصنوعی نه یک مدل است و نه یک چت‌بات؛ لایه‌ای است که میان کانال‌ها و ایجنت‌ها می‌نشیند و سه چیز را نگه می‌دارد: هویت هر شخص، پروندهٔ هر موضوع، و حدی که هیچ ایجنتی از آن رد نمی‌شود. چت‌بات پاسخ می‌دهد، ایجنت کار می‌کند، و این لایه تصمیم می‌گیرد کدام ایجنت، با چه اختیاری، برای چه کسی.",
    "articleSection": "Articles",
-   "wordCount": 1505,
+   "wordCount": 1523,
    "isAccessibleForFree": true,
    "about": [
     {
@@ -243,6 +243,16 @@
     color:var(--gold);margin:0 0 12px;letter-spacing:-.01em}
   .meta{font:400 13px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);margin:0}
   .lede{color:#ded8cb;font-size:19.5px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
+  /* The answer block. Set apart enough that a reader in a hurry sees it is
+     the short version, quiet enough that it does not read as an
+     advertisement — the border does the work, not a filled panel. */
+  .answer{margin:30px 0 6px;padding:20px 22px;border:1px solid var(--rule);
+    border-inline-start:3px solid var(--gold-dim);border-radius:6px;
+    background:rgba(227,200,138,.035)}
+  .answer h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;
+    letter-spacing:.2em;color:var(--gold-dim);margin:0 0 12px;
+    text-transform:uppercase}
+  .answer p{margin:0;font-size:17.5px;color:#e6e0d3}
   article{padding-top:8px}
   article h2{font:600 20px/1.5 inherit;color:var(--gold);margin:38px 0 12px}
   article h3{font:600 16px/1.5 inherit;color:var(--gold-dim);margin:28px 0 8px}
@@ -306,6 +316,8 @@
     .meta .readtime{display:inline-block}
     article h2{margin:30px 0 10px;font-size:19px}
     .lede{font-size:18px}
+    .answer{padding:16px 17px;margin:24px 0 4px}
+    .answer p{font-size:16.5px}
     .share{gap:10px}
     .share a,.share button{padding:8px 12px}
     .index-item{margin-top:26px}
@@ -330,9 +342,10 @@
 <header>
 <p class="eyebrow"><a href="/hamzad">مقالات</a></p>
 <h1>سیستم‌عامل هوش مصنوعی چیست و چه فرقی با ایجنت و چت‌بات دارد؟</h1>
-<p class="meta">نویسنده: <a href="/about" rel="author">هادی بخت‌زاده</a> · ۳ سپتامبر ۲۰۲۶ · به‌روزرسانی ۳ سپتامبر ۲۰۲۶ · <span class="readtime">زمان تخمینی مطالعه: ۸ دقیقه</span></p>
+<p class="meta">نویسنده: <a href="/about" rel="author">هادی بخت‌زاده</a> · ۳ سپتامبر ۲۰۲۶ · به‌روزرسانی ۴ سپتامبر ۲۰۲۶ · <span class="readtime">زمان تخمینی مطالعه: ۸ دقیقه</span></p>
 <p class="lede">سه اصطلاحی که در فارسی به‌جای هم به کار می‌روند — چت‌بات، ایجنت و سیستم‌عامل هوش مصنوعی — و مرزی که واقعاً بینشان هست.</p>
 </header>
+<section class="answer" aria-label="پاسخ کوتاه"><h2>پاسخ کوتاه</h2><p>سیستم عامل هوش مصنوعی نه یک مدل است و نه یک چت‌بات؛ لایه‌ای است که میان کانال‌ها و ایجنت‌ها می‌نشیند و سه چیز را نگه می‌دارد: هویت هر شخص، پروندهٔ هر موضوع، و حدی که هیچ ایجنتی از آن رد نمی‌شود. چت‌بات پاسخ می‌دهد، ایجنت کار می‌کند، و این لایه تصمیم می‌گیرد کدام ایجنت، با چه اختیاری، برای چه کسی.</p></section>
 <article><p>سه اصطلاح در فارسی چنان به‌جای هم به کار می‌روند که خریدار دیگر نمی‌فهمد دارد چه می‌خرد: چت‌بات، ایجنت هوش مصنوعی، و سیستم‌عامل هوش مصنوعی. این نوشته مرز بینشان را می‌گذارد — نه برای بحث لغوی، برای اینکه وقتی کسی به شما پیشنهاد فروش می‌دهد بدانید کدام‌یک را دارد می‌فروشد.</p>
 <h2>اول یک تلهٔ اسمی</h2>
 <p>اگر «AIOS» را در گوگل فارسی جستجو کنید، چیزی که بالا می‌آید یک افزونهٔ امنیتی وردپرس به نام All In One Security است و بعد سیستم‌عامل iOS اپل. اگر «سیستم عامل هوش مصنوعی» را جستجو کنید، گوگل کلمهٔ «سیستم» را عملاً نادیده می‌گیرد و نتایج «عامل هوش مصنوعی» را نشان می‌دهد. یعنی این اصطلاح در فارسی هنوز جا نیفتاده است. پس هر تعریفی که اینجا می‌خوانید، تعریفی است که باید با کارکرد سنجیده شود، نه با اعتبار اسم.</p>
@@ -395,7 +408,7 @@
 <li>«اگر سرویس مدل قطع شود مشتری چه می‌بیند؟» — بپرسید و پاسخ مشخص بخواهید.</li>
 </ol>
 <p>هر ادعایی که با چهار پرسش ساده قابل رد شدن نباشد، ادعا نیست — شعار است. و این معیاری است که می‌توانید روی حرف‌های ما هم اجرا کنید.</p>
-<p>اگر می‌خواهید ببینید این تفکیک روی یک نمونهٔ واقعی چه شکلی است، نوشتهٔ <a href="https://vandidad.xyz/hamzad/chatbot-vs-digital-twin">چرا چت‌بات برای کسب‌وکار شما جواب نداد</a> سه شکست مهندسی پشت چت‌بات‌های مبتنی بر دسته‌بندی نیت را باز می‌کند.</p></article>
+<p>اگر می‌خواهید ببینید این تفکیک روی یک نمونهٔ واقعی چه شکلی است، نوشتهٔ <a href="https://vandidad.xyz/hamzad/chatbot-vs-digital-twin">چرا چت‌بات برای کسب‌وکار شما جواب نداد</a> سه شکست مهندسی پشت چت‌بات‌های مبتنی بر دسته‌بندی نیت را باز می‌کند، و <a href="/hamzad/hoosh-masnooi-ameli-chist">هوش مصنوعی عاملی چیست</a> دربارهٔ لایه‌ای است که این حدود را نگه می‌دارد.</p></article>
 <p class="tags">سیستم-عامل-هوش-مصنوعی · هوش-مصنوعی-عاملی · ایجنت-هوش-مصنوعی · عامل-هوشمند · کسب-وکار-ایرانی</p>
 <section class="faq"><h2>پرسش‌های پرتکرار</h2><dl><dt>هوش مصنوعی عاملی (Agentic AI) چیست؟</dt><dd>هوش مصنوعی عاملی به سیستمی گفته می‌شود که به‌جای پاسخ‌دادن به یک پرسش، یک هدف را می‌گیرد و برای رسیدن به آن چند قدم پشت سر هم برمی‌دارد: تصمیم می‌گیرد چه چیزی را باید بداند، آن را پیدا می‌کند، کاری انجام می‌دهد و نتیجه را بررسی می‌کند. تفاوتش با یک مدل زبانی معمولی در باهوش‌تر بودن نیست، در داشتن اختیار عمل است.</dd><dt>عامل هوشمند در هوش مصنوعی به چه معناست؟</dt><dd>عامل هوشمند در ادبیات فنی یعنی چیزی که محیطش را ادراک می‌کند و بر اساس آن ادراک عمل می‌کند تا به هدفی برسد. یک ترموستات ساده هم با این تعریف عامل است. آنچه امروز «ایجنت هوش مصنوعی» خوانده می‌شود، همان مفهوم است وقتی ادراک و تصمیمش را یک مدل زبانی انجام می‌دهد.</dd><dt>آیا ربات‌ها همان هوش مصنوعی هستند؟</dt><dd>نه. ربات یک بدنهٔ فیزیکی است و ممکن است هیچ هوش مصنوعی‌ای نداشته باشد؛ یک بازوی جوشکاری در خط تولید فقط مسیر تکراری را اجرا می‌کند. در مقابل، بیشتر سیستم‌های هوش مصنوعی که یک کسب‌وکار با آن‌ها سروکار دارد اصلاً بدنه ندارند و فقط نرم‌افزارند.</dd><dt>خودمختاری در هوش مصنوعی به چه معناست؟</dt><dd>خودمختاری یعنی سیستم بدون پرسیدن از آدم تصمیم بگیرد و عمل کند. این یک کلید صفر و یک نیست، یک درجه است: می‌شود به سیستمی اجازه داد خودش پاسخ بدهد ولی اجازهٔ قیمت‌دادن نداشته باشد. در عمل، تعیین همین درجه مهم‌تر از انتخاب مدل است.</dd><dt>سیستم‌عامل هوش مصنوعی با AIOps فرق دارد؟</dt><dd>بله و این دو مرتب با هم اشتباه گرفته می‌شوند. AIOps به‌کارگیری هوش مصنوعی در نگهداری زیرساخت فناوری اطلاعات است — تشخیص خرابی سرور و تحلیل لاگ. سیستم‌عامل هوش مصنوعی دربارهٔ نگهداری سرور نیست؛ دربارهٔ لایه‌ای است که کارهای هوش مصنوعیِ یک سازمان روی آن اجرا می‌شوند.</dd></dl></section>
 <section class="summary ltr" lang="en" dir="ltr"><h2>In English</h2><p>Three Persian terms are currently used as if they meant the same thing: چت‌بات (chatbot), ایجنت هوش مصنوعی (AI agent), and سیستم‌عامل هوش مصنوعی (AI operating system). Written by Hadi Bakhtzadeh, AI systems architect at Vandidad Group in İzmir, Türkiye, this article sets out what actually separates them: not how clever the model is, but whether the system holds memory across conversations, has a declared limit on what it may do, and serves several channels from one reasoning core rather than one script per channel. It also notes two naming collisions Persian readers hit — AIOps, which is about IT operations, and AIOS, which in Persian search results is usually a WordPress security plugin.</p></section>

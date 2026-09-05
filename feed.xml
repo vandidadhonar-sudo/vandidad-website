@@ -5,16 +5,34 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-05T00:00:00Z</updated>
+  <updated>2026-09-04T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
   <entry>
-    <title>ایجنت فروش هوش مصنوعی؛ چه چیزی می‌خرید و از کجا بفهمید کار می‌کند</title>
-    <link href="https://vandidad.xyz/hamzad/ejent-forush-hoosh-masnooi"/>
-    <id>https://vandidad.xyz/hamzad/ejent-forush-hoosh-masnooi</id>
-    <published>2026-09-05T00:00:00Z</published>
-    <updated>2026-09-05T00:00:00Z</updated>
-    <summary>چهار پرسشی که پیش از خرید ایجنت فروش باید بپرسید، و معیاری که بعد از راه‌اندازی نشان می‌دهد جواب داده یا نه.</summary>
+    <title>چرا چت‌بات برای کسب‌وکار شما جواب نداد</title>
+    <link href="https://vandidad.xyz/hamzad/chatbot-vs-digital-twin"/>
+    <id>https://vandidad.xyz/hamzad/chatbot-vs-digital-twin</id>
+    <published>2026-08-12T00:00:00Z</published>
+    <updated>2026-09-04T00:00:00Z</updated>
+    <summary>تحلیل فنی سه دلیلی که چت‌بات‌های مبتنی بر تشخیص نیت شکست می‌خورند، و اینکه یک همزاد دیجیتال چه چیزی را متفاوت حل می‌کند.</summary>
+    <category term="hamzad"/>
+  </entry>
+  <entry>
+    <title>کار حسابدار کدام بخشش واقعاً حسابداری است</title>
+    <link href="https://vandidad.xyz/hamzad/daftar-hesabdari-va-karhaye-tekrari"/>
+    <id>https://vandidad.xyz/hamzad/daftar-hesabdari-va-karhaye-tekrari</id>
+    <published>2026-09-03T00:00:00Z</published>
+    <updated>2026-09-04T00:00:00Z</updated>
+    <summary>هوش مصنوعی برای دفتر حسابداری کجا جواب می‌دهد و کجا نه — تفکیک کارها به آنچه قضاوت حرفه‌ای می‌خواهد و آنچه فقط جابه‌جایی داده است.</summary>
+    <category term="hamzad"/>
+  </entry>
+  <entry>
+    <title>استعلام می‌گیرید، سفارش نمی‌گیرید — مسئله کجاست</title>
+    <link href="https://vandidad.xyz/hamzad/estelam-ke-be-sefaresh-nemiresad"/>
+    <id>https://vandidad.xyz/hamzad/estelam-ke-be-sefaresh-nemiresad</id>
+    <published>2026-09-03T00:00:00Z</published>
+    <updated>2026-09-04T00:00:00Z</updated>
+    <summary>پیگیری استعلام قیمت در فروش صنعتی معمولاً کجا می‌شکند، و چه چیزی در فاصله‌ی میان استعلام تا سفارش قابل ثبت و قابل مدیریت است.</summary>
     <category term="hamzad"/>
   </entry>
   <entry>
@@ -27,39 +45,12 @@
     <category term="hamzad"/>
   </entry>
   <entry>
-    <title>چرا چت‌بات برای کسب‌وکار شما جواب نداد</title>
-    <link href="https://vandidad.xyz/hamzad/chatbot-vs-digital-twin"/>
-    <id>https://vandidad.xyz/hamzad/chatbot-vs-digital-twin</id>
-    <published>2026-08-12T00:00:00Z</published>
-    <updated>2026-09-03T00:00:00Z</updated>
-    <summary>تحلیل فنی سه دلیلی که چت‌بات‌های مبتنی بر تشخیص نیت شکست می‌خورند، و اینکه یک همزاد دیجیتال چه چیزی را متفاوت حل می‌کند.</summary>
-    <category term="hamzad"/>
-  </entry>
-  <entry>
-    <title>کار حسابدار کدام بخشش واقعاً حسابداری است</title>
-    <link href="https://vandidad.xyz/hamzad/daftar-hesabdari-va-karhaye-tekrari"/>
-    <id>https://vandidad.xyz/hamzad/daftar-hesabdari-va-karhaye-tekrari</id>
-    <published>2026-09-03T00:00:00Z</published>
-    <updated>2026-09-03T00:00:00Z</updated>
-    <summary>تفکیک کارهای یک دفتر حسابداری به آنچه به قضاوت حرفه‌ای نیاز دارد و آنچه فقط جابه‌جایی داده است، و اینکه کدام بخش قابل واگذاری است.</summary>
-    <category term="hamzad"/>
-  </entry>
-  <entry>
-    <title>استعلام می‌گیرید، سفارش نمی‌گیرید — مسئله کجاست</title>
-    <link href="https://vandidad.xyz/hamzad/estelam-ke-be-sefaresh-nemiresad"/>
-    <id>https://vandidad.xyz/hamzad/estelam-ke-be-sefaresh-nemiresad</id>
-    <published>2026-09-03T00:00:00Z</published>
-    <updated>2026-09-03T00:00:00Z</updated>
-    <summary>چرا در فروش صنعتی بیشتر استعلام‌ها بی‌جواب می‌مانند، و چه چیزی در فاصله‌ی میان استعلام تا سفارش قابل ثبت و قابل مدیریت است.</summary>
-    <category term="hamzad"/>
-  </entry>
-  <entry>
     <title>خریدار آنلاین سبد را رها می‌کند چون نمی‌داند اندازه است یا نه</title>
     <link href="https://vandidad.xyz/hamzad/kharidar-online-ke-tardid-mikonad"/>
     <id>https://vandidad.xyz/hamzad/kharidar-online-ke-tardid-mikonad</id>
     <published>2026-09-03T00:00:00Z</published>
-    <updated>2026-09-03T00:00:00Z</updated>
-    <summary>چرا در فروش آنلاین پوشاک بیشترین ریزش نه در جذب بلکه در لحظه‌ی تردید اتفاق می‌افتد، و چه چیزی آن تردید را قابل رفع می‌کند.</summary>
+    <updated>2026-09-04T00:00:00Z</updated>
+    <summary>هوش مصنوعی برای فروشگاه اینترنتی کجا واقعاً اثر دارد — نه در جذب، بلکه در همان لحظه‌ی تردیدی که خریدار سبد را رها می‌کند.</summary>
     <category term="hamzad"/>
   </entry>
   <entry>
@@ -67,8 +58,8 @@
     <link href="https://vandidad.xyz/hamzad/klinik-zibaei-nobat-va-peygiri"/>
     <id>https://vandidad.xyz/hamzad/klinik-zibaei-nobat-va-peygiri</id>
     <published>2026-09-03T00:00:00Z</published>
-    <updated>2026-09-03T00:00:00Z</updated>
-    <summary>چرا مراجع کلینیک زیبایی میان پیام و نوبت گم می‌شود، و چگونه دریافت تصویر برای قیمت‌دهی بدون شکستن حریم خصوصی مدیریت می‌شود.</summary>
+    <updated>2026-09-04T00:00:00Z</updated>
+    <summary>هوش مصنوعی برای کلینیک زیبایی کجا کار می‌کند — نه در جذب مراجع، بلکه در فاصله‌ی میان پیام و نوبتِ ثبت‌شده.</summary>
     <category term="hamzad"/>
   </entry>
   <entry>
@@ -76,7 +67,7 @@
     <link href="https://vandidad.xyz/hamzad/sistem-amel-hoosh-masnooi-chist"/>
     <id>https://vandidad.xyz/hamzad/sistem-amel-hoosh-masnooi-chist</id>
     <published>2026-09-03T00:00:00Z</published>
-    <updated>2026-09-03T00:00:00Z</updated>
+    <updated>2026-09-04T00:00:00Z</updated>
     <summary>سه اصطلاحی که در فارسی به‌جای هم به کار می‌روند — چت‌بات، ایجنت و سیستم‌عامل هوش مصنوعی — و مرزی که واقعاً بینشان هست.</summary>
     <category term="hamzad"/>
   </entry>
