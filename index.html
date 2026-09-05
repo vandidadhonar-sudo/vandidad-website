@@ -638,6 +638,10 @@ footer{border-top:1px solid var(--line-soft);padding:40px 32px;margin-top:40px;
   max-width:1000px;margin-left:auto;margin-right:auto}
 .foot-brand{font-weight:700;font-size:14px}
 .foot-brand span{color:var(--copper)}
+/* The name is a link now. It must look exactly as it did — the underline and
+   the visited colour a bare anchor brings would change the footer. */
+.foot-brand-link{text-decoration:none;color:inherit;display:block}
+.foot-brand-link:hover .foot-brand span{color:var(--bone,#e8e2d6)}
 .foot-sub{font-size:11px;color:var(--bone-dim);margin-top:4px}
 .foot-links{display:flex;gap:22px}
 .foot-links a{color:var(--bone-dim);font-size:13px;text-decoration:none;transition:color 0.3s}
@@ -1122,7 +1126,13 @@ body.light #caseBar .cb-brand{color:#23150a}
 
   <footer>
     <div>
-      <div class="foot-brand" data-i18n="footBrand">هادی <span>بخت‌زاده</span></div>
+      <!-- The name was plain text here. It is the highest-authority page on
+           the domain and his name sits on it, so it links to the page that
+           identifies him — anchor outside the div, because the language
+           switcher rewrites this div's innerHTML on every change. -->
+      <a href="/hadi-bakhtzadeh" class="foot-brand-link" rel="author">
+        <div class="foot-brand" data-i18n="footBrand">هادی <span>بخت‌زاده</span></div>
+      </a>
       <div class="foot-sub" data-i18n="footRole">معمار سیستم‌های هوش مصنوعی · ازمیر</div>
     </div>
     <div class="foot-links">
