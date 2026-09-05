@@ -28,13 +28,15 @@ python3 tools/seo_report.py
 | هوش مصنوعی برای دفتر حسابداری | `/hamzad/daftar-hesabdari-va-karhaye-tekrari` | منتشرشده | 1620 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 1 |
 | هوش مصنوعی برای فروشگاه اینترنتی | `/hamzad/kharidar-online-ke-tardid-mikonad` | منتشرشده | 1603 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 1 |
 | هوش مصنوعی برای کلینیک زیبایی | `/hamzad/klinik-zibaei-nobat-va-peygiri` | منتشرشده | 1636 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 2 |
-| هوش مصنوعی عاملی | `/hamzad/hoosh-masnooi-ameli-chist` | منتشرشده | 1737 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 16 |
+| هوش مصنوعی عاملی | `/hamzad/hoosh-masnooi-ameli-chist` | منتشرشده | 1737 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 17 |
 | پیگیری استعلام قیمت | `/hamzad/estelam-ke-be-sefaresh-nemiresad` | منتشرشده | 1593 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 2 |
 | چت‌بات برای کسب‌وکار | `/hamzad/chatbot-vs-digital-twin` | منتشرشده | 1597 | 2 | 0.1٪ | ✓ | — | ✓ | 5 | 20 |
 | آموزش هوش مصنوعی برای دانشجویان | `/hamzad/amoozesh-hoosh-masnooi-daneshjoo` | در صف | 1526 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 0 |
 | اتوماسیون بازاریابی ایرانی | `/hamzad/otomasion-bazaryabi-irani` | در صف | 1549 | 2 | 0.1٪ | — | ✓ | ✓ | 3 | 0 |
 | اتوماسیون پاسخگویی به مشتری | `/hamzad/otomasion-pasokhgooi-be-moshtari` | در صف | 1667 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 3 |
-| تفاوت هوش مصنوعی و اتوماسیون | `/hamzad/tafavot-hoosh-masnooi-va-otomasion` | در صف | 1507 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 0 |
+| انتخاب مدل زبانی برای فارسی | `/hamzad/entekhab-model-zabani-farsi` | در صف | 1537 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 0 |
+| تفاوت هوش مصنوعی و اتوماسیون | `/hamzad/tafavot-hoosh-masnooi-va-otomasion` | در صف | 1507 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 1 |
+| حریم خصوصی داده مشتری | `/hamzad/harim-khosoosi-dade-moshtari` | در صف | 1521 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 0 |
 | خطرات ایجنت هوش مصنوعی | `/hamzad/ejent-bedoone-had-khatarnak` | در صف | 1584 | 2 | 0.1٪ | — | ✓ | ✓ | 2 | 1 |
 | ربات بله برای کسب‌وکار | `/hamzad/robat-bale-baraye-kasbokar` | در صف | 1521 | 4 | 0.3٪ | ✓ | ✓ | ✓ | 2 | 0 |
 | ربات پاسخگوی مشتری فارسی | `/hamzad/robat-pasokhgoo-moshtari-farsi` | در صف | 1589 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 1 |
@@ -43,10 +45,10 @@ python3 tools/seo_report.py
 | معمار هوش مصنوعی | `/hamzad/memar-hoosh-masnooi` | در صف | 1573 | 3 | 0.2٪ | ✓ | — | ✓ | 2 | 0 |
 | هوش مصنوعی برای تلگرام | `/hamzad/hoosh-masnooi-baraye-telegram` | در صف | 1626 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 1 |
 | هوش مصنوعی برای مشاور املاک | `/hamzad/hoosh-masnooi-moshaver-amlak` | در صف | 1580 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 0 |
-| هوش مصنوعی برای مطب | `/hamzad/hoosh-masnooi-baraye-matab` | در صف | 1510 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 0 |
+| هوش مصنوعی برای مطب | `/hamzad/hoosh-masnooi-baraye-matab` | در صف | 1510 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 1 |
 | هوش مصنوعی برای واتساپ | `/hamzad/hoosh-masnooi-baraye-whatsapp` | در صف | 1624 | 3 | 0.2٪ | ✓ | ✓ | ✓ | 2 | 2 |
 | هوش مصنوعی رایگان فارسی | `/hamzad/hoosh-masnooi-rayegan-farsi` | در صف | 1533 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 0 |
-| هوش مصنوعی چیست | `/hamzad/hoosh-masnooi-chist-zaban-sade` | در صف | 1512 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 0 |
+| هوش مصنوعی چیست | `/hamzad/hoosh-masnooi-chist-zaban-sade` | در صف | 1512 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 1 |
 | هوشواره | `/hamzad/hooshvare-chist` | در صف | 1555 | 20 | 1.3٪ | ✓ | ✓ | ✓ | 2 | 1 |
 | پاسخگویی خودکار اینستاگرام | `/hamzad/pasokhgooi-khodkar-instagram` | در صف | 1538 | 4 | 0.3٪ | ✓ | ✓ | ✓ | 2 | 1 |
 | پیاده سازی هوش مصنوعی در سازمان | `/hamzad/piadesazi-hoosh-masnooi-sazman` | در صف | 1632 | 2 | 0.1٪ | ✓ | — | ✓ | 3 | 1 |
@@ -60,14 +62,13 @@ python3 tools/seo_report.py
 
 - `/hamzad/amoozesh-hoosh-masnooi-daneshjoo` — «آموزش هوش مصنوعی برای دانشجویان»
 - `/hamzad/chatbot-hoosh-masnooi-irani` — «چت بات هوش مصنوعی ایرانی»
-- `/hamzad/hoosh-masnooi-baraye-matab` — «هوش مصنوعی برای مطب»
-- `/hamzad/hoosh-masnooi-chist-zaban-sade` — «هوش مصنوعی چیست»
+- `/hamzad/entekhab-model-zabani-farsi` — «انتخاب مدل زبانی برای فارسی»
+- `/hamzad/harim-khosoosi-dade-moshtari` — «حریم خصوصی داده مشتری»
 - `/hamzad/hoosh-masnooi-moshaver-amlak` — «هوش مصنوعی برای مشاور املاک»
 - `/hamzad/hoosh-masnooi-rayegan-farsi` — «هوش مصنوعی رایگان فارسی»
 - `/hamzad/memar-hoosh-masnooi` — «معمار هوش مصنوعی»
 - `/hamzad/otomasion-bazaryabi-irani` — «اتوماسیون بازاریابی ایرانی»
 - `/hamzad/robat-bale-baraye-kasbokar` — «ربات بله برای کسب‌وکار»
-- `/hamzad/tafavot-hoosh-masnooi-va-otomasion` — «تفاوت هوش مصنوعی و اتوماسیون»
 
 ## لینک‌های داخلیِ شکسته
 
