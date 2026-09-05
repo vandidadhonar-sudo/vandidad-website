@@ -23,6 +23,7 @@ python3 tools/seo_report.py
 
 | عبارت هدف | صفحه | وضعیت | کلمه | تکرار | چگالی | عنوان | توضیح | آغاز | لینک بیرون | لینک درون |
 |---|---|---|---|---|---|---|---|---|---|---|
+| ایجنت فروش هوش مصنوعی | `/hamzad/ejent-forush-hoosh-masnooi` | منتشرشده | 1650 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 1 |
 | سیستم عامل هوش مصنوعی | `/hamzad/sistem-amel-hoosh-masnooi-chist` | منتشرشده | 1523 | 5 | 0.3٪ | ✓ | ✓ | ✓ | 2 | 5 |
 | هوش مصنوعی برای دفتر حسابداری | `/hamzad/daftar-hesabdari-va-karhaye-tekrari` | منتشرشده | 1620 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 1 |
 | هوش مصنوعی برای فروشگاه اینترنتی | `/hamzad/kharidar-online-ke-tardid-mikonad` | منتشرشده | 1603 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 1 |
@@ -32,7 +33,6 @@ python3 tools/seo_report.py
 | چت‌بات برای کسب‌وکار | `/hamzad/chatbot-vs-digital-twin` | منتشرشده | 1597 | 2 | 0.1٪ | ✓ | — | ✓ | 5 | 14 |
 | اتوماسیون بازاریابی ایرانی | `/hamzad/otomasion-bazaryabi-irani` | در صف | 1549 | 2 | 0.1٪ | — | ✓ | ✓ | 3 | 0 |
 | اتوماسیون پاسخگویی به مشتری | `/hamzad/otomasion-pasokhgooi-be-moshtari` | در صف | 1667 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 2 |
-| ایجنت فروش هوش مصنوعی | `/hamzad/ejent-forush-hoosh-masnooi` | در صف | 1650 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 1 |
 | خطرات ایجنت هوش مصنوعی | `/hamzad/ejent-bedoone-had-khatarnak` | در صف | 1584 | 2 | 0.1٪ | — | ✓ | ✓ | 2 | 1 |
 | ربات پاسخگوی مشتری فارسی | `/hamzad/robat-pasokhgoo-moshtari-farsi` | در صف | 1589 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 0 |
 | ساخت ایجنت هوش مصنوعی | `/hamzad/sakht-ejent-hoosh-masnooi` | در صف | 1561 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 1 |
