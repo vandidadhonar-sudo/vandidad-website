@@ -28,15 +28,17 @@ python3 tools/seo_report.py
 | هوش مصنوعی برای دفتر حسابداری | `/hamzad/daftar-hesabdari-va-karhaye-tekrari` | منتشرشده | 1620 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 1 |
 | هوش مصنوعی برای فروشگاه اینترنتی | `/hamzad/kharidar-online-ke-tardid-mikonad` | منتشرشده | 1603 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 1 |
 | هوش مصنوعی برای کلینیک زیبایی | `/hamzad/klinik-zibaei-nobat-va-peygiri` | منتشرشده | 1636 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 1 |
-| هوش مصنوعی عاملی | `/hamzad/hoosh-masnooi-ameli-chist` | منتشرشده | 1737 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 11 |
+| هوش مصنوعی عاملی | `/hamzad/hoosh-masnooi-ameli-chist` | منتشرشده | 1737 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 12 |
 | پیگیری استعلام قیمت | `/hamzad/estelam-ke-be-sefaresh-nemiresad` | منتشرشده | 1593 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 2 |
-| چت‌بات برای کسب‌وکار | `/hamzad/chatbot-vs-digital-twin` | منتشرشده | 1597 | 2 | 0.1٪ | ✓ | — | ✓ | 5 | 14 |
+| چت‌بات برای کسب‌وکار | `/hamzad/chatbot-vs-digital-twin` | منتشرشده | 1597 | 2 | 0.1٪ | ✓ | — | ✓ | 5 | 16 |
 | اتوماسیون بازاریابی ایرانی | `/hamzad/otomasion-bazaryabi-irani` | در صف | 1549 | 2 | 0.1٪ | — | ✓ | ✓ | 3 | 0 |
 | اتوماسیون پاسخگویی به مشتری | `/hamzad/otomasion-pasokhgooi-be-moshtari` | در صف | 1667 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 2 |
 | خطرات ایجنت هوش مصنوعی | `/hamzad/ejent-bedoone-had-khatarnak` | در صف | 1584 | 2 | 0.1٪ | — | ✓ | ✓ | 2 | 1 |
 | ربات پاسخگوی مشتری فارسی | `/hamzad/robat-pasokhgoo-moshtari-farsi` | در صف | 1589 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 0 |
 | ساخت ایجنت هوش مصنوعی | `/hamzad/sakht-ejent-hoosh-masnooi` | در صف | 1561 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 1 |
 | معمار هوش مصنوعی | `/hamzad/memar-hoosh-masnooi` | در صف | 1573 | 3 | 0.2٪ | ✓ | — | ✓ | 2 | 0 |
+| هوش مصنوعی برای تلگرام | `/hamzad/hoosh-masnooi-baraye-telegram` | در صف | 1626 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 0 |
+| هوش مصنوعی برای واتساپ | `/hamzad/hoosh-masnooi-baraye-whatsapp` | در صف | 1624 | 3 | 0.2٪ | ✓ | ✓ | ✓ | 2 | 1 |
 | هوشواره | `/hamzad/hooshvare-chist` | در صف | 1555 | 20 | 1.3٪ | ✓ | ✓ | ✓ | 2 | 0 |
 | پیاده سازی هوش مصنوعی در سازمان | `/hamzad/piadesazi-hoosh-masnooi-sazman` | در صف | 1632 | 2 | 0.1٪ | ✓ | — | ✓ | 3 | 0 |
 | پیگیری خودکار مشتری | `/hamzad/peygiri-khodkar-moshtari` | در صف | 1595 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 2 |
@@ -45,6 +47,7 @@ python3 tools/seo_report.py
 
 هیچ صفحهٔ دیگری به اینها لینک نداده. تازه‌ترین مقاله طبیعتاً اینجاست — اما اگر مقاله‌ای هفته‌ها اینجا ماند، یعنی در متنِ مقاله‌های بعدی به آن ارجاع نداده‌ایم.
 
+- `/hamzad/hoosh-masnooi-baraye-telegram` — «هوش مصنوعی برای تلگرام»
 - `/hamzad/hooshvare-chist` — «هوشواره»
 - `/hamzad/memar-hoosh-masnooi` — «معمار هوش مصنوعی»
 - `/hamzad/otomasion-bazaryabi-irani` — «اتوماسیون بازاریابی ایرانی»
