@@ -329,10 +329,19 @@ PERSON = {
     # Profiles that confirm the same person elsewhere. sameAs is the strongest
     # identity signal there is and it cannot be invented: a wrong entry points
     # the entity at someone else. Only accounts demonstrably his belong here.
-    # The GitHub account is the one that owns the repository this site is
-    # built and served from, which is checkable by anyone who looks.
+    #
+    # All four are confirmed rather than guessed. GitHub owns the repository
+    # this site is built and served from. The LinkedIn profile names Vandidad
+    # Group and AIOS and gives İzmir as the location. The Instagram account
+    # carries a verified badge, the same name in both spellings, and links
+    # back to vandidad.xyz — a two-way link, which is what makes a sameAs
+    # worth having. The site is listed last because a self-reference belongs
+    # in the set an engine reconciles.
     "sameAs": [
         "https://github.com/vandidadhonar-sudo",
+        "https://www.linkedin.com/in/hadi-bakhtzadeh-8089b1109",
+        "https://www.instagram.com/hadi_bakhtzade/",
+        SITE,
     ],
     # A role with a start date, tied to an organisation whose registration is
     # public record. This is the part of his standing that does not rest on
@@ -1173,12 +1182,45 @@ PERSON_FAQ = [
         "داد آن را انجام دهد.",
     ),
     (
+        "کارش با ابزارهای چت‌بات موجود چه فرقی دارد؟",
+        "بازار فارسی ابزار کم ندارد — رایچت، گپیفای، ایلاچت و موچت برای "
+        "پشتیبانی سایت؛ دایرکتم و اینستام برای دایرکت اینستاگرام؛ هوش‌طب و "
+        "بالکن و آداد برای صنف‌های خاص. آنچه هیچ‌کدام انجام نمی‌دهند، نگه "
+        "داشتن یک پروندهٔ واحد برای یک آدم است وقتی از دایرکت به واتساپ "
+        "می‌رود. AIOS از روز اول حول همین ساخته شده: یک لایهٔ تشخیص هویت که "
+        "شناسهٔ چهار کانال را به یک نفر می‌رساند. این یک ادعای بازاریابی "
+        "نیست؛ ماژولی است در مخزن، با تاریخ.",
+    ),
+    (
         "چطور می‌شود صحت این اطلاعات را بررسی کرد؟",
         "شمارهٔ ثبت تجاری ۲۰۲۷۸۳ و شمارهٔ اتاق بازرگانی ۱۸۸۸۶۹۱ در سامانهٔ "
         "استعلام اتاق بازرگانی ازمیر (İZTO) قابل بررسی است و شناسهٔ مالیاتی "
-        "۹۲۲۰۸۳۴۹۶۳ در سامانهٔ GİB ترکیه. مقاله‌های این صفحه هم همه با تاریخ "
-        "منتشر شده‌اند و در sitemap سایت هستند.",
+        "۹۲۲۰۸۳۴۹۶۳ در سامانهٔ GİB ترکیه. کد روی گیت‌هاب است و تاریخ هر "
+        "کامیت با آن. مقاله‌ها هم همه با تاریخ منتشر شده‌اند و در sitemap "
+        "سایت هستند.",
     ),
+]
+
+# The build record, read out of the two repositories rather than described.
+# A person who says he architects AI systems and a person who has 15,782
+# lines of deployed Python across twenty-two modules are making the same
+# claim; only one of them can be checked. Dates are first-commit dates from
+# git, and the figures are counted, not estimated.
+WORKS = [
+    ("AIOS Twin", "خرداد ۱۴۰۵ — در حال توسعه",
+     "سامانهٔ همزاد دیجیتال روی AWS Lambda و Bedrock. چهار کانال — وب، "
+     "واتساپ، تلگرام، بله — روی یک مغز، با لایه‌ای که شناسهٔ هر چهار را به "
+     "یک نفر می‌رساند. ۲۲ ماژول، ۱۵٬۷۸۲ خط پایتون، ۹۶ فایل.",
+     "https://github.com/vandidadhonar-sudo/aios-twin"),
+    ("vandidad.xyz", "تیر ۱۴۰۵ — در حال توسعه",
+     "خودِ این سایت: یک Cloudflare Worker که صفحه‌ها را از مخزن سرو می‌کند، "
+     "و خط تولید محتوایی که مقاله را از Markdown می‌سازد و پیش از انتشار از "
+     "دروازه‌های صحت و سئو رد می‌کند.",
+     "https://github.com/vandidadhonar-sudo/vandidad-website"),
+    ("کالبدشکافی مرداد ۱۴۰۵", "مرداد ۱۴۰۵",
+     "سندی که در آن شکست محصول در تست واقعی را، بر پایهٔ کدِ زندهٔ لامبدا و "
+     "لاگ و دادهٔ واقعی، خط به خط باز کرده — از جمله خطاهای خودش. در مخزن "
+     "عمومی است.", None),
 ]
 
 
@@ -1228,6 +1270,14 @@ def render_person_page(articles: list[Article]) -> str:
         row("محل کار", "کنَک، ازمیر، ترکیه"),
         row("زبان‌ها", "فارسی، انگلیسی، ترکی"),
         row("ساخته", "AIOS · همزاد دیجیتال (AIOS Twin) · Vanta"),
+        row("پروفایل‌ها", " · ".join(
+            f'<a href="{u}" target="_blank" rel="noopener me">{n}</a>'
+            for n, u in [
+                ("لینکدین",
+                 "https://www.linkedin.com/in/hadi-bakhtzadeh-8089b1109"),
+                ("اینستاگرام", "https://www.instagram.com/hadi_bakhtzade/"),
+                ("گیت‌هاب", "https://github.com/vandidadhonar-sudo"),
+            ])),
         row("نوشته", f"{to_fa(len(live))} مقالهٔ امضادار روی همین سایت"),
         row("کد", '<a href="https://github.com/vandidadhonar-sudo" target="_blank" '
             'rel="noopener">github.com/vandidadhonar-sudo</a>'),
@@ -1236,6 +1286,16 @@ def render_person_page(articles: list[Article]) -> str:
     faq_html = "".join(
         f"<dt>{html.escape(q)}</dt><dd>{html.escape(a)}</dd>"
         for q, a in PERSON_FAQ
+    )
+
+    works_html = "".join(
+        '<div class="index-item">'
+        + (f'<h2><a href="{u}" target="_blank" rel="noopener">'
+           f"{html.escape(n)}</a></h2>" if u else f"<h2>{html.escape(n)}</h2>")
+        + f"<p>{html.escape(d)}</p>"
+        + f'<p class="meta">{html.escape(when)}</p>'
+        + "</div>"
+        for n, when, d, u in WORKS
     )
 
     body = (
@@ -1255,6 +1315,10 @@ def render_person_page(articles: list[Article]) -> str:
         "استعلامش کند، یا شمارشی از همین صفحه. هیچ ادعای اثبات‌نشدنی‌ای در آن "
         "نیست.</p>"
         "</article>"
+        f"<h2>ساخته‌ها، با تاریخ</h2>{works_html}"
+        '<p class="tags">تاریخ‌ها تاریخ نخستین کامیت در همان مخزن‌اند و '
+        "شمارش خط‌ها شمارش است، نه تخمین. هر دو مخزن عمومی‌اند؛ تاریخ هر "
+        "کامیت را می‌شود دید.</p>"
         '<section class="faq"><h2>پرسش‌های پرتکرار</h2><dl>'
         f"{faq_html}</dl></section>"
         f"<h2>نوشته‌ها</h2>{items}"
