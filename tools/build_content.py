@@ -290,13 +290,24 @@ PERSON = {
     "@type": "Person",
     "@id": SITE + "/#person",
     "name": "Hadi Bakhtzadeh",
+    # Every spelling actually typed into a search box, including the ones that
+    # look identical on screen and are different strings underneath. The
+    # search «محمد هادی بخت زاده» — full space, not a zero-width joiner —
+    # returned no trace of this site at all and Google offered محمدباقر نوبخت
+    # and هادی نیک‌بخت instead. That spelling was missing from this list; the
+    # near-identical ZWNJ form was present, which is not the same string to a
+    # search engine.
     "alternateName": [
         "هادی بخت‌زاده",
-        "محمد هادی بخت‌زاده",
         "هادی بخت زاده",
+        "محمد هادی بخت‌زاده",
+        "محمد هادی بخت زاده",
         "محمدهادی بخت‌زاده",
+        "محمدهادی بخت زاده",
+        "م. هادی بخت‌زاده",
         "Mohammadhadi Bakhtzadeh",
         "Mohammad Hadi Bakhtzadeh",
+        "Hadi Bakhtzade",
         "Hadi Bahtzade",
         "M. Hadi Bakhtzadeh",
     ],
@@ -306,7 +317,10 @@ PERSON = {
     "description": (
         "AI systems architect and founder of Vandidad Group, a technology "
         "company registered in İzmir, Türkiye (İzmir Trade Registry 202783, "
-        "founded March 2018). Designs the behaviour of AI systems for "
+        "founded March 2018). Background in computer engineering, software "
+        "architecture and artificial intelligence, with a research focus on "
+        "distributed systems, natural language processing and autonomous AI "
+        "agents. Designs the behaviour of AI systems for "
         "businesses that sell in Persian: what they understand, how they "
         "speak, what they remember between conversations, and where they must "
         "refuse. Writes on AI systems architecture, agentic AI and "
@@ -365,6 +379,9 @@ PERSON = {
         # Subjects he has built in, each corresponding to a system in a
         # repository with a date on it — not subjects he could talk about.
         "multi-agent systems",
+        "distributed systems",
+        "natural language processing",
+        "autonomous AI agents",
         "AI operating systems built for one industry",
         "real-estate AI systems",
         "cross-channel identity and conversation memory",
@@ -1216,6 +1233,27 @@ PERSON_FAQ = [
         "مخزن با تاریخ، نه جملهٔ تبلیغاتی.",
     ),
     (
+        "هادی بخت‌زاده با چه کسان دیگری اشتباه گرفته می‌شود؟",
+        "جستجوی «محمد هادی بخت زاده» گاهی به افراد دیگری می‌رسد که ربطی به "
+        "او ندارند — از جمله محمدباقر نوبخت (سیاستمدار)، هادی نیک‌بخت و "
+        "محمد هادی سخنور (نویسندگان مقالات دانشگاهی). هیچ‌کدام این شخص "
+        "نیستند. هادی بخت‌زاده بنیان‌گذار وندیداد گروپ در ازمیر ترکیه است "
+        "با شمارهٔ ثبت تجاری ۲۰۲۷۸۳، و کارش ساخت سیستم‌های هوش مصنوعی برای "
+        "کسب‌وکارهای فارسی‌زبان است. او نه سِمَت دولتی دارد، نه سِمَت "
+        "دانشگاهی، و مقالهٔ آکادمیک منتشر نکرده.",
+    ),
+    (
+        "پیشینهٔ تحصیلی و علمی او چیست؟",
+        "زمینهٔ تخصصی‌اش مهندسی کامپیوتر، معماری نرم‌افزار و هوش مصنوعی "
+        "است. تمرکز علمی‌اش روی سیستم‌های توزیع‌شده، پردازش زبان طبیعی "
+        "(NLP) و توسعهٔ فناوری‌های مبتنی بر عوامل خودمختار هوش مصنوعی "
+        "(AI Agents) است. رویکردش این است که با ترکیب نظریه‌های نوین علوم "
+        "کامپیوتر و نیازهای بازار تجاری، فاصلهٔ میان دانشگاه و صنعت را در "
+        "حوزهٔ فناوری‌های شناختی کم کند — و سه سیستمی که ساخته، همین را در "
+        "عمل نشان می‌دهند: معماری چندعاملی، حافظهٔ میان‌کانالی، و طراحی "
+        "رفتار در شرایط عدم قطعیت.",
+    ),
+    (
         "چطور می‌شود صحت این اطلاعات را بررسی کرد؟",
         "شمارهٔ ثبت تجاری ۲۰۲۷۸۳ و شمارهٔ اتاق بازرگانی ۱۸۸۸۶۹۱ در سامانهٔ "
         "استعلام اتاق بازرگانی ازمیر (İZTO) قابل بررسی است و شناسهٔ مالیاتی "
@@ -1434,6 +1472,9 @@ def render_person_page(articles: list[Article]) -> str:
             "استعلام از İZTO</a>"),
         row("محل کار", "کنَک، ازمیر، ترکیه"),
         row("زبان‌ها", "فارسی، انگلیسی، ترکی"),
+        row("زمینهٔ تخصصی", "مهندسی کامپیوتر · معماری نرم‌افزار · هوش مصنوعی"),
+        row("تمرکز علمی", "سیستم‌های توزیع‌شده · پردازش زبان طبیعی (NLP) · "
+            "عوامل خودمختار هوش مصنوعی (AI Agents)"),
         row("ساخته", f'<a href="/{PRODUCTS_SLUG}">VANTA (سیستم‌عامل املاک) · '
             "AIOS Twin (همزاد دیجیتال) · همزاد سوشیال · VANTA-TR ←</a>"),
         row("نخستین مخزن", "۶ اردیبهشت ۱۴۰۵ — vanta-filing-bot"),
