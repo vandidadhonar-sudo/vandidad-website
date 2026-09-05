@@ -41,7 +41,7 @@ python3 tools/seo_report.py
 | معمار هوش مصنوعی | `/hamzad/memar-hoosh-masnooi` | در صف | 1573 | 3 | 0.2٪ | ✓ | — | ✓ | 2 | 0 |
 | هوش مصنوعی برای تلگرام | `/hamzad/hoosh-masnooi-baraye-telegram` | در صف | 1626 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 1 |
 | هوش مصنوعی برای مشاور املاک | `/hamzad/hoosh-masnooi-moshaver-amlak` | در صف | 1580 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 0 |
-| هوش مصنوعی برای مطب | `/hamzad/hoosh-masnooi-baraye-matab` | در صف | 1469 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 0 |
+| هوش مصنوعی برای مطب | `/hamzad/hoosh-masnooi-baraye-matab` | در صف | 1510 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 0 |
 | هوش مصنوعی برای واتساپ | `/hamzad/hoosh-masnooi-baraye-whatsapp` | در صف | 1624 | 3 | 0.2٪ | ✓ | ✓ | ✓ | 2 | 2 |
 | هوشواره | `/hamzad/hooshvare-chist` | در صف | 1555 | 20 | 1.3٪ | ✓ | ✓ | ✓ | 2 | 0 |
 | پاسخگویی خودکار اینستاگرام | `/hamzad/pasokhgooi-khodkar-instagram` | در صف | 1538 | 4 | 0.3٪ | ✓ | ✓ | ✓ | 2 | 1 |
