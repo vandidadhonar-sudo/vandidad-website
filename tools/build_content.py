@@ -1427,6 +1427,51 @@ WORKS = [
 ]
 
 
+# The English and Turkish summaries of the person, in the same shape every
+# article already uses: one URL, Persian in full, the other two languages as
+# summaries inside the page.
+#
+# Deliberately NOT three URLs with hreflang. hreflang declares equivalent
+# alternates, and a complete Persian record against a four-sentence English
+# summary is not an equivalent — declaring it as one is a misuse that gets the
+# wrong page served. Three thin pages would also split the authority the
+# Persian page is currently collecting from thirty-seven article bylines and
+# the homepage footer, and would need keeping in sync, which is the exact
+# defect that had /about describing this person differently from every other
+# page on the site.
+PERSON_SUMMARY_EN = (
+    "Hadi Bakhtzadeh is an AI systems architect and the founder of Vandidad "
+    "Group, a company registered in İzmir, Türkiye (İzmir Trade Registry "
+    "202783, trading since March 2018). His work is orchestration and "
+    "architecture on top of the major large language models rather than model "
+    "training: deciding what a system may do on its own, where it must ask a "
+    "person, what it remembers between conversations, and how it behaves when "
+    "the model is wrong. Three systems are built on that basis — VANTA, an AI "
+    "operating system for real estate running three independent agents with "
+    "separate access levels and an audited event log; AIOS Twin, a digital "
+    "twin that keeps one case file per person across web, WhatsApp, Telegram "
+    "and Bale; and Hamzad Social, an Instagram account that produces, "
+    "publishes and answers on its own. His background is in computer "
+    "engineering, software architecture and AI, with a research focus on "
+    "distributed systems, natural language processing and autonomous agents."
+)
+
+PERSON_SUMMARY_TR = (
+    "Hadi Bahtzade (Hadi Bakhtzadeh), İzmir'de kayıtlı Vandidad Group'un "
+    "kurucusu ve yapay zekâ sistem mimarıdır (İzmir Ticaret Sicil No. 202783, "
+    "Mart 2018'den beri faaliyette). İşi model eğitmek değil, büyük dil "
+    "modelleri üzerinde orkestrasyon ve mimari kurmaktır: sistemin neyi kendi "
+    "başına yapacağı, nerede bir insana soracağı, konuşmalar arasında neyi "
+    "hatırlayacağı ve model yanıldığında ne olacağı. Bu temelde üç sistem "
+    "geliştirdi — VANTA, gayrimenkul için üç bağımsız ajan, ayrı erişim "
+    "düzeyleri ve denetlenebilir bir olay kaydı olan yapay zekâ işletim "
+    "sistemi; AIOS Twin, web, WhatsApp, Telegram ve Bale üzerinde kişi başına "
+    "tek dosya tutan dijital ikiz; ve Hamzad Social, kendi içeriğini üreten, "
+    "yayınlayan ve yanıtlayan bir Instagram hesabı. Bilgisayar mühendisliği, "
+    "yazılım mimarisi ve yapay zekâ alanlarından gelmektedir."
+)
+
+
 def render_person_page(articles: list[Article]) -> str:
     """The Persian page that answers «هادی بخت‌زاده کیست».
 
@@ -1531,6 +1576,15 @@ def render_person_page(articles: list[Article]) -> str:
         '<section class="faq"><h2>پرسش‌های پرتکرار</h2><dl>'
         f"{faq_html}</dl></section>"
         f"<h2>نوشته‌ها</h2>{items}"
+        # Same markup the articles use: visible on the page, language-tagged,
+        # so a reader and a model both get the passage in the language they
+        # arrived in — without a second URL to keep in step.
+        + '<section class="summary ltr" lang="en" dir="ltr">'
+        "<h2>In English</h2>"
+        f"<p>{html.escape(PERSON_SUMMARY_EN)}</p></section>"
+        + '<section class="summary ltr" lang="tr" dir="ltr">'
+        "<h2>Türkçe özet</h2>"
+        f"<p>{html.escape(PERSON_SUMMARY_TR)}</p></section>"
         '<div class="cta"><p>می‌خواهید ببینید کارش چه شکلی است؟</p>'
         '<p><a href="/">همین‌جا با همزاد دیجیتال حرف بزنید</a> — '
         "ساخته‌ی خودش است.</p></div>"
@@ -1553,6 +1607,11 @@ def render_person_page(articles: list[Article]) -> str:
                 "mainEntity": {"@id": SITE + "/#person"},
                 "isPartOf": {"@id": SITE + "/#organization"},
                 "abstract": PERSON_ANSWER,
+                # The page is Persian and carries English and Turkish
+                # summaries in the body. Declaring all three tells a crawler
+                # the other-language passages are meant to be there rather
+                # than looking like stray untranslated content.
+                "availableLanguage": ["fa", "en", "tr"],
                 "isAccessibleForFree": True,
                 "hasPart": [
                     {"@type": "Article", "headline": a.title, "url": a.url}
