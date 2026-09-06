@@ -355,6 +355,11 @@ PERSON = {
         "https://github.com/vandidadhonar-sudo",
         "https://www.linkedin.com/in/hadi-bakhtzadeh-8089b1109",
         "https://www.instagram.com/hadi_bakhtzade/",
+        # Confirmed by the owner. The X account is result one for the English
+        # spelling of his name and the handle is taken from that result, not
+        # constructed — a sameAs built from a guess points the entity at
+        # someone else, which is the one mistake this field cannot absorb.
+        "https://x.com/HadiBakhtzadeh",
         SITE,
     ],
     # A role with a start date, tied to an organisation whose registration is
@@ -1168,7 +1173,8 @@ def render_index(collection: str, articles: list[Article]) -> str:
 # text a human reader sees at the top of the page, because markup that says
 # something the visitor cannot read is the kind Google withdraws.
 PERSON_ANSWER = (
-    "هادی بخت‌زاده معمار سیستم‌های هوش مصنوعی — هوشواره — و بنیان‌گذار "
+    "هادی بخت‌زاده (محمد هادی بخت‌زاده) معمار سیستم‌های هوش مصنوعی — "
+    "هوشواره — و بنیان‌گذار "
     "وندیداد گروپ است؛ شرکتی که اسفند ۱۳۹۶ در ازمیر ترکیه ثبت شده "
     "(شمارهٔ ثبت تجاری ۲۰۲۷۸۳). سازندهٔ VANTA، سیستم‌عامل هوش مصنوعی برای "
     "املاک با سه ایجنت مستقل و سه سطح دسترسی؛ و AIOS Twin، همزاد دیجیتالی "
@@ -1659,9 +1665,10 @@ def render_person_page(articles: list[Article]) -> str:
         "<header>"
         '<p class="eyebrow"><a href="/about">Vandidad Group</a></p>'
         "<h1>هادی بخت‌زاده — معمار هوش مصنوعی</h1>"
-        '<p class="lede">هادی بخت زاده (محمد هادی بخت زاده)، معمار '
-        "سیستم‌های هوش مصنوعی و بنیان‌گذار وندیداد گروپ — ازمیر، ترکیه. "
-        "کارش ارکستراسیون و معماری روی مدل‌های بزرگ زبانی است.</p>"
+        '<p class="lede">محمد هادی بخت‌زاده — که هادی بخت‌زاده، هادی بخت '
+        "زاده و محمد هادی بخت زاده هم نوشته می‌شود — معمار سیستم‌های هوش "
+        "مصنوعی و بنیان‌گذار وندیداد گروپ در ازمیر ترکیه است. کارش "
+        "ارکستراسیون و معماری روی مدل‌های بزرگ زبانی است، نه آموزش مدل.</p>"
         "</header>"
         '<section class="answer" aria-label="پاسخ کوتاه">'
         "<h2>در یک نگاه</h2>"
@@ -1938,8 +1945,9 @@ def render_record_page() -> str:
         "<header>"
         f'<p class="eyebrow"><a href="/{PERSON_SLUG}">هادی بخت‌زاده</a></p>'
         "<h1>کارنامه — پیش از هوش مصنوعی</h1>"
-        '<p class="lede">سه دوره، با تاریخ و شمارهٔ ثبت. این صفحه ادعای '
-        "محصولی ندارد؛ سابقه است.</p>"
+        '<p class="lede">کارنامهٔ محمد هادی بخت‌زاده (هادی بخت‌زاده، هادی '
+        "بخت زاده، محمد هادی بخت زاده) در سه دوره، با تاریخ و شمارهٔ ثبت. "
+        "این صفحه ادعای محصولی ندارد؛ سابقه است.</p>"
         "</header>"
         '<section class="answer" aria-label="پاسخ کوتاه">'
         "<h2>در یک نگاه</h2>"
