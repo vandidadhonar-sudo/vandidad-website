@@ -425,9 +425,6 @@ class Llms(unittest.TestCase):
         self.assertEqual(bc.render_llms(existing, []), existing)
 
 
-if __name__ == "__main__":
-    unittest.main(verbosity=2)
-
 
 class AboutProfileIsGenerated(unittest.TestCase):
     """The /about ProfilePage block must come from PERSON, not from a copy.
@@ -452,6 +449,40 @@ class AboutProfileIsGenerated(unittest.TestCase):
 
     def test_it_points_at_the_persian_page_as_his_record(self):
         self.assertIn(bc.PERSON_URL, bc.render_about_profile(self._about()))
+
+
+class Breadcrumbs(unittest.TestCase):
+    """Every page a stranger can land on says where it sits.
+
+    Search Console's live test reported "Breadcrumbs: 1 valid item" for
+    /hadi-bakhtzadeh, /mahsoolat and /karnameh, and "URL has no enhancements"
+    for /about. The gap was invisible from inside the repository because
+    nothing asked the question. A breadcrumb is what turns a bare URL under a
+    result into a readable trail, so the company's own page was getting a
+    worse presentation than the pages built after it.
+
+    The homepage is exempt on purpose: it is the root of the trail.
+    """
+
+    PAGES = ["about.html", "hadi-bakhtzadeh.html", "mahsoolat.html",
+             "karnameh.html"]
+
+    def _root(self):
+        return pathlib.Path(bc.__file__).resolve().parent.parent
+
+    def test_every_static_page_but_the_homepage_has_one(self):
+        for name in self.PAGES:
+            path = self._root() / name
+            if not path.exists():
+                continue
+            with self.subTest(page=name):
+                self.assertIn("BreadcrumbList", path.read_text("utf-8"),
+                              f"{name} has no breadcrumb")
+
+    def test_the_homepage_does_not(self):
+        self.assertNotIn(
+            "BreadcrumbList",
+            (self._root() / "index.html").read_text("utf-8"))
 
 
 class PageContract(unittest.TestCase):
@@ -646,3 +677,16 @@ class SitemapFreshness(unittest.TestCase):
         xml = self._sitemap()
         for url in (bc.PERSON_URL, bc.PRODUCTS_URL, bc.RECORD_URL):
             self.assertIn(f"<loc>{url}</loc>", xml)
+
+
+# WHY THIS SITS AT THE VERY BOTTOM
+# --------------------------------
+# It used to sit in the middle of the file. Python runs a module top to
+# bottom, so unittest.main() fired before the classes below it had been
+# defined and they were never collected — five whole classes, including the
+# ones guarding the page contract, the single-entity rule and sitemap
+# freshness. They passed by not existing. Nothing about the output said so:
+# it printed OK, and a green run of a shrinking suite reads exactly like a
+# green run of a growing one. Anything new goes above this line.
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

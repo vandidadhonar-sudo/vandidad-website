@@ -2126,7 +2126,29 @@ def render_about_profile(existing: str) -> str:
             "inLanguage": "en",
             "about": {"@id": SITE + "/#organization"},
             "mentions": {"@id": SITE + "/#person"},
+            "breadcrumb": {"@id": SITE + "/about#breadcrumb"},
             "mainEntity": ORGANISATION,
+        }, ensure_ascii=False, indent=1)
+        + "\n</script>\n"
+        # Every other static page carries a breadcrumb and this one did not.
+        # Search Console's live test made it visible: /hadi-bakhtzadeh,
+        # /mahsoolat and /karnameh each reported "Breadcrumbs: 1 valid item"
+        # while /about reported "URL has no enhancements". A breadcrumb is
+        # what puts a readable trail under the result instead of a bare URL,
+        # so its absence was costing the company's own page the presentation
+        # the newer pages already get. The homepage is deliberately still
+        # without one: it is the root, and a trail to where you already are
+        # says nothing.
+        + '<script type="application/ld+json">\n'
+        + json.dumps({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": SITE + "/about#breadcrumb",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1,
+                 "name": "Vandidad Group", "item": SITE},
+                {"@type": "ListItem", "position": 2, "name": "دربارهٔ ما"},
+            ],
         }, ensure_ascii=False, indent=1)
         + "\n</script>\n"
         + '<script type="application/ld+json">\n'
