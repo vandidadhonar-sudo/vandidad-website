@@ -127,4 +127,21 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add research
           git commit -m "research: SERP snapshot $(date -u +%Y-%m-%d)"
-          git push
+          # Rebase before pushing, and retry. The queries have already been
+          # spent against the daily quota by this point, so losing the push
+          # loses the data and the quota with it — which is exactly what
+          # happened on 2026-09-06: a batch of ten fetched, then rejected
+          # because another commit had landed while it ran, and the results
+          # were gone. `research/` is append-only across runs, so a rebase
+          # here cannot conflict with anything.
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" || true
+            if git push origin "HEAD:$GITHUB_REF_NAME"; then
+              echo "pushed on attempt $attempt"
+              exit 0
+            fi
+            echo "push rejected, retrying in $((attempt * 5))s"
+            sleep $((attempt * 5))
+          done
+          echo "::error::نتایج گرفته شد ولی push نشد — سهمیه خرج شد و داده از دست رفت"
+          exit 1
