@@ -1,0 +1,59 @@
+# Is the front door open?
+#
+# WHY THIS EXISTS
+# ---------------
+# Search Console reported "Couldn't fetch" on the sitemap for two days — no
+# successful read, zero discovered pages — while every existing loop reported
+# healthy. The rank loops measure position; none of them ever asked whether a
+# crawler can fetch the site at all, and a closed door looks exactly like a
+# site that is simply new. This is the check that was missing.
+#
+# It runs here rather than in a session because a session container's egress
+# proxy answers 403 to vandidad.xyz itself. A GitHub runner has real internet,
+# so it can ask the question as Googlebot and as GPTBot and get a true answer.
+#
+# WHY IT IS ALLOWED TO FAIL THE BUILD
+# -----------------------------------
+# Unlike rank-watch, this one goes red. A phrase we have not won yet is not a
+# defect. A page that a crawler cannot fetch is, and it silently undoes every
+# other thing in this repository.
+
+name: Reachability
+
+on:
+  schedule:
+    # 05:20 UTC — after the daily article publishes, so the newest page is
+    # included in the same run that would catch it being unreachable.
+    - cron: "20 5 * * *"
+  workflow_dispatch: {}
+  # A Worker change is the one thing that can take the whole site down, so the
+  # deploy is followed by a check that it did not.
+  workflow_run:
+    workflows: ["Deploy Worker"]
+    types: [completed]
+
+concurrency:
+  group: reachability
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Cloudflare can take a moment to pick up a fresh deploy, and a check
+      # that runs a second too early reports a failure that is not real.
+      - name: Let a fresh deploy settle
+        if: github.event_name == 'workflow_run'
+        run: sleep 45
+
+      - name: Ask the crawlers' question
+        run: python3 tools/reachability.py

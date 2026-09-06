@@ -167,6 +167,26 @@ export default {
       );
     }
 
+    // A repeated slash makes a different path. "//sitemap.xml" is not
+    // "/sitemap.xml", so it misses every route table below and falls through
+    // to the app — a 200 of the wrong thing to a crawler asking for XML.
+    //
+    // This is not hypothetical. Search Console's "add a sitemap" box already
+    // prints the origin and asks only for the rest; typing "/sitemap.xml"
+    // there submits "https://vandidad.xyz//sitemap.xml". The panel then read
+    // "Couldn't fetch" with an empty last-read and zero discovered pages for
+    // two days while the file itself was being served perfectly.
+    //
+    // Collapsing and redirecting rather than rewriting is deliberate: it
+    // means a doubled URL cannot become a second address for the same file,
+    // and any crawler that follows the 301 lands on the canonical one.
+    if (url.pathname.includes("//")) {
+      return Response.redirect(
+        url.origin + url.pathname.replace(/\/{2,}/g, "/") + url.search,
+        301
+      );
+    }
+
     if (url.pathname === "/__alive") {
       return new Response("ok", { headers: { "Content-Type": "text/plain" } });
     }

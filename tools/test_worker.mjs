@@ -69,6 +69,41 @@ const call = (path, env = {}, init) =>
 
 // --- the routes that matter -------------------------------------------
 
+console.log("\na doubled slash is the same file, not a different one");
+{
+  // Search Console spent two days reporting "Couldn't fetch" on a sitemap
+  // that was being served correctly, because the submitted URL carried a
+  // second slash. The route tables are keyed on the exact path, so that URL
+  // reached none of them.
+  asked.length = 0;
+  const r = await call("//sitemap.xml");
+  check("redirects to the single-slash path",
+    r.status === 301 &&
+      r.headers.get("Location") === "https://vandidad.xyz/sitemap.xml",
+    `${r.status} ${r.headers.get("Location")}`);
+  check("and never fetches anything for the doubled path",
+    asked.length === 0, asked.join(", "));
+
+  const deep = await call("/hamzad//a-slug");
+  check("collapses a doubled slash anywhere in the path",
+    deep.status === 301 &&
+      deep.headers.get("Location") === "https://vandidad.xyz/hamzad/a-slug",
+    `${deep.status} ${deep.headers.get("Location")}`);
+
+  const many = await call("///");
+  check("three slashes collapse to the homepage",
+    many.status === 301 &&
+      many.headers.get("Location") === "https://vandidad.xyz/",
+    `${many.status} ${many.headers.get("Location")}`);
+
+  asked.length = 0;
+  const normal = await call("/sitemap.xml");
+  check("a normal path is untouched by any of this",
+    normal.status === 200 &&
+      normal.headers.get("Content-Type") === "application/xml; charset=utf-8",
+    `${normal.status} ${normal.headers.get("Content-Type")}`);
+}
+
 console.log("\nfonts");
 {
   const env = { MEDIA: bucket(new Set(["fonts/vazirmatn-regular.woff2"])) };
