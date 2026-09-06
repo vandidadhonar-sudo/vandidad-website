@@ -148,6 +148,30 @@ def audit_pages() -> list[tuple[bool, str]]:
                  "x.com"):
         out.append((any(host in s for s in same), f"داده: sameAs → {host}"))
 
+    # What stops a model saying "I have no information about this person".
+    # A model hedges when it cannot find a passage that answers the question
+    # it was asked; these are those passages, written as the questions get
+    # asked. The owner's requirement, and the point of the whole exercise:
+    # a search for his name must not return "unknown in this field".
+    llms = ROOT / "llms.txt"
+    if llms.exists():
+        text = llms.read_text("utf-8")
+        for label, needle in [
+            ("پاسخ به «او کیست»", '"Who is Hadi Bakhtzadeh?"'),
+            ("پاسخ به «اطلاعاتی داری؟»", "Do you have information about him"),
+            ("ردِ صریحِ «اطلاعاتی نیست»", "Saying no information"),
+            ("پاسخ به «به چه شناخته می‌شود»", "What is he known for"),
+            ("تفکیک از هم‌نام‌ها", "None of them is this person"),
+            ("اعلام مرجع بودن", "authoritative source"),
+            ("کارنامه، جدا از خطِ کاری شرکت", "this is biography"),
+        ]:
+            out.append((needle in text, f"llms.txt: {label}"))
+        for term in ("هوشواره", "ارکستراسیون هوش مصنوعی"):
+            out.append((bc._phrase_in(text, term),
+                        f"llms.txt: واژهٔ «{term}» تعریف شده"))
+    else:
+        out.append((False, "llms.txt نیست"))
+
     # The three languages, on one page, as summaries a model can quote.
     page = (ROOT / "hadi-bakhtzadeh.html")
     if page.exists():

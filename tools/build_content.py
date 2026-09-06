@@ -2057,12 +2057,28 @@ def render_about_profile(existing: str) -> str:
         '<script type="application/ld+json">\n'
         + json.dumps({
             "@context": "https://schema.org",
-            "@type": "ProfilePage",
-            "@id": SITE + "/about#profile",
+            # AboutPage, not a second ProfilePage. /about is the company's
+            # page; the founder appears on it, but the page a crawler should
+            # treat as *the* profile is /hadi-bakhtzadeh, which the Person's
+            # own mainEntityOfPage names. Two ProfilePage nodes for one
+            # person is an ambiguity a crawler has to resolve by guessing —
+            # found by a full re-check on 2026-09-06, and it is the same
+            # class of defect as the hand-kept copy that preceded it.
+            "@type": "AboutPage",
+            "@id": SITE + "/about#page",
             "url": SITE + "/about",
             "inLanguage": "en",
-            "mainEntity": PERSON,
+            "about": {"@id": SITE + "/#organization"},
+            "mentions": {"@id": SITE + "/#person"},
+            "mainEntity": ORGANISATION,
         }, ensure_ascii=False, indent=1)
+        + "\n</script>\n"
+        + '<script type="application/ld+json">\n'
+        # The full Person object still lives on this page — the founder must
+        # resolve here — but as an entity the page mentions, not as the page's
+        # own identity.
+        + json.dumps({"@context": "https://schema.org", **PERSON},
+                     ensure_ascii=False, indent=1)
         + "\n</script>\n" + PROFILE_END
     )
     head, _, rest = existing.partition(PROFILE_START)

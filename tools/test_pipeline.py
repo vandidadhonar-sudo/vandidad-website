@@ -545,3 +545,75 @@ class PageContract(unittest.TestCase):
         page = bc.render_record_page()
         for phrase in ("۲۵ سال", "بیش از دو دهه", "۲۰ سال"):
             self.assertNotIn(phrase, page)
+
+
+class OneEntityOneDeclaration(unittest.TestCase):
+    """No entity is described twice, anywhere.
+
+    Three separate instances of one defect were found in this repository, all
+    in about.html: a hand-kept Person that had drifted to `sameAs: []`, a
+    ProfilePage competing with the person's real profile page, and a
+    hand-written Organization missing the registry identifiers the generated
+    one carries. Each was invisible until the file was read whole. These tests
+    read it whole every time.
+    """
+
+    def _pages(self):
+        root = pathlib.Path(bc.__file__).resolve().parent.parent
+        return [root / n for n in ("about.html", "hadi-bakhtzadeh.html",
+                                   "mahsoolat.html", "karnameh.html")
+                if (root / n).exists()]
+
+    def _nodes(self, path):
+        import re
+        out = []
+        text = path.read_text("utf-8")
+        for blob in re.findall(
+                r'<script type="application/ld\+json">(.*?)</script>',
+                text, re.S):
+            data = json.loads(blob)          # also asserts it parses
+            queue = list(data.get("@graph") or [data])
+            while queue:
+                node = queue.pop()
+                if not isinstance(node, dict):
+                    continue
+                out.append(node)
+                main = node.get("mainEntity")
+                if isinstance(main, dict):
+                    queue.append(main)
+        return out
+
+    def test_every_block_is_valid_json(self):
+        for page in self._pages():
+            self._nodes(page)               # raises if any block is malformed
+
+    def test_no_page_declares_an_entity_twice(self):
+        for page in self._pages():
+            for kind in ("Person", "Organization"):
+                full = [n for n in self._nodes(page)
+                        if n.get("@type") == kind and len(n) > 2]
+                self.assertLessEqual(
+                    len(full), 1,
+                    f"{page.name}: {kind} دو بار کامل اعلام شده")
+
+    def test_only_the_person_page_is_a_profile_page(self):
+        for page in self._pages():
+            profiles = [n for n in self._nodes(page)
+                        if n.get("@type") == "ProfilePage"
+                        and n.get("@id", "").rstrip("/") != ""
+                        and "#" not in n.get("@id", "#")]
+            if page.name == "hadi-bakhtzadeh.html":
+                self.assertEqual(len(profiles), 1)
+                self.assertEqual(profiles[0]["@id"], bc.PERSON_URL)
+            else:
+                self.assertFalse(
+                    profiles,
+                    f"{page.name}: ProfilePage دوم — کدام صفحه پروفایل است؟")
+
+    def test_the_person_id_is_the_same_on_every_page(self):
+        ids = set()
+        for page in self._pages():
+            for node in self._nodes(page):
+                if node.get("@type") == "Person":
+                    ids.add(node.get("@id"))
+        self.assertEqual(ids, {bc.SITE + "/#person"})

@@ -13,27 +13,12 @@
 <meta name="robots" content="index, follow">
 <meta name="google" content="notranslate">
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Vandidad Group",
-  "legalName": "Vandidad Group Gayrimenkul Danışmanlık Hizmetleri İthalat İhracat Ticaret Limited Şirketi",
-  "url": "https://vandidad.xyz",
-  "email": "ai@vandidad.xyz",
-  "foundingDate": "2018-03-15",
-  "taxID": "9220834963",
-  "description": "Technology company building custom AI agents and AI operating systems on Amazon Web Services.",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Kültür Mah. Şehit Nevres Bulvarı, Kızılay İş Merkezi, Blok No: 3, İç Kapı No: 51",
-    "addressLocality": "Konak, İzmir",
-    "addressCountry": "TR"
-  },
-  "founder": { "@id": "https://vandidad.xyz/#person" },
-  "@id": "https://vandidad.xyz/#organization"
-}
-</script>
+<!-- The Organization is declared once, in the generated block below.
+     A second hand-written copy stood here and had already drifted:
+     it carried a shorter description and lacked the registry
+     identifiers and chamber membership the generated one has. Two
+     descriptions of one @id is the same defect that was found in the
+     Person object, in the same file. -->
 
 <!-- The same person object every article carries, on the page a machine is
      told to treat as his record. Without a shared @id, the founder named here
@@ -47,94 +32,166 @@
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
- "@type": "ProfilePage",
- "@id": "https://vandidad.xyz/about#profile",
+ "@type": "AboutPage",
+ "@id": "https://vandidad.xyz/about#page",
  "url": "https://vandidad.xyz/about",
  "inLanguage": "en",
+ "about": {
+  "@id": "https://vandidad.xyz/#organization"
+ },
+ "mentions": {
+  "@id": "https://vandidad.xyz/#person"
+ },
  "mainEntity": {
-  "@type": "Person",
-  "@id": "https://vandidad.xyz/#person",
-  "name": "Hadi Bakhtzadeh",
+  "@type": "Organization",
+  "@id": "https://vandidad.xyz/#organization",
+  "name": "Vandidad Group",
   "alternateName": [
-   "هادی بخت‌زاده",
-   "هادی بخت زاده",
-   "محمد هادی بخت‌زاده",
-   "محمد هادی بخت زاده",
-   "محمدهادی بخت‌زاده",
-   "محمدهادی بخت زاده",
-   "م. هادی بخت‌زاده",
-   "Mohammadhadi Bakhtzadeh",
-   "Mohammad Hadi Bakhtzadeh",
-   "Hadi Bakhtzade",
-   "Hadi Bahtzade",
-   "M. Hadi Bakhtzadeh"
+   "وندیداد گروپ",
+   "AIOS"
   ],
-  "givenName": "Hadi",
-  "familyName": "Bakhtzadeh",
-  "jobTitle": "Architect of Intelligent Systems",
-  "description": "AI systems architect and founder of Vandidad Group, a technology company registered in İzmir, Türkiye (İzmir Trade Registry 202783, founded March 2018). Background in computer engineering, software architecture and artificial intelligence, with a research focus on distributed systems, natural language processing and autonomous AI agents. Designs the behaviour of AI systems for businesses that sell in Persian: what they understand, how they speak, what they remember between conversations, and where they must refuse. Writes on AI systems architecture, agentic AI and conversational design in Persian.",
-  "nationality": {
-   "@type": "Country",
-   "name": "Iran"
-  },
-  "workLocation": {
-   "@type": "Place",
-   "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Konak, İzmir",
-    "addressCountry": "TR"
-   }
-  },
-  "mainEntityOfPage": {
-   "@type": "ProfilePage",
-   "@id": "https://vandidad.xyz/hadi-bakhtzadeh"
-  },
-  "sameAs": [
-   "https://github.com/vandidadhonar-sudo",
-   "https://www.linkedin.com/in/hadi-bakhtzadeh-8089b1109",
-   "https://www.instagram.com/hadi_bakhtzade/",
-   "https://x.com/HadiBakhtzadeh",
-   "https://vandidad.xyz"
-  ],
-  "hasOccupation": {
-   "@type": "Occupation",
-   "name": "AI Systems Architect",
-   "occupationalCategory": "15-1252 Software Developers",
-   "responsibilities": "Designing the behaviour of AI systems for business conversation: scope of autonomous action, escalation points, what persists between conversations, and behaviour under model failure."
-  },
-  "memberOf": {
-   "@id": "https://vandidad.xyz/#organization"
-  },
-  "founder": {
-   "@id": "https://vandidad.xyz/#organization"
-  },
-  "worksFor": {
-   "@id": "https://vandidad.xyz/#organization"
+  "url": "https://vandidad.xyz",
+  "email": "ai@vandidad.xyz",
+  "description": "Vandidad Group builds AIOS — an AI platform for business conversation — and the systems that run on it. One reasoning core serves every channel a business talks on, and each client system is configured for its industry rather than rebuilt from scratch.",
+  "address": {
+   "@type": "PostalAddress",
+   "addressLocality": "Konak, İzmir",
+   "addressCountry": "TR"
   },
   "knowsLanguage": [
    "fa",
    "en",
    "tr"
   ],
-  "knowsAbout": [
-   "AI systems architecture",
-   "multi-agent systems",
-   "distributed systems",
-   "natural language processing",
-   "autonomous AI agents",
-   "AI operating systems built for one industry",
-   "real-estate AI systems",
-   "cross-channel identity and conversation memory",
-   "refusal design — what a system does when it does not know",
-   "Persian-language conversational design",
-   "sales conversation design",
-   "هوش مصنوعی در املاک",
-   "هوشواره",
-   "هوش مصنوعی عاملی",
-   "سیستم‌عامل هوش مصنوعی"
+  "areaServed": [
+   {
+    "@type": "Country",
+    "name": "Iran"
+   },
+   {
+    "@type": "Country",
+    "name": "Türkiye"
+   }
   ],
-  "url": "https://vandidad.xyz/hadi-bakhtzadeh"
+  "knowsAbout": [
+   "conversational AI for business",
+   "Persian-language AI assistants",
+   "digital twin sales agents",
+   "customer follow-up automation",
+   "AI systems architecture"
+  ],
+  "founder": {
+   "@id": "https://vandidad.xyz/#person"
+  },
+  "foundingDate": "2018-03-15",
+  "taxID": "9220834963",
+  "identifier": [
+   {
+    "@type": "PropertyValue",
+    "name": "İzmir Trade Registry",
+    "value": "202783"
+   },
+   {
+    "@type": "PropertyValue",
+    "name": "İzmir Chamber of Commerce",
+    "value": "1888691"
+   }
+  ],
+  "memberOf": {
+   "@type": "Organization",
+   "name": "İzmir Chamber of Commerce",
+   "alternateName": "İzmir Ticaret Odası",
+   "url": "https://www.izto.org.tr"
+  },
+  "legalName": "Vandidad Group Gayrimenkul Danışmanlık Hizmetleri İthalat İhracat Ticaret Limited Şirketi"
  }
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Person",
+ "@id": "https://vandidad.xyz/#person",
+ "name": "Hadi Bakhtzadeh",
+ "alternateName": [
+  "هادی بخت‌زاده",
+  "هادی بخت زاده",
+  "محمد هادی بخت‌زاده",
+  "محمد هادی بخت زاده",
+  "محمدهادی بخت‌زاده",
+  "محمدهادی بخت زاده",
+  "م. هادی بخت‌زاده",
+  "Mohammadhadi Bakhtzadeh",
+  "Mohammad Hadi Bakhtzadeh",
+  "Hadi Bakhtzade",
+  "Hadi Bahtzade",
+  "M. Hadi Bakhtzadeh"
+ ],
+ "givenName": "Hadi",
+ "familyName": "Bakhtzadeh",
+ "jobTitle": "Architect of Intelligent Systems",
+ "description": "AI systems architect and founder of Vandidad Group, a technology company registered in İzmir, Türkiye (İzmir Trade Registry 202783, founded March 2018). Background in computer engineering, software architecture and artificial intelligence, with a research focus on distributed systems, natural language processing and autonomous AI agents. Designs the behaviour of AI systems for businesses that sell in Persian: what they understand, how they speak, what they remember between conversations, and where they must refuse. Writes on AI systems architecture, agentic AI and conversational design in Persian.",
+ "nationality": {
+  "@type": "Country",
+  "name": "Iran"
+ },
+ "workLocation": {
+  "@type": "Place",
+  "address": {
+   "@type": "PostalAddress",
+   "addressLocality": "Konak, İzmir",
+   "addressCountry": "TR"
+  }
+ },
+ "mainEntityOfPage": {
+  "@type": "ProfilePage",
+  "@id": "https://vandidad.xyz/hadi-bakhtzadeh"
+ },
+ "sameAs": [
+  "https://github.com/vandidadhonar-sudo",
+  "https://www.linkedin.com/in/hadi-bakhtzadeh-8089b1109",
+  "https://www.instagram.com/hadi_bakhtzade/",
+  "https://x.com/HadiBakhtzadeh",
+  "https://vandidad.xyz"
+ ],
+ "hasOccupation": {
+  "@type": "Occupation",
+  "name": "AI Systems Architect",
+  "occupationalCategory": "15-1252 Software Developers",
+  "responsibilities": "Designing the behaviour of AI systems for business conversation: scope of autonomous action, escalation points, what persists between conversations, and behaviour under model failure."
+ },
+ "memberOf": {
+  "@id": "https://vandidad.xyz/#organization"
+ },
+ "founder": {
+  "@id": "https://vandidad.xyz/#organization"
+ },
+ "worksFor": {
+  "@id": "https://vandidad.xyz/#organization"
+ },
+ "knowsLanguage": [
+  "fa",
+  "en",
+  "tr"
+ ],
+ "knowsAbout": [
+  "AI systems architecture",
+  "multi-agent systems",
+  "distributed systems",
+  "natural language processing",
+  "autonomous AI agents",
+  "AI operating systems built for one industry",
+  "real-estate AI systems",
+  "cross-channel identity and conversation memory",
+  "refusal design — what a system does when it does not know",
+  "Persian-language conversational design",
+  "sales conversation design",
+  "هوش مصنوعی در املاک",
+  "هوشواره",
+  "هوش مصنوعی عاملی",
+  "سیستم‌عامل هوش مصنوعی"
+ ],
+ "url": "https://vandidad.xyz/hadi-bakhtzadeh"
 }
 </script>
 <!-- PROFILE:END -->
