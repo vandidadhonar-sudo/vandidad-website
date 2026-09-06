@@ -269,6 +269,15 @@ def write_report(results: list[dict], usage: str | None,
         except Exception:
             pass          # a corrupt snapshot must not lose the fresh results
     for row in results:
+        # A refused query still produces a row — empty organic, empty raw. A
+        # run that hit the daily quota wrote nineteen of those into the day's
+        # snapshot, which is worse than writing nothing: the file then claims
+        # to hold a measurement for a phrase nobody measured, and a later
+        # reader has to know that an empty row means "refused" rather than
+        # "nothing ranks". Keep whatever is already on file instead — an older
+        # real answer beats a fresh empty one.
+        if not (row.get("organic") or row.get("raw")):
+            continue
         merged[row.get("query", "")] = row
 
     path.write_text(json.dumps({
