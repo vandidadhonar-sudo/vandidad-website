@@ -36,6 +36,7 @@ import argparse
 import html
 import json
 import re
+import subprocess
 import sys
 import urllib.parse
 from dataclasses import dataclass, field
@@ -2249,6 +2250,45 @@ def render_about_person(existing: str, articles: list[Article]) -> str:
     return head + block + tail
 
 
+def _last_change(name: str) -> date:
+    """The day this file's content last actually changed.
+
+    WHY NOT THE MODIFICATION TIME
+    -----------------------------
+    It used to be `stat().st_mtime`, and that is wrong in both directions.
+    A CI runner clones the repository fresh, so every file's mtime is the
+    moment of the clone — which made every URL claim it changed today, every
+    day, whether or not anything had. A crawler that is told everything
+    changed and finds nothing new learns to discount the signal, and lastmod
+    is the one signal we have. In the other direction, rebuilding on a
+    machine whose files are older silently rewrote the dates backwards; that
+    happened here, and committing it would have told Google the pages had
+    become older than it already believed.
+
+    Git knows the answer. A file that differs from HEAD is being changed by
+    this very build, so it is today; otherwise it is the date of the last
+    commit that touched it. Both are facts about the content rather than
+    about the disk.
+    """
+    try:
+        changed = subprocess.run(
+            ["git", "diff", "--quiet", "HEAD", "--", name],
+            cwd=ROOT, capture_output=True,
+        ).returncode != 0
+        if changed:
+            return date.today()
+        out = subprocess.run(
+            ["git", "log", "-1", "--format=%cs", "--", name],
+            cwd=ROOT, capture_output=True, text=True, check=True,
+        ).stdout.strip()
+        if out:
+            return date.fromisoformat(out)
+    except Exception:
+        pass
+    # No git — a tarball, a sandbox. The mtime is worse, but it is a date.
+    return date.fromtimestamp((ROOT / name).stat().st_mtime)
+
+
 def render_sitemap(articles: list[Article]) -> str:
     # A collection page with nothing on it is thin content. It stays reachable
     # from the footer, but it is not offered to a crawler until it has
@@ -2282,8 +2322,7 @@ def render_sitemap(articles: list[Article]) -> str:
         rows.append(f"    <loc>{SITE}{path}</loc>")
         name = static_file.get(path)
         if name and (ROOT / name).exists():
-            stamp = date.fromtimestamp((ROOT / name).stat().st_mtime)
-            rows.append(f"    <lastmod>{stamp.isoformat()}</lastmod>")
+            rows.append(f"    <lastmod>{_last_change(name).isoformat()}</lastmod>")
         elif path in ("/blog", "/hamzad"):
             # A collection is as fresh as its newest article.
             newest = max((a.updated or a.published) for a in articles
