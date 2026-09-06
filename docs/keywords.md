@@ -25,7 +25,7 @@ python3 tools/seo_report.py
 |---|---|---|---|---|---|---|---|---|---|---|
 | اتوماسیون پاسخگویی به مشتری | `/hamzad/otomasion-pasokhgooi-be-moshtari` | منتشرشده | 1667 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 4 |
 | ایجنت فروش هوش مصنوعی | `/hamzad/ejent-forush-hoosh-masnooi` | منتشرشده | 1650 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 1 |
-| سیستم عامل هوش مصنوعی | `/hamzad/sistem-amel-hoosh-masnooi-chist` | منتشرشده | 1523 | 5 | 0.3٪ | ✓ | ✓ | ✓ | 2 | 8 |
+| سیستم عامل هوش مصنوعی | `/hamzad/sistem-amel-hoosh-masnooi-chist` | منتشرشده | 1523 | 5 | 0.3٪ | ✓ | ✓ | ✓ | 2 | 9 |
 | هوش مصنوعی در حسابداری | `/hamzad/daftar-hesabdari-va-karhaye-tekrari` | منتشرشده | 1618 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 1 |
 | هوش مصنوعی در فروشگاه اینترنتی | `/hamzad/kharidar-online-ke-tardid-mikonad` | منتشرشده | 1603 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 1 |
 | هوش مصنوعی در کلینیک زیبایی | `/hamzad/klinik-zibaei-nobat-va-peygiri` | منتشرشده | 1636 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 3 |
@@ -34,6 +34,7 @@ python3 tools/seo_report.py
 | چت بات برای کسب و کار | `/hamzad/chatbot-vs-digital-twin` | منتشرشده | 1597 | 2 | 0.1٪ | ✓ | — | ✓ | 5 | 20 |
 | آموزش هوش مصنوعی برای دانشجویان | `/hamzad/amoozesh-hoosh-masnooi-daneshjoo` | در صف | 1526 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 1 |
 | اتوماسیون بازاریابی ایرانی | `/hamzad/otomasion-bazaryabi-irani` | در صف | 1549 | 2 | 0.1٪ | — | ✓ | ✓ | 3 | 1 |
+| ارکستراسیون هوش مصنوعی | `/hamzad/orkestrasion-hoosh-masnooi` | در صف | 1529 | 4 | 0.3٪ | ✓ | ✓ | ✓ | 3 | 0 |
 | امنیت اطلاعات مشتری | `/hamzad/harim-khosoosi-dade-moshtari` | در صف | 1565 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 1 |
 | اندازه‌گیری نتیجه هوش مصنوعی | `/hamzad/andazegiri-natije-hoosh-masnooi` | در صف | 1623 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 4 | 1 |
 | تفاوت هوش مصنوعی و اتوماسیون | `/hamzad/tafavot-hoosh-masnooi-va-otomasion` | در صف | 1523 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 3 | 1 |
@@ -46,7 +47,7 @@ python3 tools/seo_report.py
 | ربات پاسخگوی مشتری فارسی | `/hamzad/robat-pasokhgoo-moshtari-farsi` | در صف | 1589 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 1 |
 | ساخت ایجنت هوش مصنوعی | `/hamzad/sakht-ejent-hoosh-masnooi` | در صف | 1561 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 3 |
 | مدل زبانی فارسی | `/hamzad/entekhab-model-zabani-farsi` | در صف | 1558 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 3 | 1 |
-| معمار هوش مصنوعی | `/hamzad/memar-hoosh-masnooi` | در صف | 1860 | 3 | 0.2٪ | ✓ | — | ✓ | 4 | 1 |
+| معمار هوش مصنوعی | `/hamzad/memar-hoosh-masnooi` | در صف | 1860 | 3 | 0.2٪ | ✓ | — | ✓ | 4 | 2 |
 | هوش مصنوعی برای آموزشگاه | `/hamzad/hoosh-masnooi-baraye-amoozeshgah` | در صف | 1639 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 4 | 1 |
 | هوش مصنوعی برای تلگرام | `/hamzad/hoosh-masnooi-baraye-telegram` | در صف | 1661 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 3 | 1 |
 | هوش مصنوعی برای مطب | `/hamzad/hoosh-masnooi-baraye-matab` | در صف | 1535 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 3 | 1 |
@@ -65,8 +66,8 @@ python3 tools/seo_report.py
 
 | سطح | تعداد | سهم |
 |---|---|---|
-| ستون | 6 | 16٪ |
-| میانی | 19 | 51٪ |
+| ستون | 7 | 18٪ |
+| میانی | 19 | 50٪ |
 | صنفی | 12 | 32٪ |
 
 **ستون** عبارتی است که خودِ کارِ ما را توصیف می‌کند؛ **میانی** مفهوم یا تصمیمی است که به ستون خدمت می‌کند؛ **صنفی** یک صنف یا یک کانال است و باید به ستونش لینک بدهد.
@@ -79,6 +80,7 @@ python3 tools/seo_report.py
 چون لینک فقط به عقب زده می‌شود — هیچ مقاله‌ای نباید به مقاله‌ای لینک بدهد که دیرتر منتشر می‌شود — تازه‌ترین مقاله‌های صف همیشه اینجا هستند و این طبیعی است. آنچه باید پیگیری شود مقاله‌ای است که هفته‌ها پس از انتشار هنوز اینجاست: یعنی در نوشته‌های بعدی به آن ارجاع نداده‌ایم.
 
 - `/hamzad/ejent-poshtibani-moshtari` — «ربات جواب دادن به مشتری»
+- `/hamzad/orkestrasion-hoosh-masnooi` — «ارکستراسیون هوش مصنوعی»
 
 ## لینک‌های داخلیِ شکسته
 
