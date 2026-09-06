@@ -617,3 +617,32 @@ class OneEntityOneDeclaration(unittest.TestCase):
                 if node.get("@type") == "Person":
                     ids.add(node.get("@id"))
         self.assertEqual(ids, {bc.SITE + "/#person"})
+
+
+class SitemapFreshness(unittest.TestCase):
+    """Every URL carries a lastmod.
+
+    changefreq and priority are hints a crawler is free to ignore; lastmod is
+    the one it uses to decide whether a page is worth fetching again. Nine of
+    eighteen URLs had none — including the four newest pages, which were
+    published, listed, announced through IndexNow, and still giving a crawler
+    no reason to return.
+    """
+
+    def _sitemap(self):
+        return (pathlib.Path(bc.__file__).resolve().parent.parent
+                / "sitemap.xml").read_text("utf-8")
+
+    def test_it_is_valid_xml(self):
+        import xml.etree.ElementTree as ET
+        ET.fromstring(self._sitemap())
+
+    def test_every_url_has_a_lastmod(self):
+        xml = self._sitemap()
+        self.assertEqual(xml.count("<loc>"), xml.count("<lastmod>"),
+                         "آدرسی بدون lastmod در sitemap هست")
+
+    def test_the_identity_pages_are_listed(self):
+        xml = self._sitemap()
+        for url in (bc.PERSON_URL, bc.PRODUCTS_URL, bc.RECORD_URL):
+            self.assertIn(f"<loc>{url}</loc>", xml)
