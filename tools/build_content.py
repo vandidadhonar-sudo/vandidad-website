@@ -1596,8 +1596,17 @@ def render_person_page(articles: list[Article]) -> str:
         return f'<div class="row"><div class="k">{k}</div><div class="v">{v}</div></div>'
 
     record = "".join([
-        row("نام", "هادی بخت‌زاده — محمد هادی بخت‌زاده — "
-            '<span dir="ltr" lang="en">Hadi Bakhtzadeh</span>'),
+        # Both spellings in visible text, not only in alternateName. The
+        # search «هادی بخت زاده هوش مصنوعی» — full space — returned nothing
+        # from this site while the half-space form ranked first, and the
+        # difference was that the space form appeared once on the page and
+        # the half-space form seven times. A search engine indexes the string
+        # it can see.
+        row("نام", "هادی بخت‌زاده — هادی بخت زاده"),
+        row("نام کامل", "محمد هادی بخت‌زاده — محمد هادی بخت زاده — "
+            '<span dir="ltr" lang="en">Mohammadhadi Bakhtzadeh</span>'),
+        row("لاتین", '<span dir="ltr" lang="en">Hadi Bakhtzadeh</span> — '
+            '<span dir="ltr" lang="en">Hadi Bahtzade</span>'),
         row("نقش", "معمار سیستم‌های هوش مصنوعی (هوشواره)"),
         row("شرکت", "بنیان‌گذار وندیداد گروپ — "
             '<span dir="ltr" lang="en">Vandidad Group</span>'),
@@ -1649,9 +1658,10 @@ def render_person_page(articles: list[Article]) -> str:
     body = (
         "<header>"
         '<p class="eyebrow"><a href="/about">Vandidad Group</a></p>'
-        "<h1>هادی بخت‌زاده</h1>"
-        '<p class="lede">معمار سیستم‌های هوش مصنوعی و بنیان‌گذار وندیداد گروپ '
-        "— ازمیر، ترکیه.</p>"
+        "<h1>هادی بخت‌زاده — معمار هوش مصنوعی</h1>"
+        '<p class="lede">هادی بخت زاده (محمد هادی بخت زاده)، معمار '
+        "سیستم‌های هوش مصنوعی و بنیان‌گذار وندیداد گروپ — ازمیر، ترکیه. "
+        "کارش ارکستراسیون و معماری روی مدل‌های بزرگ زبانی است.</p>"
         "</header>"
         '<section class="answer" aria-label="پاسخ کوتاه">'
         "<h2>در یک نگاه</h2>"
