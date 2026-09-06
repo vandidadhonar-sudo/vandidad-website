@@ -205,7 +205,30 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true",
                     help="خروج با خطا اگر بخش روی-صفحه کامل نباشد")
+    ap.add_argument("--next", type=int, metavar="N",
+                    help="N جستجوی بعدی برای سنجش — هرگزسنجیده‌نشده اول")
     args = ap.parse_args()
+
+    if args.next:
+        # Same rotation the keyword loop uses. Without this the name queries
+        # are only ever measured when a person dispatches them, which is the
+        # thing the automatic watch exists to stop — and it showed up at once:
+        # the name results taken at 00:38 were lost to the overwrite bug and
+        # nothing would have re-taken them.
+        seen: dict[str, str] = {}
+        for f in sorted(glob.glob(str(ROOT / "research" / "serp-*.json"))):
+            day = Path(f).stem.removeprefix("serp-")
+            try:
+                data = json.loads(Path(f).read_text("utf-8"))
+            except Exception:
+                continue
+            for r in data.get("results", []):
+                if r.get("raw", {}).get("رتبه‌دارها"):
+                    seen[bc._norm_keyword(r.get("query", ""))] = day
+        qs = [q for q, _ in TARGET_QUERIES]
+        qs.sort(key=lambda q: seen.get(bc._norm_keyword(q), ""))
+        print("; ".join(qs[:args.next]))
+        return 0
 
     pages = audit_pages()
     search = audit_search()

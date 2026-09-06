@@ -75,7 +75,13 @@ jobs:
         run: |
           set -euo pipefail
           N="${{ github.event.inputs.count || '10' }}"
-          Q="$(python3 tools/seo_audit.py --next "$N")"
+          # Both loops share the rotation. The name searches were only ever
+          # measured when a person dispatched them, which is exactly what
+          # this workflow exists to stop — and it showed immediately: the
+          # name results taken at 00:38 on 2026-09-06 were lost to the
+          # snapshot-overwrite bug and nothing was going to re-take them.
+          Q="$(python3 tools/identity_audit.py --next 3)"
+          Q="$Q; $(python3 tools/seo_audit.py --next "$N")"
           echo "عبارت‌های این دور: $Q"
           {
             echo "queries<<EOF"
