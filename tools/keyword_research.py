@@ -253,12 +253,30 @@ def write_report(results: list[dict], usage: str | None,
     # re-read next month would be filed under next month's date.
     OUT_DIR.mkdir(exist_ok=True)
     stamp = stamp or date.today().isoformat()
-    (OUT_DIR / f"serp-{stamp}.json").write_text(json.dumps({
+    path = OUT_DIR / f"serp-{stamp}.json"
+
+    # Merge into the day's snapshot rather than replacing it. The daily quota
+    # is forty queries and a run carries at most ten, so measuring a whole
+    # keyword list means several runs in one day — and this used to overwrite,
+    # so each batch destroyed the one before it and the day ended with only
+    # the last ten. A query measured twice keeps the newer answer; every other
+    # query already on file is kept.
+    merged: dict[str, dict] = {}
+    if path.exists():
+        try:
+            for old_row in json.loads(path.read_text("utf-8")).get("results", []):
+                merged[old_row.get("query", "")] = old_row
+        except Exception:
+            pass          # a corrupt snapshot must not lose the fresh results
+    for row in results:
+        merged[row.get("query", "")] = row
+
+    path.write_text(json.dumps({
         "fetched_at": datetime.now(timezone.utc).isoformat(),
         "market": "gl=ir, hl=fa",
         "project": PROJECT,
         "usage_after_run": usage,
-        "results": results,
+        "results": list(merged.values()),
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 
     lines = [f"# عکس فوری نتایج جستجو — {stamp}", "",
