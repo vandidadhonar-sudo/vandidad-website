@@ -1,0 +1,73 @@
+# Opens the door for the assistants' crawlers, and proves it opened.
+#
+# WHY THIS EXISTS
+# ---------------
+# tools/reachability.py found, on its first run, that Googlebot gets 200 on
+# every path while GPTBot and OAI-SearchBot get 403 on all of them except
+# robots.txt. That single fact explains a model searching the live web and
+# reporting that it could find nothing about this site.
+#
+# The block is a Cloudflare zone setting, not anything in this repository —
+# which is why robots.txt naming those crawlers had no effect: the request
+# never reached the Worker.
+#
+# It runs here rather than in a session because the session container cannot
+# reach the domain or the Cloudflare API, and because doing it through the
+# API rather than a dashboard means the change is recorded and repeatable
+# instead of being a click nobody can find again.
+#
+# READ FIRST, CHANGE ONLY WHEN ASKED
+# ----------------------------------
+# The default run only reads and reports. Turning a security setting off is
+# a deliberate act, so it takes an explicit `apply: true`. After the change
+# the reachability check runs immediately: a fix that is not verified by the
+# same measurement that found the problem is a claim, not a fix.
+
+name: AI crawlers
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Actually turn the AI-crawler block off"
+        type: boolean
+        required: false
+        default: false
+
+concurrency:
+  group: ai-crawlers
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  unblock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Read the zone's bot settings
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ "${{ github.event.inputs.apply }}" = "true" ]; then
+            python3 tools/cloudflare_ai_bots.py --apply
+          else
+            python3 tools/cloudflare_ai_bots.py
+          fi
+
+      # Cloudflare propagates a zone setting across its edge in seconds, but
+      # not instantly, and a check that runs a moment too early reports a
+      # failure that is already fixed.
+      - name: Let the change reach the edge
+        if: github.event.inputs.apply == 'true'
+        run: sleep 30
+
+      - name: Prove it with the same check that found the problem
+        if: github.event.inputs.apply == 'true'
+        run: python3 tools/reachability.py
