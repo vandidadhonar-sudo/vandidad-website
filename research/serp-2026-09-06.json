@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-06T13:17:17.037037+00:00",
+  "fetched_at": "2026-09-06T17:50:06.271288+00:00",
   "market": "gl=ir, hl=fa",
   "project": "vandidad-site",
   "usage_after_run": "{\n \"روز\": \"2026-09-06\",\n \"سقفِ_کل\": 120,\n \"سقفِ_هر_پروژه\": 40,\n \"مصرف\": {\n  \"_all\": 40,\n  \"vandidad-site\": 40\n }\n}",
@@ -764,6 +764,82 @@
     },
     {
       "query": "مدل زبانی فارسی",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "هادی بخت‌زاده",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "هادی بخت زاده",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "محمد هادی بخت زاده",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "امنیت اطلاعات مشتری",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "هوش مصنوعی برای آموزشگاه",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "هوش مصنوعی برای مطب",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "هوش مصنوعی برای تلگرام",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "ربات پاسخگو واتساپ",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "هوش مصنوعی در املاک",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "هوش مصنوعی رایگان فارسی",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "هوشواره",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "خطای هوش مصنوعی",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "جذب لید",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "ارکستراسیون هوش مصنوعی",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "اتوماسیون بازاریابی ایرانی",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "پاسخ خودکار دایرکت اینستاگرام",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "پیاده سازی هوش مصنوعی در سازمان",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "ربات بله",
+      "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
+    },
+    {
+      "query": "تفاوت هوش مصنوعی و اتوماسیون",
       "error": "HTTP 429 — {\n \"error\": \"سهمِ «vandidad-site» امروز (40) پر شد\"\n}"
     }
   ]
