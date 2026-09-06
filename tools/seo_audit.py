@@ -300,11 +300,42 @@ def audit_search(arts: list[bc.Article]):
     return cap_found, cap_absent, cre_found, cre_absent, unmeasured
 
 
+def next_to_measure(arts: list[bc.Article], count: int) -> list[str]:
+    """Which phrases the next automatic run should check.
+
+    Never-measured first, because an unknown is worse than a stale number:
+    it cannot be compared to anything. Then oldest-measured, so the whole
+    list rotates rather than the same ten phrases being re-checked forever
+    while the rest stay dark.
+
+    This exists so the loop runs without anyone dispatching it. A measurement
+    that needs a person to remember it is not a loop.
+    """
+    when: dict[str, str] = {}
+    for f in sorted(glob.glob(str(ROOT / "research" / "serp-*.json"))):
+        day = Path(f).stem.removeprefix("serp-")
+        try:
+            data = json.loads(Path(f).read_text("utf-8"))
+        except Exception:
+            continue
+        for r in data.get("results", []):
+            if r.get("raw", {}).get("رتبه‌دارها"):
+                when[bc._norm_keyword(r.get("query", ""))] = day
+
+    phrases = [a.target_keyword for a in arts if a.target_keyword]
+    # A phrase never seen sorts before every date; otherwise oldest first.
+    phrases.sort(key=lambda p: when.get(bc._norm_keyword(p), ""))
+    return phrases[:count]
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--unmeasured", action="store_true",
                     help="فقط عبارت‌هایی که هرگز سنجیده نشده‌اند")
+    ap.add_argument("--next", type=int, metavar="N",
+                    help="N عبارتِ بعدی برای رتبه‌سنجی — هرگزسنجیده‌نشده‌ها "
+                         "اول، بعد کهنه‌ترین‌ها. خروجی برای QUERIES.")
     args = ap.parse_args()
 
     pairs = articles()
@@ -313,6 +344,10 @@ def main() -> int:
 
     if args.unmeasured:
         print("; ".join(unmeasured))
+        return 0
+
+    if args.next:
+        print("; ".join(next_to_measure(arts, args.next)))
         return 0
 
     print("هدف: رتبه گرفتن در موتورهای جستجو و بودن در پاسخِ مدل‌های زبانی،")

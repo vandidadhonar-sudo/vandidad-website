@@ -1,0 +1,144 @@
+# Rank watch — the keyword loop, running itself.
+#
+# WHY THIS EXISTS
+# ---------------
+# The loop was real but it was not automatic: someone had to decide which
+# phrases to measure and dispatch the run. A measurement that depends on a
+# person remembering it is not a loop, and the owner's laptop being off or
+# him being offline should change nothing about whether the site's position
+# is being watched.
+#
+# This runs every day on GitHub's servers. It asks tools/seo_audit.py which
+# phrases to check next — never-measured first, then oldest, so the whole
+# list rotates instead of the same ten being re-checked while the rest stay
+# dark — measures them, and writes the result where it can be read later.
+#
+# WHY DAILY AND WHY TEN
+# ---------------------
+# The gate allows forty queries a day for this project. Ten leaves room for
+# a person to run something by hand on the same day without being refused,
+# and thirty-eight target phrases means the whole list is covered in four
+# days and then continuously refreshed.
+#
+# WHAT IT DOES NOT DO
+# -------------------
+# It does not change any page. Measuring and fixing are separate on purpose:
+# an automated system that edits content to chase a rank is how a site ends
+# up written for a crawler instead of a reader. This one reports, and a human
+# or a session decides what to do about it.
+
+name: Rank watch
+
+on:
+  schedule:
+    # 04:10 UTC — 07:40 Tehran. After the daily article publishes at 05:30
+    # UTC? No: before it, deliberately. Measuring before the day's publish
+    # keeps each snapshot comparable to the one before it rather than being
+    # taken at a random point in the publish cycle.
+    - cron: "10 4 * * *"
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "How many phrases to measure this run"
+        required: false
+        default: "10"
+
+concurrency:
+  # Two of these overlapping would spend quota twice on the same phrases and
+  # then fight over the same commit.
+  group: rank-watch
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the renderer's dependencies
+        run: pip install --quiet "markdown==3.7" "PyYAML==6.0.2"
+
+      # Which phrases are worth a query today. Never-measured sort first
+      # because an unknown cannot be compared to anything; after those, the
+      # oldest measurement, so nothing stays dark indefinitely.
+      - name: Choose what to measure
+        id: pick
+        run: |
+          set -euo pipefail
+          N="${{ github.event.inputs.count || '10' }}"
+          Q="$(python3 tools/seo_audit.py --next "$N")"
+          echo "عبارت‌های این دور: $Q"
+          {
+            echo "queries<<EOF"
+            echo "$Q"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      # The gate is reached from a runner because this container cannot: the
+      # egress proxy answers 403 to the CONNECT. Same reason keyword-research
+      # runs here.
+      - name: Measure
+        continue-on-error: true
+        env:
+          QUERIES: ${{ steps.pick.outputs.queries }}
+          GATE_KEY: ${{ secrets.GATE_KEY }}
+          GATE_URL: ${{ vars.GATE_URL || secrets.GATE_URL }}
+          GATE_PROJECT: ${{ vars.GATE_PROJECT || 'vandidad-site' }}
+          BRIGHTDATA_API_KEY: ${{ secrets.BRIGHTDATA_API_KEY }}
+        run: python3 tools/keyword_research.py
+
+      # Both loops, written to a file so progress is a record rather than a
+      # thing someone remembers. The audits never fail this job: a position
+      # we have not won yet is not a broken build.
+      - name: Write the status
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          mkdir -p docs
+          {
+            echo "# وضعیت لوپ — تولید خودکار، دست نزن"
+            echo
+            echo "آخرین اجرا: $(date -u +'%Y-%m-%d %H:%M UTC')"
+            echo
+            echo '```'
+            python3 tools/identity_audit.py || true
+            echo '```'
+            echo
+            echo '```'
+            python3 tools/seo_audit.py || true
+            echo '```'
+          } > docs/loop-status.md
+
+      - name: Commit
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain research docs)" ]; then
+            echo "چیزی تغییر نکرد."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research docs
+          git commit -m "rank: watch $(date -u +%Y-%m-%d)"
+          # Rebase and retry, for the same reason keyword-research does: the
+          # queries are already spent by this point, so losing the push loses
+          # the data and the quota together.
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" || true
+            if git push origin "HEAD:$GITHUB_REF_NAME"; then
+              echo "pushed on attempt $attempt"
+              exit 0
+            fi
+            sleep $((attempt * 5))
+          done
+          echo "::error::اندازه‌گیری شد ولی ثبت نشد"
+          exit 1
