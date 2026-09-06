@@ -23,6 +23,7 @@ python3 tools/seo_report.py
 
 | عبارت هدف | صفحه | وضعیت | کلمه | تکرار | چگالی | عنوان | توضیح | آغاز | لینک بیرون | لینک درون |
 |---|---|---|---|---|---|---|---|---|---|---|
+| اتوماسیون پاسخگویی به مشتری | `/hamzad/otomasion-pasokhgooi-be-moshtari` | منتشرشده | 1667 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 4 |
 | ایجنت فروش هوش مصنوعی | `/hamzad/ejent-forush-hoosh-masnooi` | منتشرشده | 1650 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 1 |
 | سیستم عامل هوش مصنوعی | `/hamzad/sistem-amel-hoosh-masnooi-chist` | منتشرشده | 1523 | 5 | 0.3٪ | ✓ | ✓ | ✓ | 2 | 8 |
 | هوش مصنوعی در حسابداری | `/hamzad/daftar-hesabdari-va-karhaye-tekrari` | منتشرشده | 1618 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 1 |
@@ -33,7 +34,6 @@ python3 tools/seo_report.py
 | چت بات برای کسب و کار | `/hamzad/chatbot-vs-digital-twin` | منتشرشده | 1597 | 2 | 0.1٪ | ✓ | — | ✓ | 5 | 20 |
 | آموزش هوش مصنوعی برای دانشجویان | `/hamzad/amoozesh-hoosh-masnooi-daneshjoo` | در صف | 1526 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 1 |
 | اتوماسیون بازاریابی ایرانی | `/hamzad/otomasion-bazaryabi-irani` | در صف | 1549 | 2 | 0.1٪ | — | ✓ | ✓ | 3 | 1 |
-| اتوماسیون پاسخگویی به مشتری | `/hamzad/otomasion-pasokhgooi-be-moshtari` | در صف | 1667 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 4 |
 | امنیت اطلاعات مشتری | `/hamzad/harim-khosoosi-dade-moshtari` | در صف | 1565 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 1 |
 | اندازه‌گیری نتیجه هوش مصنوعی | `/hamzad/andazegiri-natije-hoosh-masnooi` | در صف | 1623 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 4 | 1 |
 | تفاوت هوش مصنوعی و اتوماسیون | `/hamzad/tafavot-hoosh-masnooi-va-otomasion` | در صف | 1523 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 3 | 1 |
