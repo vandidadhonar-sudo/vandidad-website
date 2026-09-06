@@ -1,28 +1,186 @@
 {
-  "fetched_at": "2026-09-06T10:35:38.612429+00:00",
+  "fetched_at": "2026-09-06T11:57:35.880173+00:00",
   "market": "gl=ir, hl=fa",
   "project": "vandidad-site",
-  "usage_after_run": "{\n \"روز\": \"2026-09-06\",\n \"سقفِ_کل\": 120,\n \"سقفِ_هر_پروژه\": 40,\n \"مصرف\": {\n  \"_all\": 5,\n  \"vandidad-site\": 5\n }\n}",
+  "usage_after_run": "{\n \"روز\": \"2026-09-06\",\n \"سقفِ_کل\": 120,\n \"سقفِ_هر_پروژه\": 40,\n \"مصرف\": {\n  \"_all\": 15,\n  \"vandidad-site\": 15\n }\n}",
   "results": [
     {
-      "query": "هادی بخت‌زاده",
+      "query": "رادیو وندیداد soundcloud",
       "source": "gate",
       "raw": {
-        "q": "هادی بخت‌زاده",
+        "q": "رادیو وندیداد soundcloud",
         "project": "vandidad-site",
-        "مصرفِ_امروز": 1,
+        "مصرفِ_امروز": 11,
+        "میپرسند": [],
+        "مرتبط": [],
+        "رتبه‌دارها": [
+          "Radio vandidad رادیو وندیداد",
+          "Radio Deev",
+          "Radio Farda رادیو فردا",
+          "Music tracks, songs, playlists tagged radio javan on ...",
+          "Stream Sawid | Listen to radio playlist online for free on ...",
+          "Music tracks, songs, playlists tagged پادکست جدید on ...",
+          "رادیو تلاوت - آرشیو زمانی - ایران صدا",
+          "Radionavahi",
+          "Music tracks, songs, playlists tagged RADIO on SoundCloud"
+        ]
+      },
+      "organic": [
+        {
+          "title": "Radio vandidad رادیو وندیداد",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "Radio Deev",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "Radio Farda رادیو فردا",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "Music tracks, songs, playlists tagged radio javan on ...",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "Stream Sawid | Listen to radio playlist online for free on ...",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "Music tracks, songs, playlists tagged پادکست جدید on ...",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "رادیو تلاوت - آرشیو زمانی - ایران صدا",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "Radionavahi",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "Music tracks, songs, playlists tagged RADIO on SoundCloud",
+          "url": "",
+          "site": ""
+        }
+      ],
+      "people_also_ask": [],
+      "related": []
+    },
+    {
+      "query": "radio vandidad soundcloud",
+      "source": "gate",
+      "raw": {
+        "q": "radio vandidad soundcloud",
+        "project": "vandidad-site",
+        "مصرفِ_امروز": 12,
+        "میپرسند": [],
+        "مرتبط": [],
+        "رتبه‌دارها": [
+          "Radio vandidad رادیو وندیداد",
+          "DIA! Radio",
+          "Radio Relativa",
+          "radio reudnitz",
+          "Radio Ambulante",
+          "Mutant Radio",
+          "Radio Buena Vida",
+          "Stream AMPLITUDES RADIO music",
+          "marie pravda"
+        ]
+      },
+      "organic": [
+        {
+          "title": "Radio vandidad رادیو وندیداد",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "DIA! Radio",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "Radio Relativa",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "radio reudnitz",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "Radio Ambulante",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "Mutant Radio",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "Radio Buena Vida",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "Stream AMPLITUDES RADIO music",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "marie pravda",
+          "url": "",
+          "site": ""
+        }
+      ],
+      "people_also_ask": [],
+      "related": []
+    },
+    {
+      "query": "هادی بخت زاده معمار هوش مصنوعی",
+      "source": "gate",
+      "raw": {
+        "q": "هادی بخت زاده معمار هوش مصنوعی",
+        "project": "vandidad-site",
+        "مصرفِ_امروز": 13,
+        "میپرسند": [],
+        "مرتبط": [],
+        "رتبه‌دارها": []
+      },
+      "organic": [],
+      "people_also_ask": [],
+      "related": []
+    },
+    {
+      "query": "vandidad.xyz",
+      "source": "gate",
+      "raw": {
+        "q": "vandidad.xyz",
+        "project": "vandidad-site",
+        "مصرفِ_امروز": 14,
         "میپرسند": [],
         "مرتبط": [],
         "رتبه‌دارها": [
           "هادی بخت‌زاده — معمار هوش مصنوعی",
-          "ولی انتخابِ مسیرِ درست هنوز گرونه. هوش مصنوعی ده تا راه جلوت ...",
-          "هادی پاکزاد - ویکی‌پدیا، دانشنامهٔ آزاد",
-          "بوکان؛ امید چاوباز و هادی بایزیدی آزاد شدند",
-          "محمد هادی بخت زاده",
-          "هوش مصنوعی در سلامت",
-          "شرکت شبکه تجارت هادی",
-          "هادی و فضل الله نیکبخت به مکان نامعلومی منتقل شدند",
-          "هادی شجاری: بنیان‌گذار نخل من و دستان"
+          "About Vandidad - وندیداد",
+          "Vandidad Company",
+          "مقالات مرتبط با وندیداد (vandidad)",
+          "مقالات مرتبط با Vandidad",
+          "گروه مهندسی وندیداد‎ (@vandidad.co)",
+          "Vandidad.advertising",
+          "Vandidad | سهام یاب",
+          "چرا باید برای پیدا کردن یه فاکتورِ ...",
+          "Vandidad group"
         ]
       },
       "organic": [
@@ -32,42 +190,47 @@
           "site": ""
         },
         {
-          "title": "ولی انتخابِ مسیرِ درست هنوز گرونه. هوش مصنوعی ده تا راه جلوت ...",
+          "title": "About Vandidad - وندیداد",
           "url": "",
           "site": ""
         },
         {
-          "title": "هادی پاکزاد - ویکی‌پدیا، دانشنامهٔ آزاد",
+          "title": "Vandidad Company",
           "url": "",
           "site": ""
         },
         {
-          "title": "بوکان؛ امید چاوباز و هادی بایزیدی آزاد شدند",
+          "title": "مقالات مرتبط با وندیداد (vandidad)",
           "url": "",
           "site": ""
         },
         {
-          "title": "محمد هادی بخت زاده",
+          "title": "مقالات مرتبط با Vandidad",
           "url": "",
           "site": ""
         },
         {
-          "title": "هوش مصنوعی در سلامت",
+          "title": "گروه مهندسی وندیداد‎ (@vandidad.co)",
           "url": "",
           "site": ""
         },
         {
-          "title": "شرکت شبکه تجارت هادی",
+          "title": "Vandidad.advertising",
           "url": "",
           "site": ""
         },
         {
-          "title": "هادی و فضل الله نیکبخت به مکان نامعلومی منتقل شدند",
+          "title": "Vandidad | سهام یاب",
           "url": "",
           "site": ""
         },
         {
-          "title": "هادی شجاری: بنیان‌گذار نخل من و دستان",
+          "title": "چرا باید برای پیدا کردن یه فاکتورِ ...",
+          "url": "",
+          "site": ""
+        },
+        {
+          "title": "Vandidad group",
           "url": "",
           "site": ""
         }
@@ -76,306 +239,69 @@
       "related": []
     },
     {
-      "query": "محمد هادی بخت زاده",
+      "query": "هوشواره",
       "source": "gate",
       "raw": {
-        "q": "محمد هادی بخت زاده",
+        "q": "هوشواره",
         "project": "vandidad-site",
-        "مصرفِ_امروز": 2,
+        "مصرفِ_امروز": 15,
         "میپرسند": [],
         "مرتبط": [],
         "رتبه‌دارها": [
-          "بیوگرافی و کتاب های محمد هادی زاده",
-          "مقالات محمدهادی هادی زاده یزدی",
-          "محمد هادی هادی زاده یزدی",
-          "محمد هادی بخت زاده",
-          "محمد هادی خالق‌زاده",
-          "محمد هادی زاده، نوبت دهی آنلاین و شماره تلفن",
-          "‌ نیکی نیکبخت: حکم اعدام دو برادرم، هادی و فضل‌الله ...",
-          "محمدهادی هادی زاده",
-          "۳۶ روز تا بازگشت محمدهادی؛ از پرچم خون‌خواهی تا پرچم زندگی",
-          "فهرست مقالات محمدهادی خالق زاده"
+          "استفاده کردن از «حالت هوشواره‌ای» در Chrome - Android",
+          "هوشواره چیست؟ معادل فارسی هوش مصنوعی",
+          "هوشواره دستیار هوش مصنوعی پیشرفته",
+          "جستجو کردن سابقه مرور در Chrome با هوشواره",
+          "هوشواره – آکادمی تخصصی هوش مصنوعی",
+          "هنرمند + ربات + هوشواره",
+          "انواع هوش واره ها",
+          "گوگل دیگه فقط سرچ نیست! آموزش حالت هوش مصنوعی Google",
+          "هوشواره | اخبار، مقالات و آموزش های هوش مصنوعی"
         ]
       },
       "organic": [
         {
-          "title": "بیوگرافی و کتاب های محمد هادی زاده",
+          "title": "استفاده کردن از «حالت هوشواره‌ای» در Chrome - Android",
           "url": "",
           "site": ""
         },
         {
-          "title": "مقالات محمدهادی هادی زاده یزدی",
+          "title": "هوشواره چیست؟ معادل فارسی هوش مصنوعی",
           "url": "",
           "site": ""
         },
         {
-          "title": "محمد هادی هادی زاده یزدی",
+          "title": "هوشواره دستیار هوش مصنوعی پیشرفته",
           "url": "",
           "site": ""
         },
         {
-          "title": "محمد هادی بخت زاده",
+          "title": "جستجو کردن سابقه مرور در Chrome با هوشواره",
           "url": "",
           "site": ""
         },
         {
-          "title": "محمد هادی خالق‌زاده",
+          "title": "هوشواره – آکادمی تخصصی هوش مصنوعی",
           "url": "",
           "site": ""
         },
         {
-          "title": "محمد هادی زاده، نوبت دهی آنلاین و شماره تلفن",
+          "title": "هنرمند + ربات + هوشواره",
           "url": "",
           "site": ""
         },
         {
-          "title": "‌ نیکی نیکبخت: حکم اعدام دو برادرم، هادی و فضل‌الله ...",
+          "title": "انواع هوش واره ها",
           "url": "",
           "site": ""
         },
         {
-          "title": "محمدهادی هادی زاده",
+          "title": "گوگل دیگه فقط سرچ نیست! آموزش حالت هوش مصنوعی Google",
           "url": "",
           "site": ""
         },
         {
-          "title": "۳۶ روز تا بازگشت محمدهادی؛ از پرچم خون‌خواهی تا پرچم زندگی",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "فهرست مقالات محمدهادی خالق زاده",
-          "url": "",
-          "site": ""
-        }
-      ],
-      "people_also_ask": [],
-      "related": []
-    },
-    {
-      "query": "هادی بخت زاده هوش مصنوعی",
-      "source": "gate",
-      "raw": {
-        "q": "هادی بخت زاده هوش مصنوعی",
-        "project": "vandidad-site",
-        "مصرفِ_امروز": 3,
-        "میپرسند": [],
-        "مرتبط": [],
-        "رتبه‌دارها": [
-          "مقاله کنفرانس: بررسی و تحلیل کاربردهای هوش مصنوعی در ...",
-          "هادی صمدی - هوش مصنوعی و آینده دانشمند",
-          "آینده مشاغل و مشاغل آینده حوزه سلامت متأثر از هوش مصنوعی",
-          "استادیار گروه هوش مصنوعی دانشکده مهندسی کامپیوتر دانشگاه ...",
-          "ویدیو آخرین صوت ابراهیم هادی با هوش مصنوعی",
-          "بررسی و امکان سنجی هوشمندسازی فرایندهای مدیریت دانش در ...",
-          "اعضای حقیقی",
-          "هیأت علمی - هوش مصنوعی(دانشکده مهندسی برق و کامپیوتر)",
-          "تاثیر هوش مصنوعی بر خلق مشترک ارزش",
-          "هادی بخت‌زاده — معمار هوش مصنوعی"
-        ]
-      },
-      "organic": [
-        {
-          "title": "مقاله کنفرانس: بررسی و تحلیل کاربردهای هوش مصنوعی در ...",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "هادی صمدی - هوش مصنوعی و آینده دانشمند",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "آینده مشاغل و مشاغل آینده حوزه سلامت متأثر از هوش مصنوعی",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "استادیار گروه هوش مصنوعی دانشکده مهندسی کامپیوتر دانشگاه ...",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "ویدیو آخرین صوت ابراهیم هادی با هوش مصنوعی",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "بررسی و امکان سنجی هوشمندسازی فرایندهای مدیریت دانش در ...",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "اعضای حقیقی",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "هیأت علمی - هوش مصنوعی(دانشکده مهندسی برق و کامپیوتر)",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "تاثیر هوش مصنوعی بر خلق مشترک ارزش",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "هادی بخت‌زاده — معمار هوش مصنوعی",
-          "url": "",
-          "site": ""
-        }
-      ],
-      "people_also_ask": [],
-      "related": []
-    },
-    {
-      "query": "وندیداد گروپ",
-      "source": "gate",
-      "raw": {
-        "q": "وندیداد گروپ",
-        "project": "vandidad-site",
-        "مصرفِ_امروز": 4,
-        "میپرسند": [],
-        "مرتبط": [],
-        "رتبه‌دارها": [
-          "فرصت‌های شغلی vandidadgroup - وندیداد گروپ",
-          "وندیداد گروپ -ازمیر ترکیه",
-          "وندیداد - ویکی‌پدیا، دانشنامهٔ آزاد",
-          "در مورد وندیداد در ویکی تابناک بیشتر بخوانید",
-          "ایتا - گروه پژوهشی آرتا",
-          "مقالات مرتبط با وندیداد",
-          "وندیداد؛ کهن‌ترین کتاب قانون ایرانیان",
-          "از مسیر امن سرمایه گذاری کنید. وندیداد گروپ با توجه به شرایط ...",
-          "فیلترها/جستجو در نتایج",
-          "معنای وندیداد، چیست .؟! اوستا، کتاب دینی زردشت است که حدود ..."
-        ]
-      },
-      "organic": [
-        {
-          "title": "فرصت‌های شغلی vandidadgroup - وندیداد گروپ",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "وندیداد گروپ -ازمیر ترکیه",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "وندیداد - ویکی‌پدیا، دانشنامهٔ آزاد",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "در مورد وندیداد در ویکی تابناک بیشتر بخوانید",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "ایتا - گروه پژوهشی آرتا",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "مقالات مرتبط با وندیداد",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "وندیداد؛ کهن‌ترین کتاب قانون ایرانیان",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "از مسیر امن سرمایه گذاری کنید. وندیداد گروپ با توجه به شرایط ...",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "فیلترها/جستجو در نتایج",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "معنای وندیداد، چیست .؟! اوستا، کتاب دینی زردشت است که حدود ...",
-          "url": "",
-          "site": ""
-        }
-      ],
-      "people_also_ask": [],
-      "related": []
-    },
-    {
-      "query": "Hadi Bakhtzadeh",
-      "source": "gate",
-      "raw": {
-        "q": "Hadi Bakhtzadeh",
-        "project": "vandidad-site",
-        "مصرفِ_امروز": 5,
-        "میپرسند": [],
-        "مرتبط": [],
-        "رتبه‌دارها": [
-          "hadi bakhtzadeh (@HadiBakhtzadeh) / X",
-          "Hadi Bakhtzadeh - Founder CEO at Vandidad Group",
-          "Hadi Akbarzadeh Khorshidi",
-          "DR Hadi Akbarzadeh Khorshidi - Find an Expert",
-          "Hamid Hadi-Alijanvand",
-          "Hadi Baghdadi (@hadi_baghdadi_art) · Tehran",
-          "Hadi Lookzadeh - INSPIRE",
-          "Hadi Rezazadeh",
-          "Hadi Akbarzadeh s research works | Isfahan University of ...",
-          "Hadi qanbarzadeh"
-        ]
-      },
-      "organic": [
-        {
-          "title": "hadi bakhtzadeh (@HadiBakhtzadeh) / X",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "Hadi Bakhtzadeh - Founder CEO at Vandidad Group",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "Hadi Akbarzadeh Khorshidi",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "DR Hadi Akbarzadeh Khorshidi - Find an Expert",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "Hamid Hadi-Alijanvand",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "Hadi Baghdadi (@hadi_baghdadi_art) · Tehran",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "Hadi Lookzadeh - INSPIRE",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "Hadi Rezazadeh",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "Hadi Akbarzadeh s research works | Isfahan University of ...",
-          "url": "",
-          "site": ""
-        },
-        {
-          "title": "Hadi qanbarzadeh",
+          "title": "هوشواره | اخبار، مقالات و آموزش های هوش مصنوعی",
           "url": "",
           "site": ""
         }
