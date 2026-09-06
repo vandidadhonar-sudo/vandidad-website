@@ -73,6 +73,15 @@ jobs:
       # Regenerates docs/keywords.md from the articles as they now stand. It
       # does not fail the run here: by this point the article is rendered, and
       # a report that blocks publishing would be a report nobody keeps.
+      # The identity goal, measured. The on-page half is entirely under our
+      # control, so a failure there is a real defect and this step says so —
+      # but it does not block a publish, because an article that is ready
+      # should not wait on a name spelling.
+      - name: Audit the identity
+        if: github.event_name != 'pull_request'
+        continue-on-error: true
+        run: python3 tools/identity_audit.py
+
       - name: Rebuild the keyword list
         if: github.event_name != 'pull_request'
         continue-on-error: true
