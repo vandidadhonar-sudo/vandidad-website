@@ -1263,6 +1263,97 @@ PERSON_FAQ = [
     ),
 ]
 
+RECORD_SLUG = "karnameh"
+RECORD_URL = f"{SITE}/{RECORD_SLUG}"
+
+# The record before the AI work. Its job is stated in docs/page-contract.md:
+# it answers "who is this person", for a reader and for a knowledge graph, and
+# it is deliberately kept off the product pages so a buyer evaluating an AI
+# system never has to wonder what a concert has to do with it.
+#
+# Why it earns its place at all: on 2026-09-05 Google's overview for one
+# spelling of his name said the name was "not registered in official sources".
+# The entity was thin. The entries below attach it to entities Google already
+# knows and has pages for — مسعود کیمیایی, گروه کامکارها, جلال ذوالفنون,
+# علی‌اکبر مرادی, مجید درخشانی — which is how a knowledge graph builds an
+# unknown entity: by its edges to known ones.
+#
+# Dates are the ones the owner supplied and the archived record in this
+# repository's own history agrees with. No rounded "over 25 years" anywhere:
+# a round number invites arithmetic, a date does not.
+RECORD_CHAPTERS = [
+    {
+        "id": "farhangi",
+        "title": "تولید فرهنگی و هنری — ایران",
+        "span": "از ۱۳۸۲",
+        "lede": "شرکت وندیداد در سال ۱۳۸۲ در ایران با شمارهٔ ثبت ۱۴۸۴۰ ثبت "
+                "شد. کار، تهیه‌کنندگی آثار فرهنگی و هنری بود: موسیقی، تئاتر، "
+                "و رویدادهایی که هر کدام ده‌ها نفر و چند نهاد را در یک تاریخ "
+                "مشخص به هم می‌رساند.",
+        "items": [
+            ("۱۳۸۳", "کنسرت «هفتاد دف ایران»", ""),
+            ("۱۳۸۴", "کنسرت موسیقی سنتی با ۱۷۰ نوازنده", ""),
+            ("۱۳۸۴", "نمایشگاه آموزشگاه‌های خاورمیانه", ""),
+            ("۱۳۸۵", "کنسرت استاد جلال ذوالفنون",
+             "https://fa.wikipedia.org/wiki/%D8%AC%D9%84%D8%A7%D9%84_"
+             "%D8%B0%D9%88%D8%A7%D9%84%D9%81%D9%86%D9%88%D9%86"),
+            ("۱۳۸۶", "کنسرت مشترک استاد علی‌اکبر مرادی و اوزدمیر",
+             "https://fa.wikipedia.org/wiki/%D8%B9%D9%84%DB%8C%E2%80%8C"
+             "%D8%A7%DA%A9%D8%A8%D8%B1_%D9%85%D8%B1%D8%A7%D8%AF%DB%8C"),
+            ("۱۳۸۸", "برنامهٔ گروه کامکارها، همراه با تمبر یادبود ملی",
+             "https://fa.wikipedia.org/wiki/%DA%AF%D8%B1%D9%88%D9%87_"
+             "%DA%A9%D8%A7%D9%85%DA%A9%D8%A7%D8%B1%D9%87%D8%A7"),
+            ("۱۳۸۸", "بزرگداشت استاد مسعود کیمیایی",
+             "https://fa.wikipedia.org/wiki/%D9%85%D8%B3%D8%B9%D9%88%D8%AF_"
+             "%DA%A9%DB%8C%D9%85%DB%8C%D8%A7%DB%8C%DB%8C"),
+            ("۱۳۹۰", "کنسرت استاد مجید درخشانی",
+             "https://fa.wikipedia.org/wiki/%D9%85%D8%AC%DB%8C%D8%AF_"
+             "%D8%AF%D8%B1%D8%AE%D8%B4%D8%A7%D9%86%DB%8C"),
+            ("۱۳۹۱", "تأسیس مدرسهٔ سینمایی استاد مسعود کیمیایی در شیراز", ""),
+        ],
+    },
+    {
+        "id": "bazargani",
+        "title": "بازرگانی و سرمایه‌گذاری — ازمیر",
+        "span": "از ۱۵ مارس ۲۰۱۸",
+        "lede": "وندیداد گروپ در ۱۵ مارس ۲۰۱۸ در ازمیر ترکیه ثبت شد "
+                "(ثبت تجاری ۲۰۲۷۸۳، عضویت اتاق بازرگانی ۱۸۸۸۶۹۱). کار در "
+                "این دوره نمایندگی برندهای ساختمانی، سرمایه‌گذاری املاک، "
+                "گردشگری و بازرگانی بود.",
+        "items": [
+            ("", "نمایندگی بیش از ۵۷ برند ساختمانی", ""),
+            ("", "سرمایه‌گذاری و مشاورهٔ املاک", ""),
+            ("", "گردشگری و بازرگانی", ""),
+        ],
+    },
+    {
+        "id": "hooshvare",
+        "title": "معماری هوش مصنوعی",
+        "span": "از ۱۴۰۴",
+        "lede": "کارشناسی ارشد مدیریت، به‌علاوهٔ چهار سال دورهٔ تخصصی "
+                "هوش مصنوعی. کار امروز، ارکستراسیون و معماری روی مدل‌های "
+                "بزرگ زبانی است — نه آموزش مدل.",
+        "items": [
+            ("۶ اردیبهشت ۱۴۰۵", "نخستین مخزن — سیستم‌عامل هوش مصنوعی املاک",
+             ""),
+            ("۱۴ اردیبهشت ۱۴۰۵", "همزاد دیجیتال، چهار کانال روی یک حافظه", ""),
+            ("۲۹ مرداد ۱۴۰۵", "سامانهٔ محتوایی خودگردان", ""),
+        ],
+    },
+]
+
+# The one sentence the whole page exists to support. It is the reason the
+# record belongs to an AI architect's page rather than being a CV: it explains
+# why the products are what they are.
+RECORD_THESIS = (
+    "او سیستم‌عاملِ املاک نساخت چون هوش مصنوعی بلد بود؛ ساخت چون کارِ املاک "
+    "را از داخلش می‌شناسد. همین دربارهٔ بقیه هم صادق است: بیست‌ودو سال "
+    "گرداندن کسب‌وکار — از تولید یک رویداد با ده‌ها نفر تا نمایندگی برند و "
+    "سرمایه‌گذاری — تعیین می‌کند که یک سیستم برای کسب‌وکار چه چیزی باید "
+    "بداند، کجا باید اجازه بگیرد، و کجا باید سکوت کند."
+)
+
+
 PRODUCTS_SLUG = "mahsoolat"
 PRODUCTS_URL = f"{SITE}/{PRODUCTS_SLUG}"
 
@@ -1533,6 +1624,9 @@ def render_person_page(articles: list[Article]) -> str:
                 ("گیت‌هاب", "https://github.com/vandidadhonar-sudo"),
             ])),
         row("نوشته", f"{to_fa(len(live))} مقالهٔ امضادار روی همین سایت"),
+        row("پیش از این", f'از ۱۳۸۲ تولید فرهنگی و هنری در ایران، و از '
+            f'۲۰۱۸ بازرگانی و سرمایه‌گذاری در ازمیر — '
+            f'<a href="/{RECORD_SLUG}">کارنامهٔ کامل ←</a>'),
         row("کد", '<a href="https://github.com/vandidadhonar-sudo" target="_blank" '
             'rel="noopener">github.com/vandidadhonar-sudo</a>'),
     ])
@@ -1788,11 +1882,127 @@ def render_products_page() -> str:
     )
 
 
+RECORD_ANSWER = (
+    "هادی بخت‌زاده پیش از هوش مصنوعی، از ۱۳۸۲ کسب‌وکار گردانده است: شرکت "
+    "وندیداد در ایران با شمارهٔ ثبت ۱۴۸۴۰ ثبت شد و در تولید آثار فرهنگی و "
+    "هنری کار می‌کرد — از جمله برنامهٔ گروه کامکارها با تمبر یادبود ملی در "
+    "۱۳۸۸ و تأسیس مدرسهٔ سینمایی استاد مسعود کیمیایی در شیراز در ۱۳۹۱. از "
+    "۱۵ مارس ۲۰۱۸ در ازمیر ترکیه، وندیداد گروپ (ثبت تجاری ۲۰۲۷۸۳) در "
+    "نمایندگی برندهای ساختمانی، سرمایه‌گذاری املاک، گردشگری و بازرگانی "
+    "فعال بود. از ۱۴۰۴ تمرکز کامل روی معماری و ارکستراسیون هوش مصنوعی است."
+)
+
+
+def render_record_page() -> str:
+    """The record page — what he did before the AI work, and why it matters.
+
+    Its job is fixed in docs/page-contract.md: answer "who is this person" for
+    a reader and for a knowledge graph, and stay off the product pages so a
+    buyer evaluating an AI system is never asked to care about a concert.
+
+    It is deliberately NOT a second ProfilePage. The person has one record
+    page — /hadi-bakhtzadeh — and two ProfilePage nodes sharing one @id is
+    precisely the defect that had /about describing him differently from
+    every other page. This is a WebPage whose `about` points at that same @id,
+    with `mentions` naming the public figures the record touches.
+    """
+    chapters = []
+    for ch in RECORD_CHAPTERS:
+        rows = []
+        for when, what, link in ch["items"]:
+            label = (f'<a href="{link}" target="_blank" rel="noopener">'
+                     f"{html.escape(what)}</a>" if link else html.escape(what))
+            rows.append(f'<div class="row"><div class="k">'
+                        f'{html.escape(when) if when else "—"}</div>'
+                        f'<div class="v">{label}</div></div>')
+        chapters.append(
+            f'<section class="prod" id="{ch["id"]}">'
+            f'<h2>{html.escape(ch["title"])}'
+            f'<span class="pk">{html.escape(ch["span"])}</span></h2>'
+            f'<p class="lede2">{html.escape(ch["lede"])}</p>'
+            f'<div class="record">{"".join(rows)}</div>'
+            "</section>"
+        )
+
+    body = (
+        "<header>"
+        f'<p class="eyebrow"><a href="/{PERSON_SLUG}">هادی بخت‌زاده</a></p>'
+        "<h1>کارنامه — پیش از هوش مصنوعی</h1>"
+        '<p class="lede">سه دوره، با تاریخ و شمارهٔ ثبت. این صفحه ادعای '
+        "محصولی ندارد؛ سابقه است.</p>"
+        "</header>"
+        '<section class="answer" aria-label="پاسخ کوتاه">'
+        "<h2>در یک نگاه</h2>"
+        f"<p>{html.escape(RECORD_ANSWER)}</p></section>"
+        + "".join(chapters)
+        + "<h2>چرا این سابقه به کارِ امروز ربط دارد</h2>"
+        f'<p class="lede2">{html.escape(RECORD_THESIS)}</p>'
+        '<p class="tags">تاریخ‌ها همان‌اند که هستند و گِرد نشده‌اند. '
+        "شمارهٔ ثبت ایران ۱۴۸۴۰ و ثبت تجاری ازمیر ۲۰۲۷۸۳ در سامانه‌های "
+        "رسمی خودشان قابل بررسی‌اند.</p>"
+        '<div class="cta"><p>کارِ امروز جای دیگری است.</p>'
+        f'<p><a href="/{PRODUCTS_SLUG}">سه سیستمی که ساخته</a> · '
+        f'<a href="/{PERSON_SLUG}">پروندهٔ کامل</a></p></div>'
+    )
+
+    # Entities a knowledge graph already knows. Naming them with `mentions` is
+    # what lets an unknown entity be placed by its edges — the same mechanism
+    # the articles use with `about`.
+    mentioned = []
+    for ch in RECORD_CHAPTERS:
+        for _, _, link in ch["items"]:
+            if link and link not in mentioned:
+                mentioned.append(link)
+
+    jsonld = {
+        "@context": "https://schema.org",
+        "@graph": [
+            ORGANISATION,
+            PERSON,
+            {
+                "@type": "WebPage",
+                "@id": RECORD_URL,
+                "url": RECORD_URL,
+                "name": "کارنامه — هادی بخت‌زاده",
+                "inLanguage": "fa-IR",
+                "abstract": RECORD_ANSWER,
+                "about": {"@id": SITE + "/#person"},
+                "isPartOf": {"@id": SITE + "/#organization"},
+                "isAccessibleForFree": True,
+                "mentions": [{"@id": u} for u in mentioned],
+            },
+            {
+                "@type": "BreadcrumbList",
+                "@id": RECORD_URL + "#breadcrumb",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1,
+                     "name": "Vandidad Group", "item": SITE},
+                    {"@type": "ListItem", "position": 2,
+                     "name": "هادی بخت‌زاده", "item": PERSON_URL},
+                    {"@type": "ListItem", "position": 3, "name": "کارنامه"},
+                ],
+            },
+        ],
+    }
+
+    return shell(
+        title="کارنامهٔ هادی بخت‌زاده — پیش از هوش مصنوعی",
+        description=(
+            "سابقهٔ هادی بخت‌زاده از ۱۳۸۲: تولید آثار فرهنگی و هنری در ایران، "
+            "بازرگانی و سرمایه‌گذاری در ازمیر، و از ۱۴۰۴ معماری هوش مصنوعی."
+        ),
+        canonical=RECORD_URL,
+        body=body,
+        jsonld=jsonld,
+    )
+
+
 STATIC_URLS = [
     ("/", "weekly", "1.0"),
     ("/about", "monthly", "0.8"),
     (f"/{PERSON_SLUG}", "weekly", "0.9"),
     (f"/{PRODUCTS_SLUG}", "weekly", "0.9"),
+    (f"/{RECORD_SLUG}", "monthly", "0.6"),
     ("/blog", "weekly", "0.7"),
     ("/hamzad", "weekly", "0.7"),
     ("/privacy", "yearly", "0.3"),
@@ -2192,6 +2402,7 @@ def main() -> int:
         ("feed.xml", render_feed(everything)),
         (f"{PERSON_SLUG}.html", render_person_page(everything)),
         (f"{PRODUCTS_SLUG}.html", render_products_page()),
+        (f"{RECORD_SLUG}.html", render_record_page()),
     ]
     if llms.exists():
         outputs.append(

@@ -452,3 +452,96 @@ class AboutProfileIsGenerated(unittest.TestCase):
 
     def test_it_points_at_the_persian_page_as_his_record(self):
         self.assertIn(bc.PERSON_URL, bc.render_about_profile(self._about()))
+
+
+class PageContract(unittest.TestCase):
+    """docs/page-contract.md, enforced rather than remembered.
+
+    Each page has one audience and one job. The record — concerts, theatre,
+    the Iranian registration — belongs on /karnameh and nowhere else: a buyer
+    evaluating an AI system should never have to work out what a concert has
+    to do with it, and a vendor reviewing the company should see one focused
+    business. Twice already a rule of this kind lived only in a conversation
+    and was lost; this one fails the build instead.
+    """
+
+    RECORD_WORDS = ("کنسرت", "تئاتر", "تهیه‌کننده", "۱۴۸۴۰", "کیمیایی",
+                    "کامکارها", "نوازنده")
+
+    def _root(self):
+        return pathlib.Path(bc.__file__).resolve().parent.parent
+
+    def test_the_record_stays_off_the_product_page(self):
+        page = bc.render_products_page()
+        for word in self.RECORD_WORDS:
+            self.assertNotIn(word, page,
+                             f"«{word}» روی صفحهٔ محصول آمده — قرارداد صفحه‌ها")
+
+    def test_the_record_stays_off_the_homepage(self):
+        home = (self._root() / "index.html").read_text("utf-8")
+        for word in self.RECORD_WORDS:
+            self.assertNotIn(word, home,
+                             f"«{word}» روی صفحهٔ اصلی آمده — قرارداد صفحه‌ها")
+
+    def test_the_record_stays_off_the_company_page(self):
+        about = (self._root() / "about.html").read_text("utf-8")
+        for word in self.RECORD_WORDS:
+            self.assertNotIn(word, about,
+                             f"«{word}» روی /about آمده — قرارداد صفحه‌ها")
+
+    def test_the_iranian_company_is_not_declared_as_an_organization(self):
+        # Text on the record page: fine, it is personal history. A second
+        # Organization node in the graph: not fine — the operating company for
+        # this business is the Turkish one, and a reviewer screening the vendor
+        # should not find two.
+        page = bc.render_record_page()
+        self.assertIn("۱۴۸۴۰", page)          # visible text: personal history
+        graph = json.loads(
+            page.split('<script type="application/ld+json">')[1]
+                .split("</script>")[0])
+        orgs = [n for n in graph["@graph"] if n.get("@type") == "Organization"]
+        self.assertEqual(len(orgs), 1)
+        # The one Organization is the Turkish operating company and carries
+        # only its own registrations. The İzmir chamber it belongs to is
+        # nested inside it, which is a membership, not a second company.
+        self.assertEqual(orgs[0]["@id"], bc.SITE + "/#organization")
+        # The number may appear in prose — `abstract` mirrors the visible
+        # answer block, and matching visible text is a requirement, not a
+        # leak. What must never happen is the number appearing as a company
+        # identifier, which is what a vendor screening reads.
+        orgs_blob = json.dumps(orgs, ensure_ascii=False)
+        for form in ("14840", "۱۴۸۴۰"):
+            self.assertNotIn(form, orgs_blob)
+        person = [n for n in graph["@graph"]
+                  if n.get("@id") == bc.SITE + "/#person"][0]
+        self.assertNotIn("14840", json.dumps(person, ensure_ascii=False))
+
+    def test_only_one_page_is_the_persons_profile(self):
+        # Two ProfilePage nodes on one @id is the defect that had /about
+        # describing him differently from every other page.
+        graph = json.loads(
+            bc.render_record_page()
+              .split('<script type="application/ld+json">')[1]
+              .split("</script>")[0])["@graph"]
+        # No node on this page declares itself the person's profile. The
+        # Person's own mainEntityOfPage still names /hadi-bakhtzadeh, which is
+        # the point: one @id, one profile page, referenced from here.
+        for node in graph:
+            self.assertNotEqual(node.get("@type"), "ProfilePage")
+        page_node = [n for n in graph if n.get("@id") == bc.RECORD_URL][0]
+        self.assertEqual(page_node["@type"], "WebPage")
+        self.assertEqual(page_node["about"]["@id"], bc.SITE + "/#person")
+        person = [n for n in graph if n.get("@id") == bc.SITE + "/#person"][0]
+        self.assertEqual(person["mainEntityOfPage"]["@id"], bc.PERSON_URL)
+
+    def test_the_record_links_to_entities_a_graph_already_knows(self):
+        # The mechanism the page exists for: an unknown entity is placed by
+        # its edges to known ones.
+        page = bc.render_record_page()
+        self.assertIn('"mentions"', page)
+        self.assertIn("fa.wikipedia.org", page)
+
+    def test_no_rounded_years_anywhere_in_the_record(self):
+        page = bc.render_record_page()
+        for phrase in ("۲۵ سال", "بیش از دو دهه", "۲۰ سال"):
+            self.assertNotIn(phrase, page)
