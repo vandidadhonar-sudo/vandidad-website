@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>هوش عمومی مصنوعی؛ مدلِ قوی‌تر، معماری را مهم‌تر می‌کند نه بی‌فایده</title>
+<meta name="description" content="هوش عمومی مصنوعی یعنی چه، و چرا قوی‌تر شدن مدل — مثل GPT-6 Astra — کارِ معماری را کم نمی‌کند بلکه گران‌تر می‌کند.">
+<link rel="canonical" href="https://vandidad.xyz/hamzad/hoosh-omoomi-masnooi">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:title" content="هوش عمومی مصنوعی؛ مدلِ قوی‌تر، معماری را مهم‌تر می‌کند نه بی‌فایده">
+<meta property="og:description" content="هوش عمومی مصنوعی یعنی چه، و چرا قوی‌تر شدن مدل — مثل GPT-6 Astra — کارِ معماری را کم نمی‌کند بلکه گران‌تر می‌کند.">
+<meta property="og:url" content="https://vandidad.xyz/hamzad/hoosh-omoomi-masnooi">
+<meta property="og:site_name" content="Vandidad Group">
+<meta property="og:image" content="https://vandidad.xyz/hero-poster.jpg">
+<meta property="og:locale" content="fa_IR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://vandidad.xyz/hero-poster.jpg">
+<link rel="alternate" type="application/atom+xml" title="Vandidad Group" href="https://vandidad.xyz/feed.xml">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Organization",
+   "@id": "https://vandidad.xyz/#organization",
+   "name": "Vandidad Group",
+   "alternateName": [
+    "وندیداد گروپ",
+    "AIOS"
+   ],
+   "url": "https://vandidad.xyz",
+   "email": "ai@vandidad.xyz",
+   "description": "Vandidad Group builds AIOS — an AI platform for business conversation — and the systems that run on it. One reasoning core serves every channel a business talks on, and each client system is configured for its industry rather than rebuilt from scratch.",
+   "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Konak, İzmir",
+    "addressCountry": "TR"
+   },
+   "knowsLanguage": [
+    "fa",
+    "en",
+    "tr"
+   ],
+   "areaServed": [
+    {
+     "@type": "Country",
+     "name": "Iran"
+    },
+    {
+     "@type": "Country",
+     "name": "Türkiye"
+    }
+   ],
+   "knowsAbout": [
+    "conversational AI for business",
+    "Persian-language AI assistants",
+    "digital twin sales agents",
+    "customer follow-up automation",
+    "AI systems architecture"
+   ],
+   "founder": {
+    "@id": "https://vandidad.xyz/#person"
+   },
+   "foundingDate": "2018-03-15",
+   "taxID": "9220834963",
+   "identifier": [
+    {
+     "@type": "PropertyValue",
+     "name": "İzmir Trade Registry",
+     "value": "202783"
+    },
+    {
+     "@type": "PropertyValue",
+     "name": "İzmir Chamber of Commerce",
+     "value": "1888691"
+    }
+   ],
+   "memberOf": {
+    "@type": "Organization",
+    "name": "İzmir Chamber of Commerce",
+    "alternateName": "İzmir Ticaret Odası",
+    "url": "https://www.izto.org.tr"
+   },
+   "legalName": "Vandidad Group Gayrimenkul Danışmanlık Hizmetleri İthalat İhracat Ticaret Limited Şirketi"
+  },
+  {
+   "@type": "Person",
+   "@id": "https://vandidad.xyz/#person",
+   "name": "Hadi Bakhtzadeh",
+   "alternateName": [
+    "هادی بخت‌زاده",
+    "هادی بخت زاده",
+    "محمد هادی بخت‌زاده",
+    "محمد هادی بخت زاده",
+    "محمدهادی بخت‌زاده",
+    "محمدهادی بخت زاده",
+    "م. هادی بخت‌زاده",
+    "Mohammadhadi Bakhtzadeh",
+    "Mohammad Hadi Bakhtzadeh",
+    "Hadi Bakhtzade",
+    "Hadi Bahtzade",
+    "M. Hadi Bakhtzadeh"
+   ],
+   "givenName": "Hadi",
+   "familyName": "Bakhtzadeh",
+   "jobTitle": "Architect of Intelligent Systems",
+   "description": "AI systems architect and founder of Vandidad Group, a technology company registered in İzmir, Türkiye (İzmir Trade Registry 202783, founded March 2018). Background in computer engineering, software architecture and artificial intelligence, with a research focus on distributed systems, natural language processing and autonomous AI agents. Designs the behaviour of AI systems for businesses that sell in Persian: what they understand, how they speak, what they remember between conversations, and where they must refuse. Writes on AI systems architecture, agentic AI and conversational design in Persian.",
+   "nationality": {
+    "@type": "Country",
+    "name": "Iran"
+   },
+   "workLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Konak, İzmir",
+     "addressCountry": "TR"
+    }
+   },
+   "mainEntityOfPage": {
+    "@type": "ProfilePage",
+    "@id": "https://vandidad.xyz/hadi-bakhtzadeh"
+   },
+   "sameAs": [
+    "https://github.com/vandidadhonar-sudo",
+    "https://www.linkedin.com/in/hadi-bakhtzadeh-8089b1109",
+    "https://www.instagram.com/hadi_bakhtzade/",
+    "https://x.com/HadiBakhtzadeh",
+    "https://vandidad.xyz"
+   ],
+   "hasOccupation": {
+    "@type": "Occupation",
+    "name": "AI Systems Architect",
+    "occupationalCategory": "15-1252 Software Developers",
+    "responsibilities": "Designing the behaviour of AI systems for business conversation: scope of autonomous action, escalation points, what persists between conversations, and behaviour under model failure."
+   },
+   "memberOf": {
+    "@id": "https://vandidad.xyz/#organization"
+   },
+   "founder": {
+    "@id": "https://vandidad.xyz/#organization"
+   },
+   "worksFor": {
+    "@id": "https://vandidad.xyz/#organization"
+   },
+   "knowsLanguage": [
+    "fa",
+    "en",
+    "tr"
+   ],
+   "knowsAbout": [
+    "AI systems architecture",
+    "multi-agent systems",
+    "distributed systems",
+    "natural language processing",
+    "autonomous AI agents",
+    "AI operating systems built for one industry",
+    "real-estate AI systems",
+    "cross-channel identity and conversation memory",
+    "refusal design — what a system does when it does not know",
+    "Persian-language conversational design",
+    "sales conversation design",
+    "هوش مصنوعی در املاک",
+    "هوشواره",
+    "هوش مصنوعی عاملی",
+    "سیستم‌عامل هوش مصنوعی"
+   ],
+   "url": "https://vandidad.xyz/hadi-bakhtzadeh"
+  },
+  {
+   "@type": "Article",
+   "@id": "https://vandidad.xyz/hamzad/hoosh-omoomi-masnooi#article",
+   "headline": "هوش عمومی مصنوعی؛ مدلِ قوی‌تر، معماری را مهم‌تر می‌کند نه بی‌فایده",
+   "description": "هوش عمومی مصنوعی یعنی چه، و چرا قوی‌تر شدن مدل — مثل GPT-6 Astra — کارِ معماری را کم نمی‌کند بلکه گران‌تر می‌کند.",
+   "inLanguage": "fa-IR",
+   "datePublished": "2026-09-06",
+   "dateModified": "2026-09-06",
+   "author": {
+    "@id": "https://vandidad.xyz/#person"
+   },
+   "publisher": {
+    "@id": "https://vandidad.xyz/#organization"
+   },
+   "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://vandidad.xyz/hamzad/hoosh-omoomi-masnooi"
+   },
+   "url": "https://vandidad.xyz/hamzad/hoosh-omoomi-masnooi",
+   "image": "https://vandidad.xyz/hero-poster.jpg",
+   "keywords": "هوش-عمومی-مصنوعی, ارکستراسیون, معماری-سیستم, ایمنی-هوش-مصنوعی, کسب-وکار-ایرانی",
+   "abstract": "هوش عمومی مصنوعی (AGI) یعنی سامانه‌ای که هر کار فکری را در سطح انسان انجام دهد، نه فقط کاری که برایش نمونه دیده. تعریفِ موردِ توافقی برای مرزش وجود ندارد، پس «رسیدیم یا نرسیدیم» بیشتر بحث است تا اندازه‌گیری. برای کسب‌وکار، هرچه مدل تواناتر شود تصمیم‌های اطرافش — چه کاری به آن سپرده شود و کجا اجازه ندارد — گران‌تر می‌شوند، نه ارزان‌تر.",
+   "articleSection": "Articles",
+   "wordCount": 1580,
+   "isAccessibleForFree": true,
+   "about": [
+    {
+     "@id": "https://fa.wikipedia.org/wiki/%D9%87%D9%88%D8%B4_%D9%85%D8%B5%D9%86%D9%88%D8%B9%DB%8C"
+    }
+   ]
+  },
+  {
+   "@type": "BreadcrumbList",
+   "@id": "https://vandidad.xyz/hamzad/hoosh-omoomi-masnooi#breadcrumb",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Vandidad Group",
+     "item": "https://vandidad.xyz"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "مقالات",
+     "item": "https://vandidad.xyz/hamzad"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "هوش عمومی مصنوعی؛ مدلِ قوی‌تر، معماری را مهم‌تر می‌کند نه بی‌فایده"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "@id": "https://vandidad.xyz/hamzad/hoosh-omoomi-masnooi#faq",
+   "inLanguage": "fa-IR",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "هوش عمومی مصنوعی یعنی چه؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "یعنی سامانه‌ای که به‌جای یک کار مشخص، بتواند هر کار فکری‌ای را در سطح انسان یاد بگیرد و انجام دهد. مدل‌های امروزی در کارهای بسیاری خوب‌اند ولی هنوز تعریفِ موردِ توافقی برای اینکه مرزش کجاست وجود ندارد."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "آیا مدل‌های تازه یعنی به هوش عمومی رسیده‌ایم؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "نمی‌دانیم، و هر کس با قطعیت جواب بدهد بیش از آنچه داده اجازه می‌دهد حرف زده. مقایسه‌ای که یک سازنده دربارهٔ مدلِ خودش منتشر می‌کند، ارزیابیِ مستقل نیست. آنچه می‌شود گفت این است که توانایی بالا رفته و مسئولیتِ طراحی هم با آن بالا رفته."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "برای کسب‌وکار من چه فرقی می‌کند؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "مدل قوی‌تر یعنی کارهای بیشتری قابل سپردن‌اند و در نتیجه اشتباهِ بیشتری هم ممکن است. چیزی که ارزشش زیاد می‌شود مرزهاست: چه کاری به سیستم سپرده شود، کجا باید بگوید نمی‌دانم، و چه چیزی ثبت شود تا بعداً قابل بازبینی باشد."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "پس باید منتظر بمانم تا مدل‌ها کامل شوند؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "نه. چیزی که با هر نسل عوض می‌شود خودِ مدل است؛ تصمیم‌های معماری عوض نمی‌شوند. سیستمی که امروز درست ساخته شود، نسل بعدیِ مدل را با عوض کردن یک تنظیم می‌گیرد."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "خطر مدلِ تواناتر برای یک کسب‌وکار کوچک چیست؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "اینکه اشتباهش قانع‌کننده‌تر می‌شود. مدلِ ضعیف وقتی چیزی از خودش می‌سازد معمولاً معلوم است؛ مدلِ قوی همان کار را با لحنی می‌کند که مشتری باور می‌کند. برای همین قاعدهٔ «نمی‌دانم» باید بیرون از مدل و در سطح داده نوشته شود."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
+<style>
+  /* Vazirmatn, served from our own domain rather than from Google Fonts,
+     which is unreliable from Iran. font-display:swap means the article is
+     readable in the fallback face from the first paint and re-sets when the
+     font arrives — a reader never waits on it, and if the file is missing
+     entirely the page is exactly what it was before. */
+  @font-face{font-family:Vazirmatn;font-style:normal;font-weight:400;
+    font-display:swap;src:url(/fonts/vazirmatn-regular.woff2) format("woff2")}
+  @font-face{font-family:Vazirmatn;font-style:normal;font-weight:700;
+    font-display:swap;src:url(/fonts/vazirmatn-bold.woff2) format("woff2")}
+  :root{--ink:#0b0a08;--gold:#e3c88a;--gold-dim:#a8945f;--paper:#ece7db;--muted:#8d8578;--rule:#26221a}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  /* A Persian reading stack, not the Latin system stack that was here. The
+     old list started at -apple-system and reached Tahoma only as a fallback,
+     which is what most Iranian readers were actually served — a font drawn
+     for interface labels, not for a thousand words in a row.
+     Vazirmatn first (installed on many machines, and the face we intend to
+     self-host), then the sans faces common on Iranian systems, then Tahoma.
+     No webfont is fetched: Google Fonts is unreliable from Iran, and a page
+     that waits on a blocked font shows nothing at all. */
+  body{margin:0;background:var(--ink);color:var(--paper);padding:0 24px 96px;
+    font:400 18.5px/2.0 Vazirmatn,"Vazir","IRANSans","IRANYekan",Sahel,Shabnam,
+      "Segoe UI",Tahoma,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif}
+  /* Persian sits lower on the line and carries marks above it, so the same
+     leading that reads comfortably in Latin looks cramped here. */
+  .wrap{max-width:720px;margin:0 auto}
+  /* How far through the article the reader is. Purely decorative: if the
+     script does not run, the bar stays at zero width and nothing else on the
+     page depends on it. */
+  #progress{position:fixed;top:0;inset-inline-start:0;height:2px;width:0;
+    background:var(--gold);z-index:9;transition:width .1s linear}
+  .readtime{color:var(--gold-dim)}
+  header{padding:56px 0 0}
+  .eyebrow{font:500 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--gold-dim);margin:0 0 18px}
+  .eyebrow a{color:inherit;text-decoration:none}
+  .eyebrow a:hover{color:var(--gold)}
+  h1{font:400 clamp(27px,4.6vw,40px)/1.28 "Iowan Old Style",Palatino,Georgia,serif;
+    color:var(--gold);margin:0 0 12px;letter-spacing:-.01em}
+  .meta{font:400 13px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);margin:0}
+  .lede{color:#ded8cb;font-size:19.5px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
+  /* The answer block. Set apart enough that a reader in a hurry sees it is
+     the short version, quiet enough that it does not read as an
+     advertisement — the border does the work, not a filled panel. */
+  .answer{margin:30px 0 6px;padding:20px 22px;border:1px solid var(--rule);
+    border-inline-start:3px solid var(--gold-dim);border-radius:6px;
+    background:rgba(227,200,138,.035)}
+  .answer h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;
+    letter-spacing:.2em;color:var(--gold-dim);margin:0 0 12px;
+    text-transform:uppercase}
+  .answer p{margin:0;font-size:17.5px;color:#e6e0d3}
+  article{padding-top:8px}
+  article h2{font:600 20px/1.5 inherit;color:var(--gold);margin:38px 0 12px}
+  article h3{font:600 16px/1.5 inherit;color:var(--gold-dim);margin:28px 0 8px}
+  p,li{color:#ded8cb;margin:0 0 18px}
+  ul,ol{padding-inline-start:22px;margin:0 0 16px}
+  a{color:var(--gold);text-underline-offset:3px}
+  blockquote{border-inline-start:2px solid var(--gold-dim);margin:0 0 18px;
+    padding-inline-start:16px;color:var(--muted)}
+  code{font:400 14px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--gold);
+    background:rgba(227,200,138,.07);padding:1px 5px;border-radius:3px}
+  pre{background:rgba(227,200,138,.05);border:1px solid var(--rule);border-radius:6px;
+    padding:14px 16px;overflow-x:auto;direction:ltr;text-align:left}
+  pre code{background:none;padding:0}
+  table{width:100%;border-collapse:collapse;margin:0 0 18px;font-size:15px;display:block;overflow-x:auto}
+  th,td{text-align:start;padding:9px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+  th{color:var(--gold-dim);font-weight:600}
+  img{max-width:100%;height:auto;border-radius:6px}
+  .tags{margin:34px 0 0;font:400 13px/1.9 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+  .faq{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
+  .faq h2{font-size:20px;margin:0 0 18px}
+  .faq dt{font-weight:600;color:var(--gold);margin-top:20px}
+  .faq dd{margin:8px 0 0;color:#ded8cb}
+  .summary{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
+  .summary h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold-dim);margin:0 0 12px}
+  .summary p{font-size:15.5px;color:var(--muted);margin:0}
+  .ltr{direction:ltr;text-align:left}
+  .share{margin-top:40px;padding-top:22px;border-top:1px solid var(--rule);
+    display:flex;flex-wrap:wrap;align-items:center;gap:14px;font-size:14px}
+  .share span{color:var(--muted)}
+  .share a,.share button{color:var(--gold);text-decoration:none;font:inherit;
+    background:none;border:1px solid var(--rule);border-radius:6px;
+    padding:6px 14px;cursor:pointer;transition:border-color .3s}
+  .share a:hover,.share button:hover{border-color:var(--gold-dim)}
+  .cta{margin-top:44px;padding:24px;border:1px solid var(--rule);border-radius:8px}
+  .cta p{margin:0 0 10px;color:#c9c3b6}
+  .cta a{font-weight:600}
+  /* Product cards on /mahsoolat. Each one is a system, so it is given the
+     weight of a section rather than a list row: a rule above it, the kind of
+     thing it is set beside the name, and the counted figure in the byline
+     position where a date would otherwise sit alone. */
+  .prod{margin:38px 0 0;padding-top:26px;border-top:1px solid var(--rule)}
+  .prod h2{margin:0 0 6px;font-size:23px}
+  .prod .pk{display:block;font:500 12px/1.7 ui-monospace,Menlo,Consolas,monospace;
+    letter-spacing:.08em;color:var(--gold-dim);margin-top:5px}
+  .prod .lede2{color:#ded8cb;font-size:17.5px;margin:12px 0 14px}
+  .prod ul{margin:0;padding-inline-start:20px}
+  .prod li{margin:0 0 10px;font-size:16px}
+  .index-item{padding:26px 0;border-bottom:1px solid var(--rule)}
+  .index-item h2{font:400 21px/1.45 "Iowan Old Style",Palatino,Georgia,serif;margin:0 0 6px}
+  .index-item h2 a{color:var(--gold);text-decoration:none}
+  .index-item h2 a:hover{text-decoration:underline}
+  .index-item p{margin:0 0 6px;font-size:15.5px}
+  .index-item .meta{font-size:12px}
+  footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--rule);
+    font:400 13px/1.9 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+  footer a{margin-inline-end:16px;color:var(--gold);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+
+  /* Phones. There were no media queries here at all, which meant the layout
+     had never been checked at a phone width — it happened to survive because
+     it is a single fluid column, but the byline now carries four facts and
+     ran off the line, and 24px of padding on each side is a lot of a 360px
+     screen. Nothing is hidden on a small screen: a reader on a phone gets the
+     same article, set to fit. */
+  @media (max-width: 560px) {
+    body{padding:0 18px 72px;font-size:17.5px}
+    header{padding:36px 0 0}
+    /* The byline is four separate facts. On a narrow screen it should wrap as
+       four lines rather than break mid-fact. */
+    .meta{line-height:2.1}
+    .meta .readtime{display:inline-block}
+    article h2{margin:30px 0 10px;font-size:19px}
+    .lede{font-size:18px}
+    .answer{padding:16px 17px;margin:24px 0 4px}
+    .answer p{font-size:16.5px}
+    .share{gap:10px}
+    .share a,.share button{padding:8px 12px}
+    .index-item{margin-top:26px}
+    /* Measured at 13-15px tall on a 360px screen — under the 24px WCAG 2.2
+       asks for, and well under a thumb. Padding on an inline link grows the
+       area a finger can hit without moving the text it sits on. */
+    .meta a,.eyebrow a{display:inline-block;padding:7px 0}
+    footer a{display:inline-block;padding:7px 0;margin-inline-end:20px}
+    .cta a{display:inline-block;padding:6px 0}
+  }
+
+  /* Someone who has asked for less motion should not get a bar sliding at
+     the top of every scroll. */
+  @media (prefers-reduced-motion: reduce) {
+    #progress{transition:none}
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div class="wrap">
+<header>
+<p class="eyebrow"><a href="/hamzad">مقالات</a></p>
+<h1>هوش عمومی مصنوعی؛ مدلِ قوی‌تر، معماری را مهم‌تر می‌کند نه بی‌فایده</h1>
+<p class="meta">نویسنده: <a href="/hadi-bakhtzadeh" rel="author">هادی بخت‌زاده</a> · ۶ سپتامبر ۲۰۲۶ · به‌روزرسانی ۶ سپتامبر ۲۰۲۶ · <span class="readtime">زمان تخمینی مطالعه: ۸ دقیقه</span></p>
+<p class="lede">هوش عمومی مصنوعی یعنی چه، و چرا قوی‌تر شدن مدل — مثل GPT-6 Astra — کارِ معماری را کم نمی‌کند بلکه گران‌تر می‌کند.</p>
+</header>
+<section class="answer" aria-label="پاسخ کوتاه"><h2>پاسخ کوتاه</h2><p>هوش عمومی مصنوعی (AGI) یعنی سامانه‌ای که هر کار فکری را در سطح انسان انجام دهد، نه فقط کاری که برایش نمونه دیده. تعریفِ موردِ توافقی برای مرزش وجود ندارد، پس «رسیدیم یا نرسیدیم» بیشتر بحث است تا اندازه‌گیری. برای کسب‌وکار، هرچه مدل تواناتر شود تصمیم‌های اطرافش — چه کاری به آن سپرده شود و کجا اجازه ندارد — گران‌تر می‌شوند، نه ارزان‌تر.</p></section>
+<article><h2>خبر چیست، و چه چیزش هنوز قطعی نیست</h2>
+<p>OpenAI از مدل تازه‌ای به نام <strong>GPT-6 Astra</strong> رونمایی کرده و آن را یک «جهش
+نسلی» توصیف کرده است. مدل ابتدا در اختیار گروه محدودی از سازمان‌ها قرار
+گرفته و بعد برای کاربران Plus و Pro و Business عرضه می‌شود. همراه اعلام،
+مقایسه‌ای هم منتشر شده که در آن Astra از مدل رقیب جلوتر است.</p>
+<p><strong>و همین‌جا چیزی هست که باید صریح گفته شود:</strong> آن مقایسه را خودِ OpenAI
+منتشر کرده. سازنده‌ای که نتیجهٔ آزمونِ خودش را دربارهٔ محصولِ خودش و
+رقیبش اعلام می‌کند، هنوز ارزیابیِ مستقل نیست. این یعنی عدد دروغ است؟ نه.
+یعنی هنوز کسی بیرون از آن شرکت تکرارش نکرده، و تا آن موقع نقلِ آن به‌عنوان
+واقعیت، یک قدم جلوتر از داده حرف زدن است.</p>
+<p>دو نکتهٔ دیگر از همان اعلام، که از خودِ عددها مهم‌ترند:</p>
+<ul>
+<li>Astra برای نظارت بر آموزشِ خودش از مدل‌های قبلیِ OpenAI استفاده کرده.
+  یعنی مدل، در ساختنِ نسلِ بعدی نقش دارد — و این مسیر، فاصلهٔ میان نسل‌ها
+  را کوتاه‌تر می‌کند.</li>
+<li>OpenAI می‌گوید مدل به «آستانهٔ توانمندیِ سایبریِ بحرانی» رسیده و در
+  شرایطی می‌تواند آسیب‌پذیریِ ناشناخته را پیدا کند. دسترسی به این بخش
+  فعلاً محدود به گروه‌های تأییدشده است.</li>
+</ul>
+<p>رئیس OpenAI گفته شاید چند سال بعد، این مدل یکی از نقاط آغازِ عصرِ هوش
+عمومی شمرده شود. <strong>«شاید» و «چند سال بعد» بخشی از جمله‌اند، نه حاشیه‌اش.</strong>
+هر کس این جمله را بدون آن دو قید نقل کند، حرفی زده که گوینده نزده.</p>
+<h2>هوش عمومی مصنوعی، به زبان ساده</h2>
+<p>مدلی که امروز داریم در کارهای بسیاری خوب است: می‌نویسد، خلاصه می‌کند،
+کد می‌زند، ترجمه می‌کند. <strong>هوش عمومی مصنوعی</strong> یعنی سامانه‌ای که <em>هر</em> کار
+فکری را در سطح انسان انجام دهد — نه فقط کارهایی که برایشان نمونه دیده
+است.</p>
+<p>فرقش با امروز در یک کلمه خلاصه می‌شود: <strong>تعمیم.</strong></p>
+<p>یک مثال ساده. به مدل امروزی کاری بدهید که شبیهش را در داده‌اش ندیده. در
+بیشتر موارد چیزی می‌گوید که <em>شبیهِ</em> جواب است — ساختارش درست، لحنش مطمئن،
+محتوایش ساختگی. انسانِ متخصص در همان موقعیت می‌گوید «این را نمی‌دانم» و
+می‌رود یاد بگیرد. آن یک جمله، همان چیزی است که هنوز فاصلهٔ اصلی است.</p>
+<p>و یک واقعیتِ ناخوشایند که کمتر گفته می‌شود: <strong>تعریفِ پذیرفته‌شده‌ای برای
+مرزِ هوش عمومی وجود ندارد و آزمونی هم نیست که همه قبولش داشته باشند.</strong>
+هر چند سال، آزمونی که قرار بود نشانهٔ رسیدن باشد، از سوی مدلی رد می‌شود و
+بلافاصله می‌گویند «خب این که نشانه نبود». برای همین بحثِ «رسیدیم یا
+نرسیدیم» بیشتر یک مناظره است تا یک اندازه‌گیری.</p>
+<p>موضعِ درست همان است که در همهٔ کارهایمان تکرار می‌کنیم: <strong>جایی که داده
+نداریم، جواب نمی‌سازیم.</strong></p>
+<h2>چیزی که کمتر گفته می‌شود: مدلِ قوی‌تر، معماری را گران‌تر می‌کند</h2>
+<p>برداشتِ رایج این است که هرچه مدل قوی‌تر شود، کارِ ساختنِ سیستم روی آن کمتر
+می‌شود — یعنی روزی می‌رسد که کافی است سؤال را بدهی و جواب را بگیری. تجربهٔ
+ساختِ سیستم‌های واقعی خلافِ این را نشان می‌دهد. چهار دلیل، و هر چهار از
+کدی می‌آید که وجود دارد:</p>
+<h3>یک — مدل عوض می‌شود، تصمیم‌ها نمی‌شوند</h3>
+<p>هر چند ماه مدلی بهتر می‌آید. سیستمی که به یک مدلِ مشخص چسبیده باشد، با هر
+نسل باید بازنویسی شود. سیستمی که لایهٔ ارکستراسیون داشته باشد، مدل را عوض
+می‌کند و بقیه‌اش سرِ جایش می‌ماند.</p>
+<p><strong>ارکستراسیون هوش مصنوعی</strong> یعنی همین چهار تصمیم: کدام کار به کدام مدل
+برود، چه چیزی میان فراخوانی‌ها نگه داشته شود، وقتی تأمین‌کننده جواب نداد
+چه بشود، و کجا سیستم باید بگوید نمی‌دانم.</p>
+<p><strong>هیچ‌کدام از این چهار تصمیم با آمدنِ مدلِ تازه عوض نشد.</strong> این را می‌شود
+وارسی کرد: سیستم‌هایی که ساخته‌ایم روی مدل‌های بزرگ ساخته شده‌اند، و
+عوض شدنِ مدل برایشان یک تغییرِ تنظیمات است، نه یک پروژهٔ تازه.</p>
+<h3>دو — هرچه سیستم مستقل‌تر، مرز مهم‌تر</h3>
+<p>وقتی سازندهٔ مدل خودش می‌گوید محصولش به آستانهٔ توانمندیِ سایبریِ بحرانی
+رسیده، معنایش برای یک کسب‌وکارِ معمولی این نیست که باید بترسد. معنایش این
+است که <strong>اجازه‌ها دیگر جزئیاتِ پیاده‌سازی نیستند؛ تصمیمِ معماری‌اند.</strong></p>
+<p>در سیستمِ فایلینگی که ساخته‌ایم، یک قاعده در سطحِ داده نوشته شده و مدل
+نمی‌تواند دورش بزند:</p>
+<blockquote>
+<p>«اگر منطقه‌ای درخواست شد که در این لیست نیست، هرگز اطلاعات ساختگی نده.
+بگو: این محدوده نیاز به بررسی میدانی دارد.»</p>
+</blockquote>
+<p>این قاعده ماه‌ها پیش از این خبر نوشته شد و ربطی به آن ندارد. <strong>ولی هرچه
+مدلِ زیرش تواناتر شود، ارزشش بیشتر می‌شود</strong> — و دلیلش وارونهٔ چیزی است که
+به نظر می‌رسد: مدلِ ضعیف وقتی چیزی از خودش می‌سازد معمولاً معلوم است؛ مدلِ
+قوی همان کار را با لحنی انجام می‌دهد که مشتریِ شما باور می‌کند.</p>
+<p><strong>توهمِ قانع‌کننده، از توهمِ آشکار خطرناک‌تر است.</strong></p>
+<p>و این دقیقاً همان چیزی است که خریدارِ ایرانیِ این محصولات از آن می‌ترسد.
+در گفتگو با کسب‌وکارها، سؤالی که تقریباً همیشه پرسیده می‌شود این نیست که
+«چقدر باهوش است»؛ این است که «اگر به مشتریِ من چیزِ غلط بگوید چه؟» تنها
+جوابِ باورپذیر برای این سؤال، نشان دادنِ قاعدهٔ امتناع است — نه قول دادن،
+نه تعریف کردن از مدل.</p>
+<h3>سه — وقتی سیستم بیشتر کار می‌کند، دفترِ ثبت راهِ فهمیدن است</h3>
+<p>اگر کاری را به سیستم بسپاری، برای اینکه بعداً بفهمی چه کرد، باید خودش
+نوشته باشد. در سیستمِ ما یازده رویداد به‌صورت فهرستِ بسته تعریف شده‌اند —
+یعنی هیچ فیلدِ وضعیتی با متنِ آزاد وجود ندارد — و هر نوشتن، نسخه و زمانِ
+خودش را همراه دارد.</p>
+<p>فرقِ این با «لاگ» فرقِ حسابرسی با یادداشت است. لاگ می‌گوید چیزی اتفاق
+افتاد؛ دفترِ رویدادِ بسته می‌گوید <em>دقیقاً کدام</em> اتفاق، <em>کِی</em>، و <em>روی کدام
+نسخه</em>. هرچه سیستم مستقل‌تر شود، فاصلهٔ این دو بزرگ‌تر می‌شود.</p>
+<p>چرا فهرستِ بسته و نه متنِ آزاد؟ چون متنِ آزاد را نمی‌شود شمرد. اگر یک
+رویداد را سیستم گاهی «تماس گرفته شد» بنویسد و گاهی «پیگیری شد»، شش ماه
+بعد هیچ‌کس نمی‌تواند بگوید در این مدت چند بار پیگیری انجام شده. با فهرستِ
+بسته، همان سؤال یک شمارش ساده است. این تفاوت وقتی معلوم می‌شود که کسی
+بخواهد از سیستم حساب بکشد — و روزی که مدل کارهای بیشتری انجام می‌دهد،
+دقیقاً همان روزی است که این سؤال پرسیده می‌شود.</p>
+<h3>چهار — مدلِ قوی‌تر، مسئلهٔ کسب‌وکارِ شما را حل نمی‌کند</h3>
+<p>هیچ مدلی — هرقدر قوی — نمی‌داند مشتریِ شما دیروز در دایرکت چه پرسید و
+امروز در واتساپ چه گفت. نمی‌داند کدام استعلام بی‌جواب مانده. نمی‌داند
+سیاستِ قیمت‌گذاریِ شما چیست و کدام مشتری قبلاً تخفیف گرفته.</p>
+<p>این‌ها دانشِ مدل نیستند؛ <strong>دانشِ سیستمِ اطرافِ مدل‌اند.</strong> یک مدلِ دو برابر
+تواناتر، این‌ها را دو برابر بهتر نمی‌داند — همان‌قدر می‌داند که دیروز
+می‌دانست، یعنی هیچ.</p>
+<h2>این برای کسب‌وکار ایرانی یعنی چه</h2>
+<p>سه چیز، و هر سه امروز عملی‌اند:</p>
+<p><strong>۱. منتظرِ نسلِ بعد نمانید.</strong> رایج‌ترین جمله‌ای که این روزها می‌شنویم این
+است: «صبر می‌کنیم مدل‌ها بهتر شوند بعد شروع می‌کنیم.» ولی چیزی که با هر
+نسل عوض می‌شود خودِ مدل است؛ چهار تصمیمی که بالا آمد عوض نمی‌شوند. کسبی که
+امروز پرونده‌های مشتریانش را مرتب کند و مسیرِ پاسخگویی‌اش را بنویسد، نسلِ
+بعدیِ مدل را با عوض کردن یک تنظیم می‌گیرد. کسبی که صبر کند، سالِ بعد از
+همان نقطه‌ای شروع می‌کند که امروز ایستاده.</p>
+<p><strong>۲. وابستگی به یک تأمین‌کننده، در ایران یک ریسکِ اضافه دارد.</strong> دسترسی
+به سرویس‌های خارجی از ایران پایدار نیست: گاهی سرویس از اینجا باز نمی‌شود،
+گاهی قطعی پیش می‌آید، گاهی پرداخت انجام نمی‌شود. سیستمی که بتواند مدلش را
+عوض کند، این را به یک تصمیمِ ساده تبدیل می‌کند؛ سیستمی که نتواند، هر بار
+از کار می‌افتد و کسی هم نمی‌تواند کاری بکند.</p>
+<p>این را با یک عدد بسنجید: اگر سرویسِ اصلی‌تان یک روز در ماه در دسترس
+نباشد، یعنی سالی دوازده روز پاسخگویی ندارید. برای فروشگاهی که بیشترِ
+سفارش‌هایش از دایرکت می‌آید، دوازده روزِ پراکنده بیشتر از یک تعطیلیِ
+دوازده‌روزه ضرر می‌زند، چون مشتری نمی‌داند بسته‌اید — فکر می‌کند
+جواب نمی‌دهید.</p>
+<p><strong>۳. مسئلهٔ زبان و صنف، با قوی‌تر شدنِ مدل حل نمی‌شود.</strong> مدل فارسی را
+خوب می‌فهمد، ولی نمی‌داند در بازارِ شما «استعلام» یعنی چه، یا مشتریِ
+کلینیک با مشتریِ املاک چه فرقی دارد. آنچه این را حل می‌کند، دانشِ بازار
+است که <strong>به‌صورت داده</strong> در سیستم نوشته شود، نه دستوری که به مدل داده شود.
+در سیستمِ ما دانشِ سیزده منطقهٔ یک شهر — با نقدشوندگی، خریدارِ هدف، ردهٔ
+قیمت، مزیت و عیب — به همین شکل نوشته شده و منابعش هم کنارش ثبت شده.</p>
+<p>برای یک کسب‌وکارِ ایرانی، جمعِ این سه یعنی: <strong>کاری که امروز می‌ارزد
+انجام دادن، ساختنِ لایه‌ای است که به مدل وابسته نباشد.</strong> خبرِ فردا هرچه
+باشد، آن لایه سرِ جایش می‌ماند.</p>
+<p>اگر بخواهید از یک جا شروع کنید، از ساده‌ترینش شروع کنید: بنویسید سیستم
+اجازه دارد دربارهٔ چه چیزهایی حرف بزند و دربارهٔ چه چیزهایی نه. همین یک
+فهرست، پیش از هر کدی، بیشترِ ریسک را برمی‌دارد — و با هر نسلِ مدل هم
+معتبر می‌ماند، چون دربارهٔ کسب‌وکارِ شماست نه دربارهٔ مدل.</p>
+<h2>آنچه ادعا نمی‌کنیم</h2>
+<p>اینجا نمی‌گوییم پیش‌بینی کرده بودیم، و ادعا نمی‌کنیم پیش از دیگران به
+فارسی از این موضوع نوشته‌ایم. هیچ‌کدام قابل اثبات نیست، و قاعدهٔ محتوایی
+این سایت چنین ادعاهایی را رد می‌کند — همان قاعده‌ای که دقیقاً به این دلیل
+نوشته شد که رقیب بتواند حرفِ ما را وارسی کند و نتواند ردش کند.</p>
+<p>آنچه می‌گوییم قابل بررسی است: سیستم‌هایی که ساخته‌ایم روی مدل‌های بزرگ
+بنا شده‌اند نه به‌جای آن‌ها؛ قاعدهٔ امتناع و دفترِ رویدادِ بسته در کدشان
+با تاریخ موجود است؛ و هیچ‌کدام با آمدنِ نسلِ تازهٔ مدل بی‌اثر نشد.</p>
+<h2>اگر یک جمله از این نوشته بماند</h2>
+<p><strong>مدلِ قوی‌تر، سؤالِ «چه کاری را به آن بسپاریم و کجا جلویش را بگیریم» را
+مهم‌تر می‌کند، نه بی‌موضوع.</strong></p>
+<p>هر خبری از این جنس که فردا برسد — و می‌رسد — همین جمله را دوباره ثابت
+می‌کند. کسی که امروز این لایه را ساخته باشد، خبرِ فردا برایش یک فرصت است.
+کسی که نساخته باشد، هر بار از نو شروع می‌کند.</p></article>
+<p class="tags">هوش-عمومی-مصنوعی · ارکستراسیون · معماری-سیستم · ایمنی-هوش-مصنوعی · کسب-وکار-ایرانی</p>
+<section class="faq"><h2>پرسش‌های پرتکرار</h2><dl><dt>هوش عمومی مصنوعی یعنی چه؟</dt><dd>یعنی سامانه‌ای که به‌جای یک کار مشخص، بتواند هر کار فکری‌ای را در سطح انسان یاد بگیرد و انجام دهد. مدل‌های امروزی در کارهای بسیاری خوب‌اند ولی هنوز تعریفِ موردِ توافقی برای اینکه مرزش کجاست وجود ندارد.</dd><dt>آیا مدل‌های تازه یعنی به هوش عمومی رسیده‌ایم؟</dt><dd>نمی‌دانیم، و هر کس با قطعیت جواب بدهد بیش از آنچه داده اجازه می‌دهد حرف زده. مقایسه‌ای که یک سازنده دربارهٔ مدلِ خودش منتشر می‌کند، ارزیابیِ مستقل نیست. آنچه می‌شود گفت این است که توانایی بالا رفته و مسئولیتِ طراحی هم با آن بالا رفته.</dd><dt>برای کسب‌وکار من چه فرقی می‌کند؟</dt><dd>مدل قوی‌تر یعنی کارهای بیشتری قابل سپردن‌اند و در نتیجه اشتباهِ بیشتری هم ممکن است. چیزی که ارزشش زیاد می‌شود مرزهاست: چه کاری به سیستم سپرده شود، کجا باید بگوید نمی‌دانم، و چه چیزی ثبت شود تا بعداً قابل بازبینی باشد.</dd><dt>پس باید منتظر بمانم تا مدل‌ها کامل شوند؟</dt><dd>نه. چیزی که با هر نسل عوض می‌شود خودِ مدل است؛ تصمیم‌های معماری عوض نمی‌شوند. سیستمی که امروز درست ساخته شود، نسل بعدیِ مدل را با عوض کردن یک تنظیم می‌گیرد.</dd><dt>خطر مدلِ تواناتر برای یک کسب‌وکار کوچک چیست؟</dt><dd>اینکه اشتباهش قانع‌کننده‌تر می‌شود. مدلِ ضعیف وقتی چیزی از خودش می‌سازد معمولاً معلوم است؛ مدلِ قوی همان کار را با لحنی می‌کند که مشتری باور می‌کند. برای همین قاعدهٔ «نمی‌دانم» باید بیرون از مدل و در سطح داده نوشته شود.</dd></dl></section>
+<section class="summary ltr" lang="en" dir="ltr"><h2>In English</h2><p>OpenAI announced a model it describes as a generational jump, which revived the question of whether the AGI era has begun. Written by Hadi Bakhtzadeh, AI systems architect at Vandidad Group in İzmir, Türkiye, this article defines artificial general intelligence in plain Persian, notes that a vendor&#x27;s own benchmark of its own model is not independent evaluation, and argues the point that matters to a business: a more capable model does not reduce the architecture around it. Model routing, refusal rules, permission boundaries and an auditable event log all become more valuable as the system underneath becomes more autonomous, not less.</p></section>
+<section class="summary ltr" lang="tr" dir="ltr"><h2>Türkçe özet</h2><p>OpenAI, bir kuşak sıçraması olarak tanımladığı yeni bir model duyurdu ve &quot;AGI çağı başladı mı&quot; sorusu yeniden gündeme geldi. İzmir&#x27;de Vandidad Group&#x27;un yapay zekâ sistem mimarı Hadi Bahtzade tarafından yazılan bu metin, genel yapay zekâyı sade bir dille tanımlar, bir üreticinin kendi modelini kendi ölçmesinin bağımsız değerlendirme sayılmadığını belirtir ve asıl noktayı savunur: model güçlendikçe çevresindeki mimari daha az değil, daha çok önem kazanır.</p></section>
+<div class="share"><span>این را برای کسی بفرستید:</span><a href="https://t.me/share/url?url=https%3A%2F%2Fvandidad.xyz%2Fhamzad%2Fhoosh-omoomi-masnooi&text=%D9%87%D9%88%D8%B4%20%D8%B9%D9%85%D9%88%D9%85%DB%8C%20%D9%85%D8%B5%D9%86%D9%88%D8%B9%DB%8C%D8%9B%20%D9%85%D8%AF%D9%84%D9%90%20%D9%82%D9%88%DB%8C%E2%80%8C%D8%AA%D8%B1%D8%8C%20%D9%85%D8%B9%D9%85%D8%A7%D8%B1%DB%8C%20%D8%B1%D8%A7%20%D9%85%D9%87%D9%85%E2%80%8C%D8%AA%D8%B1%20%D9%85%DB%8C%E2%80%8C%DA%A9%D9%86%D8%AF%20%D9%86%D9%87%20%D8%A8%DB%8C%E2%80%8C%D9%81%D8%A7%DB%8C%D8%AF%D9%87" target="_blank" rel="noopener">تلگرام</a><a href="https://api.whatsapp.com/send?text=%D9%87%D9%88%D8%B4%20%D8%B9%D9%85%D9%88%D9%85%DB%8C%20%D9%85%D8%B5%D9%86%D9%88%D8%B9%DB%8C%D8%9B%20%D9%85%D8%AF%D9%84%D9%90%20%D9%82%D9%88%DB%8C%E2%80%8C%D8%AA%D8%B1%D8%8C%20%D9%85%D8%B9%D9%85%D8%A7%D8%B1%DB%8C%20%D8%B1%D8%A7%20%D9%85%D9%87%D9%85%E2%80%8C%D8%AA%D8%B1%20%D9%85%DB%8C%E2%80%8C%DA%A9%D9%86%D8%AF%20%D9%86%D9%87%20%D8%A8%DB%8C%E2%80%8C%D9%81%D8%A7%DB%8C%D8%AF%D9%87%20https%3A%2F%2Fvandidad.xyz%2Fhamzad%2Fhoosh-omoomi-masnooi" target="_blank" rel="noopener">واتساپ</a><button type="button" class="copy" data-url="https://vandidad.xyz/hamzad/hoosh-omoomi-masnooi">کپی نشانی</button></div>
+<div class="cta"><p>می‌خواهید ببینید این برای کارِ خودتان چه شکلی می‌شود؟</p><p><a href="/">همین‌جا با دستیار حرف بزنید</a> — یک جمله درباره‌ی کارتان کافی است.</p></div>
+<footer>
+  <div><a href="/">صفحه‌ی اصلی</a><a href="/hamzad">مقالات</a><a href="/about">درباره‌ی ما</a></div>
+  <div style="margin-top:10px"><a href="/privacy">حریم خصوصی</a><a href="/terms">شرایط استفاده</a><a href="/data-deletion">حذف اطلاعات</a></div>
+  <div style="margin-top:14px;opacity:.75">Vandidad Group · Konak, İzmir, Türkiye · <a href="mailto:ai@vandidad.xyz">ai@vandidad.xyz</a></div>
+</footer>
+</div>
+<script>
+/* A reading-progress line. It is the whole of this site's article JavaScript,
+   and it is written so that failing changes nothing: the bar starts at zero
+   width, and if this never runs the page is exactly what it was. */
+(function () {
+  var bar = document.getElementById("progress");
+  if (!bar) return;
+  function draw() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? Math.min(100, (window.scrollY / h) * 100) : 0) + "%";
+  }
+  addEventListener("scroll", draw, { passive: true });
+  addEventListener("resize", draw);
+  draw();
+})();
+
+/* Copy the address. navigator.clipboard exists only on a secure origin and
+   only with permission, so the older selection trick is kept as the fallback
+   rather than leaving the button dead for whoever lands in that case. */
+(function () {
+  var b = document.querySelector(".share .copy");
+  if (!b) return;
+  b.addEventListener("click", function () {
+    var url = b.getAttribute("data-url"), done = function () {
+      var was = b.textContent;
+      b.textContent = "کپی شد";
+      setTimeout(function () { b.textContent = was; }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, fallback);
+    } else { fallback(); }
+    function fallback() {
+      var f = document.createElement("input");
+      f.value = url;
+      document.body.appendChild(f);
+      f.select();
+      try { document.execCommand("copy"); done(); } catch (e) {}
+      document.body.removeChild(f);
+    }
+  });
+})();
+</script>
+</body>
+</html>
