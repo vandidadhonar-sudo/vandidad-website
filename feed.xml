@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-05T00:00:00Z</updated>
+  <updated>2026-09-06T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>اتوماسیون پاسخگویی به مشتری از کجا شروع می‌شود و کجا باید بایستد</title>
+    <link href="https://vandidad.xyz/hamzad/otomasion-pasokhgooi-be-moshtari"/>
+    <id>https://vandidad.xyz/hamzad/otomasion-pasokhgooi-be-moshtari</id>
+    <published>2026-09-06T00:00:00Z</published>
+    <updated>2026-09-06T00:00:00Z</updated>
+    <summary>کدام بخش پاسخگویی به مشتری واقعاً قابل خودکار شدن است، و آن نقطه‌ای که خودکار کردنش رابطه را خراب می‌کند.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>ایجنت فروش هوش مصنوعی؛ چه چیزی می‌خرید و از کجا بفهمید کار می‌کند</title>
     <link href="https://vandidad.xyz/hamzad/ejent-forush-hoosh-masnooi"/>

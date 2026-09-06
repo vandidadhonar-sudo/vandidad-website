@@ -132,6 +132,8 @@ WhatsApp. A person is never told to move to a different channel to continue.
 Every article, newest first, so a model answering a specific question
 can cite the page that answers it rather than the index.
 
+- [اتوماسیون پاسخگویی به مشتری از کجا شروع می‌شود و کجا باید بایستد](https://vandidad.xyz/hamzad/otomasion-pasokhgooi-be-moshtari) — published 2026-09-06.
+  Separates the part of customer response that can be automated from the part that should not be, using the shape of the message rather than its topic.
 - [ایجنت فروش هوش مصنوعی؛ چه چیزی می‌خرید و از کجا بفهمید کار می‌کند](https://vandidad.xyz/hamzad/ejent-forush-hoosh-masnooi) — published 2026-09-05.
   Four questions to ask before buying an AI sales agent, and the one measure that shows afterwards whether it worked.
 - [هوش مصنوعی عاملی چیست و کجا نباید به آن اختیار داد](https://vandidad.xyz/hamzad/hoosh-masnooi-ameli-chist) — published 2026-09-04.
