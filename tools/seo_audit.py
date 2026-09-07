@@ -62,6 +62,10 @@ ROOT = Path(__file__).resolve().parent.parent
 PILLARS = [
     # The technology
     "هوش مصنوعی", "هوشواره", "سیستم عامل هوش مصنوعی", "ایجنت",
+    # AGI, in Persian. Written as three words, so «هوش مصنوعی» does not
+    # contain it — the checker was right to call it an orphan rather than
+    # quietly folding it under a phrase it does not actually sit inside.
+    "هوش عمومی مصنوعی",
     "مدل زبانی", "چت بات", "ربات",
     # The work it does — added after the first run called six real phrases
     # orphans. They were not orphans; this list was short.
@@ -90,6 +94,11 @@ PILLARS = [
 # category is being built, not captured.
 CREATE_PHRASES = [
     "هوشواره",
+    # Persian has no settled term for AGI and the English acronym is what
+    # most writing falls back on. Defining it plainly, and tying it to the
+    # argument that architecture matters more as models get stronger, is the
+    # same category work as the four below rather than a keyword grab.
+    "هوش عمومی مصنوعی",
     "معمار هوش مصنوعی",
     "ارکستراسیون هوش مصنوعی",
     "سیستم عامل هوش مصنوعی",
