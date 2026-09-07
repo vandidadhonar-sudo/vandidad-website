@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-06T00:00:00Z</updated>
+  <updated>2026-09-07T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>پیگیری خودکار مشتری؛ چرا پیامک دوره‌ای جواب نمی‌دهد و چه چیزی می‌دهد</title>
+    <link href="https://vandidad.xyz/hamzad/peygiri-khodkar-moshtari"/>
+    <id>https://vandidad.xyz/hamzad/peygiri-khodkar-moshtari</id>
+    <published>2026-09-07T00:00:00Z</published>
+    <updated>2026-09-07T00:00:00Z</updated>
+    <summary>تفاوت پیگیری خودکاری که مشتری را برمی‌گرداند با آنی که او را فراری می‌دهد، و قاعده‌ای که این دو را از هم جدا می‌کند.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>هوش عمومی مصنوعی؛ مدلِ قوی‌تر، معماری را مهم‌تر می‌کند نه بی‌فایده</title>
     <link href="https://vandidad.xyz/hamzad/hoosh-omoomi-masnooi"/>
