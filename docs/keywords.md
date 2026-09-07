@@ -32,6 +32,7 @@ python3 tools/seo_report.py
 | هوش مصنوعی در کلینیک زیبایی | `/hamzad/klinik-zibaei-nobat-va-peygiri` | منتشرشده | 1636 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 3 |
 | هوش مصنوعی عاملی | `/hamzad/hoosh-masnooi-ameli-chist` | منتشرشده | 1737 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 21 |
 | پیگیری استعلام قیمت | `/hamzad/estelam-ke-be-sefaresh-nemiresad` | منتشرشده | 1593 | 2 | 0.1٪ | — | ✓ | ✓ | 4 | 2 |
+| پیگیری خودکار مشتری | `/hamzad/peygiri-khodkar-moshtari` | منتشرشده | 1595 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 5 |
 | چت بات برای کسب و کار | `/hamzad/chatbot-vs-digital-twin` | منتشرشده | 1597 | 2 | 0.1٪ | ✓ | — | ✓ | 5 | 20 |
 | آموزش هوش مصنوعی برای دانشجویان | `/hamzad/amoozesh-hoosh-masnooi-daneshjoo` | در صف | 1526 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 2 | 1 |
 | اتوماسیون بازاریابی ایرانی | `/hamzad/otomasion-bazaryabi-irani` | در صف | 1549 | 2 | 0.1٪ | — | ✓ | ✓ | 3 | 1 |
@@ -59,7 +60,6 @@ python3 tools/seo_report.py
 | هوشواره | `/hamzad/hooshvare-chist` | در صف | 1598 | 20 | 1.3٪ | ✓ | ✓ | ✓ | 4 | 1 |
 | پاسخ خودکار دایرکت اینستاگرام | `/hamzad/pasokhgooi-khodkar-instagram` | در صف | 1876 | 4 | 0.2٪ | ✓ | ✓ | ✓ | 3 | 2 |
 | پیاده سازی هوش مصنوعی در سازمان | `/hamzad/piadesazi-hoosh-masnooi-sazman` | در صف | 1632 | 2 | 0.1٪ | ✓ | — | ✓ | 3 | 2 |
-| پیگیری خودکار مشتری | `/hamzad/peygiri-khodkar-moshtari` | در صف | 1595 | 2 | 0.1٪ | ✓ | — | ✓ | 2 | 5 |
 | چت بات هوش مصنوعی ایرانی | `/hamzad/chatbot-hoosh-masnooi-irani` | در صف | 1524 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 3 | 1 |
 | کاربرد هوش مصنوعی در کسب و کار | `/hamzad/karbord-hoosh-masnooi-dar-kasbokar` | در صف | 1533 | 2 | 0.1٪ | ✓ | ✓ | ✓ | 3 | 3 |
 
