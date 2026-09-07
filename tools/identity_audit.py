@@ -70,6 +70,8 @@ SPELLINGS_LATIN = ["Hadi Bakhtzadeh", "Mohammadhadi Bakhtzadeh"]
 
 # What a searcher must see next to the name. These are the words that turn
 # "some person" into "the person who does this".
+ZWNJ = "\u200c"
+
 ROLE_WORDS_FA = ["معمار", "هوش مصنوعی"]
 
 # The searches that define success, and what counts as success for each.
@@ -181,6 +183,71 @@ def audit_pages() -> list[tuple[bool, str]]:
     return out
 
 
+def _fold(s: str) -> str:
+    """One spelling for comparison: ZWNJ becomes a space, punctuation goes.
+
+    Everything in this file has been bitten once by the difference between a
+    zero-width non-joiner and a space. Comparison folds them; the keys that
+    identify a search do not.
+    """
+    cleaned = []
+    for ch in s.replace(ZWNJ, " "):
+        cleaned.append(ch if ch.isalnum() or ch.isspace() else " ")
+    return " ".join("".join(cleaned).split()).lower()
+
+
+def our_titles() -> list[str]:
+    """Every <title> this site actually publishes.
+
+    The old matcher guessed: it called a result ours if the word "vandidad"
+    or the Persian company name appeared in it, or if it happened to contain
+    the phrase for AI architect. That is one keyword sitting in someone
+    else's headline away from being wrong, and it could not say which of our
+    pages had ranked. Google drops the site name from a title often enough
+    that the person page — the one whose entire job is the name — was
+    invisible to the check watching for it.
+
+    The gateway returns titles without URLs, so a title is the only handle
+    there is. Comparing against the titles we genuinely publish turns the
+    question from "does this look like us" into "is this one of ours".
+    """
+    titles: list[str] = []
+    for pattern in ("*.html", "content/*/*.html"):
+        for path in sorted(ROOT.glob(pattern)):
+            m = re.search(r"<title>(.*?)</title>", path.read_text("utf-8"), re.S)
+            if m:
+                titles.append(m.group(1).strip())
+    return titles
+
+
+def first_match(results: list[str], ours: list[str]):
+    """(rank, "exact"|"subset") for the first result that is one of our pages.
+
+    Two confidences, kept apart on purpose. `exact` means the result is one
+    of our titles or the front of one — Google truncating something long.
+    `subset` means every word of the result appears in one of our titles,
+    which is what a rewritten title looks like: Google shortened the person
+    page's title on 2026-09-07, so nothing matched as a prefix although no
+    word in it was foreign.
+
+    Three words minimum, or a two-word result would match half the web. The
+    report says which of the two it was, rather than printing a guess in the
+    same shape as a measurement.
+    """
+    folded = [_fold(o) for o in ours]
+    for i, res in enumerate(results, 1):
+        r = _fold(res)
+        if r and any(r == o or o.startswith(r) for o in folded):
+            return i, "exact"
+    for i, res in enumerate(results, 1):
+        words = _fold(res).split()
+        if len(words) < 3:
+            continue
+        if any(all(w in o.split() for w in words) for o in folded):
+            return i, "subset"
+    return None
+
+
 def audit_search() -> list[tuple[bool | None, str]]:
     """What Google returned, from the newest snapshot on disk.
 
@@ -192,6 +259,13 @@ def audit_search() -> list[tuple[bool | None, str]]:
     if not files:
         return [(None, "هیچ عکسی از نتایج جستجو موجود نیست")]
 
+    # Keyed on the query EXACTLY as searched, not on a normalised form.
+    # «هادی بخت‌زاده» and «هادی بخت زاده» differ only by a zero-width
+    # non-joiner and _norm_keyword folds them together, so the two rows
+    # collapsed into one and whichever was read second silently replaced the
+    # other. Both were measured on 2026-09-07 and only the full-space result
+    # was ever reported. They are two different searches to Google, which is
+    # the entire reason both are on the target list.
     seen: dict[str, list[str]] = {}
     for f in files:                       # newest wins
         try:
@@ -201,25 +275,21 @@ def audit_search() -> list[tuple[bool | None, str]]:
         for r in data.get("results", []):
             titles = r.get("raw", {}).get("رتبه‌دارها", [])
             if titles:
-                seen[bc._norm_keyword(r.get("query", ""))] = titles
+                seen[r.get("query", "")] = titles
+
+    ours = our_titles()
 
     out: list[tuple[bool | None, str]] = []
     for query, wants_site in TARGET_QUERIES:
-        titles = seen.get(bc._norm_keyword(query))
+        titles = seen.get(query)
         if titles is None:
             out.append((None, f"«{query}» — هنوز سنجیده نشده"))
             continue
-        blob = " ".join(titles)
-        ours = ("vandidad" in blob.lower()
-                or "وندیداد" in blob
-                or any(bc._phrase_in(blob, s) and "معمار" in blob
-                       for s in SPELLINGS_FA))
-        rank = next((i + 1 for i, t in enumerate(titles)
-                     if "vandidad" in t.lower() or "وندیداد" in t
-                     or "معمار هوش مصنوعی" in t), None)
-        if wants_site and ours:
-            out.append((True, f"«{query}» — پیدا شد"
-                              + (f" (رتبهٔ {rank})" if rank else "")))
+        hit = first_match(titles, ours)
+        if wants_site and hit:
+            rank, how = hit
+            label = "قطعی" if how == "exact" else "محتمل"
+            out.append((True, f"«{query}» — پیدا شد (رتبهٔ {rank}، {label})"))
         else:
             out.append((False, f"«{query}» — چیزی از ما در نتایج نیست"))
     return out
