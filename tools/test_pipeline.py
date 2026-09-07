@@ -11,6 +11,7 @@ Run: python3 tools/test_pipeline.py
 from __future__ import annotations
 
 import json
+import re
 import pathlib
 import shutil
 import sys
@@ -677,6 +678,59 @@ class SitemapFreshness(unittest.TestCase):
         xml = self._sitemap()
         for url in (bc.PERSON_URL, bc.PRODUCTS_URL, bc.RECORD_URL):
             self.assertIn(f"<loc>{url}</loc>", xml)
+
+
+class HomepageLinksTheNewest(unittest.TestCase):
+    """The homepage must link the newest articles, and keep its video.
+
+    Search Console reported "Referring page: None detected" for a
+    freshly published article. The only route from an indexed page to a new
+    article was homepage → /hamzad → article, and /hamzad is not indexed, so
+    every new article was an island — reachable only by someone opening
+    Search Console and pressing Request Indexing by hand.
+
+    The second test is a guard, not a feature. index.html is hand-written and
+    carries the hero video; a generated block now writes into the middle of
+    it. If that block ever escapes its markers, this fails before a deploy
+    rather than after a visitor finds a blank page.
+    """
+
+    def _root(self):
+        return pathlib.Path(bc.__file__).resolve().parent.parent
+
+    def _home(self):
+        return (self._root() / "index.html").read_text("utf-8")
+
+    def test_it_links_several_live_articles(self):
+        links = set(re.findall(r'href="(/[a-z]+/[a-z0-9-]+)"', self._home()))
+        articles = {ln for ln in links if ln.count("/") == 2
+                    and not ln.startswith("/fonts")}
+        self.assertGreaterEqual(len(articles), 3,
+                                f"صفحهٔ اصلی فقط {len(articles)} مقاله لینک دارد")
+
+    def test_the_newest_article_is_one_of_them(self):
+        root = self._root()
+        # ".social.md" companions sit beside the articles and are not
+        # articles — parsing one raises rather than returning something.
+        live = [bc.parse(f) for f in root.glob("content/*/*.md")
+                if f.parent.name != "queue" and "." not in f.stem]
+        if not live:
+            self.skipTest("هیچ مقالهٔ منتشرشده‌ای نیست")
+        newest = max(live, key=lambda a: a.published)
+        self.assertIn(f"/{newest.collection}/{newest.slug}", self._home())
+
+    def test_the_hero_video_is_untouched(self):
+        home = self._home()
+        self.assertIn('id="heroVid"', home)
+        self.assertIn("/hero.mp4", home)
+
+    def test_the_generated_block_stays_between_its_markers(self):
+        home = self._home()
+        self.assertEqual(home.count(bc.LATEST_START), 1)
+        self.assertEqual(home.count(bc.LATEST_END), 1)
+        self.assertLess(home.index(bc.LATEST_START), home.index(bc.LATEST_END))
+        self.assertIn("<footer>", home[home.index(bc.LATEST_END):])
+
 
 
 # WHY THIS SITS AT THE VERY BOTTOM
