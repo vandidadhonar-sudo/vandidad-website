@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-07T00:00:00Z</updated>
+  <updated>2026-09-08T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>ساخت ایجنت هوش مصنوعی؛ از آموزش n8n تا دوام واقعی</title>
+    <link href="https://vandidad.xyz/hamzad/sakht-ejent-hoosh-masnooi"/>
+    <id>https://vandidad.xyz/hamzad/sakht-ejent-hoosh-masnooi</id>
+    <published>2026-09-08T00:00:00Z</published>
+    <updated>2026-09-08T00:00:00Z</updated>
+    <summary>آموزش‌ها ایجنت را در پانزده دقیقه می‌سازند و آن ایجنت در کار واقعی دوام نمی‌آورد. این نوشته می‌گوید فاصله کجاست.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>پیگیری خودکار مشتری؛ چرا پیامک دوره‌ای جواب نمی‌دهد و چه چیزی می‌دهد</title>
     <link href="https://vandidad.xyz/hamzad/peygiri-khodkar-moshtari"/>

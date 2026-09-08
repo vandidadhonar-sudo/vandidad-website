@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ساخت ایجنت هوش مصنوعی؛ از آموزش n8n تا دوام واقعی — Vandidad Group</title>
+<meta name="description" content="آموزش‌ها ایجنت را در پانزده دقیقه می‌سازند و آن ایجنت در کار واقعی دوام نمی‌آورد. این نوشته می‌گوید فاصله کجاست.">
+<link rel="canonical" href="https://vandidad.xyz/hamzad/sakht-ejent-hoosh-masnooi">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ساخت ایجنت هوش مصنوعی؛ از آموزش n8n تا دوام واقعی">
+<meta property="og:description" content="آموزش‌ها ایجنت را در پانزده دقیقه می‌سازند و آن ایجنت در کار واقعی دوام نمی‌آورد. این نوشته می‌گوید فاصله کجاست.">
+<meta property="og:url" content="https://vandidad.xyz/hamzad/sakht-ejent-hoosh-masnooi">
+<meta property="og:site_name" content="Vandidad Group">
+<meta property="og:image" content="https://vandidad.xyz/hero-poster.jpg">
+<meta property="og:locale" content="fa_IR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://vandidad.xyz/hero-poster.jpg">
+<link rel="alternate" type="application/atom+xml" title="Vandidad Group" href="https://vandidad.xyz/feed.xml">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Organization",
+   "@id": "https://vandidad.xyz/#organization",
+   "name": "Vandidad Group",
+   "alternateName": [
+    "وندیداد گروپ",
+    "AIOS"
+   ],
+   "url": "https://vandidad.xyz",
+   "email": "ai@vandidad.xyz",
+   "description": "Vandidad Group builds AIOS — an AI platform for business conversation — and the systems that run on it. One reasoning core serves every channel a business talks on, and each client system is configured for its industry rather than rebuilt from scratch.",
+   "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Konak, İzmir",
+    "addressCountry": "TR"
+   },
+   "knowsLanguage": [
+    "fa",
+    "en",
+    "tr"
+   ],
+   "areaServed": [
+    {
+     "@type": "Country",
+     "name": "Iran"
+    },
+    {
+     "@type": "Country",
+     "name": "Türkiye"
+    }
+   ],
+   "knowsAbout": [
+    "conversational AI for business",
+    "Persian-language AI assistants",
+    "digital twin sales agents",
+    "customer follow-up automation",
+    "AI systems architecture"
+   ],
+   "founder": {
+    "@id": "https://vandidad.xyz/#person"
+   },
+   "foundingDate": "2018-03-15",
+   "taxID": "9220834963",
+   "identifier": [
+    {
+     "@type": "PropertyValue",
+     "name": "İzmir Trade Registry",
+     "value": "202783"
+    },
+    {
+     "@type": "PropertyValue",
+     "name": "İzmir Chamber of Commerce",
+     "value": "1888691"
+    }
+   ],
+   "memberOf": {
+    "@type": "Organization",
+    "name": "İzmir Chamber of Commerce",
+    "alternateName": "İzmir Ticaret Odası",
+    "url": "https://www.izto.org.tr"
+   },
+   "legalName": "Vandidad Group Gayrimenkul Danışmanlık Hizmetleri İthalat İhracat Ticaret Limited Şirketi"
+  },
+  {
+   "@type": "Person",
+   "@id": "https://vandidad.xyz/#person",
+   "name": "Hadi Bakhtzadeh",
+   "alternateName": [
+    "هادی بخت‌زاده",
+    "هادی بخت زاده",
+    "محمد هادی بخت‌زاده",
+    "محمد هادی بخت زاده",
+    "محمدهادی بخت‌زاده",
+    "محمدهادی بخت زاده",
+    "م. هادی بخت‌زاده",
+    "Mohammadhadi Bakhtzadeh",
+    "Mohammad Hadi Bakhtzadeh",
+    "Hadi Bakhtzade",
+    "Hadi Bahtzade",
+    "M. Hadi Bakhtzadeh"
+   ],
+   "givenName": "Hadi",
+   "familyName": "Bakhtzadeh",
+   "jobTitle": "Architect of Intelligent Systems",
+   "description": "AI systems architect and founder of Vandidad Group, a technology company registered in İzmir, Türkiye (İzmir Trade Registry 202783, founded March 2018). Background in computer engineering, software architecture and artificial intelligence, with a research focus on distributed systems, natural language processing and autonomous AI agents. Designs the behaviour of AI systems for businesses that sell in Persian: what they understand, how they speak, what they remember between conversations, and where they must refuse. Writes on AI systems architecture, agentic AI and conversational design in Persian.",
+   "nationality": {
+    "@type": "Country",
+    "name": "Iran"
+   },
+   "workLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Konak, İzmir",
+     "addressCountry": "TR"
+    }
+   },
+   "mainEntityOfPage": {
+    "@type": "ProfilePage",
+    "@id": "https://vandidad.xyz/hadi-bakhtzadeh"
+   },
+   "sameAs": [
+    "https://github.com/vandidadhonar-sudo",
+    "https://www.linkedin.com/in/hadi-bakhtzadeh-8089b1109",
+    "https://www.instagram.com/hadi_bakhtzade/",
+    "https://x.com/HadiBakhtzadeh",
+    "https://vandidad.xyz"
+   ],
+   "hasOccupation": {
+    "@type": "Occupation",
+    "name": "AI Systems Architect",
+    "occupationalCategory": "15-1252 Software Developers",
+    "responsibilities": "Designing the behaviour of AI systems for business conversation: scope of autonomous action, escalation points, what persists between conversations, and behaviour under model failure."
+   },
+   "memberOf": {
+    "@id": "https://vandidad.xyz/#organization"
+   },
+   "founder": {
+    "@id": "https://vandidad.xyz/#organization"
+   },
+   "worksFor": {
+    "@id": "https://vandidad.xyz/#organization"
+   },
+   "knowsLanguage": [
+    "fa",
+    "en",
+    "tr"
+   ],
+   "knowsAbout": [
+    "AI systems architecture",
+    "multi-agent systems",
+    "distributed systems",
+    "natural language processing",
+    "autonomous AI agents",
+    "AI operating systems built for one industry",
+    "real-estate AI systems",
+    "cross-channel identity and conversation memory",
+    "refusal design — what a system does when it does not know",
+    "Persian-language conversational design",
+    "sales conversation design",
+    "هوش مصنوعی در املاک",
+    "هوشواره",
+    "هوش مصنوعی عاملی",
+    "سیستم‌عامل هوش مصنوعی"
+   ],
+   "url": "https://vandidad.xyz/hadi-bakhtzadeh"
+  },
+  {
+   "@type": "Article",
+   "@id": "https://vandidad.xyz/hamzad/sakht-ejent-hoosh-masnooi#article",
+   "headline": "ساخت ایجنت هوش مصنوعی؛ از آموزش n8n تا دوام واقعی",
+   "description": "آموزش‌ها ایجنت را در پانزده دقیقه می‌سازند و آن ایجنت در کار واقعی دوام نمی‌آورد. این نوشته می‌گوید فاصله کجاست.",
+   "inLanguage": "fa-IR",
+   "datePublished": "2026-09-08",
+   "dateModified": "2026-09-08",
+   "author": {
+    "@id": "https://vandidad.xyz/#person"
+   },
+   "publisher": {
+    "@id": "https://vandidad.xyz/#organization"
+   },
+   "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://vandidad.xyz/hamzad/sakht-ejent-hoosh-masnooi"
+   },
+   "url": "https://vandidad.xyz/hamzad/sakht-ejent-hoosh-masnooi",
+   "image": "https://vandidad.xyz/hero-poster.jpg",
+   "keywords": "ساخت-ایجنت, n8n, معماری-ایجنت, حافظه-گفتگو, کسب-وکار-ایرانی",
+   "abstract": "ساخت ایجنت هوش مصنوعی با آموزش n8n واقعاً در یک بعدازظهر ممکن است و ارزش انجام دادن دارد. چیزی که آموزش نمی‌گوید این است که فاصلهٔ آن ایجنت تا چیزی که مشتری واقعی را تحمل کند، در قابلیت نیست؛ در حافظه، حد اختیار و رفتار در حالت خطاست — سه چیزی که در یک نمایش پانزده‌دقیقه‌ای اصلاً پیش نمی‌آیند.",
+   "articleSection": "Articles",
+   "wordCount": 1561,
+   "isAccessibleForFree": true,
+   "about": [
+    {
+     "@id": "https://fa.wikipedia.org/wiki/%D8%B9%D8%A7%D9%85%D9%84_%D9%87%D9%88%D8%B4%D9%85%D9%86%D8%AF"
+    },
+    {
+     "@id": "https://fa.wikipedia.org/wiki/%D9%87%D9%88%D8%B4_%D9%85%D8%B5%D9%86%D9%88%D8%B9%DB%8C"
+    }
+   ]
+  },
+  {
+   "@type": "BreadcrumbList",
+   "@id": "https://vandidad.xyz/hamzad/sakht-ejent-hoosh-masnooi#breadcrumb",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Vandidad Group",
+     "item": "https://vandidad.xyz"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "مقالات",
+     "item": "https://vandidad.xyz/hamzad"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "ساخت ایجنت هوش مصنوعی؛ از آموزش n8n تا دوام واقعی"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "@id": "https://vandidad.xyz/hamzad/sakht-ejent-hoosh-masnooi#faq",
+   "inLanguage": "fa-IR",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "ساخت ایجنت هوش مصنوعی",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "برای یک نمونهٔ نمایشی، ابزارهای بدون کدنویسی مثل n8n کافی‌اند و کار واقعاً در کمتر از یک ساعت انجام می‌شود. برای سیستمی که با مشتری واقعی کار کند، پنج چیز اضافه لازم است: حافظهٔ بلندمدت، حد اختیار، رفتار هنگام خرابی، یک مغز برای چند کانال، و راهی برای به‌روزرسانی دانش بدون بازسازی رفتار."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "برای ساخت ایجنت هوش مصنوعی باید برنامه‌نویسی بلد باشم؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "برای نمونهٔ نمایشی نه. ابزارهای بدون کدنویسی این کار را می‌کنند. برای سیستمی که در کار واقعی بماند، معمولاً بله — نه به‌خاطر خود مدل، بلکه به‌خاطر اتصال به داده‌های شما، مدیریت خطا و نگهداری در طول زمان."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "ایجنت ساخته‌شده با n8n برای کسب‌وکار کافی است؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "برای کارهای داخلی و تکراری — خلاصه‌کردن، انتقال داده بین سرویس‌ها، اعلان — بله و خوب هم کار می‌کند. برای گفتگوی مستقیم با مشتری معمولاً نه، چون حافظهٔ بین‌گفتگویی و حد اختیار در آن معماری چیزی است که باید خودتان بسازید."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "ساخت ایجنت هوش مصنوعی چقدر طول می‌کشد؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "نمونهٔ نمایشی، یک بعدازظهر. سیستمی که با مشتری واقعی کار کند، بخش عمده‌اش نه ساختن بلکه تعریف‌کردن است: چه چیزی را حق ندارد بگوید، کجا باید بایستد، و چه کسی به‌روزش می‌کند. آن بخش زمان می‌برد و ربطی به کد ندارد."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
+<style>
+  /* Vazirmatn, served from our own domain rather than from Google Fonts,
+     which is unreliable from Iran. font-display:swap means the article is
+     readable in the fallback face from the first paint and re-sets when the
+     font arrives — a reader never waits on it, and if the file is missing
+     entirely the page is exactly what it was before. */
+  @font-face{font-family:Vazirmatn;font-style:normal;font-weight:400;
+    font-display:swap;src:url(/fonts/vazirmatn-regular.woff2) format("woff2")}
+  @font-face{font-family:Vazirmatn;font-style:normal;font-weight:700;
+    font-display:swap;src:url(/fonts/vazirmatn-bold.woff2) format("woff2")}
+  :root{--ink:#0b0a08;--gold:#e3c88a;--gold-dim:#a8945f;--paper:#ece7db;--muted:#8d8578;--rule:#26221a}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  /* A Persian reading stack, not the Latin system stack that was here. The
+     old list started at -apple-system and reached Tahoma only as a fallback,
+     which is what most Iranian readers were actually served — a font drawn
+     for interface labels, not for a thousand words in a row.
+     Vazirmatn first (installed on many machines, and the face we intend to
+     self-host), then the sans faces common on Iranian systems, then Tahoma.
+     No webfont is fetched: Google Fonts is unreliable from Iran, and a page
+     that waits on a blocked font shows nothing at all. */
+  body{margin:0;background:var(--ink);color:var(--paper);padding:0 24px 96px;
+    font:400 18.5px/2.0 Vazirmatn,"Vazir","IRANSans","IRANYekan",Sahel,Shabnam,
+      "Segoe UI",Tahoma,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif}
+  /* Persian sits lower on the line and carries marks above it, so the same
+     leading that reads comfortably in Latin looks cramped here. */
+  .wrap{max-width:720px;margin:0 auto}
+  /* How far through the article the reader is. Purely decorative: if the
+     script does not run, the bar stays at zero width and nothing else on the
+     page depends on it. */
+  #progress{position:fixed;top:0;inset-inline-start:0;height:2px;width:0;
+    background:var(--gold);z-index:9;transition:width .1s linear}
+  .readtime{color:var(--gold-dim)}
+  header{padding:56px 0 0}
+  .eyebrow{font:500 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--gold-dim);margin:0 0 18px}
+  .eyebrow a{color:inherit;text-decoration:none}
+  .eyebrow a:hover{color:var(--gold)}
+  h1{font:400 clamp(27px,4.6vw,40px)/1.28 "Iowan Old Style",Palatino,Georgia,serif;
+    color:var(--gold);margin:0 0 12px;letter-spacing:-.01em}
+  .meta{font:400 13px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);margin:0}
+  .lede{color:#ded8cb;font-size:19.5px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
+  /* The answer block. Set apart enough that a reader in a hurry sees it is
+     the short version, quiet enough that it does not read as an
+     advertisement — the border does the work, not a filled panel. */
+  .answer{margin:30px 0 6px;padding:20px 22px;border:1px solid var(--rule);
+    border-inline-start:3px solid var(--gold-dim);border-radius:6px;
+    background:rgba(227,200,138,.035)}
+  .answer h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;
+    letter-spacing:.2em;color:var(--gold-dim);margin:0 0 12px;
+    text-transform:uppercase}
+  .answer p{margin:0;font-size:17.5px;color:#e6e0d3}
+  article{padding-top:8px}
+  article h2{font:600 20px/1.5 inherit;color:var(--gold);margin:38px 0 12px}
+  article h3{font:600 16px/1.5 inherit;color:var(--gold-dim);margin:28px 0 8px}
+  p,li{color:#ded8cb;margin:0 0 18px}
+  ul,ol{padding-inline-start:22px;margin:0 0 16px}
+  a{color:var(--gold);text-underline-offset:3px}
+  blockquote{border-inline-start:2px solid var(--gold-dim);margin:0 0 18px;
+    padding-inline-start:16px;color:var(--muted)}
+  code{font:400 14px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--gold);
+    background:rgba(227,200,138,.07);padding:1px 5px;border-radius:3px}
+  pre{background:rgba(227,200,138,.05);border:1px solid var(--rule);border-radius:6px;
+    padding:14px 16px;overflow-x:auto;direction:ltr;text-align:left}
+  pre code{background:none;padding:0}
+  table{width:100%;border-collapse:collapse;margin:0 0 18px;font-size:15px;display:block;overflow-x:auto}
+  th,td{text-align:start;padding:9px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+  th{color:var(--gold-dim);font-weight:600}
+  img{max-width:100%;height:auto;border-radius:6px}
+  .tags{margin:34px 0 0;font:400 13px/1.9 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+  .faq{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
+  .faq h2{font-size:20px;margin:0 0 18px}
+  .faq dt{font-weight:600;color:var(--gold);margin-top:20px}
+  .faq dd{margin:8px 0 0;color:#ded8cb}
+  .summary{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
+  .summary h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold-dim);margin:0 0 12px}
+  .summary p{font-size:15.5px;color:var(--muted);margin:0}
+  .ltr{direction:ltr;text-align:left}
+  .share{margin-top:40px;padding-top:22px;border-top:1px solid var(--rule);
+    display:flex;flex-wrap:wrap;align-items:center;gap:14px;font-size:14px}
+  .share span{color:var(--muted)}
+  .share a,.share button{color:var(--gold);text-decoration:none;font:inherit;
+    background:none;border:1px solid var(--rule);border-radius:6px;
+    padding:6px 14px;cursor:pointer;transition:border-color .3s}
+  .share a:hover,.share button:hover{border-color:var(--gold-dim)}
+  .cta{margin-top:44px;padding:24px;border:1px solid var(--rule);border-radius:8px}
+  .cta p{margin:0 0 10px;color:#c9c3b6}
+  .cta a{font-weight:600}
+  /* Product cards on /mahsoolat. Each one is a system, so it is given the
+     weight of a section rather than a list row: a rule above it, the kind of
+     thing it is set beside the name, and the counted figure in the byline
+     position where a date would otherwise sit alone. */
+  .prod{margin:38px 0 0;padding-top:26px;border-top:1px solid var(--rule)}
+  .prod h2{margin:0 0 6px;font-size:23px}
+  .prod .pk{display:block;font:500 12px/1.7 ui-monospace,Menlo,Consolas,monospace;
+    letter-spacing:.08em;color:var(--gold-dim);margin-top:5px}
+  .prod .lede2{color:#ded8cb;font-size:17.5px;margin:12px 0 14px}
+  .prod ul{margin:0;padding-inline-start:20px}
+  .prod li{margin:0 0 10px;font-size:16px}
+  .index-item{padding:26px 0;border-bottom:1px solid var(--rule)}
+  .index-item h2{font:400 21px/1.45 "Iowan Old Style",Palatino,Georgia,serif;margin:0 0 6px}
+  .index-item h2 a{color:var(--gold);text-decoration:none}
+  .index-item h2 a:hover{text-decoration:underline}
+  .index-item p{margin:0 0 6px;font-size:15.5px}
+  .index-item .meta{font-size:12px}
+  footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--rule);
+    font:400 13px/1.9 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+  footer a{margin-inline-end:16px;color:var(--gold);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+
+  /* Phones. There were no media queries here at all, which meant the layout
+     had never been checked at a phone width — it happened to survive because
+     it is a single fluid column, but the byline now carries four facts and
+     ran off the line, and 24px of padding on each side is a lot of a 360px
+     screen. Nothing is hidden on a small screen: a reader on a phone gets the
+     same article, set to fit. */
+  @media (max-width: 560px) {
+    body{padding:0 18px 72px;font-size:17.5px}
+    header{padding:36px 0 0}
+    /* The byline is four separate facts. On a narrow screen it should wrap as
+       four lines rather than break mid-fact. */
+    .meta{line-height:2.1}
+    .meta .readtime{display:inline-block}
+    article h2{margin:30px 0 10px;font-size:19px}
+    .lede{font-size:18px}
+    .answer{padding:16px 17px;margin:24px 0 4px}
+    .answer p{font-size:16.5px}
+    .share{gap:10px}
+    .share a,.share button{padding:8px 12px}
+    .index-item{margin-top:26px}
+    /* Measured at 13-15px tall on a 360px screen — under the 24px WCAG 2.2
+       asks for, and well under a thumb. Padding on an inline link grows the
+       area a finger can hit without moving the text it sits on. */
+    .meta a,.eyebrow a{display:inline-block;padding:7px 0}
+    footer a{display:inline-block;padding:7px 0;margin-inline-end:20px}
+    .cta a{display:inline-block;padding:6px 0}
+  }
+
+  /* Someone who has asked for less motion should not get a bar sliding at
+     the top of every scroll. */
+  @media (prefers-reduced-motion: reduce) {
+    #progress{transition:none}
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div class="wrap">
+<header>
+<p class="eyebrow"><a href="/hamzad">مقالات</a></p>
+<h1>ساخت ایجنت هوش مصنوعی؛ از آموزش n8n تا دوام واقعی</h1>
+<p class="meta">نویسنده: <a href="/hadi-bakhtzadeh" rel="author">هادی بخت‌زاده</a> · ۸ سپتامبر ۲۰۲۶ · به‌روزرسانی ۸ سپتامبر ۲۰۲۶ · <span class="readtime">زمان تخمینی مطالعه: ۸ دقیقه</span></p>
+<p class="lede">آموزش‌ها ایجنت را در پانزده دقیقه می‌سازند و آن ایجنت در کار واقعی دوام نمی‌آورد. این نوشته می‌گوید فاصله کجاست.</p>
+</header>
+<section class="answer" aria-label="پاسخ کوتاه"><h2>پاسخ کوتاه</h2><p>ساخت ایجنت هوش مصنوعی با آموزش n8n واقعاً در یک بعدازظهر ممکن است و ارزش انجام دادن دارد. چیزی که آموزش نمی‌گوید این است که فاصلهٔ آن ایجنت تا چیزی که مشتری واقعی را تحمل کند، در قابلیت نیست؛ در حافظه، حد اختیار و رفتار در حالت خطاست — سه چیزی که در یک نمایش پانزده‌دقیقه‌ای اصلاً پیش نمی‌آیند.</p></section>
+<article><p>اگر «ساخت ایجنت هوش مصنوعی» را جستجو کنید، صفحهٔ اول تقریباً یکدست است: آموزش‌های n8n، «در پانزده دقیقه بساز»، «بدون کدنویسی».</p>
+<p>می‌خواهم چیزی بگویم که شاید انتظارش را ندارید: <strong>آن آموزش‌ها درست‌اند.</strong> واقعاً می‌شود در یک بعدازظهر چیزی ساخت که کار می‌کند. من خودم توصیه می‌کنم این کار را بکنید — سریع‌ترین راه فهمیدن اینکه این فناوری چیست، ساختن یکی است.</p>
+<p>مسئله جای دیگری است. مسئله فاصلهٔ بین آن چیزی است که در ویدیو کار می‌کند و آن چیزی که سه ماه بعد، با صد مشتری واقعی، هنوز کار می‌کند.</p>
+<p>این نوشته دربارهٔ همان فاصله است — پنج شکافی که در نمونهٔ نمایشی اصلاً دیده نمی‌شوند، چون فقط زیر بار واقعی ظاهر می‌شوند.</p>
+<h2>شکاف اول: حافظه فقط تا آخر همان گفتگو</h2>
+<p>در نمونهٔ نمایشی، شما یک پیام می‌فرستید و پاسخ می‌گیرد. عالی است.</p>
+<p>حالا پنجره را ببندید، فردا برگردید و بنویسید «همان که دیروز گفتم». سیستم نمی‌داند از چه حرف می‌زنید.</p>
+<p>بیشتر ابزارهای بدون کدنویسی حافظهٔ گفتگو دارند — یعنی چند پیام آخرِ همین نشست را نگه می‌دارند. آنچه ندارند حافظهٔ <strong>شخص</strong> است: پرونده‌ای که بگوید این آدم کیست، سه هفته پیش چه پرسید، و کجا متوقف شد.</p>
+<p>برای یک ربات پاسخ‌گو به پرسش‌های عمومی، این مهم نیست. برای فروش، تعیین‌کننده است: فروش در یک نشست تمام نمی‌شود.</p>
+<p><strong>چه چیزی می‌بندَدش:</strong> یک پایگاه دادهٔ بیرونی که به شناسهٔ شخص کلید بخورد، نه به شناسهٔ گفتگو. کار سختی نیست، ولی تصمیمی است که باید از روز اول گرفته شود — چون بعداً یعنی بازنویسی.</p>
+<h2>شکاف دوم: هیچ حدی برای گفتن نیست</h2>
+<p>نمونهٔ نمایشی را با پرسش‌های مؤدبانه امتحان می‌کنید و خوب جواب می‌دهد. مشتری واقعی می‌پرسد «چقدر تخفیف می‌دهید؟» و سیستم — چون می‌تواند حرف بزند — چیزی می‌گوید.</p>
+<p>در آموزش‌ها این را با یک جمله در متن دستور حل می‌کنند: «قیمت نده». این کار می‌کند تا روزی که کسی اصرار کند یا جمله‌ای بنویسد که سیستم را از آن قاعده منحرف کند.</p>
+<p>حد واقعی وقتی معنا دارد که <strong>در سازوکار</strong> باشد: سیستم اصلاً به فهرست قیمت دسترسی نداشته باشد. چیزی که ندارد را نمی‌تواند بگوید.</p>
+<p><strong>چه چیزی می‌بندَدش:</strong> جدا کردن آنچه سیستم می‌داند از آنچه اجازه دارد بگوید — دو چیز متفاوت که در نمونهٔ نمایشی یکی به نظر می‌رسند.</p>
+<h2>شکاف سوم: وقتی مدل جواب نمی‌دهد</h2>
+<p>سرویس مدل کند می‌شود، سهمیه تمام می‌شود، یا خطا برمی‌گرداند. در نمونهٔ نمایشی این اتفاق نمی‌افتد چون دو بار امتحانش کرده‌اید.</p>
+<p>در کار واقعی هفته‌ای چند بار پیش می‌آید، و آنچه در آن لحظه رخ می‌دهد تعیین‌کننده است. سه رفتار ممکن است:</p>
+<ul>
+<li><strong>بدترین:</strong> سیستم چیزی می‌گوید که نباید — پاسخ ناقص یا بی‌ربط</li>
+<li><strong>بد:</strong> سکوت. مشتری منتظر می‌ماند و می‌رود</li>
+<li><strong>درست:</strong> یک جملهٔ روشن، و پرونده‌ای که صبح روی میز کسی باشد</li>
+</ul>
+<p><strong>چه چیزی می‌بندَدش:</strong> تعیین اینکه در حالت خرابی چه می‌شود — کاری که پنج دقیقه طول می‌کشد و تقریباً هیچ آموزشی به آن نمی‌پردازد، چون در ویدیو دیده نمی‌شود.</p>
+<h2>شکاف چهارم: هر کانال یک ربات جدا</h2>
+<p>آموزش را برای تلگرام دنبال می‌کنید. جواب می‌دهد. بعد واتساپ را می‌خواهید، دوباره می‌سازید. بعد سایت.</p>
+<p>سه ماه بعد سه سیستم دارید که سه چیز متفاوت می‌گویند، چون هر بار که قاعده‌ای عوض شده در یکی‌شان جا افتاده. و مشتری دقیقاً از همان کانالی می‌آید که یادتان رفته.</p>
+<p><strong>چه چیزی می‌بندَدش:</strong> یک هستهٔ منطق و چند لایهٔ نازک برای اتصال به کانال‌ها. این یک تصمیم معماری است، نه یک ویژگی — و بعد از اینکه سه ربات ساختید، اصلاحش گران است.</p>
+<h3>چرا این شکاف بیشتر از بقیه دیده نمی‌شود</h3>
+<p>چون خرابی مدل در ساعت‌هایی اتفاق می‌افتد که کسی نگاه نمی‌کند. اگر سیستم ساعت سه بامداد پاسخ عجیبی بدهد یا ساکت بماند، فردا هیچ نشانه‌ای از آن نیست — نه شکایتی، نه خطایی در گزارش. فقط یک مشتری که دیگر پیام نداد، و شما هرگز نفهمیدید بوده.</p>
+<p>راهش هم ساده است: هر خطا باید جایی ثبت شود که فردا صبح خوانده شود. نه گزارش پیچیده — یک فهرست از گفتگوهایی که به نتیجه نرسیدند، با دلیلش.</p>
+<h2>شکاف پنجم: به‌روزرسانی یعنی بازسازی</h2>
+<p>محصولی اضافه می‌شود. قاعده‌ای عوض می‌شود. در نمونهٔ نمایشی، این یعنی برگردید و متن دستور را دستکاری کنید.</p>
+<p>مشکل این است که دانش و رفتار در یک جا نوشته شده‌اند. هر بار که می‌خواهید سیستم چیز جدیدی بداند، در همان متنی دست می‌برید که تعیین می‌کند چطور حرف بزند. نتیجه: هر به‌روزرسانی می‌تواند لحن یا محدودیت‌ها را خراب کند، و کسی متوجه نمی‌شود تا وقتی مشتری چیزی عجیب بگیرد.</p>
+<p><strong>چه چیزی می‌بندَدش:</strong> دانش در یک جا که قابل به‌روزرسانی باشد، رفتار در جای دیگر که ثابت بماند.</p>
+<p>عملاً یعنی: فهرست محصولات، قیمت‌ها و قاعده‌ها در فایلی که هر کسی می‌تواند ویرایشش کند، و شخصیت و محدودیت‌های سیستم در جایی که فقط با تصمیم عوض می‌شود. کسی که می‌خواهد محصول جدید اضافه کند، نباید هرگز به فایل دوم دست بزند.</p>
+<h2>آزمونی که فاصله را در ده دقیقه نشان می‌دهد</h2>
+<p>اگر نمونه‌ای ساخته‌اید و می‌خواهید بدانید کجای این فاصله ایستاده‌اید، این پنج پیام را به آن بدهید. هر کدام یکی از شکاف‌های بالا را می‌سنجد و نیازی به دانش فنی ندارد.</p>
+<p><strong>۱. «سلام»</strong> — بعد پنجره را ببندید. فردا برگردید و بنویسید <strong>«همون که دیروز گفتم چی شد؟»</strong>
+اگر نداند از چه حرف می‌زنید، شکاف اول را دارید.</p>
+<p><strong>۲. «چقدر تخفیف می‌دی؟»</strong>
+اگر عددی گفت یا قولی داد، شکاف دوم را دارید. پاسخ درست این است که بگوید این را باید یک نفر تصمیم بگیرد.</p>
+<p><strong>۳. همان پرسش را ده بار پشت سر هم بفرستید.</strong>
+جایی مدل کند می‌شود یا خطا می‌دهد. ببینید آن لحظه چه می‌گوید. اگر ساکت ماند یا چیز بی‌ربط گفت، شکاف سوم را دارید.</p>
+<p><strong>۴. اگر بیش از یک کانال دارید، در هر دو یک پرسش بپرسید.</strong>
+اگر دو جواب متفاوت گرفتید، شکاف چهارم را دارید — و این تازه اول کار است.</p>
+<p><strong>۵. یک محصول یا قاعدهٔ جدید اضافه کنید و زمان بگیرید.</strong>
+اگر بیش از چند دقیقه طول کشید، یا مجبور شدید در همان متنی دست ببرید که لحن را تعیین می‌کند، شکاف پنجم را دارید.</p>
+<p>پنج پیام، ده دقیقه. این آزمون را قبل از خرید از هر فروشنده‌ای هم می‌شود گرفت.</p>
+<h2>این برای کسب‌وکار ایرانی یعنی چه</h2>
+<p><strong>یک: نمونهٔ نمایشی را حتماً بسازید — ولی به‌عنوان یادگیری، نه محصول.</strong> یک بعدازظهر وقت بگذارید و با n8n چیزی بسازید. بعد از آن، وقتی کسی به شما سیستم می‌فروشد، می‌دانید چه می‌پرسید. هیچ توضیحی جای این نیم‌روز را نمی‌گیرد.</p>
+<p><strong>دو: پرسش درست «چقدر طول می‌کشد بسازیم؟» نیست.</strong> پرسش درست این است: «چه کسی شش ماه دیگر نگهش می‌دارد؟» ساختن بخش کوچک کار است. چیزی که خرج دارد، زنده نگه داشتنش است وقتی کسب‌وکار تغییر می‌کند.</p>
+<p><strong>سه: در ایران دسترسی به سرویس‌های مدل پایدار نیست.</strong> این را باید در معماری در نظر گرفت، نه بعداً وصله زد. سیستمی که فرض کرده همیشه به مدل می‌رسد، در بدترین لحظه — وقتی مشتری منتظر است — ساکت می‌ماند.</p>
+<p><strong>چهار: بخش سختِ کار اصلاً کد نیست.</strong> سخت‌ترین قسمت این است که بنشینید و بنویسید سیستم چه چیزی را حق ندارد بگوید، کجا باید بایستد، و وقتی نمی‌داند چه بگوید. این کار مدیریتی است، نه فنی، و هیچ ابزاری جای شما انجامش نمی‌دهد.</p>
+<h2>پس از کجا شروع کنیم</h2>
+<p>ترتیبی که پیشنهاد می‌کنم:</p>
+<ol start="۱">
+<li><strong>یک نمونه بسازید.</strong> با هر ابزاری. هدف یاد گرفتن است، نه استفاده.</li>
+<li><strong>بیست پیام واقعی مشتری‌هایتان را بردارید</strong> و به سیستم بدهید. اینجا جایی است که فاصله معلوم می‌شود.</li>
+<li><strong>فهرست کنید چه چیزی را نباید بگوید.</strong> پیش از هر کار فنی دیگری.</li>
+<li><strong>تصمیم بگیرید کجا باید بایستد</strong> و پرونده به چه کسی برسد.</li>
+<li><strong>حالا</strong> دربارهٔ معماری تصمیم بگیرید.</li>
+</ol>
+<p>بیشتر پروژه‌هایی که شکست می‌خورند از قدم ۵ شروع کرده‌اند — و بیشتر پروژه‌هایی که موفق می‌شوند، قدم‌های ۳ و ۴ را روی کاغذ تمام کرده‌اند پیش از آنکه کسی خط اولِ کد را بنویسد.</p>
+<h2>چه چیزی را نسازید</h2>
+<p>به همان اندازه که مهم است بدانید چه بسازید، مهم است بدانید کجا نباید وقت بگذارید. سه چیزی که مرتب ساخته می‌شوند و به‌ندرت می‌ارزند:</p>
+<p><strong>رابط کاربری اختصاصی برای چت.</strong> وسوسه‌انگیز است، ولی مشتری شما در واتساپ و بله است، نه در پنجره‌ای که شما ساخته‌اید. رفتن سراغ کانالی که مشتری آنجاست، همیشه از ساختن کانال جدید ارزان‌تر است.</p>
+<p><strong>تشخیص نیت با فهرست دستی.</strong> الگوی قدیمی چت‌بات‌هاست: فهرستی از جمله‌های ممکن و پاسخ هرکدام. با مدل‌های امروز این کار زائد است و فقط چیزی می‌سازد که باید نگهش دارید.</p>
+<p><strong>مدل اختصاصی آموزش‌دیده روی داده‌های خودتان.</strong> برای بیشتر کسب‌وکارها این هزینه‌ای است بدون نتیجه. آنچه لازم دارید معمولاً این نیست که مدل چیزی را «یاد بگیرد»، بلکه این است که در لحظهٔ پاسخ به اطلاعات درست <strong>دسترسی</strong> داشته باشد — و این دو، دو کار کاملاً متفاوت با دو رقم هزینهٔ متفاوت‌اند.</p>
+<h2>جمع‌بندی</h2>
+<p>آموزش‌های پانزده‌دقیقه‌ای دروغ نمی‌گویند؛ فقط چیزی را می‌سازند که هنوز با واقعیت روبه‌رو نشده. فاصلهٔ بین آن نمونه و سیستمی که دوام بیاورد، در پنج جا خودش را نشان می‌دهد: حافظه، حد اختیار، رفتار هنگام خرابی، یکپارچگی بین کانال‌ها، و راه به‌روزرسانی.</p>
+<p>و نکته‌ای که شاید مهم‌تر از همه باشد: <strong>هیچ‌کدام از این پنج، مسئلهٔ هوش مصنوعی نیستند.</strong> همه‌شان تصمیم‌های مهندسی و مدیریتی‌اند. مدل بهتر هیچ‌کدام را حل نمی‌کند.</p>
+<p>پس ساخت ایجنت هوش مصنوعی دو کار متفاوت است که یک اسم دارند: یکی یک بعدازظهر طول می‌کشد و چیز خوبی به شما یاد می‌دهد، دیگری ماه‌ها طول می‌کشد و مشتری واقعی را تحمل می‌کند.</p>
+<p>اگر می‌خواهید بدانید مرز میان چت‌بات، ایجنت و لایه‌ای که این حدود را نگه می‌دارد کجاست، نوشتهٔ <a href="https://vandidad.xyz/hamzad/sistem-amel-hoosh-masnooi-chist">سیستم‌عامل هوش مصنوعی چیست و چه فرقی با ایجنت و چت‌بات دارد</a> همین را باز می‌کند، و <a href="/hamzad/chatbot-vs-digital-twin">چرا چت‌بات برای کسب‌وکار جواب نداد</a> پنج چیزی را فهرست می‌کند که در آموزش‌ها دیده نمی‌شوند.</p></article>
+<p class="tags">ساخت-ایجنت · n8n · معماری-ایجنت · حافظه-گفتگو · کسب-وکار-ایرانی</p>
+<section class="faq"><h2>پرسش‌های پرتکرار</h2><dl><dt>ساخت ایجنت هوش مصنوعی</dt><dd>برای یک نمونهٔ نمایشی، ابزارهای بدون کدنویسی مثل n8n کافی‌اند و کار واقعاً در کمتر از یک ساعت انجام می‌شود. برای سیستمی که با مشتری واقعی کار کند، پنج چیز اضافه لازم است: حافظهٔ بلندمدت، حد اختیار، رفتار هنگام خرابی، یک مغز برای چند کانال، و راهی برای به‌روزرسانی دانش بدون بازسازی رفتار.</dd><dt>برای ساخت ایجنت هوش مصنوعی باید برنامه‌نویسی بلد باشم؟</dt><dd>برای نمونهٔ نمایشی نه. ابزارهای بدون کدنویسی این کار را می‌کنند. برای سیستمی که در کار واقعی بماند، معمولاً بله — نه به‌خاطر خود مدل، بلکه به‌خاطر اتصال به داده‌های شما، مدیریت خطا و نگهداری در طول زمان.</dd><dt>ایجنت ساخته‌شده با n8n برای کسب‌وکار کافی است؟</dt><dd>برای کارهای داخلی و تکراری — خلاصه‌کردن، انتقال داده بین سرویس‌ها، اعلان — بله و خوب هم کار می‌کند. برای گفتگوی مستقیم با مشتری معمولاً نه، چون حافظهٔ بین‌گفتگویی و حد اختیار در آن معماری چیزی است که باید خودتان بسازید.</dd><dt>ساخت ایجنت هوش مصنوعی چقدر طول می‌کشد؟</dt><dd>نمونهٔ نمایشی، یک بعدازظهر. سیستمی که با مشتری واقعی کار کند، بخش عمده‌اش نه ساختن بلکه تعریف‌کردن است: چه چیزی را حق ندارد بگوید، کجا باید بایستد، و چه کسی به‌روزش می‌کند. آن بخش زمان می‌برد و ربطی به کد ندارد.</dd></dl></section>
+<section class="summary ltr" lang="en" dir="ltr"><h2>In English</h2><p>Persian tutorials for building an AI agent are dominated by no-code tools, and they work: a demo agent is genuinely fifteen minutes&#x27; work. Written by Hadi Bakhtzadeh, AI systems architect at Vandidad Group in İzmir, Türkiye, this article is about the distance between that demo and something that survives real customers — five gaps that only appear under load: memory that outlives one conversation, a declared limit on what the system may promise, behaviour when the model is unavailable, one reasoning core across several messaging channels, and a way to update what the system knows without rebuilding how it speaks.</p></section>
+<section class="summary ltr" lang="tr" dir="ltr"><h2>Türkçe özet</h2><p>Farsça yapay zekâ ajanı yapım eğitimleri kod gerektirmeyen araçların hâkimiyetinde ve gerçekten çalışıyorlar. İzmir&#x27;de Vandidad Group&#x27;un yapay zekâ sistem mimarı Hadi Bahtzade tarafından yazılmıştır. Metin, o demo ile gerçek müşterilerle temasa dayanan bir sistem arasındaki beş boşluğu ele alır.</p></section>
+<div class="share"><span>این را برای کسی بفرستید:</span><a href="https://t.me/share/url?url=https%3A%2F%2Fvandidad.xyz%2Fhamzad%2Fsakht-ejent-hoosh-masnooi&text=%D8%B3%D8%A7%D8%AE%D8%AA%20%D8%A7%DB%8C%D8%AC%D9%86%D8%AA%20%D9%87%D9%88%D8%B4%20%D9%85%D8%B5%D9%86%D9%88%D8%B9%DB%8C%D8%9B%20%D8%A7%D8%B2%20%D8%A2%D9%85%D9%88%D8%B2%D8%B4%20n8n%20%D8%AA%D8%A7%20%D8%AF%D9%88%D8%A7%D9%85%20%D9%88%D8%A7%D9%82%D8%B9%DB%8C" target="_blank" rel="noopener">تلگرام</a><a href="https://api.whatsapp.com/send?text=%D8%B3%D8%A7%D8%AE%D8%AA%20%D8%A7%DB%8C%D8%AC%D9%86%D8%AA%20%D9%87%D9%88%D8%B4%20%D9%85%D8%B5%D9%86%D9%88%D8%B9%DB%8C%D8%9B%20%D8%A7%D8%B2%20%D8%A2%D9%85%D9%88%D8%B2%D8%B4%20n8n%20%D8%AA%D8%A7%20%D8%AF%D9%88%D8%A7%D9%85%20%D9%88%D8%A7%D9%82%D8%B9%DB%8C%20https%3A%2F%2Fvandidad.xyz%2Fhamzad%2Fsakht-ejent-hoosh-masnooi" target="_blank" rel="noopener">واتساپ</a><button type="button" class="copy" data-url="https://vandidad.xyz/hamzad/sakht-ejent-hoosh-masnooi">کپی نشانی</button></div>
+<div class="cta"><p>می‌خواهید ببینید این برای کارِ خودتان چه شکلی می‌شود؟</p><p><a href="/">همین‌جا با دستیار حرف بزنید</a> — یک جمله درباره‌ی کارتان کافی است.</p></div>
+<footer>
+  <div><a href="/">صفحه‌ی اصلی</a><a href="/hamzad">مقالات</a><a href="/about">درباره‌ی ما</a></div>
+  <div style="margin-top:10px"><a href="/privacy">حریم خصوصی</a><a href="/terms">شرایط استفاده</a><a href="/data-deletion">حذف اطلاعات</a></div>
+  <div style="margin-top:14px;opacity:.75">Vandidad Group · Konak, İzmir, Türkiye · <a href="mailto:ai@vandidad.xyz">ai@vandidad.xyz</a></div>
+</footer>
+</div>
+<script>
+/* A reading-progress line. It is the whole of this site's article JavaScript,
+   and it is written so that failing changes nothing: the bar starts at zero
+   width, and if this never runs the page is exactly what it was. */
+(function () {
+  var bar = document.getElementById("progress");
+  if (!bar) return;
+  function draw() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? Math.min(100, (window.scrollY / h) * 100) : 0) + "%";
+  }
+  addEventListener("scroll", draw, { passive: true });
+  addEventListener("resize", draw);
+  draw();
+})();
+
+/* Copy the address. navigator.clipboard exists only on a secure origin and
+   only with permission, so the older selection trick is kept as the fallback
+   rather than leaving the button dead for whoever lands in that case. */
+(function () {
+  var b = document.querySelector(".share .copy");
+  if (!b) return;
+  b.addEventListener("click", function () {
+    var url = b.getAttribute("data-url"), done = function () {
+      var was = b.textContent;
+      b.textContent = "کپی شد";
+      setTimeout(function () { b.textContent = was; }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, fallback);
+    } else { fallback(); }
+    function fallback() {
+      var f = document.createElement("input");
+      f.value = url;
+      document.body.appendChild(f);
+      f.select();
+      try { document.execCommand("copy"); done(); } catch (e) {}
+      document.body.removeChild(f);
+    }
+  });
+})();
+</script>
+</body>
+</html>
