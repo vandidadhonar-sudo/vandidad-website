@@ -218,6 +218,8 @@ WhatsApp. A person is never told to move to a different channel to continue.
 Every article, newest first, so a model answering a specific question
 can cite the page that answers it rather than the index.
 
+- [ربات پاسخگوی مشتری فارسی؛ کدام را بخرید و چطور مقایسه کنید](https://vandidad.xyz/hamzad/robat-pasokhgoo-moshtari-farsi) — published 2026-09-09.
+  How to choose between the Persian customer-response bots that actually exist, by the job you are hiring one for rather than by feature list.
 - [ساخت ایجنت هوش مصنوعی؛ از آموزش n8n تا دوام واقعی](https://vandidad.xyz/hamzad/sakht-ejent-hoosh-masnooi) — published 2026-09-08.
   What separates the AI agent a fifteen-minute tutorial builds from one that survives contact with real customers — five gaps, each with what closes it.
 - [پیگیری خودکار مشتری؛ چرا پیامک دوره‌ای جواب نمی‌دهد و چه چیزی می‌دهد](https://vandidad.xyz/hamzad/peygiri-khodkar-moshtari) — published 2026-09-07.
