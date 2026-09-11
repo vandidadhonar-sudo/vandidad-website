@@ -218,6 +218,8 @@ WhatsApp. A person is never told to move to a different channel to continue.
 Every article, newest first, so a model answering a specific question
 can cite the page that answers it rather than the index.
 
+- [هوشواره چیست و چرا این واژه اهمیت دارد](https://vandidad.xyz/hamzad/hooshvare-chist) — published 2026-09-11.
+  What هوشواره means, where the word comes from, who already uses it — including Google's own Persian interface — and why the word choice matters.
 - [ایجنت بی‌حد و مرز چطور آبروی یک کسب‌وکار را می‌برد](https://vandidad.xyz/hamzad/ejent-bedoone-had-khatarnak) — published 2026-09-10.
   Four real failures from the author's own production system, each with its root cause and the fix, rather than a list of hypothetical AI risks.
 - [ربات پاسخگوی مشتری فارسی؛ کدام را بخرید و چطور مقایسه کنید](https://vandidad.xyz/hamzad/robat-pasokhgoo-moshtari-farsi) — published 2026-09-09.

@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-10T00:00:00Z</updated>
+  <updated>2026-09-11T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>هوشواره چیست و چرا این واژه اهمیت دارد</title>
+    <link href="https://vandidad.xyz/hamzad/hooshvare-chist"/>
+    <id>https://vandidad.xyz/hamzad/hooshvare-chist</id>
+    <published>2026-09-11T00:00:00Z</published>
+    <updated>2026-09-11T00:00:00Z</updated>
+    <summary>هوشواره معادل فارسی هوش مصنوعی است، ساخته‌شده مثل ماهواره. این نوشته می‌گوید از کجا آمده، چه کسانی به کارش می‌برند و چه فرقی می‌کند.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>ایجنت بی‌حد و مرز چطور آبروی یک کسب‌وکار را می‌برد</title>
     <link href="https://vandidad.xyz/hamzad/ejent-bedoone-had-khatarnak"/>
