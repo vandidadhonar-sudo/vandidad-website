@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-11T00:00:00Z</updated>
+  <updated>2026-09-12T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>پیاده‌سازی هوش مصنوعی در سازمان؛ از کجا شروع کنیم که شکست نخورد</title>
+    <link href="https://vandidad.xyz/hamzad/piadesazi-hoosh-masnooi-sazman"/>
+    <id>https://vandidad.xyz/hamzad/piadesazi-hoosh-masnooi-sazman</id>
+    <published>2026-09-12T00:00:00Z</published>
+    <updated>2026-09-12T00:00:00Z</updated>
+    <summary>چرا بیشتر پروژه‌های هوش مصنوعی در سازمان‌ها نیمه‌کاره می‌مانند، و ترتیبی که ریسک را از روز اول پایین نگه می‌دارد.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>هوشواره چیست و چرا این واژه اهمیت دارد</title>
     <link href="https://vandidad.xyz/hamzad/hooshvare-chist"/>

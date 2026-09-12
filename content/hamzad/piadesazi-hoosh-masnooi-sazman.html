@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>پیاده‌سازی هوش مصنوعی در سازمان؛ از کجا شروع کنیم که شکست نخورد</title>
+<meta name="description" content="چرا بیشتر پروژه‌های هوش مصنوعی در سازمان‌ها نیمه‌کاره می‌مانند، و ترتیبی که ریسک را از روز اول پایین نگه می‌دارد.">
+<link rel="canonical" href="https://vandidad.xyz/hamzad/piadesazi-hoosh-masnooi-sazman">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:title" content="پیاده‌سازی هوش مصنوعی در سازمان؛ از کجا شروع کنیم که شکست نخورد">
+<meta property="og:description" content="چرا بیشتر پروژه‌های هوش مصنوعی در سازمان‌ها نیمه‌کاره می‌مانند، و ترتیبی که ریسک را از روز اول پایین نگه می‌دارد.">
+<meta property="og:url" content="https://vandidad.xyz/hamzad/piadesazi-hoosh-masnooi-sazman">
+<meta property="og:site_name" content="Vandidad Group">
+<meta property="og:image" content="https://vandidad.xyz/hero-poster.jpg">
+<meta property="og:locale" content="fa_IR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://vandidad.xyz/hero-poster.jpg">
+<link rel="alternate" type="application/atom+xml" title="Vandidad Group" href="https://vandidad.xyz/feed.xml">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Organization",
+   "@id": "https://vandidad.xyz/#organization",
+   "name": "Vandidad Group",
+   "alternateName": [
+    "وندیداد گروپ",
+    "AIOS"
+   ],
+   "url": "https://vandidad.xyz",
+   "email": "ai@vandidad.xyz",
+   "description": "Vandidad Group builds AIOS — an AI platform for business conversation — and the systems that run on it. One reasoning core serves every channel a business talks on, and each client system is configured for its industry rather than rebuilt from scratch.",
+   "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Konak, İzmir",
+    "addressCountry": "TR"
+   },
+   "knowsLanguage": [
+    "fa",
+    "en",
+    "tr"
+   ],
+   "areaServed": [
+    {
+     "@type": "Country",
+     "name": "Iran"
+    },
+    {
+     "@type": "Country",
+     "name": "Türkiye"
+    }
+   ],
+   "knowsAbout": [
+    "conversational AI for business",
+    "Persian-language AI assistants",
+    "digital twin sales agents",
+    "customer follow-up automation",
+    "AI systems architecture"
+   ],
+   "founder": {
+    "@id": "https://vandidad.xyz/#person"
+   },
+   "foundingDate": "2018-03-15",
+   "taxID": "9220834963",
+   "identifier": [
+    {
+     "@type": "PropertyValue",
+     "name": "İzmir Trade Registry",
+     "value": "202783"
+    },
+    {
+     "@type": "PropertyValue",
+     "name": "İzmir Chamber of Commerce",
+     "value": "1888691"
+    }
+   ],
+   "memberOf": {
+    "@type": "Organization",
+    "name": "İzmir Chamber of Commerce",
+    "alternateName": "İzmir Ticaret Odası",
+    "url": "https://www.izto.org.tr"
+   },
+   "legalName": "Vandidad Group Gayrimenkul Danışmanlık Hizmetleri İthalat İhracat Ticaret Limited Şirketi"
+  },
+  {
+   "@type": "Person",
+   "@id": "https://vandidad.xyz/#person",
+   "name": "Hadi Bakhtzadeh",
+   "alternateName": [
+    "هادی بخت‌زاده",
+    "هادی بخت زاده",
+    "محمد هادی بخت‌زاده",
+    "محمد هادی بخت زاده",
+    "محمدهادی بخت‌زاده",
+    "محمدهادی بخت زاده",
+    "م. هادی بخت‌زاده",
+    "Mohammadhadi Bakhtzadeh",
+    "Mohammad Hadi Bakhtzadeh",
+    "Hadi Bakhtzade",
+    "Hadi Bahtzade",
+    "M. Hadi Bakhtzadeh"
+   ],
+   "givenName": "Hadi",
+   "familyName": "Bakhtzadeh",
+   "jobTitle": "Architect of Intelligent Systems",
+   "description": "AI systems architect and founder of Vandidad Group, a technology company registered in İzmir, Türkiye (İzmir Trade Registry 202783, founded March 2018). Background in computer engineering, software architecture and artificial intelligence, with a research focus on distributed systems, natural language processing and autonomous AI agents. Designs the behaviour of AI systems for businesses that sell in Persian: what they understand, how they speak, what they remember between conversations, and where they must refuse. Writes on AI systems architecture, agentic AI and conversational design in Persian.",
+   "nationality": {
+    "@type": "Country",
+    "name": "Iran"
+   },
+   "workLocation": {
+    "@type": "Place",
+    "address": {
+     "@type": "PostalAddress",
+     "addressLocality": "Konak, İzmir",
+     "addressCountry": "TR"
+    }
+   },
+   "mainEntityOfPage": {
+    "@type": "ProfilePage",
+    "@id": "https://vandidad.xyz/hadi-bakhtzadeh"
+   },
+   "sameAs": [
+    "https://github.com/vandidadhonar-sudo",
+    "https://www.linkedin.com/in/hadi-bakhtzadeh-8089b1109",
+    "https://www.instagram.com/hadi_bakhtzade/",
+    "https://x.com/HadiBakhtzadeh",
+    "https://vandidad.xyz"
+   ],
+   "hasOccupation": {
+    "@type": "Occupation",
+    "name": "AI Systems Architect",
+    "occupationalCategory": "15-1252 Software Developers",
+    "responsibilities": "Designing the behaviour of AI systems for business conversation: scope of autonomous action, escalation points, what persists between conversations, and behaviour under model failure."
+   },
+   "memberOf": {
+    "@id": "https://vandidad.xyz/#organization"
+   },
+   "founder": {
+    "@id": "https://vandidad.xyz/#organization"
+   },
+   "worksFor": {
+    "@id": "https://vandidad.xyz/#organization"
+   },
+   "knowsLanguage": [
+    "fa",
+    "en",
+    "tr"
+   ],
+   "knowsAbout": [
+    "AI systems architecture",
+    "multi-agent systems",
+    "distributed systems",
+    "natural language processing",
+    "autonomous AI agents",
+    "AI operating systems built for one industry",
+    "real-estate AI systems",
+    "cross-channel identity and conversation memory",
+    "refusal design — what a system does when it does not know",
+    "Persian-language conversational design",
+    "sales conversation design",
+    "هوش مصنوعی در املاک",
+    "هوشواره",
+    "هوش مصنوعی عاملی",
+    "سیستم‌عامل هوش مصنوعی"
+   ],
+   "url": "https://vandidad.xyz/hadi-bakhtzadeh"
+  },
+  {
+   "@type": "Article",
+   "@id": "https://vandidad.xyz/hamzad/piadesazi-hoosh-masnooi-sazman#article",
+   "headline": "پیاده‌سازی هوش مصنوعی در سازمان؛ از کجا شروع کنیم که شکست نخورد",
+   "description": "چرا بیشتر پروژه‌های هوش مصنوعی در سازمان‌ها نیمه‌کاره می‌مانند، و ترتیبی که ریسک را از روز اول پایین نگه می‌دارد.",
+   "inLanguage": "fa-IR",
+   "datePublished": "2026-09-12",
+   "dateModified": "2026-09-12",
+   "author": {
+    "@id": "https://vandidad.xyz/#person"
+   },
+   "publisher": {
+    "@id": "https://vandidad.xyz/#organization"
+   },
+   "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://vandidad.xyz/hamzad/piadesazi-hoosh-masnooi-sazman"
+   },
+   "url": "https://vandidad.xyz/hamzad/piadesazi-hoosh-masnooi-sazman",
+   "image": "https://vandidad.xyz/hero-poster.jpg",
+   "keywords": "پیاده-سازی-سازمانی, هوشواره, مدیریت-پروژه, انتخاب-کاربرد, کسب-وکار-ایرانی",
+   "abstract": "پیاده سازی هوش مصنوعی در سازمان معمولاً به این دلیل نیمه‌کاره می‌ماند که با پرسش «از کجا شروع کنیم» آغاز می‌شود، نه با «کدام مشکل». ترتیبی که ریسک را پایین نگه می‌دارد این است: یک کار تکراری و پرتکرار و کم‌ریسک را انتخاب کنید، معیار موفقیت را پیش از شروع بنویسید، و تا وقتی آن یکی جواب نداده دومی را شروع نکنید.",
+   "articleSection": "Articles",
+   "wordCount": 1632,
+   "isAccessibleForFree": true,
+   "about": [
+    {
+     "@id": "https://fa.wikipedia.org/wiki/%D9%87%D9%88%D8%B4_%D9%85%D8%B5%D9%86%D9%88%D8%B9%DB%8C"
+    }
+   ]
+  },
+  {
+   "@type": "BreadcrumbList",
+   "@id": "https://vandidad.xyz/hamzad/piadesazi-hoosh-masnooi-sazman#breadcrumb",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Vandidad Group",
+     "item": "https://vandidad.xyz"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "مقالات",
+     "item": "https://vandidad.xyz/hamzad"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "پیاده‌سازی هوش مصنوعی در سازمان؛ از کجا شروع کنیم که شکست نخورد"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "@id": "https://vandidad.xyz/hamzad/piadesazi-hoosh-masnooi-sazman#faq",
+   "inLanguage": "fa-IR",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "پیاده‌سازی هوش مصنوعی در سازمان از کجا شروع می‌شود؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "نه از انتخاب ابزار. از انتخاب یک کاربرد مشخص که چهار ویژگی داشته باشد: زیاد تکرار شود، خروجی‌اش روشن باشد، اشتباه در آن فاجعه نسازد، و یک نفر مشخص مسئولش باشد. اگر این چهار را نداشته باشد، هیچ ابزاری نجاتش نمی‌دهد."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "چرا پروژه‌های هوش مصنوعی در سازمان‌ها شکست می‌خورند؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "معمولاً نه به دلیل فنی. رایج‌ترین علت‌ها این‌هاست: کاربردی انتخاب شده که خیلی بزرگ بوده، کسی مالکش نبوده، داده‌ای که لازم بوده در دسترس نبوده، یا معیار موفقیت پیش از شروع تعریف نشده بوده."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "چقدر طول می‌کشد تا نتیجه ببینیم؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "برای یک کاربرد محدود و درست انتخاب‌شده، چند هفته تا نشانهٔ واقعی. اگر کسی وعدهٔ تحول سازمانی در یک ماه بدهد، یا کاربرد را نمی‌شناسد یا دارد چیزی می‌فروشد. بخش عمدهٔ زمان صرف تعریف‌کردن می‌شود، نه ساختن."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "آیا باید تیم داخلی داشته باشیم؟",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "برای ساختن لزوماً نه. برای نگهداری بله — دست‌کم یک نفر که بداند سیستم چه می‌داند و وقتی محصول یا قاعده‌ای عوض شد، به‌روزش کند. سازمانی که این نقش را تعریف نکند، شش ماه بعد سیستمی دارد که با اطمینان حرف‌های قدیمی می‌زند."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
+<style>
+  /* Vazirmatn, served from our own domain rather than from Google Fonts,
+     which is unreliable from Iran. font-display:swap means the article is
+     readable in the fallback face from the first paint and re-sets when the
+     font arrives — a reader never waits on it, and if the file is missing
+     entirely the page is exactly what it was before. */
+  @font-face{font-family:Vazirmatn;font-style:normal;font-weight:400;
+    font-display:swap;src:url(/fonts/vazirmatn-regular.woff2) format("woff2")}
+  @font-face{font-family:Vazirmatn;font-style:normal;font-weight:700;
+    font-display:swap;src:url(/fonts/vazirmatn-bold.woff2) format("woff2")}
+  :root{--ink:#0b0a08;--gold:#e3c88a;--gold-dim:#a8945f;--paper:#ece7db;--muted:#8d8578;--rule:#26221a}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  /* A Persian reading stack, not the Latin system stack that was here. The
+     old list started at -apple-system and reached Tahoma only as a fallback,
+     which is what most Iranian readers were actually served — a font drawn
+     for interface labels, not for a thousand words in a row.
+     Vazirmatn first (installed on many machines, and the face we intend to
+     self-host), then the sans faces common on Iranian systems, then Tahoma.
+     No webfont is fetched: Google Fonts is unreliable from Iran, and a page
+     that waits on a blocked font shows nothing at all. */
+  body{margin:0;background:var(--ink);color:var(--paper);padding:0 24px 96px;
+    font:400 18.5px/2.0 Vazirmatn,"Vazir","IRANSans","IRANYekan",Sahel,Shabnam,
+      "Segoe UI",Tahoma,-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif}
+  /* Persian sits lower on the line and carries marks above it, so the same
+     leading that reads comfortably in Latin looks cramped here. */
+  .wrap{max-width:720px;margin:0 auto}
+  /* How far through the article the reader is. Purely decorative: if the
+     script does not run, the bar stays at zero width and nothing else on the
+     page depends on it. */
+  #progress{position:fixed;top:0;inset-inline-start:0;height:2px;width:0;
+    background:var(--gold);z-index:9;transition:width .1s linear}
+  .readtime{color:var(--gold-dim)}
+  header{padding:56px 0 0}
+  .eyebrow{font:500 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--gold-dim);margin:0 0 18px}
+  .eyebrow a{color:inherit;text-decoration:none}
+  .eyebrow a:hover{color:var(--gold)}
+  h1{font:400 clamp(27px,4.6vw,40px)/1.28 "Iowan Old Style",Palatino,Georgia,serif;
+    color:var(--gold);margin:0 0 12px;letter-spacing:-.01em}
+  .meta{font:400 13px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);margin:0}
+  .lede{color:#ded8cb;font-size:19.5px;margin:18px 0 0;padding-bottom:32px;border-bottom:1px solid var(--rule)}
+  /* The answer block. Set apart enough that a reader in a hurry sees it is
+     the short version, quiet enough that it does not read as an
+     advertisement — the border does the work, not a filled panel. */
+  .answer{margin:30px 0 6px;padding:20px 22px;border:1px solid var(--rule);
+    border-inline-start:3px solid var(--gold-dim);border-radius:6px;
+    background:rgba(227,200,138,.035)}
+  .answer h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;
+    letter-spacing:.2em;color:var(--gold-dim);margin:0 0 12px;
+    text-transform:uppercase}
+  .answer p{margin:0;font-size:17.5px;color:#e6e0d3}
+  article{padding-top:8px}
+  article h2{font:600 20px/1.5 inherit;color:var(--gold);margin:38px 0 12px}
+  article h3{font:600 16px/1.5 inherit;color:var(--gold-dim);margin:28px 0 8px}
+  p,li{color:#ded8cb;margin:0 0 18px}
+  ul,ol{padding-inline-start:22px;margin:0 0 16px}
+  a{color:var(--gold);text-underline-offset:3px}
+  blockquote{border-inline-start:2px solid var(--gold-dim);margin:0 0 18px;
+    padding-inline-start:16px;color:var(--muted)}
+  code{font:400 14px/1.6 ui-monospace,Menlo,Consolas,monospace;color:var(--gold);
+    background:rgba(227,200,138,.07);padding:1px 5px;border-radius:3px}
+  pre{background:rgba(227,200,138,.05);border:1px solid var(--rule);border-radius:6px;
+    padding:14px 16px;overflow-x:auto;direction:ltr;text-align:left}
+  pre code{background:none;padding:0}
+  table{width:100%;border-collapse:collapse;margin:0 0 18px;font-size:15px;display:block;overflow-x:auto}
+  th,td{text-align:start;padding:9px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+  th{color:var(--gold-dim);font-weight:600}
+  img{max-width:100%;height:auto;border-radius:6px}
+  .tags{margin:34px 0 0;font:400 13px/1.9 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+  .faq{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
+  .faq h2{font-size:20px;margin:0 0 18px}
+  .faq dt{font-weight:600;color:var(--gold);margin-top:20px}
+  .faq dd{margin:8px 0 0;color:#ded8cb}
+  .summary{margin-top:44px;padding-top:26px;border-top:1px solid var(--rule)}
+  .summary h2{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--gold-dim);margin:0 0 12px}
+  .summary p{font-size:15.5px;color:var(--muted);margin:0}
+  .ltr{direction:ltr;text-align:left}
+  .share{margin-top:40px;padding-top:22px;border-top:1px solid var(--rule);
+    display:flex;flex-wrap:wrap;align-items:center;gap:14px;font-size:14px}
+  .share span{color:var(--muted)}
+  .share a,.share button{color:var(--gold);text-decoration:none;font:inherit;
+    background:none;border:1px solid var(--rule);border-radius:6px;
+    padding:6px 14px;cursor:pointer;transition:border-color .3s}
+  .share a:hover,.share button:hover{border-color:var(--gold-dim)}
+  .cta{margin-top:44px;padding:24px;border:1px solid var(--rule);border-radius:8px}
+  .cta p{margin:0 0 10px;color:#c9c3b6}
+  .cta a{font-weight:600}
+  /* Product cards on /mahsoolat. Each one is a system, so it is given the
+     weight of a section rather than a list row: a rule above it, the kind of
+     thing it is set beside the name, and the counted figure in the byline
+     position where a date would otherwise sit alone. */
+  .prod{margin:38px 0 0;padding-top:26px;border-top:1px solid var(--rule)}
+  .prod h2{margin:0 0 6px;font-size:23px}
+  .prod .pk{display:block;font:500 12px/1.7 ui-monospace,Menlo,Consolas,monospace;
+    letter-spacing:.08em;color:var(--gold-dim);margin-top:5px}
+  .prod .lede2{color:#ded8cb;font-size:17.5px;margin:12px 0 14px}
+  .prod ul{margin:0;padding-inline-start:20px}
+  .prod li{margin:0 0 10px;font-size:16px}
+  .index-item{padding:26px 0;border-bottom:1px solid var(--rule)}
+  .index-item h2{font:400 21px/1.45 "Iowan Old Style",Palatino,Georgia,serif;margin:0 0 6px}
+  .index-item h2 a{color:var(--gold);text-decoration:none}
+  .index-item h2 a:hover{text-decoration:underline}
+  .index-item p{margin:0 0 6px;font-size:15.5px}
+  .index-item .meta{font-size:12px}
+  footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--rule);
+    font:400 13px/1.9 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+  footer a{margin-inline-end:16px;color:var(--gold);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+
+  /* Phones. There were no media queries here at all, which meant the layout
+     had never been checked at a phone width — it happened to survive because
+     it is a single fluid column, but the byline now carries four facts and
+     ran off the line, and 24px of padding on each side is a lot of a 360px
+     screen. Nothing is hidden on a small screen: a reader on a phone gets the
+     same article, set to fit. */
+  @media (max-width: 560px) {
+    body{padding:0 18px 72px;font-size:17.5px}
+    header{padding:36px 0 0}
+    /* The byline is four separate facts. On a narrow screen it should wrap as
+       four lines rather than break mid-fact. */
+    .meta{line-height:2.1}
+    .meta .readtime{display:inline-block}
+    article h2{margin:30px 0 10px;font-size:19px}
+    .lede{font-size:18px}
+    .answer{padding:16px 17px;margin:24px 0 4px}
+    .answer p{font-size:16.5px}
+    .share{gap:10px}
+    .share a,.share button{padding:8px 12px}
+    .index-item{margin-top:26px}
+    /* Measured at 13-15px tall on a 360px screen — under the 24px WCAG 2.2
+       asks for, and well under a thumb. Padding on an inline link grows the
+       area a finger can hit without moving the text it sits on. */
+    .meta a,.eyebrow a{display:inline-block;padding:7px 0}
+    footer a{display:inline-block;padding:7px 0;margin-inline-end:20px}
+    .cta a{display:inline-block;padding:6px 0}
+  }
+
+  /* Someone who has asked for less motion should not get a bar sliding at
+     the top of every scroll. */
+  @media (prefers-reduced-motion: reduce) {
+    #progress{transition:none}
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div class="wrap">
+<header>
+<p class="eyebrow"><a href="/hamzad">مقالات</a></p>
+<h1>پیاده‌سازی هوش مصنوعی در سازمان؛ از کجا شروع کنیم که شکست نخورد</h1>
+<p class="meta">نویسنده: <a href="/hadi-bakhtzadeh" rel="author">هادی بخت‌زاده</a> · ۱۲ سپتامبر ۲۰۲۶ · به‌روزرسانی ۱۲ سپتامبر ۲۰۲۶ · <span class="readtime">زمان تخمینی مطالعه: ۸ دقیقه</span></p>
+<p class="lede">چرا بیشتر پروژه‌های هوش مصنوعی در سازمان‌ها نیمه‌کاره می‌مانند، و ترتیبی که ریسک را از روز اول پایین نگه می‌دارد.</p>
+</header>
+<section class="answer" aria-label="پاسخ کوتاه"><h2>پاسخ کوتاه</h2><p>پیاده سازی هوش مصنوعی در سازمان معمولاً به این دلیل نیمه‌کاره می‌ماند که با پرسش «از کجا شروع کنیم» آغاز می‌شود، نه با «کدام مشکل». ترتیبی که ریسک را پایین نگه می‌دارد این است: یک کار تکراری و پرتکرار و کم‌ریسک را انتخاب کنید، معیار موفقیت را پیش از شروع بنویسید، و تا وقتی آن یکی جواب نداده دومی را شروع نکنید.</p></section>
+<article><p>در جلسه‌ای، مدیری پرسید: «ما می‌خواهیم هوش مصنوعی را در سازمان پیاده کنیم. از کجا شروع کنیم؟»</p>
+<p>پرسیدم کدام مشکل را می‌خواهید حل کنید. مکث کرد و گفت: «خب&hellip; کلاً بهره‌وری.»</p>
+<p>همین‌جا بیشتر پروژه‌های پیاده سازی هوش مصنوعی در سازمان شکست می‌خورند — نه در انتخاب ابزار، در همین مکث.</p>
+<p>این جواب، خودش تشخیص است. پروژه‌ای که با «کلاً» شروع شود، معمولاً با «فعلاً متوقفش کنیم» تمام می‌شود — و علتش تقریباً هیچ‌وقت فنی نیست.</p>
+<p>این نوشته دربارهٔ ترتیبی است که ریسک را پایین نگه می‌دارد.</p>
+<h2>چرا این پروژه‌ها می‌مانند</h2>
+<p>از آنچه دیده‌ام، چهار علت پشت بیشتر توقف‌هاست و هیچ‌کدام دربارهٔ مدل نیست:</p>
+<p><strong>کاربرد خیلی بزرگ انتخاب شده.</strong> «هوشمندسازی فرایند فروش» یک پروژه نیست، یک آرزوست. چیزی که نتوان در یک جمله گفت که چه چیزی وارد و چه چیزی خارج می‌شود، قابل ساختن نیست.</p>
+<p><strong>مالک ندارد.</strong> پروژه به «واحد فناوری اطلاعات» سپرده می‌شود، ولی مشکل مال واحد فروش است. آن‌که درد را می‌فهمد تصمیم نمی‌گیرد و آن‌که تصمیم می‌گیرد درد را نمی‌فهمد.</p>
+<p><strong>داده در دسترس نیست.</strong> روی کاغذ همه چیز ثبت می‌شود؛ در عمل نصفش در ذهن آدم‌هاست و نصف دیگر در فایل‌های پراکنده. این را معمولاً هفتهٔ سوم می‌فهمند.</p>
+<p><strong>معیار موفقیت تعریف نشده.</strong> پروژه راه می‌افتد، گزارش‌ها عدد نشان می‌دهند، و هیچ‌کس نمی‌تواند بگوید بهتر شد یا نه. پروژه‌ای که نتوان شکستش را تشخیص داد، موفقیتش را هم نمی‌شود تشخیص داد.</p>
+<h2>آزمون انتخاب کاربردِ شروع</h2>
+<p>پیش از هر چیز، یک کاربرد انتخاب کنید که هر چهار شرط را داشته باشد. اگر یکی را نداشت، سراغ بعدی بروید.</p>
+<p><strong>۱. زیاد تکرار می‌شود.</strong> روزی چند بار، نه ماهی یک بار. کاری که کم پیش می‌آید، حتی اگر خودکار شود، چیزی آزاد نمی‌کند — و کسی هم نمی‌فهمد بهتر شده یا نه.</p>
+<p><strong>۲. خروجی‌اش روشن است.</strong> باید بشود در یک جمله گفت چه چیزی وارد می‌شود و چه چیزی بیرون می‌آید. «پیام مشتری وارد می‌شود، پاسخ یا پروندهٔ کامل بیرون می‌آید» روشن است. «تجربهٔ مشتری بهتر می‌شود» روشن نیست.</p>
+<p><strong>۳. اشتباه در آن فاجعه نمی‌سازد.</strong> برای شروع، جایی را انتخاب کنید که خطا قابل جبران باشد. پاسخ اشتباه به یک پرسش عمومی جبران می‌شود؛ قیمت اشتباه در یک پیشنهاد رسمی نه.</p>
+<p><strong>۴. یک نفر مشخص مالکش است.</strong> نه یک واحد — یک آدم با نام، که این مشکل مال اوست و بهتر شدنش به سود او.</p>
+<p>اگر کاربردی پیدا نکردید که هر چهار را داشته باشد، هنوز آمادهٔ شروع نیستید. و این نتیجهٔ ارزشمندی است، نه شکست.</p>
+<h2>سه کاربرد که معمولاً شرط‌ها را دارند</h2>
+<p>اگر در انتخاب مانده‌اید، این سه در بیشتر سازمان‌ها هر چهار شرط را می‌گذرانند و نقطهٔ شروع امنی هستند.</p>
+<p><strong>پاسخ به پیام‌های بیرون ساعت کاری.</strong> زیاد تکرار می‌شود، خروجی‌اش روشن است، رقیبش سکوت است — پس بدترین حالتش برابر وضع موجود است — و مالکش معمولاً مدیر فروش یا پشتیبانی است.</p>
+<p><strong>تشکیل پروندهٔ اولیه برای درخواست‌های ورودی.</strong> سیستم پاسخ نهایی نمی‌دهد؛ فقط اطلاعاتی را که همکار فردا لازم دارد جمع می‌کند. ریسکش نزدیک صفر است چون تصمیمی نمی‌گیرد، و صرفه‌جویی‌اش فوری است.</p>
+<p><strong>پاسخ به پرسش‌های تکراری داخلی.</strong> کارمندی که می‌پرسد «فرم مرخصی کجاست» یا «قاعدهٔ فلان چیست». اینجا حتی اگر پاسخ گاهی ناقص باشد، کسی بیرون سازمان نمی‌بیندش — و همین آن را برای تمرین ایده‌آل می‌کند.</p>
+<p>آنچه معمولاً کاربرد بدی برای شروع است: هر چیزی که با قیمت، تعهد زمانی یا داوری تخصصی سروکار دارد.</p>
+<h2>چهار چیزی که باید روی کاغذ باشد</h2>
+<p>پیش از اینکه هر ابزاری وصل شود، این چهار پرسش باید جواب مکتوب داشته باشند. نبودشان همان جایی است که پروژه‌ها از ریل خارج می‌شوند:</p>
+<p><strong>سیستم چه چیزی را حق ندارد بگوید.</strong> قیمت، زمان تحویل، تعهد، هر چیزی که سازمان را ملزم می‌کند. فهرست باید کوتاه، صریح و برای همهٔ کانال‌ها یکی باشد.</p>
+<p><strong>وقتی نمی‌داند چه می‌گوید.</strong> یک جملهٔ روشن و از پیش تعیین‌شده، بهتر از هر پاسخ سرهم‌بندی‌شده است.</p>
+<p><strong>کجا به آدم تحویل می‌دهد و به چه کسی.</strong> با اسم، نه با عنوان واحد. و پرونده‌ای که تحویل می‌دهد باید چه داشته باشد.</p>
+<p><strong>چه کسی و هر چند وقت به‌روزش می‌کند.</strong> این را پیش از شروع مشخص کنید، وگرنه شش ماه بعد سیستمی دارید که با اطمینان حرف‌های قدیمی می‌زند — و همان اطمینان خطرناکش می‌کند.</p>
+<p>هیچ‌کدام از این چهار پرسش فنی نیست. همه‌شان تصمیم سازمانی‌اند و کسی جز شما نمی‌تواند جوابشان بدهد.</p>
+<h2>ترتیبی که ریسک را پایین نگه می‌دارد</h2>
+<p><strong>هفتهٔ اول — فقط تماشا.</strong> سیستم را وصل کنید ولی اجازهٔ پاسخ‌دادن ندهید؛ بگذارید فقط دسته‌بندی کند. آخر هفته می‌بینید واقعاً چه چیزی وارد سازمان می‌شود، که تقریباً همیشه با تصور مدیران فرق دارد. این هفته بیشترین یادگیری را دارد و کمترین ریسک را.</p>
+<p><strong>هفتهٔ دوم — باریک‌ترین قلمرو ممکن.</strong> فقط یک دسته پیام، فقط بیرون ساعت کاری. اینجا رقیبِ سیستم سکوت است، نه همکار خوب شما. بدترین حالت این است که به‌اندازهٔ سکوت خوب باشد.</p>
+<p><strong>هفتهٔ سوم — تشکیل پرونده برای بقیه.</strong> سیستم به موارد تصمیم‌خواه پاسخ ندهد، ولی اطلاعات لازم را جمع کند و برای صبح آماده بگذارد.</p>
+<p><strong>هفتهٔ چهارم — بخوانید و تصمیم بگیرید.</strong> پنجاه گفتگو را از اول تا آخر بخوانید. خودتان. حالا داده دارید و می‌توانید تصمیم بگیرید کجا اجازهٔ بیشتر بدهید و کجا نه.</p>
+<p>خاصیت این ترتیب یک چیز است: <strong>در هر هفته، اگر چیزی خراب شود، خرابی‌اش کوچک و برگشت‌پذیر است.</strong></p>
+<h2>این برای کسب‌وکار ایرانی یعنی چه</h2>
+<p><strong>یک: پایداری دسترسی را در معماری فرض نکنید.</strong> دسترسی به سرویس‌های مدل از ایران همیشه برقرار نیست. سیستمی که فرض کرده همیشه می‌رسد، در بدترین لحظه ساکت می‌ماند. رفتار هنگام نبودِ دسترسی باید از روز اول تعریف شود، نه بعداً وصله شود.</p>
+<p><strong>دو: از کانالی شروع کنید که پیام واقعاً از آنجا می‌آید.</strong> در بسیاری از سازمان‌های ایرانی، بیشتر ارتباط در واتساپ و بله است، نه در سامانهٔ داخلی. پروژه‌ای که از سامانهٔ داخلی شروع کند، جایی را بهبود می‌دهد که مشتری آنجا نیست.</p>
+<p><strong>سه: تقویم کاری را جدی بگیرید.</strong> پنجشنبه و جمعه، تعطیلات رسمی، ایام نوروز. سیستمی که این‌ها را نداند وعده‌هایی می‌دهد که در آن روز کسی نیست انجامشان بدهد — و این ساده‌ترین چیزی است که فراموش می‌شود.</p>
+<p><strong>چهار: مقاومت درون‌سازمانی را پیش‌بینی کنید.</strong> کارمندی که فکر کند این سیستم جای او را می‌گیرد، در اجرا همکاری نمی‌کند. راهش شفافیت است: بگویید کدام کارها را برمی‌دارد و کدام را نه، و چه چیزی به‌جایش از آن آدم انتظار می‌رود.</p>
+<p><strong>پنج: فارسیِ واقعی را امتحان کنید، نه فارسیِ کتابی.</strong> پیام‌های واقعی سازمان شما پر از غلط تایپی، فینگلیش و جمله‌های نصفه است. نمایش فروشنده همیشه با متن تمیز است.</p>
+<h2>آنچه باید بسنجید</h2>
+<p>یک عدد کافی است و باید <strong>پیش از شروع</strong> ثبت شود، وگرنه هیچ مقایسه‌ای ممکن نیست.</p>
+<p>برای کاربردی که انتخاب کرده‌اید بپرسید: پیش از این، از هر ده مورد چند تا به نتیجه می‌رسید؟ و حالا چند تا؟</p>
+<p>«نتیجه» را خودتان تعریف کنید — سفارش، قرار، تیکت بسته‌شده، یا حتی یک «نه» روشن. مهم این است که پیش از راه‌اندازی تعریف شده باشد.</p>
+<p>عددهایی که ابزارها نشان می‌دهند — تعداد گفتگو، سرعت پاسخ، ساعت‌های پوشش — همیشه خوب‌اند و هیچ‌کدام کار سازمان نیست.</p>
+<h2>جمع‌بندی</h2>
+<p>پیاده‌سازی هوشواره — همان که هوش مصنوعی می‌نامیمش — در سازمان، بیشتر از آنکه پروژهٔ فنی باشد، پروژهٔ تعریف‌کردن است.</p>
+<p>سخت‌ترین بخشش نوشتن کد نیست؛ نشستن و مشخص کردن این است که کدام کار، با چه حدی، به دست چه کسی، و با چه معیاری. سازمانی که این چهار را روشن کرده باشد، از سیستمی متوسط نتیجهٔ خوب می‌گیرد. سازمانی که روشن نکرده باشد، از توانمندترین سیستم دنیا هم فقط هزینه می‌گیرد.</p>
+<p>و اگر امروز نمی‌توانید یک کاربرد پیدا کنید که هر چهار شرط را داشته باشد، درست‌ترین کار این است که شروع نکنید و به‌جایش یک ماه بگذارید تا معلوم شود مشکل واقعی کجاست.</p>
+<p>اینکه تا کجا باید به چنین سیستمی اختیار داد، در نوشتهٔ <a href="https://vandidad.xyz/hamzad/hoosh-masnooi-ameli-chist">هوش مصنوعی عاملی چیست و کجا نباید به آن اختیار داد</a> باز شده است.</p>
+<h2>چهار پرسش که در جلسهٔ فروش باید بپرسید</h2>
+<p>اگر فروشنده‌ای برای سازمان شما پیشنهاد آورده، این چهار پرسش بیشتر از هر ارائه‌ای به شما می‌گویند با چه کسی طرفید:</p>
+<p><strong>«سیستم چه کاری را مجاز نیست انجام دهد؟»</strong> فهرست بخواهید، نه اطمینان کلامی. اگر فهرست وجود ندارد، کسی به آن فکر نکرده.</p>
+<p><strong>«این محدودیت‌ها کجا نوشته شده‌اند؟»</strong> اگر پاسخ «در دستور متنی سیستم» باشد، آن یک توصیه است نه قاعده. قاعده وقتی است که سیستم اصلاً به آن داده دسترسی نداشته باشد.</p>
+<p><strong>«چه خطاهایی در پروژه‌های قبلی داشتید و چه کردید؟»</strong> فروشنده‌ای که می‌گوید هیچ‌وقت مشکلی نداشته، یا سیستمش جدی به کار نیفتاده یا حقیقت را نمی‌گوید.</p>
+<p><strong>«اگر قرارداد را قطع کنیم، داده‌های ما را چطور تحویل می‌گیریم؟»</strong> گفتگوهای مشتریان و کارکنان شما دارایی سازمان است. پاسخ مبهم یعنی سرمایه‌ای می‌سازید که در دست دیگری می‌ماند.</p>
+<h2>سه شکست سازمانی که ربطی به فناوری ندارند</h2>
+<p>اینها را بیشتر از خطاهای فنی دیده‌ام و هیچ ابزاری جلویشان را نمی‌گیرد.</p>
+<p><strong>آزمایشی که تمام نمی‌شود.</strong> پروژه به‌عنوان «پایلوت» شروع می‌شود و هیچ‌وقت تصمیمی دربارهٔ ادامه یا توقفش گرفته نمی‌شود. سال بعد هنوز پایلوت است و کسی نمی‌داند مسئولش کیست. راهش این است که از روز اول تاریخ تصمیم را در تقویم بگذارید: در فلان روز، بر اساس فلان عدد، ادامه می‌دهیم یا متوقف می‌کنیم.</p>
+<p><strong>سیستمی که کسی به‌روزش نمی‌کند.</strong> کسی که راه‌اندازی کرده رفته، و حالا هر تغییری یک پروژهٔ کوچک است. سیستمی که سه ماه دست نخورده، دارد اطلاعات قدیمی را با اطمینان کامل تحویل مشتری می‌دهد.</p>
+<p><strong>عددی که خوب است در حالی که هیچ چیز بهتر نشده.</strong> گزارش می‌گوید هزار گفتگو انجام شده و زمان پاسخ نود ثانیه است. هر دو درست‌اند و هیچ‌کدام نمی‌گوید کار سازمان بهتر شده. برای همین است که معیار باید پیش از شروع و بر حسب نتیجهٔ کاری تعریف شود، نه بر حسب فعالیت سیستم.</p>
+<p>پیاده سازی هوش مصنوعی در سازمان، اگر با یک کارِ کوچکِ اندازه‌گیری‌شدنی شروع شود، ریسکش از یک پروژهٔ بزرگ کمتر است و درسش بیشتر.</p>
+<p>اگر می‌خواهید ببینید این تصمیم‌ها پیش از هر کدی چه شکلی گرفته می‌شوند، <a href="/hamzad/sistem-amel-hoosh-masnooi-chist">سیستم‌عامل هوش مصنوعی چیست</a> سه اصطلاحی را که معمولاً یکی گرفته می‌شوند از هم جدا می‌کند، و <a href="/hamzad/hoosh-masnooi-ameli-chist">هوش مصنوعی عاملی و مرزهایش</a> دربارهٔ حد اختیار است.</p></article>
+<p class="tags">پیاده-سازی-سازمانی · هوشواره · مدیریت-پروژه · انتخاب-کاربرد · کسب-وکار-ایرانی</p>
+<section class="faq"><h2>پرسش‌های پرتکرار</h2><dl><dt>پیاده‌سازی هوش مصنوعی در سازمان از کجا شروع می‌شود؟</dt><dd>نه از انتخاب ابزار. از انتخاب یک کاربرد مشخص که چهار ویژگی داشته باشد: زیاد تکرار شود، خروجی‌اش روشن باشد، اشتباه در آن فاجعه نسازد، و یک نفر مشخص مسئولش باشد. اگر این چهار را نداشته باشد، هیچ ابزاری نجاتش نمی‌دهد.</dd><dt>چرا پروژه‌های هوش مصنوعی در سازمان‌ها شکست می‌خورند؟</dt><dd>معمولاً نه به دلیل فنی. رایج‌ترین علت‌ها این‌هاست: کاربردی انتخاب شده که خیلی بزرگ بوده، کسی مالکش نبوده، داده‌ای که لازم بوده در دسترس نبوده، یا معیار موفقیت پیش از شروع تعریف نشده بوده.</dd><dt>چقدر طول می‌کشد تا نتیجه ببینیم؟</dt><dd>برای یک کاربرد محدود و درست انتخاب‌شده، چند هفته تا نشانهٔ واقعی. اگر کسی وعدهٔ تحول سازمانی در یک ماه بدهد، یا کاربرد را نمی‌شناسد یا دارد چیزی می‌فروشد. بخش عمدهٔ زمان صرف تعریف‌کردن می‌شود، نه ساختن.</dd><dt>آیا باید تیم داخلی داشته باشیم؟</dt><dd>برای ساختن لزوماً نه. برای نگهداری بله — دست‌کم یک نفر که بداند سیستم چه می‌داند و وقتی محصول یا قاعده‌ای عوض شد، به‌روزش کند. سازمانی که این نقش را تعریف نکند، شش ماه بعد سیستمی دارد که با اطمینان حرف‌های قدیمی می‌زند.</dd></dl></section>
+<section class="summary ltr" lang="en" dir="ltr"><h2>In English</h2><p>Most organisational AI projects stall in the same place, and it is rarely the technology. Written by Hadi Bakhtzadeh, AI systems architect at Vandidad Group in İzmir, Türkiye, this article gives a test for choosing a first use case — frequent, well-defined, tolerant of error, and owned by someone identifiable — describes the four questions that must be answered on paper before any tool is connected, sets out a sequence that keeps the cost of being wrong small, and names the organisational failure modes that have nothing to do with models: the pilot nobody owns, the tool nobody updates, and the number that looks good while nothing improves.</p></section>
+<section class="summary ltr" lang="tr" dir="ltr"><h2>Türkçe özet</h2><p>Kurumsal yapay zekâ projelerinin çoğu aynı noktada durur ve bu nokta nadiren teknolojidir. İzmir&#x27;de Vandidad Group&#x27;un yapay zekâ sistem mimarı Hadi Bahtzade tarafından yazılmıştır. Metin ilk kullanım alanını seçmek için bir ölçüt, herhangi bir araç bağlanmadan önce kâğıt üzerinde yanıtlanması gereken dört soru ve yanılmanın maliyetini küçük tutan bir sıralama sunar.</p></section>
+<div class="share"><span>این را برای کسی بفرستید:</span><a href="https://t.me/share/url?url=https%3A%2F%2Fvandidad.xyz%2Fhamzad%2Fpiadesazi-hoosh-masnooi-sazman&text=%D9%BE%DB%8C%D8%A7%D8%AF%D9%87%E2%80%8C%D8%B3%D8%A7%D8%B2%DB%8C%20%D9%87%D9%88%D8%B4%20%D9%85%D8%B5%D9%86%D9%88%D8%B9%DB%8C%20%D8%AF%D8%B1%20%D8%B3%D8%A7%D8%B2%D9%85%D8%A7%D9%86%D8%9B%20%D8%A7%D8%B2%20%DA%A9%D8%AC%D8%A7%20%D8%B4%D8%B1%D9%88%D8%B9%20%DA%A9%D9%86%DB%8C%D9%85%20%DA%A9%D9%87%20%D8%B4%DA%A9%D8%B3%D8%AA%20%D9%86%D8%AE%D9%88%D8%B1%D8%AF" target="_blank" rel="noopener">تلگرام</a><a href="https://api.whatsapp.com/send?text=%D9%BE%DB%8C%D8%A7%D8%AF%D9%87%E2%80%8C%D8%B3%D8%A7%D8%B2%DB%8C%20%D9%87%D9%88%D8%B4%20%D9%85%D8%B5%D9%86%D9%88%D8%B9%DB%8C%20%D8%AF%D8%B1%20%D8%B3%D8%A7%D8%B2%D9%85%D8%A7%D9%86%D8%9B%20%D8%A7%D8%B2%20%DA%A9%D8%AC%D8%A7%20%D8%B4%D8%B1%D9%88%D8%B9%20%DA%A9%D9%86%DB%8C%D9%85%20%DA%A9%D9%87%20%D8%B4%DA%A9%D8%B3%D8%AA%20%D9%86%D8%AE%D9%88%D8%B1%D8%AF%20https%3A%2F%2Fvandidad.xyz%2Fhamzad%2Fpiadesazi-hoosh-masnooi-sazman" target="_blank" rel="noopener">واتساپ</a><button type="button" class="copy" data-url="https://vandidad.xyz/hamzad/piadesazi-hoosh-masnooi-sazman">کپی نشانی</button></div>
+<div class="cta"><p>می‌خواهید ببینید این برای کارِ خودتان چه شکلی می‌شود؟</p><p><a href="/">همین‌جا با دستیار حرف بزنید</a> — یک جمله درباره‌ی کارتان کافی است.</p></div>
+<footer>
+  <div><a href="/">صفحه‌ی اصلی</a><a href="/hamzad">مقالات</a><a href="/about">درباره‌ی ما</a></div>
+  <div style="margin-top:10px"><a href="/privacy">حریم خصوصی</a><a href="/terms">شرایط استفاده</a><a href="/data-deletion">حذف اطلاعات</a></div>
+  <div style="margin-top:14px;opacity:.75">Vandidad Group · Konak, İzmir, Türkiye · <a href="mailto:ai@vandidad.xyz">ai@vandidad.xyz</a></div>
+</footer>
+</div>
+<script>
+/* A reading-progress line. It is the whole of this site's article JavaScript,
+   and it is written so that failing changes nothing: the bar starts at zero
+   width, and if this never runs the page is exactly what it was. */
+(function () {
+  var bar = document.getElementById("progress");
+  if (!bar) return;
+  function draw() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? Math.min(100, (window.scrollY / h) * 100) : 0) + "%";
+  }
+  addEventListener("scroll", draw, { passive: true });
+  addEventListener("resize", draw);
+  draw();
+})();
+
+/* Copy the address. navigator.clipboard exists only on a secure origin and
+   only with permission, so the older selection trick is kept as the fallback
+   rather than leaving the button dead for whoever lands in that case. */
+(function () {
+  var b = document.querySelector(".share .copy");
+  if (!b) return;
+  b.addEventListener("click", function () {
+    var url = b.getAttribute("data-url"), done = function () {
+      var was = b.textContent;
+      b.textContent = "کپی شد";
+      setTimeout(function () { b.textContent = was; }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, fallback);
+    } else { fallback(); }
+    function fallback() {
+      var f = document.createElement("input");
+      f.value = url;
+      document.body.appendChild(f);
+      f.select();
+      try { document.execCommand("copy"); done(); } catch (e) {}
+      document.body.removeChild(f);
+    }
+  });
+})();
+</script>
+</body>
+</html>
