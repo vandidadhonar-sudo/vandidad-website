@@ -218,6 +218,8 @@ WhatsApp. A person is never told to move to a different channel to continue.
 Every article, newest first, so a model answering a specific question
 can cite the page that answers it rather than the index.
 
+- [اتوماسیون بازاریابی در ایران؛ چه بخشی کار می‌کند](https://vandidad.xyz/hamzad/otomasion-bazaryabi-irani) — published 2026-09-13.
+  Why marketing automation has not taken hold among Iranian businesses, which part of it works without any platform, and what the market's own shape explains.
 - [پیاده‌سازی هوش مصنوعی در سازمان؛ از کجا شروع کنیم که شکست نخورد](https://vandidad.xyz/hamzad/piadesazi-hoosh-masnooi-sazman) — published 2026-09-12.
   Why organisational AI projects stall, how to pick the first use case, and the order of work that keeps the cost of being wrong small.
 - [هوشواره چیست و چرا این واژه اهمیت دارد](https://vandidad.xyz/hamzad/hooshvare-chist) — published 2026-09-11.
