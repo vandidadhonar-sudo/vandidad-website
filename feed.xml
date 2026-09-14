@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-13T00:00:00Z</updated>
+  <updated>2026-09-14T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>معمار هوش مصنوعی کیست و چه کاری انجام می‌دهد</title>
+    <link href="https://vandidad.xyz/hamzad/memar-hoosh-masnooi"/>
+    <id>https://vandidad.xyz/hamzad/memar-hoosh-masnooi</id>
+    <published>2026-09-14T00:00:00Z</published>
+    <updated>2026-09-14T00:00:00Z</updated>
+    <summary>در فارسی «معماری هوش مصنوعی» شما را به ابزارهای طراحی ساختمان می‌برد. این نوشته دربارهٔ معنای دیگر آن است — کسی که تصمیم می‌گیرد سیستم چطور ساخته شود.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>اتوماسیون بازاریابی در ایران؛ چه بخشی کار می‌کند</title>
     <link href="https://vandidad.xyz/hamzad/otomasion-bazaryabi-irani"/>
