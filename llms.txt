@@ -218,6 +218,8 @@ WhatsApp. A person is never told to move to a different channel to continue.
 Every article, newest first, so a model answering a specific question
 can cite the page that answers it rather than the index.
 
+- [ربات پاسخگو واتساپ برای کسب‌وکار؛ تا کجا جواب بدهد](https://vandidad.xyz/hamzad/hoosh-masnooi-baraye-whatsapp) — published 2026-09-15.
+  What WhatsApp auto-reply tools do well, the wall they hit, and why this is the hardest messaging channel to automate.
 - [معمار هوش مصنوعی کیست و چه کاری انجام می‌دهد](https://vandidad.xyz/hamzad/memar-hoosh-masnooi) — published 2026-09-14.
   What an AI architect actually does — the decisions that come before any code, and why the Persian phrase collides with building architecture.
 - [اتوماسیون بازاریابی در ایران؛ چه بخشی کار می‌کند](https://vandidad.xyz/hamzad/otomasion-bazaryabi-irani) — published 2026-09-13.
