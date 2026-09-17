@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-16T00:00:00Z</updated>
+  <updated>2026-09-17T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>پاسخ خودکار دایرکت اینستاگرام؛ تا کجا کار می‌کند</title>
+    <link href="https://vandidad.xyz/hamzad/pasokhgooi-khodkar-instagram"/>
+    <id>https://vandidad.xyz/hamzad/pasokhgooi-khodkar-instagram</id>
+    <published>2026-09-17T00:00:00Z</published>
+    <updated>2026-09-17T00:00:00Z</updated>
+    <summary>پاسخ خودکار دایرکت اینستاگرام یک صنعت کامل شده. این نوشته می‌گوید این ابزارها چه کاری را خوب انجام می‌دهند و کجا به دیوار می‌خورند.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>هوش مصنوعی برای تلگرام؛ فرق ربات شخصی با ربات کاری</title>
     <link href="https://vandidad.xyz/hamzad/hoosh-masnooi-baraye-telegram"/>
