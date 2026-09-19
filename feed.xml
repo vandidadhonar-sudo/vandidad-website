@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-18T00:00:00Z</updated>
+  <updated>2026-09-19T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>مدیریت سرنخ فروش وقتی گفتگو در پیام‌رسان است</title>
+    <link href="https://vandidad.xyz/hamzad/modiriat-sarnakh-dar-payamresan"/>
+    <id>https://vandidad.xyz/hamzad/modiriat-sarnakh-dar-payamresan</id>
+    <published>2026-09-19T00:00:00Z</published>
+    <updated>2026-09-19T00:00:00Z</updated>
+    <summary>جذب لید نصف کار است؛ نیمهٔ دیگر جایی است که لید وارد هیچ فرم و هیچ CRM نمی‌شود و در دایرکت و واتساپ می‌ماند.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>ربات بله برای کسب‌وکار؛ چه فرقی با تلگرام دارد</title>
     <link href="https://vandidad.xyz/hamzad/robat-bale-baraye-kasbokar"/>

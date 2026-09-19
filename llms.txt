@@ -218,6 +218,8 @@ WhatsApp. A person is never told to move to a different channel to continue.
 Every article, newest first, so a model answering a specific question
 can cite the page that answers it rather than the index.
 
+- [مدیریت سرنخ فروش وقتی گفتگو در پیام‌رسان است](https://vandidad.xyz/hamzad/modiriat-sarnakh-dar-payamresan) — published 2026-09-19.
+  Lead management when the conversation happens in a messenger rather than a form — why the standard playbook does not transfer, and what does.
 - [ربات بله برای کسب‌وکار؛ چه فرقی با تلگرام دارد](https://vandidad.xyz/hamzad/robat-bale-baraye-kasbokar) — published 2026-09-18.
   What a business bot on Bale is for, how its audience differs from Telegram's, and which trades should take the channel seriously.
 - [پاسخ خودکار دایرکت اینستاگرام؛ تا کجا کار می‌کند](https://vandidad.xyz/hamzad/pasokhgooi-khodkar-instagram) — published 2026-09-17.
