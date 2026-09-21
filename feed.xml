@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-20T00:00:00Z</updated>
+  <updated>2026-09-21T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>هوش مصنوعی برای مطب؛ پذیرش، نه تشخیص</title>
+    <link href="https://vandidad.xyz/hamzad/hoosh-masnooi-baraye-matab"/>
+    <id>https://vandidad.xyz/hamzad/hoosh-masnooi-baraye-matab</id>
+    <published>2026-09-21T00:00:00Z</published>
+    <updated>2026-09-21T00:00:00Z</updated>
+    <summary>هوش مصنوعی برای مطب پزشکی در فارسی یعنی تشخیص و تصویربرداری. این نوشته دربارهٔ بخشی است که واقعاً وقت مطب را می‌گیرد.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>هوش مصنوعی در املاک؛ کجا واقعاً وقت آزاد می‌کند</title>
     <link href="https://vandidad.xyz/hamzad/hoosh-masnooi-moshaver-amlak"/>
