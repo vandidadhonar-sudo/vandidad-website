@@ -218,6 +218,8 @@ WhatsApp. A person is never told to move to a different channel to continue.
 Every article, newest first, so a model answering a specific question
 can cite the page that answers it rather than the index.
 
+- [هوش مصنوعی رایگان فارسی؛ چه چیزی رایگان است](https://vandidad.xyz/hamzad/hoosh-masnooi-rayegan-farsi) — published 2026-09-22.
+  What is actually free in the Persian AI market, what is not, and the difference between a free chat and a system that answers your customers.
 - [هوش مصنوعی برای مطب؛ پذیرش، نه تشخیص](https://vandidad.xyz/hamzad/hoosh-masnooi-baraye-matab) — published 2026-09-21.
   AI in a medical practice as a reception problem rather than a diagnostic one — what may be automated, and the line that must not be crossed.
 - [هوش مصنوعی در املاک؛ کجا واقعاً وقت آزاد می‌کند](https://vandidad.xyz/hamzad/hoosh-masnooi-moshaver-amlak) — published 2026-09-20.
