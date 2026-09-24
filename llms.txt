@@ -218,6 +218,8 @@ WhatsApp. A person is never told to move to a different channel to continue.
 Every article, newest first, so a model answering a specific question
 can cite the page that answers it rather than the index.
 
+- [کاربرد هوش مصنوعی در کسب و کار؛ از کجا شروع کنیم](https://vandidad.xyz/hamzad/karbord-hoosh-masnooi-dar-kasbokar) — published 2026-09-24.
+  A way to find where AI belongs in a business by starting from the work rather than the tool — three tests, and the jobs that fail them.
 - [چت بات هوش مصنوعی ایرانی؛ چطور انتخاب کنیم](https://vandidad.xyz/hamzad/chatbot-hoosh-masnooi-irani) — published 2026-09-23.
   How to choose among Persian chatbot vendors when their feature lists are identical — by the job, not the checklist.
 - [هوش مصنوعی رایگان فارسی؛ چه چیزی رایگان است](https://vandidad.xyz/hamzad/hoosh-masnooi-rayegan-farsi) — published 2026-09-22.

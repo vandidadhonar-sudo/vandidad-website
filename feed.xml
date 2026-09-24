@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-23T00:00:00Z</updated>
+  <updated>2026-09-24T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>کاربرد هوش مصنوعی در کسب و کار؛ از کجا شروع کنیم</title>
+    <link href="https://vandidad.xyz/hamzad/karbord-hoosh-masnooi-dar-kasbokar"/>
+    <id>https://vandidad.xyz/hamzad/karbord-hoosh-masnooi-dar-kasbokar</id>
+    <published>2026-09-24T00:00:00Z</published>
+    <updated>2026-09-24T00:00:00Z</updated>
+    <summary>کاربرد هوش مصنوعی در کسب و کار معمولاً با فهرست ابزار توضیح داده می‌شود. این نوشته از سمت کار شروع می‌کند، نه از سمت ابزار.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>چت بات هوش مصنوعی ایرانی؛ چطور انتخاب کنیم</title>
     <link href="https://vandidad.xyz/hamzad/chatbot-hoosh-masnooi-irani"/>
