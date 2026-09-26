@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-25T00:00:00Z</updated>
+  <updated>2026-09-26T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>هوش مصنوعی چیست، به زبان ساده و بدون اغراق</title>
+    <link href="https://vandidad.xyz/hamzad/hoosh-masnooi-chist-zaban-sade"/>
+    <id>https://vandidad.xyz/hamzad/hoosh-masnooi-chist-zaban-sade</id>
+    <published>2026-09-26T00:00:00Z</published>
+    <updated>2026-09-26T00:00:00Z</updated>
+    <summary>هوش مصنوعی چیست بدون شعار و بدون ترساندن — چه کاری می‌کند، چطور کار می‌کند، و کجا اشتباه می‌کند.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>آموزش هوش مصنوعی برای دانشجویان؛ چه چیزی واقعاً لازم است</title>
     <link href="https://vandidad.xyz/hamzad/amoozesh-hoosh-masnooi-daneshjoo"/>

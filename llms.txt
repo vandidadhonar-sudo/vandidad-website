@@ -218,6 +218,8 @@ WhatsApp. A person is never told to move to a different channel to continue.
 Every article, newest first, so a model answering a specific question
 can cite the page that answers it rather than the index.
 
+- [هوش مصنوعی چیست، به زبان ساده و بدون اغراق](https://vandidad.xyz/hamzad/hoosh-masnooi-chist-zaban-sade) — published 2026-09-26.
+  A plain-language explanation of what AI is, how it works, and why its failure mode follows directly from how it works.
 - [آموزش هوش مصنوعی برای دانشجویان؛ چه چیزی واقعاً لازم است](https://vandidad.xyz/hamzad/amoozesh-hoosh-masnooi-daneshjoo) — published 2026-09-25.
   What a student learning AI should actually build skill in, written from the hiring side rather than the course-selling side.
 - [کاربرد هوش مصنوعی در کسب و کار؛ از کجا شروع کنیم](https://vandidad.xyz/hamzad/karbord-hoosh-masnooi-dar-kasbokar) — published 2026-09-24.
