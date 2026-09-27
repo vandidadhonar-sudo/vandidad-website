@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-26T00:00:00Z</updated>
+  <updated>2026-09-27T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>تفاوت هوش مصنوعی و اتوماسیون؛ کدام را لازم دارید</title>
+    <link href="https://vandidad.xyz/hamzad/tafavot-hoosh-masnooi-va-otomasion"/>
+    <id>https://vandidad.xyz/hamzad/tafavot-hoosh-masnooi-va-otomasion</id>
+    <published>2026-09-27T00:00:00Z</published>
+    <updated>2026-09-27T00:00:00Z</updated>
+    <summary>تفاوت هوش مصنوعی و اتوماسیون یک بحث نظری نیست — تعیین می‌کند برای مسئلهٔ شما کدام جواب می‌دهد و کدام پول هدر می‌دهد.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>هوش مصنوعی چیست، به زبان ساده و بدون اغراق</title>
     <link href="https://vandidad.xyz/hamzad/hoosh-masnooi-chist-zaban-sade"/>
