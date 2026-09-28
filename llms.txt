@@ -218,6 +218,8 @@ WhatsApp. A person is never told to move to a different channel to continue.
 Every article, newest first, so a model answering a specific question
 can cite the page that answers it rather than the index.
 
+- [امنیت اطلاعات مشتری وقتی هوش مصنوعی وارد کار می‌شود](https://vandidad.xyz/hamzad/harim-khosoosi-dade-moshtari) — published 2026-09-28.
+  The data questions to settle before an AI system touches customer conversations, and why collecting less is the strongest protection.
 - [تفاوت هوش مصنوعی و اتوماسیون؛ کدام را لازم دارید](https://vandidad.xyz/hamzad/tafavot-hoosh-masnooi-va-otomasion) — published 2026-09-27.
   When a business needs rule-based automation and when it needs AI — the test that separates them, and why choosing wrong is expensive in both directions.
 - [هوش مصنوعی چیست، به زبان ساده و بدون اغراق](https://vandidad.xyz/hamzad/hoosh-masnooi-chist-zaban-sade) — published 2026-09-26.

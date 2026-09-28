@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-27T00:00:00Z</updated>
+  <updated>2026-09-28T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>امنیت اطلاعات مشتری وقتی هوش مصنوعی وارد کار می‌شود</title>
+    <link href="https://vandidad.xyz/hamzad/harim-khosoosi-dade-moshtari"/>
+    <id>https://vandidad.xyz/hamzad/harim-khosoosi-dade-moshtari</id>
+    <published>2026-09-28T00:00:00Z</published>
+    <updated>2026-09-28T00:00:00Z</updated>
+    <summary>امنیت اطلاعات مشتری در پروژه‌های هوش مصنوعی معمولاً آخر بررسی می‌شود. این نوشته می‌گوید چه چیزی را باید از روز اول بدانید.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>تفاوت هوش مصنوعی و اتوماسیون؛ کدام را لازم دارید</title>
     <link href="https://vandidad.xyz/hamzad/tafavot-hoosh-masnooi-va-otomasion"/>
