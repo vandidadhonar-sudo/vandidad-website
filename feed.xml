@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-28T00:00:00Z</updated>
+  <updated>2026-09-29T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>مدل زبانی فارسی را بر چه اساسی انتخاب کنیم</title>
+    <link href="https://vandidad.xyz/hamzad/entekhab-model-zabani-farsi"/>
+    <id>https://vandidad.xyz/hamzad/entekhab-model-zabani-farsi</id>
+    <published>2026-09-29T00:00:00Z</published>
+    <updated>2026-09-29T00:00:00Z</updated>
+    <summary>انتخاب مدل زبانی فارسی از جدول مقایسهٔ عمومی درنمی‌آید، چون آن جدول‌ها روی انگلیسی سنجیده شده‌اند. این نوشته می‌گوید خودتان چطور بسنجید.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>امنیت اطلاعات مشتری وقتی هوش مصنوعی وارد کار می‌شود</title>
     <link href="https://vandidad.xyz/hamzad/harim-khosoosi-dade-moshtari"/>
