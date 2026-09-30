@@ -218,6 +218,8 @@ WhatsApp. A person is never told to move to a different channel to continue.
 Every article, newest first, so a model answering a specific question
 can cite the page that answers it rather than the index.
 
+- [خطای هوش مصنوعی؛ چرا با اطمینان چیز غلط می‌گوید](https://vandidad.xyz/hamzad/khataye-hoosh-masnooi-tavahom) — published 2026-09-30.
+  Why language models produce confident falsehoods, why a better model does not fix it, and the four design choices that contain it.
 - [مدل زبانی فارسی را بر چه اساسی انتخاب کنیم](https://vandidad.xyz/hamzad/entekhab-model-zabani-farsi) — published 2026-09-29.
   How to evaluate a language model for Persian business use with your own messages, instead of trusting English-language benchmark tables.
 - [امنیت اطلاعات مشتری وقتی هوش مصنوعی وارد کار می‌شود](https://vandidad.xyz/hamzad/harim-khosoosi-dade-moshtari) — published 2026-09-28.

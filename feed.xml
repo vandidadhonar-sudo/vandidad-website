@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-29T00:00:00Z</updated>
+  <updated>2026-09-30T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>خطای هوش مصنوعی؛ چرا با اطمینان چیز غلط می‌گوید</title>
+    <link href="https://vandidad.xyz/hamzad/khataye-hoosh-masnooi-tavahom"/>
+    <id>https://vandidad.xyz/hamzad/khataye-hoosh-masnooi-tavahom</id>
+    <published>2026-09-30T00:00:00Z</published>
+    <updated>2026-09-30T00:00:00Z</updated>
+    <summary>خطای هوش مصنوعی که به آن توهم می‌گویند، خرابی نیست — نتیجهٔ روش کار است. این نوشته می‌گوید چطور مهارش کنید.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>مدل زبانی فارسی را بر چه اساسی انتخاب کنیم</title>
     <link href="https://vandidad.xyz/hamzad/entekhab-model-zabani-farsi"/>
