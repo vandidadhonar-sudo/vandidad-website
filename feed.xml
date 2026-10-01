@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-09-30T00:00:00Z</updated>
+  <updated>2026-10-01T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>اندازه‌گیری نتیجه هوش مصنوعی؛ کدام عدد واقعی است</title>
+    <link href="https://vandidad.xyz/hamzad/andazegiri-natije-hoosh-masnooi"/>
+    <id>https://vandidad.xyz/hamzad/andazegiri-natije-hoosh-masnooi</id>
+    <published>2026-10-01T00:00:00Z</published>
+    <updated>2026-10-01T00:00:00Z</updated>
+    <summary>اندازه‌گیری نتیجه هوش مصنوعی معمولاً با آماری انجام می‌شود که فعالیت سیستم را نشان می‌دهد، نه بهتر شدن کار.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>خطای هوش مصنوعی؛ چرا با اطمینان چیز غلط می‌گوید</title>
     <link href="https://vandidad.xyz/hamzad/khataye-hoosh-masnooi-tavahom"/>
