@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-10-02T00:00:00Z</updated>
+  <updated>2026-10-03T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>هوش مصنوعی در رستوران و کافه؛ سفارش و رزرو</title>
+    <link href="https://vandidad.xyz/hamzad/hoosh-masnooi-restoran-cafe"/>
+    <id>https://vandidad.xyz/hamzad/hoosh-masnooi-restoran-cafe</id>
+    <published>2026-10-03T00:00:00Z</published>
+    <updated>2026-10-03T00:00:00Z</updated>
+    <summary>هوش مصنوعی در رستوران و کافه بیشتر دربارهٔ سفارش و رزرو است تا آشپزخانه. این نوشته می‌گوید کجا واقعاً وقت آزاد می‌کند.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>هوش مصنوعی برای آموزشگاه؛ ثبت‌نام، پیگیری، حضور</title>
     <link href="https://vandidad.xyz/hamzad/hoosh-masnooi-baraye-amoozeshgah"/>
