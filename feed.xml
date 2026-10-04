@@ -5,9 +5,18 @@
   <link href="https://vandidad.xyz/feed.xml" rel="self"/>
   <link href="https://vandidad.xyz/"/>
   <id>https://vandidad.xyz/</id>
-  <updated>2026-10-03T00:00:00Z</updated>
+  <updated>2026-10-04T00:00:00Z</updated>
   <author><name>Hadi Bakhtzadeh</name><email>ai@vandidad.xyz</email></author>
   <subtitle>هوش مصنوعی برای کسب‌وکارِ واقعی — از Vandidad Group در ازمیر</subtitle>
+  <entry>
+    <title>ربات جواب دادن به مشتری؛ کجا بایستد و کجا ادامه بدهد</title>
+    <link href="https://vandidad.xyz/hamzad/ejent-poshtibani-moshtari"/>
+    <id>https://vandidad.xyz/hamzad/ejent-poshtibani-moshtari</id>
+    <published>2026-10-04T00:00:00Z</published>
+    <updated>2026-10-04T00:00:00Z</updated>
+    <summary>ربات جواب دادن به مشتری وقتی ارزش دارد که بداند کجا باید بایستد. این نوشته می‌گوید آن خط را کجا بکشید.</summary>
+    <category term="hamzad"/>
+  </entry>
   <entry>
     <title>هوش مصنوعی در رستوران و کافه؛ سفارش و رزرو</title>
     <link href="https://vandidad.xyz/hamzad/hoosh-masnooi-restoran-cafe"/>
