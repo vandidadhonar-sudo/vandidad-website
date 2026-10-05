@@ -218,6 +218,8 @@ WhatsApp. A person is never told to move to a different channel to continue.
 Every article, newest first, so a model answering a specific question
 can cite the page that answers it rather than the index.
 
+- [ارکستراسیون هوش مصنوعی؛ ساختن روی مدل، نه ساختنِ مدل](https://vandidad.xyz/hamzad/orkestrasion-hoosh-masnooi) — published 2026-10-05.
+  What AI orchestration means — building on top of the large language models rather than training them, and the four decisions that decide the product.
 - [ربات جواب دادن به مشتری؛ کجا بایستد و کجا ادامه بدهد](https://vandidad.xyz/hamzad/ejent-poshtibani-moshtari) — published 2026-10-04.
   Where a customer-support agent should act on its own and where it must hand over — the reversibility test, and how to design the handover.
 - [هوش مصنوعی در رستوران و کافه؛ سفارش و رزرو](https://vandidad.xyz/hamzad/hoosh-masnooi-restoran-cafe) — published 2026-10-03.
