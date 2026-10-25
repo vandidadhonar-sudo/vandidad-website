@@ -1184,6 +1184,43 @@ body.light #caseBar .cb-brand{color:#23150a}
 // (RESPONSE_STREAM + Lambda Web Adapter), NOT the 30s-capped API Gateway path.
 // The frontend consumes Server-Sent Events from this URL (see sendConv).
 const API = "https://qyfm5ip2y7e2xmlakzzolzd6ai0mkkrn.lambda-url.us-east-1.on.aws";
+
+// Where this visitor came from, captured once and sent with the first
+// message only.
+//
+// WHY THIS EXISTS
+// The chat has always recorded who talked. It has never recorded how they
+// arrived, so a conversation and a Google search for the owner's name were
+// two unconnected facts and no number could join them. With the site now at
+// position 1 for his name, "did that rank produce anything" was a question
+// nothing on either side could answer.
+//
+// Captured at first paint and held for the tab, because by the time someone
+// opens the chat they may be three pages deep and document.referrer will
+// read as our own page. sessionStorage, not localStorage: a visit is the
+// unit, and a returning visitor next week arrived some other way.
+//
+// Sent on the first message only — it never changes within a session, and
+// repeating it on every turn would be noise in the payload and in the log.
+const _SRC = (function () {
+  var KEY = "aios_src";
+  try {
+    var held = sessionStorage.getItem(KEY);
+    if (held) return JSON.parse(held);
+  } catch (e) {}
+  var ref = "";
+  try { ref = document.referrer || ""; } catch (e) {}
+  // Our own pages are not a source; the visit started before them.
+  try {
+    if (ref && new URL(ref).hostname === location.hostname) ref = "";
+  } catch (e) {}
+  var tag = "";
+  try { tag = new URLSearchParams(location.search).get("from") || ""; } catch (e) {}
+  var src = { ref: ref.slice(0, 300), landing: location.pathname.slice(0, 200),
+              tag: tag.slice(0, 60) };
+  try { sessionStorage.setItem(KEY, JSON.stringify(src)); } catch (e) {}
+  return src;
+})();
 // Durable web identity (SINGLE SOURCE OF TRUTH for the visitor's contact).
 // The backend derives the contact — and with it ALL history + negotiation state
 // (stage, buy_signal, register, history_summary) — purely from session_id. So it
@@ -1383,7 +1420,7 @@ async function runMirror(input) {
   try {
     const res = await fetch(API, {
       method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({message: input, first: true, session_id: SESSION, history: [], lang: LANG})
+      body: JSON.stringify({message: input, first: true, session_id: SESSION, history: [], lang: LANG, source: _SRC})
     });
     const data = await res.json();
     let reply = data.reply || "";
@@ -1869,7 +1906,7 @@ async function sendConv(opts) {
   const openStream = async () => {
     const r = await fetch(API, {
       method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({message:text, session_id:SESSION, lang:LANG, history:history.slice(-12), first:isFirst})
+      body: JSON.stringify(Object.assign({message:text, session_id:SESSION, lang:LANG, history:history.slice(-12), first:isFirst}, isFirst ? {source:_SRC} : {}))
     });
     if (!r.ok || !r.body) throw new Error("bad response " + (r && r.status));
     return r;
