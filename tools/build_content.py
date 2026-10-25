@@ -2089,6 +2089,35 @@ STATIC_URLS = [
 ABOUT_START = "<!-- PERSON:START -->"
 ABOUT_END = "<!-- PERSON:END -->"
 
+# Every path this renderer can write, in one place.
+#
+# WHY IT IS A CONSTANT AND NOT A LIST IN THE WORKFLOW
+# ---------------------------------------------------
+# index.html became a generated file on 2026-09-07 and was never added to
+# the list of paths the publish workflow stages. CI regenerated it on every
+# run and `git add` ignored it, so the change was built and thrown away
+# every day for seven weeks. The homepage's "newest articles" block froze on
+# the six articles that existed that afternoon while fourteen more were
+# published behind it, and the first content push after that surfaced it as
+# a failing test rather than as the stale page it had been all along.
+#
+# mahsoolat.html and karnameh.html had the same defect and the same cause.
+# A test asserts every name here appears in both workflows, so adding an
+# output without staging it now fails before it can go quiet.
+GENERATED_PATHS = [
+    "content",
+    "sitemap.xml",
+    "feed.xml",
+    "llms.txt",
+    "index.html",
+    "about.html",
+    f"{PERSON_SLUG}.html",
+    f"{PRODUCTS_SLUG}.html",
+    f"{RECORD_SLUG}.html",
+    "docs/keywords.md",
+]
+
+
 LATEST_START = "<!-- LATEST:START -->"
 LATEST_END = "<!-- LATEST:END -->"
 

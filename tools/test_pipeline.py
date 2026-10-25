@@ -733,6 +733,42 @@ class HomepageLinksTheNewest(unittest.TestCase):
 
 
 
+class GeneratedFilesAreStaged(unittest.TestCase):
+    """Anything the renderer writes must be a file the workflows commit.
+
+    index.html became a generated file on 2026-09-07 and was never added to
+    the publish workflow's staging list. CI rebuilt it every run and `git
+    add` ignored it, so the work was done and discarded daily for seven
+    weeks while the homepage's newest-articles block stayed frozen on six
+    articles and fourteen more published behind it. Nothing failed, because
+    nothing compared the two lists — the same shape as the sitemap and the
+    nineteen dead tests.
+
+    Both workflows now read bc.GENERATED_PATHS, and these assert that they
+    do, so the list cannot be forked back into hand-kept copies.
+    """
+
+    WORKFLOWS = ["publish-content.yml", "daily-article.yml"]
+
+    def _root(self):
+        return pathlib.Path(bc.__file__).resolve().parent.parent
+
+    def test_every_output_is_in_the_list(self):
+        for name in ("index.html", "about.html", "sitemap.xml", "feed.xml",
+                     "llms.txt", f"{bc.PERSON_SLUG}.html",
+                     f"{bc.PRODUCTS_SLUG}.html", f"{bc.RECORD_SLUG}.html"):
+            with self.subTest(path=name):
+                self.assertIn(name, bc.GENERATED_PATHS)
+
+    def test_both_workflows_read_the_list_rather_than_copying_it(self):
+        for wf in self.WORKFLOWS:
+            text = (self._root() / ".github" / "workflows" / wf).read_text("utf-8")
+            with self.subTest(workflow=wf):
+                self.assertIn("GENERATED_PATHS", text,
+                              f"{wf} keeps its own copy of the file list")
+
+
+
 # WHY THIS SITS AT THE VERY BOTTOM
 # --------------------------------
 # It used to sit in the middle of the file. Python runs a module top to

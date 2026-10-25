@@ -97,8 +97,13 @@ jobs:
           # runner every morning and were then thrown away — the live pages
           # kept an article count and an article list frozen at whatever they
           # were when a human last ran the renderer by hand.
-          GENERATED="content sitemap.xml feed.xml llms.txt about.html \
-            hadi-bakhtzadeh.html docs/keywords.md"
+          # Read from tools/build_content.py rather than repeated here.
+          # index.html became a generated file on 2026-09-07 and was never
+          # added to this list, so CI rebuilt it daily and `git add` dropped
+          # it — seven weeks of a frozen homepage. A hand-kept copy of a list
+          # the code already owns is the defect; this removes the copy.
+          GENERATED="$(python3 -c 'import sys; sys.path.insert(0, "tools"); import build_content as bc; print(" ".join(bc.GENERATED_PATHS))')"
+          echo "staging: $GENERATED"
           if [ -z "$(git status --porcelain -- $GENERATED)" ]; then
             echo "هیچ صفحه‌ای تغییر نکرد."
             exit 0

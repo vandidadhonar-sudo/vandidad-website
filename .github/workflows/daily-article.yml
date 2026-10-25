@@ -77,7 +77,10 @@ jobs:
           fi
           git config user.name "vandidad-content-bot"
           git config user.email "ai@vandidad.xyz"
-          git add content sitemap.xml feed.xml llms.txt
+          # Same list as the publish workflow, from the same source. The
+          # daily release regenerates the homepage's newest-articles block;
+          # staging only four paths threw that away every morning.
+          git add -- $(python3 -c 'import sys; sys.path.insert(0, "tools"); import build_content as bc; print(" ".join(bc.GENERATED_PATHS))')
           git commit -m "content: release today's queued article
 
           Moved out of content/queue/ by tools/release_next.py and rendered by
