@@ -32,6 +32,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://vandidad.xyz/blog</loc>
+    <lastmod>2026-10-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://vandidad.xyz/hamzad</loc>
     <lastmod>2026-10-05</lastmod>
     <changefreq>weekly</changefreq>
@@ -54,6 +60,12 @@
     <lastmod>2026-10-25</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://vandidad.xyz/blog/domain-bounded-assistant</loc>
+    <lastmod>2026-10-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://vandidad.xyz/hamzad/orkestrasion-hoosh-masnooi</loc>

@@ -218,6 +218,8 @@ WhatsApp. A person is never told to move to a different channel to continue.
 Every article, newest first, so a model answering a specific question
 can cite the page that answers it rather than the index.
 
+- [دستیار تخصصی هوش مصنوعی و دروازه‌هایی که پیش از انتشار لازم است](https://vandidad.xyz/blog/domain-bounded-assistant) — published 2026-10-25.
+  Written by Hadi Bakhtzadeh, AI systems architect at Vandidad Group in İzmir, Türkiye.
 - [ارکستراسیون هوش مصنوعی؛ ساختن روی مدل، نه ساختنِ مدل](https://vandidad.xyz/hamzad/orkestrasion-hoosh-masnooi) — published 2026-10-05.
   What AI orchestration means — building on top of the large language models rather than training them, and the four decisions that decide the product.
 - [ربات جواب دادن به مشتری؛ کجا بایستد و کجا ادامه بدهد](https://vandidad.xyz/hamzad/ejent-poshtibani-moshtari) — published 2026-10-04.
