@@ -1,0 +1,7 @@
+{
+  "fetched_at": "2026-11-24T14:47:36.658212+00:00",
+  "market": "gl=ir, hl=fa",
+  "project": "vandidad-site",
+  "usage_after_run": "{\n \"روز\": \"2026-11-24\",\n \"سقفِ_کل\": 120,\n \"سقفِ_هر_پروژه\": 70,\n \"مصرف\": {\n  \"_all\": 2,\n  \"vandidad-site\": 2\n }\n}",
+  "results": []
+}
